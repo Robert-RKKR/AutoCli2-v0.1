@@ -1,0 +1,196 @@
+ /*   ------------------------------------   */
+/*   ----           SIDEBAR          ----   */
+#sidebar {
+    height: 100vh;
+    width: var(--sidebar);
+    position: absolute;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 100;
+    user-select: none;
+}
+
+#page.animated #sidebar {
+    transition: var(--main_transition);
+    transition-property: width;
+}
+
+#sidebar.bigbar,
+#sidebar.blocked_bigbar {
+    width: var(--bigbar);
+}
+
+    /*   ----           SIDEBAR - LEFT SIDE          ----   */
+    #sidebar_top {
+        height: var(--page_top);
+        background: var(--color_first);
+    }
+
+    #sidebar_logo img {
+        padding: 15px;
+        width: 30px;
+    }
+
+        /*   ----           SIDEBAR LOGO - ANIMATIONS          ----   */
+        #page.animated #sidebar_logo img {
+            transition: var(--main_transition);
+            transition-property: width;
+        }
+
+        #sidebar.blocked_bigbar #sidebar_logo img,
+        #sidebar.bigbar #sidebar_logo img {
+            width: 40px;
+        }
+
+        .sidebar_menu_link_icon,
+        .sidebar_submenu_link_icon {
+            margin: 15px;
+            padding: 3px;
+            font-size: 24px;
+        }
+
+    #sidebar_user_photo {
+        padding: 15px;
+        font-size: 30px;
+    }
+
+    #sidebar_user_photo {
+        padding: 15px;
+        width: 30px;
+    }
+
+
+
+
+ /*   ------------------------------------   */
+/*   ----       SIDEBAR - LOGO       ----   */
+#sidebar_logo {
+    height: var(--page_top);
+    display: flex;
+    align-items: center;
+}
+
+#page_title {
+    font-size: 1.3em;
+    color: var(--color_font_third)
+}
+
+
+    /*   ----       SIDEBAR - BLOCK BIGBAR       ----   */
+    #block_sidebar {
+        opacity: 0;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: var(--color_strong_green);
+        font-size: 1.3em;
+        z-index: 101;
+        cursor: pointer;
+    }
+
+    #page.animated #block_sidebar {
+        transition: var(--main_transition);
+        transition-property: color, opacity;
+    }
+
+    #sidebar.bigbar #block_sidebar {
+        opacity: 1;
+    }
+
+    #sidebar.blocked_bigbar #block_sidebar {
+        transform: rotate(90deg);
+        color: var(--color_strong_red);
+        opacity: 1;
+    }
+
+
+
+
+ /*   ------------------------------------   */
+/*   ----     SIDEBAR - MAIN MENU    ----   */
+#sidebar_menu {
+    padding-top: 30px;
+}
+
+#sidebar_menu i,
+#sidebar_menu p {
+    color: var(--color_font_second);
+}
+
+#sidebar_menu span {
+    color: green;
+}
+
+    /*   ----     MAIN MENU - MENU AND SUBMENU     ----   */
+    .sidebar_menu_link,
+    .sidebar_submenu_link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 15px;
+    }
+
+    .sidebar_menu_link_icon,
+    .sidebar_submenu_link_icon {
+        transition: var(--main_transition);
+    }
+
+    .sidebar_menu_link_text,
+    .sidebar_submenu_link_text {
+        transition: var(--main_transition);
+    }
+
+        /*   ----     MAIN MENU - MENU AND SUBMENU ANIMATION     ----   */
+        .sidebar_menu_link:hover .sidebar_menu_link_icon,
+        .sidebar_submenu_link:hover .sidebar_submenu_link_icon {
+            transform: translate(5px, 0px);
+        }
+
+        .sidebar_menu_link:hover .sidebar_menu_link_text,
+        .sidebar_submenu_link:hover .sidebar_submenu_link_text {
+            transform: translate(5px, 0px);
+        }
+
+        .menu_active {
+            background: var(--color_font_first);
+            color: var(--color_font_third)!Important;
+            border-radius: 10em;
+            font-size: 14px;
+            padding: 8px;
+        }
+
+    /*   ----     MAIN MENU - MENU     ----   */
+    .sidebar_menu_link_submenu_icon {
+        margin-left: auto;
+        transition: var(--main_transition);
+    }
+
+    .sidebar_menu_link_info {
+        margin-left: auto;
+    }
+
+    /*   ----     MAIN MENU - SUBMENU     ----   */
+
+
+
+
+ /*   ------------------------------------   */
+/*   ----      SIDEBAR - FOOTER      ----   */
+#sidebar_bottom {
+    height: calc(100vh - var(--page_top));
+    border-right: var(--main_border);
+    background: var(--color_third);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#sidebar_footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#sidebar_footer img {
+    opacity: var(--main_img_opacity);
+}
