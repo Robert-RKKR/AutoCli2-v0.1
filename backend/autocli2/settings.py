@@ -14,6 +14,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+# Jazzmin Import:
+from .jazzmin import JAZZMIN_SETTINGS
+
 # Basis application data.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -26,8 +29,12 @@ DEBUG = True
 LOG_DEBUG = True
 ALLOWED_HOSTS = []
 
-# Application definition
+# Application definition:
 INSTALLED_APPS = [
+    # Django Jazzmin:
+    'jazzmin',
+    
+    # Django apps:
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,13 +42,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # AutoCLI network apps:
+    # AutoCli2 data apps:
     # 'data.automation.apps.AutomationConfig',
-    # 'data.datasets.apps.DatasetsConfig',
+    # 'data.dataset.apps.DatasetConfig',
     'data.inventory.apps.InventoryConfig',
-    # 'data.updates.apps.UpdatesConfig',
-    # 'data.tags.apps.TagsConfig',
+    # 'data.update.apps.UpdateConfig',
+    # 'data.tag.apps.TagConfig',
+
+    # AutoCli2 message apps:
+    'message.notification.apps.NotificationConfig',
+    # 'message.change.apps.ChangeConfig',
+    # 'message.log.apps.LogConfig',
+
+    # AutoCli2 setting app:
+    # 'system.setting.apps.SettingsConfig',
 ]
+ROOT_URLCONF = 'autocli2.urls'
+
+# Middleware definition:
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,7 +69,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-ROOT_URLCONF = 'autocli2.urls'
 
 # WSGI and ASGI configuration:
 WSGI_APPLICATION = 'autocli2.wsgi.application'
@@ -97,6 +114,12 @@ TEMPLATES = [
         },
     },
 ]
+
+# Jazzmin settings:
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
+JAZZMIN_UI_TWEAKS = {
+    "theme": "cosmo",
+}
 
 # Rest Framework API:
 # REST_FRAMEWORK = {
