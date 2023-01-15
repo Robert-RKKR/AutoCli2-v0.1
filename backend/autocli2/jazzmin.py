@@ -1,12 +1,12 @@
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "AutoCLI",
+    "site_title": "AutoCli 2",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "AutoCLI",
+    "site_header": "AutoCli 2",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "AutoCLI",
+    "site_brand": "AutoCli 2",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
     "site_logo": "ico/logo/RKKRlogo.svg",
@@ -24,10 +24,10 @@ JAZZMIN_SETTINGS = {
     "site_icon": "ico/favicon",
 
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to the AutoCLI",
+    "welcome_sign": "Welcome to the AutoCli 2",
 
     # Copyright on the footer
-    "copyright": "RKKR AutoCLI",
+    "copyright": "RKKR AutoCli 2",
 
     # The model admin to search from the search bar, search bar omitted if excluded
     "search_model": "auth.User",
