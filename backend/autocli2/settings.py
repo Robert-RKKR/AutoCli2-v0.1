@@ -189,3 +189,9 @@ STATICFILES_FINDERS = [
 
 # Default primary key field type:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# other settings data:
+CHANGE_LOG_MODELS = [
+    # Inventory models:
+    # ('inventory', 'Device'),
+]

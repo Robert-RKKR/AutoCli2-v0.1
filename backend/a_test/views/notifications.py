@@ -10,7 +10,7 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
-    
+
     notification = Notification('Test')
     return_output = notification.notification(
         'Welcome in AutoCli 2 page.'
