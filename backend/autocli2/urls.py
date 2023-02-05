@@ -8,5 +8,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Test view registration:
-    path('test/', include('data.inventory.urls')),
+    path('test/', include('a_test.urls')),
 ]

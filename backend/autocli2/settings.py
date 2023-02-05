@@ -52,20 +52,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
 
-    # AutoCli2 data apps:
-    # 'data.automation.apps.AutomationConfig',
-    # 'data.dataset.apps.DatasetConfig',
-    'data.inventory.apps.InventoryConfig',
-    # 'data.update.apps.UpdateConfig',
-    # 'data.tag.apps.TagConfig',
-
-    # AutoCli2 message apps:
-    'message.notification.apps.NotificationConfig',
-    # 'message.change.apps.ChangeConfig',
-    # 'message.log.apps.LogConfig',
-
-    # AutoCli2 setting app:
-    # 'system.setting.apps.SettingsConfig',
+    # AutoCli2 apps:
+    'a_test.apps.ATestConfig', # Temporary.
+    'messenger.apps.MessengerConfig',
 ]
 ROOT_URLCONF = 'autocli2.urls'
 
