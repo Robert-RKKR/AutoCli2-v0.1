@@ -6,6 +6,10 @@ from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
+# Relations models import:
+from .connection_ssh_template import ConnectionSshTamplate
+from .connection_group import ConnectionGroup
+
 # Base message model constants:
 EXECUTION_TYPE = (
     (1, 'SSH'),
@@ -33,14 +37,14 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name_plural = 'Connection templates'
 
     # Relations with other classes:
-    # connection_template_group = models.ForeignKey(
-    #     ConnectionTemplateGroup,
-    #     verbose_name='Connection template group',
-    #     help_text='Connection template group.',
-    #     on_delete=models.PROTECT,
-    #     null=True,
-    #     blank=True,
-    # )
+    connection_template_group = models.ForeignKey(
+        ConnectionGroup,
+        verbose_name='Connection template group',
+        help_text='Connection template group.',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
 
     # platform = models.ForeignKey(
     #     Platform,
@@ -51,14 +55,14 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
     #     blank=True,
     # )
 
-    # template = models.ForeignKey(
-    #     Template,
-    #     verbose_name='SSH template',
-    #     help_text='SSH template.',
-    #     on_delete=models.PROTECT,
-    #     null=True,
-    #     blank=True,
-    # )
+    connection_ssh_template = models.ForeignKey(
+        ConnectionSshTamplate,
+        verbose_name='SSH template',
+        help_text='SSH template.',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
 
     # Execution type:
     execution_method = models.IntegerField(
