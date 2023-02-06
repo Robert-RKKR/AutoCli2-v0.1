@@ -7,7 +7,7 @@ from autocli2.base.models.status import StatusModel
 
 
 # Base models class:
-class ConnectionSshTamplate(StatusModel, DataTimeModel):
+class ConnectionSshTemplate(StatusModel, DataTimeModel):
 
     class Meta:
         

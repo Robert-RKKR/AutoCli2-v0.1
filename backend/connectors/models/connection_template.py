@@ -7,7 +7,7 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 # Relations models import:
-from .connection_ssh_template import ConnectionSshTamplate
+from .connection_ssh_template import ConnectionSshTemplate
 from .connection_group import ConnectionGroup
 
 # Base message model constants:
@@ -56,7 +56,7 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
     # )
 
     connection_ssh_template = models.ForeignKey(
-        ConnectionSshTamplate,
+        ConnectionSshTemplate,
         verbose_name='SSH template',
         help_text='SSH template.',
         on_delete=models.PROTECT,

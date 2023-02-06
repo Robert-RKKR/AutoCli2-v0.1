@@ -2,13 +2,13 @@
 from django.contrib import admin
 
 # Models import:
-from connectors.models.connection_group import ConnectionGroup
-from connectors.models.connection_ssh_template import ConnectionSshTemplate
-from connectors.models.connection_template import ConnectionTemplate
-from connectors.models.data_group_template import DataGroupTemplate
-from connectors.models.data_template import DataTemplate
-from connectors.models.model_group_template import ModelGroupTemplate
-from connectors.models.model_template import ModelTemplate
+from .models.connection_group import ConnectionGroup
+from .models.connection_ssh_template import ConnectionSshTemplate
+from .models.connection_template import ConnectionTemplate
+from .models.data_group_template import DataGroupTemplate
+from .models.data_template import DataTemplate
+from .models.model_group_template import ModelGroupTemplate
+from .models.model_template import ModelTemplate
 
 
 # Connector admin classes:
