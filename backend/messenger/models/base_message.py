@@ -3,7 +3,6 @@ from django.db import models
 
 # Base model import:
 from autocli2.base.models.administrator import AdministratorModel
-from autocli2.base.models.base_model import BaseModel
 
 # Base message model constants:
 ACTION_TYPE = (

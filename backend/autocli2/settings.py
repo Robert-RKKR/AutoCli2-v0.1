@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # AutoCli2 apps:
     'a_test.apps.ATestConfig', # Temporary.
     'messenger.apps.MessengerConfig',
+    'connectors.apps.ConnectorsConfig',
 ]
 ROOT_URLCONF = 'autocli2.urls'
 
@@ -193,5 +194,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # other settings data:
 CHANGE_LOG_MODELS = [
     # Inventory models:
-    # ('inventory', 'Device'),
+    ('connectors', 'ConnectionTemplate'),
 ]

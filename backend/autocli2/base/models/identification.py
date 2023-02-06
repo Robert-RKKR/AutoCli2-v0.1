@@ -17,6 +17,9 @@ class IdentificationModel(BaseModel):
         # Abstract class value:
         abstract = True
 
+        # Default ordering:
+        ordering = ['name']
+
     # Model validators:
     name_validator = NameValueValidator()
     description_validator = DescriptionValueValidator()
@@ -34,6 +37,12 @@ class IdentificationModel(BaseModel):
             'unique': 'Object with this name already exists.',
             'invalid': 'Enter the correct name value. It must contain 3 to 64 digits, letters or special characters -, _ or spaces.',
         },
+    )
+    slug = models.CharField(
+        verbose_name='Slug',
+        help_text='Object name representation (Slug).',
+        max_length=64,
+        unique=True,
     )
     description = models.CharField(
         verbose_name='Description',
