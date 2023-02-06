@@ -1,9 +1,12 @@
 # Django import:
 from django.shortcuts import render
 from messenger.notification import Notification
+from django.contrib.sessions.backends.db import SessionStore
 
 # Test view:
 def notifications_test(request):
+
+    s = SessionStore()
 
     # Collect data to display:
     data = {

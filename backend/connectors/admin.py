@@ -33,7 +33,7 @@ class ConnectionGroupAdmin(admin.ModelAdmin):
 class ConnectionSshTemplateAdmin(admin.ModelAdmin):
 
     list_display = (
-        'pk', 'created', 'updated', 'name',
+        'pk', 'created', 'updated',
     )
     search_fields = (
         'name', 'template', 'sfm_expression', 'regex_expression',
@@ -41,11 +41,7 @@ class ConnectionSshTemplateAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'name', 'slug', 'description', 'ico',)
-        }),
-        ('SSH template information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('template', 'sfm_expression', 'regex_expression',),
+            'fields': ('is_active', 'template', 'sfm_expression', 'regex_expression',)
         }),
     )
 
