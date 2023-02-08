@@ -50,13 +50,13 @@ class ConnectionSshTemplateAdmin(admin.ModelAdmin):
 class ConnectionTemplateAdmin(admin.ModelAdmin):
 
     list_display = (
-        'pk', 'created', 'updated', 'name', 'execution_method', 'ssh_command', 'https_url',
+        'pk', 'created', 'updated', 'name', 'execution_method', 'ssh_command', 'http_url',
     )
     list_filter = (
-        'execution_method', 'ssh_type', 'https_method', 'certificate',
+        'execution_method', 'ssh_type', 'http_method', 'certificate',
     )
     search_fields = (
-        'name', 'ssh_command', 'https_url', 'https_header', 'https_body', 'https_params',
+        'name', 'ssh_command', 'http_url', 'http_header', 'http_body', 'http_params',
     )
     fieldsets = (
         ('Basic information', {
@@ -67,13 +67,9 @@ class ConnectionTemplateAdmin(admin.ModelAdmin):
             'classes': ('wide', 'extrapretty',),
             'fields': ('ssh_type', 'ssh_command', 'ssh_fsm',),
         }),
-        ('HTTPS information', {
+        ('http information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('https_method', 'https_url', 'https_header', 'https_params', 'https_body', 'https_pagination', 'https_pagination_path',),
-        }),
-        ('Certificate information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('certificate',),
+            'fields': ('http_method', 'http_url', 'http_header', 'http_params', 'http_body', 'http_pagination', 'http_pagination_path',),
         }),
     )
 

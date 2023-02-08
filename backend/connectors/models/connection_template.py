@@ -1,7 +1,7 @@
-# Django Import:
+# Django import:
 from django.db import models
 
-# Base model import:
+# Base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
@@ -10,24 +10,27 @@ from autocli2.base.models.status import StatusModel
 from .connection_ssh_template import ConnectionSshTemplate
 from .connection_group import ConnectionGroup
 
+# Other application relations models import:
+from inventory.models.platform import Platform
+
 # Base message model constants:
-EXECUTION_TYPE = (
+EXECUTION_PROTOCOL = (
     (1, 'SSH'),
-    (2, 'HTTPS')
+    (2, 'HTTP')
 )
 SSH_EXECUTION_TYPE = (
     (1, 'Command'),
     (2, 'template')
 )
-HTTPS_EXECUTION_METHOD = (
-    (1, 'Get'),
-    (2, 'Post'),
-    (3, 'Put'),
-    (4, 'Delete'),
+HTTP_EXECUTION_METHOD = (
+    (1, 'GET'),
+    (2, 'POST'),
+    (3, 'PUT'),
+    (4, 'DELETE'),
 )
 
 
-# Base models class:
+# Connectiont template model class:
 class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
 
     class Meta:
@@ -46,14 +49,14 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
 
-    # platform = models.ForeignKey(
-    #     Platform,
-    #     verbose_name='Platform',
-    #     help_text='Platform.',
-    #     on_delete=models.PROTECT,
-    #     null=True,
-    #     blank=True,
-    # )
+    platform = models.ForeignKey(
+        Platform,
+        verbose_name='Platform',
+        help_text='Platform.',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
 
     connection_ssh_template = models.ForeignKey(
         ConnectionSshTemplate,
@@ -65,10 +68,10 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
     )
 
     # Execution type:
-    execution_method = models.IntegerField(
-        verbose_name='Execution method',
-        help_text='Method of template execution (SSH / HTTPS).',
-        choices=EXECUTION_TYPE,
+    execution_protocol = models.IntegerField(
+        verbose_name='Execution protocol',
+        help_text='Network protocol used to execute the connection template (SSH / HTTP).',
+        choices=EXECUTION_PROTOCOL,
         default=1,
     )
 
@@ -93,15 +96,15 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         help_text='Xxx.',
     )
 
-    # HTTPS execution type fields:
-    https_method = models.IntegerField(
-        verbose_name='HTTPS method',
-        help_text='Xx (HTTPS request methods).',
-        choices=HTTPS_EXECUTION_METHOD,
+    # HTTP execution type fields:
+    http_method = models.IntegerField(
+        verbose_name='HTTP method',
+        help_text='Xx (HTTP request methods).',
+        choices=HTTP_EXECUTION_METHOD,
         default=1,
     )
 
-    https_url = models.CharField(
+    http_url = models.CharField(
         verbose_name='Xxx',
         help_text='Xxx.',
         max_length=128,
@@ -109,43 +112,36 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
 
-    https_header = models.JSONField(
-        verbose_name='HTTPS heder',
+    http_header = models.JSONField(
+        verbose_name='HTTP heder',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
 
-    https_params = models.JSONField(
-        verbose_name='HTTPS parameters',
+    http_params = models.JSONField(
+        verbose_name='HTTP parameters',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
 
-    https_body = models.JSONField(
-        verbose_name='HTTPS body',
+    http_body = models.JSONField(
+        verbose_name='HTTP body',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
 
-    https_pagination = models.BooleanField(
+    http_pagination = models.BooleanField(
         verbose_name='Xxx',
         help_text='Xxx.',
         default=False,
     )
 
-    https_pagination_path = models.JSONField(
-        verbose_name='HTTPS body',
+    http_pagination_path = models.JSONField(
+        verbose_name='HTTP body',
         help_text='Xxx.',
         null=True,
         blank=True,
-    )
-
-    # Check certificate:
-    certificate = models.BooleanField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
-        default=False,
     )
