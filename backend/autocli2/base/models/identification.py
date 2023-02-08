@@ -9,7 +9,7 @@ from ..validators.base_validator import DescriptionValueValidator
 from ..validators.base_validator import NameValueValidator
 
 
-# Base models class:
+# Identification models class:
 class IdentificationModel(BaseModel):
 
     class Meta:

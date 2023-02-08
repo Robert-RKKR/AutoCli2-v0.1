@@ -5,7 +5,7 @@ from django.db import models
 from .base_model import BaseModel
 
 
-# Base models class:
+# Data time models class:
 class DataTimeModel(BaseModel):
 
     class Meta:

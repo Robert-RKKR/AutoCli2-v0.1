@@ -11,7 +11,7 @@ from .models.model_group_template import ModelGroupTemplate
 from .models.model_template import ModelTemplate
 
 
-# Connector admin classes:
+# All connectors admin classes:
 @admin.register(ConnectionGroup)
 class ConnectionGroupAdmin(admin.ModelAdmin):
 

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from .base_model import BaseModel
 
 
-# Base models class:
+# Administrator models class:
 class AdministratorModel(BaseModel):
 
     class Meta:

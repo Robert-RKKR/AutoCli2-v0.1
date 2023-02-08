@@ -3,7 +3,7 @@ from django.utils.deconstruct import deconstructible
 from django.core import validators
 
 
-# Validators class:
+# Validators classes:
 @deconstructible
 class NameValueValidator(validators.RegexValidator):
     regex = r'^[0-9,A-Z,a-z,-_. ]{4,64}$'
