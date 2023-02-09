@@ -50,10 +50,10 @@ class ConnectionSshTemplateAdmin(admin.ModelAdmin):
 class ConnectionTemplateAdmin(admin.ModelAdmin):
 
     list_display = (
-        'pk', 'created', 'updated', 'name', 'execution_method', 'ssh_command', 'http_url',
+        'pk', 'created', 'updated', 'name', 'execution_protocol', 'ssh_command', 'http_url',
     )
     list_filter = (
-        'execution_method', 'ssh_type', 'http_method', 'certificate',
+        'execution_protocol', 'ssh_type', 'http_method',
     )
     search_fields = (
         'name', 'ssh_command', 'http_url', 'http_header', 'http_body', 'http_params',
@@ -61,7 +61,7 @@ class ConnectionTemplateAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'name', 'slug', 'description', 'ico', 'execution_method',)
+            'fields': ('is_active', 'name', 'slug', 'description', 'ico', 'execution_protocol',)
         }),
         ('SSH information', {
             'classes': ('wide', 'extrapretty',),

@@ -1,4 +1,4 @@
-# Application Import:
+# Application import:
 from .connection_group import ConnectionGroup
 from .connection_ssh_template import ConnectionSshTemplate
 from .connection_template import ConnectionTemplate

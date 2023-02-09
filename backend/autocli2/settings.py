@@ -54,8 +54,9 @@ INSTALLED_APPS = [
 
     # AutoCli2 apps:
     'a_test.apps.ATestConfig', # Temporary.
-    'messenger.apps.MessengerConfig',
     'connectors.apps.ConnectorsConfig',
+    'inventory.apps.InventoryConfig',
+    'messenger.apps.MessengerConfig',
 ]
 ROOT_URLCONF = 'autocli2.urls'
 

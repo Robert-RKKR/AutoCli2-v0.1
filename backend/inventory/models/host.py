@@ -7,7 +7,7 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 # Relations models import:
-from .credentials import Credentials
+from .credentials import Credential
 from .platform import Platform
 from .site import Site
 
@@ -40,8 +40,8 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
     
-    credentials = models.ForeignKey(
-        Credentials,
+    credential = models.ForeignKey(
+        Credential,
         verbose_name='Credentials',
         help_text='Credentials.',
         on_delete=models.PROTECT,
