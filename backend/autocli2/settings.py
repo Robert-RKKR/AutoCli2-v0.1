@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'connectors.apps.ConnectorsConfig',
     'inventory.apps.InventoryConfig',
     'messenger.apps.MessengerConfig',
+    'executors.apps.ExecutorsConfig',
 ]
 
 # Main URL file:
