@@ -2,7 +2,7 @@
 from django.db.models import Model
 
 # Base message model import:
-from .base_message import BaseMessageModel
+from autocli2.base.models.base_model import BaseModel
 
 # Notification model import:
 from messenger.models.notification import Notification as NotificationModel
@@ -27,7 +27,7 @@ ERROR = 2
 CRITICAL = 1
 
 
-# Messenger class:
+# Messenger class: print(f'===============>: {application}')
 class Messenger:
     """ Logger class. """
 
@@ -47,27 +47,27 @@ class Messenger:
 
         # Verify if the task ID variable is a valid sting:
         if isinstance(task_id, str):
-            if len(self.task_id) <= 256:
+            if len(task_id) <= 256:
                 self.__task_id = task_id
             else:
                 raise ValueError('The provided task ID variable is to long (Allowed max 256 signs).')
-        elif self.task_id is not None:
+        elif task_id is not None:
             raise TypeError('The provided task ID variable must be string. '\
-            f'Provided: "{self.task_id}"')
+            f'Provided: "{task_id}"')
 
-        # Object informations:
+        # Object information's:
         self.correlated_object = None
         self.app_name = None
         self.model_name = None
         self.object_id = None
         self.object_representation = None
 
-        # Notification informations:
+        # Notification information's:
         self.message = None
         self.action_type = None
         self.severity_level = None
 
-        # Default notification informations:
+        # Default notification information's:
         self.notification_type = None
         self.is_notification = None
 
@@ -226,7 +226,7 @@ class Messenger:
         self.action_type = action_type
         self.severity_level = severity_level
 
-        # Verify provided vairables:
+        # Verify provided variables:
         self._verification()
         
         # Collect object information:
@@ -253,7 +253,7 @@ class Messenger:
         try: # Try to save notification in database:
             del notification_data['type']
             notification = NotificationModel.objects.create(
-                notification_data)
+                **notification_data)
         except:
             return False
         else:
@@ -287,7 +287,7 @@ class Messenger:
             f'Provided: "{self.message}"')
 
         # Verify if provided object is valid:
-        if not isinstance(self.correlated_object, BaseMessageModel) and self.correlated_object is not None:
+        if not isinstance(self.correlated_object, BaseModel) and self.correlated_object is not None:
             if self.correlated_object is not None:
                 raise TypeError('Provided object id not a valid Django object. '\
                 f' Provided: "{self.correlated_object}"')

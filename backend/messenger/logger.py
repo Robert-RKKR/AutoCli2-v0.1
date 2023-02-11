@@ -1,7 +1,7 @@
 # Messenger class import:
 from .messenger import Messenger
 
-# Nitinication constants:
+# Notification constants:
 NOTIFICATION_TYPE = 2
 
 
@@ -36,11 +36,11 @@ class Logger(Messenger):
         application: string
             Name of the application that triggers notifications.
         task_id: string
-            Taks ID related with cellery task.
+            Taks ID related with celery task.
         """
 
-        # Extend iict function from Messenger class:
-        super().__init__()
+        # Extend init function from Messenger class:
+        super().__init__(application, task_id)
 
-        # Default notification informations:
+        # Default notification information's:
         self.notification_type = NOTIFICATION_TYPE

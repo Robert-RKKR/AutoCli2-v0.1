@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from messenger.notification import Notification
 from django.contrib.sessions.backends.db import SessionStore
+from inventory.models.host import Host
 
 # Test view:
 def notifications_test(request):
@@ -14,11 +15,14 @@ def notifications_test(request):
         'output': 'Welcome to notifications test!',
     }
 
+    host_one = Host.objects.get(pk=1)
+
     notification = Notification('Test')
-    return_output = notification.notification(
-        'Welcome in AutoCli 2 page.'
-    )
-    return_output = notification.logger('Hello RKKR', task_id='dkjd3u83ywhu3hf83')
+    # return_output = notification.info(
+    #     '1 - Welcome in AutoCli2 application')
+    return_output = notification.info(
+        '2 - Welcome in AutoCli2 application',
+        host_one, 2)
     data['return_output'] = return_output
     
     # GET method:

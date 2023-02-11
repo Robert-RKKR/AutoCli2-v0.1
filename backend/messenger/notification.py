@@ -1,7 +1,7 @@
 # Messenger class import:
 from .messenger import Messenger
 
-# Nitinication constants:
+# Notification constants:
 IS_NOTIFICATION = True
 NOTIFICATION_TYPE = 1
 
@@ -27,8 +27,8 @@ class Notification(Messenger):
 
     def __init__(self,
         application: str = '--NoName--',
-        channel_name: str = 'notification',
-        task_id: str = None) -> None:
+        task_id: str = None,
+        channel_name: str = 'notification') -> None:
         """
         Notification class.
         Provided the ability to notify users of events via
@@ -41,19 +41,19 @@ class Notification(Messenger):
         channel_name: string
             Channel name used to send notifications to users.
         task_id: string
-            Taks ID related with cellery task.
+            Taks ID related with celery task.
         """
 
-        # Extend iict function from Messenger class:
-        super().__init__()
+        # Extend init function from Messenger class:
+        super().__init__(application, task_id)
 
         # Verify if the channel name variable is a valid sting:
-        if isinstance(application, str):
+        if isinstance(channel_name, str):
             self.__channel_name = channel_name
         else:
             raise TypeError('The provided application variable must be string.')
 
-        # Default notification informations:
+        # Default notification information's:
         self.notification_type = NOTIFICATION_TYPE
         self.is_notification = IS_NOTIFICATION
 

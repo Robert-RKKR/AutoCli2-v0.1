@@ -36,7 +36,7 @@ class StatusModel(BaseModel):
     def save(self, *args, **kwargs):
         
         # Check if object root value is true:
-        if self.root is True:
+        if self.is_root is True:
             pass
             # raise ValidationError('Root object cannot be changed or deleted.')
         else:
@@ -46,7 +46,7 @@ class StatusModel(BaseModel):
     def delete(self, *args, **kwargs):
         
         # Check if object root value is true:
-        if self.root is True:
+        if self.is_root is True:
             pass
             # raise ValidationError('Root object cannot be changed or deleted.')
         else:
@@ -56,7 +56,7 @@ class StatusModel(BaseModel):
     def update(self, *args, **kwargs):
         
         # Check if object root value is true:
-        if self.root is True:
+        if self.is_root is True:
             pass
             # raise ValidationError('Root object cannot be changed or deleted.')
         else:

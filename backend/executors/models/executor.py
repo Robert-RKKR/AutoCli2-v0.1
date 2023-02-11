@@ -8,9 +8,9 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 # Relations models import:
-from connectors.connection_template import ConnectionTemplate
-from inventory.credentials import Credentials
-from inventory.host import Host
+from connectors.models.connection_template import ConnectionTemplate
+from inventory.models.credentials import Credential
+from inventory.models.host import Host
 
 # Base message model constants:
 EXECUTION_PROTOCOL = (
@@ -34,7 +34,6 @@ TASK_ID = (
 
 # Executor model class:
 class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorModel):
-
 
     class Meta:
         
@@ -60,7 +59,7 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
     )
     
     credential = models.ForeignKey(
-        Credentials,
+        Credential,
         verbose_name='Xxx',
         help_text='Xxx.',
         on_delete=models.PROTECT,
