@@ -5,7 +5,7 @@ from django.db.models import Model
 from autocli2.base.models.base_model import BaseModel
 
 # Notification model import:
-from messenger.models.notification import Notification as NotificationModel
+from notification.models.notification import Notification as NotificationModel
 
 # Channels import:
 from channels.layers import get_channel_layer

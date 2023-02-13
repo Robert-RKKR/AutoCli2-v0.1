@@ -6,8 +6,8 @@ from autocli2.base.models.data_time import DataTimeModel
 
 # Relations models import:
 from connector.models.data_template import DataTemplate
-from inventory.models.host import Host
-from .snapshoot  import Snapshoot
+from .execution import Execution
+from .snapshot  import Snapshot
 
 
 # Converted data model class:
@@ -20,8 +20,8 @@ class ConvertedData(DataTimeModel):
         verbose_name_plural = 'Converted data'
 
     # Relations with other classes:
-    snapshoot = models.ForeignKey(
-        Snapshoot,
+    snapshot = models.ForeignKey(
+        Snapshot,
         verbose_name='Xxx',
         help_text='Xxx.',
         on_delete=models.PROTECT,

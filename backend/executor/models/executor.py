@@ -53,18 +53,14 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
         verbose_name='Xxx',
-        help_text='Xxx.',
-        null=True,
-        blank=True,
+        help_text='Xxx.'
     )
     
     credential = models.ForeignKey(
         Credential,
         verbose_name='Xxx',
         help_text='Xxx.',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
+        on_delete=models.PROTECT
     )
 
     # Execution / executor type:

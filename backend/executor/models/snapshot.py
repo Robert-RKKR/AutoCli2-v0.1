@@ -6,11 +6,11 @@ from autocli2.base.models.administrator import AdministratorModel
 from autocli2.base.models.data_time import DataTimeModel
 
 
-# Snapshoot model class:
-class Snapshoot(DataTimeModel, AdministratorModel):
+# Snapshot model class:
+class Snapshot(DataTimeModel, AdministratorModel):
 
     class Meta:
         
         # Model name values:
-        verbose_name = 'Snapshoot'
-        verbose_name_plural = 'Snapshoots'
+        verbose_name = 'Snapshot'
+        verbose_name_plural = 'Snapshots'

@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
 
-    # AutoCli2 apps:
+    # AutoC
+    # li2 apps:
     'a_test.apps.ATestConfig', # Temporary.
-    'administration.apps.AdministrationConfig'
     'notification.apps.NotificationConfig',
+    'management.apps.ManagementConfig',
     'connector.apps.ConnectorConfig',
     'inventory.apps.InventoryConfig',
     'executor.apps.ExecutorConfig',
@@ -193,4 +194,4 @@ CHANGE_LOG_MODELS = [
 ]
 
 # Default user:
-AUTH_USER_MODEL = 'administration.Administrator'
+# AUTH_USER_MODEL = 'management.Administrator'

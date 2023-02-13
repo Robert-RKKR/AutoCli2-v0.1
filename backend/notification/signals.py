@@ -60,7 +60,7 @@ def post_save_change_signal(sender, instance=None, created=False, **kwargs):
     """
 
     # Application change log import:
-    from messenger.models.change_log import ChangeLog
+    from notification.models.change_log import ChangeLog
     
     change_log_action = 0
     # Check if object was created
@@ -100,7 +100,7 @@ def post_delete_change_signal(sender, instance=None, origin=None, **kwargs):
     """
 
     # Application change log import:
-    from messenger.models.change_log import ChangeLog
+    from notification.models.change_log import ChangeLog
 
     # Collect base content type information:
     collected_names = collect_names(sender)
