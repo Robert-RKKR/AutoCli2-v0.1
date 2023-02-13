@@ -44,10 +44,11 @@ INSTALLED_APPS = [
 
     # AutoCli2 apps:
     'a_test.apps.ATestConfig', # Temporary.
-    'connectors.apps.ConnectorsConfig',
+    'administration.apps.AdministrationConfig'
+    'notification.apps.NotificationConfig',
+    'connector.apps.ConnectorConfig',
     'inventory.apps.InventoryConfig',
-    'messenger.apps.MessengerConfig',
-    'executors.apps.ExecutorsConfig',
+    'executor.apps.ExecutorConfig',
 ]
 
 # Main URL file:
@@ -190,3 +191,6 @@ CHANGE_LOG_MODELS = [
     # Inventory models:
     ('connectors', 'ConnectionTemplate'),
 ]
+
+# Default user:
+AUTH_USER_MODEL = 'administration.Administrator'

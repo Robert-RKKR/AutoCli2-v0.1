@@ -6,7 +6,7 @@ from .models.notification import Notification
 from .models.change_log import ChangeLog
 
 
-# All messenger admin classes:
+# All notification admin classes:
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
 

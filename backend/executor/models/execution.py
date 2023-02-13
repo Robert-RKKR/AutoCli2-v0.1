@@ -5,7 +5,7 @@ from django.db import models
 from autocli2.base.models.data_time import DataTimeModel
 
 # Relations models import:
-from connectors.models.connection_template import ConnectionTemplate
+from connector.models.connection_template import ConnectionTemplate
 from inventory.models.credentials import Credential
 from inventory.models.host import Host
 from .executor import Executor
