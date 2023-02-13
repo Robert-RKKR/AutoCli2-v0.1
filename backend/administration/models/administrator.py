@@ -17,6 +17,6 @@ class Administrator(AbstractUser):
     # Relations with other classes:
     api_token = models.CharField(
         verbose_name='Token',
-        help_text='Token used in API requests.',
+        help_text='Token that will be used during API request.',
         max_length=128,
     )

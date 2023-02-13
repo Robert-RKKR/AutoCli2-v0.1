@@ -16,16 +16,16 @@ class ConnectionSshTemplate(StatusModel, DataTimeModel):
         verbose_name_plural = 'SSH connection templates'
 
     template = models.TextField(
-        verbose_name='Xxx',
+        verbose_name='Template',
         help_text='Xxx.',
     )
 
     sfm_expression = models.TextField(
-        verbose_name='Xxx',
+        verbose_name='SFM expression',
         help_text='Xxx.',
     )
 
     regex_expression = models.TextField(
-        verbose_name='Xxx',
+        verbose_name='Regex expression',
         help_text='Xxx.',
     )

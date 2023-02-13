@@ -20,9 +20,19 @@ class AdministratorSetting(DataTimeModel, AdministratorModel):
         verbose_name_plural = 'Administrator settings'
 
     # Relations with other classes:
-    default_credentials = models.ForeignKey(
+    default_ssh_credentials = models.ForeignKey(
         Credential,
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='Default SSH credentials',
+        help_text='The following credentials will be used '\
+        'by default when connecting via SSH.',
+        on_delete=models.PROTECT,
+    )
+
+    
+    default_http_credentials = models.ForeignKey(
+        Credential,
+        verbose_name='Default HTTP credentials',
+        help_text='The following credentials will be used '\
+        'by default when connecting via HTTP.',
         on_delete=models.PROTECT,
     )
