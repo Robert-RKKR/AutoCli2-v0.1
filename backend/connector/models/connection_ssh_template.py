@@ -17,15 +17,24 @@ class ConnectionSshTemplate(StatusModel, DataTimeModel):
 
     template = models.TextField(
         verbose_name='Template',
-        help_text='Xxx.',
+        help_text='Template used to create CLI commands that are '\
+        'used in an SSH connection to change the host configuration.',
+        null=True,
+        blank=True,
     )
 
     sfm_expression = models.TextField(
         verbose_name='SFM expression',
-        help_text='Xxx.',
+        help_text='FSM expression used to validate the output '\
+        'after the execution of the template.',
+        null=True,
+        blank=True,
     )
 
     regex_expression = models.TextField(
         verbose_name='Regex expression',
-        help_text='Xxx.',
+        help_text='Regex expression used to validate the output '\
+        'after the execution of the template.',
+        null=True,
+        blank=True,
     )
