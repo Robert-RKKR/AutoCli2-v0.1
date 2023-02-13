@@ -8,7 +8,6 @@ from autocli2.base.models.data_time import DataTimeModel
 from connector.models.data_template import DataTemplate
 from inventory.models.host import Host
 from .snapshoot  import Snapshoot
-from .execution import Host
 
 
 # Converted data model class:
@@ -26,6 +25,8 @@ class ConvertedData(DataTimeModel):
         verbose_name='Xxx',
         help_text='Xxx.',
         on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
 
     data_template = models.ForeignKey(
@@ -42,9 +43,18 @@ class ConvertedData(DataTimeModel):
         on_delete=models.PROTECT,
     )
 
-    host = models.ForeignKey(
-        Host,
-        verbose_name='Xxx',
+    # Collected data:
+    value = models.CharField(
+        verbose_name='Value',
         help_text='Xxx.',
-        on_delete=models.PROTECT,
+        max_length=128,
+        null=True,
+        blank=True,
+    )
+
+    json_value = models.JSONField(
+        verbose_name='JSON value',
+        help_text='Xxx.',
+        null=True,
+        blank=True,
     )
