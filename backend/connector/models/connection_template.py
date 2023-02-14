@@ -7,7 +7,6 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 # Relations models import:
-from .connection_ssh_template import ConnectionSshTemplate
 from .connection_group import ConnectionGroup
 
 # Other application relations model import:
@@ -57,18 +56,11 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         'the specified platform.',
     )
 
-    connection_ssh_template = models.ForeignKey(
-        ConnectionSshTemplate,
-        verbose_name='SSH template',
-        help_text='SSH template.',
-        on_delete=models.PROTECT
-    )
-
     # Execution type:
     execution_protocol = models.IntegerField(
         verbose_name='Execution protocol',
-        help_text='Network protocol used to execute the connection template '\
-        '(SSH / HTTP).',
+        help_text='The network protocol that will be used to execute '\
+        'connection template (SSH / HTTP(S)).',
         choices=EXECUTION_PROTOCOL,
         default=1,
     )
@@ -76,70 +68,93 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
     # SSH execution type fields:
     ssh_type = models.IntegerField(
         verbose_name='SSH execution type',
-        help_text='Type of SSH execution (Command / template).',
+        help_text='Type of SSH connection template (Command / template).',
         choices=SSH_EXECUTION_TYPE,
         default=1,
     )
 
     ssh_command = models.CharField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='CLI command',
+        help_text='The CLI command that will be executed on the remote host.',
         max_length=128,
         null=True,
         blank=True,
     )
 
-    ssh_fsm = models.TextField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+    ssh_template = models.TextField(
+        verbose_name='Template',
+        help_text='SSh template will be used to create CLI command(s), '\
+        'which will be executed in the remote host to change configuration.',
+        null=True,
+        blank=True,
     )
 
     # HTTP execution type fields:
     http_method = models.IntegerField(
-        verbose_name='HTTP method',
-        help_text='Xx (HTTP request methods).',
+        verbose_name='HTTP(S) request method',
+        help_text='Type of HTTP request method (GET, POST, PUT, DELETE).',
         choices=HTTP_EXECUTION_METHOD,
         default=1,
     )
 
     http_url = models.CharField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) URL',
+        help_text='HTTP(S) URL field used to generate API request.',
         max_length=128,
         null=True,
         blank=True,
     )
 
     http_header = models.JSONField(
-        verbose_name='HTTP heder',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) heder',
+        help_text='HTTP(S) heder field used to generate API request.',
         null=True,
         blank=True,
     )
 
     http_params = models.JSONField(
-        verbose_name='HTTP parameters',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) parameters',
+        help_text='HTTP(S) parameters field used to generate API request.',
         null=True,
         blank=True,
     )
 
     http_body = models.JSONField(
-        verbose_name='HTTP body',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) body',
+        help_text='HTTP(S) body field used to generate API request.',
         null=True,
         blank=True,
     )
 
     http_pagination = models.BooleanField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) pagination',
+        help_text='If this option is active, the API request is repeated '\
+        'to collect all objects from all paginated pages.',
         default=False,
     )
 
     http_pagination_path = models.JSONField(
-        verbose_name='HTTP body',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) body',
+        help_text='The pagination path value is used to retrieve information '\
+        'about the next pagination page from APi requests (Required only if '\
+        'the HTTP(S) pagination field is enabled).',
+        null=True,
+        blank=True,
+    )
+
+    # Output validation expressions:
+    sfm_expression = models.TextField(
+        verbose_name='SFM expression',
+        help_text='FSM expression used to validate the output '\
+        'after the execution of the template.',
+        null=True,
+        blank=True,
+    )
+
+    regex_expression = models.TextField(
+        verbose_name='Regex expression',
+        help_text='Regex expression used to validate the output '\
+        'after the execution of the template.',
         null=True,
         blank=True,
     )
