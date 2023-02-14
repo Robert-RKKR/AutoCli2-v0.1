@@ -3,7 +3,6 @@ from django.contrib import admin
 
 # Models import:
 from .models.connection_group import ConnectionGroup
-from .models.connection_ssh_template import ConnectionSshTemplate
 from .models.connection_template import ConnectionTemplate
 from .models.data_group_template import DataGroupTemplate
 from .models.data_template import DataTemplate
@@ -25,23 +24,6 @@ class ConnectionGroupAdmin(admin.ModelAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'name', 'slug', 'description', 'ico',)
-        }),
-    )
-
-    
-@admin.register(ConnectionSshTemplate)
-class ConnectionSshTemplateAdmin(admin.ModelAdmin):
-
-    list_display = (
-        'pk', 'created', 'updated',
-    )
-    search_fields = (
-        'name', 'template', 'sfm_expression', 'regex_expression',
-    )
-    fieldsets = (
-        ('Basic information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'template', 'sfm_expression', 'regex_expression',)
         }),
     )
 

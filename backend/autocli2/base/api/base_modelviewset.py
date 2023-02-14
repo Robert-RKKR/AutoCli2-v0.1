@@ -25,7 +25,7 @@ class BaseModelViewSet(viewsets.ModelViewSet):
     Base ModelViewSet model.
     """
 
-    # Initiate empthy QuerySet:
+    # Initiate empty QuerySet:
     queryset = None
 
     # Authentication and permissions:
@@ -64,17 +64,17 @@ class BaseModelViewSet(viewsets.ModelViewSet):
     def list(self, *args, **kwargs):
         self.serializer_class = self.get_own_serializer_class(many=True)
         # Collect default search and ordering fields:
-        self._recive_base_search_ordering_lists()
+        self._receive_base_search_ordering_lists()
         return viewsets.ModelViewSet.list(self, *args, **kwargs)
 
     # overwrite retrieve method to add many serializer functionality:
     def retrieve(self, *args, **kwargs):
         self.serializer_class = self.get_own_serializer_class(many=True)
         # Collect default search and ordering fields:
-        self._recive_base_search_ordering_lists()
+        self._receive_base_search_ordering_lists()
         return viewsets.ModelViewSet.retrieve(self, *args, **kwargs)
 
-    def _recive_base_search_ordering_lists(self):
+    def _receive_base_search_ordering_lists(self):
         class_representation = self.queryset.model
         if issubclass(class_representation, IdentificationModel):
             self.base_ordering_fields + ['name', 'slug', 'description', 'ico']

@@ -19,41 +19,18 @@ class BasePaginator(PageNumberPagination):
     max_page_size = 1000
     # Pagination last page query name:
     last_page_strings = ('last_page',)
-    # Page details:
-    page_details = None
 
     # Pagination response schema:
     def get_paginated_response(self, data):
         return Response({
+            'page_results': data,
+            'page_objects': self.page.paginator.count,
+            'page_count': math.ceil(self.page.paginator.count/self.page_size),
             'page_links': {
                 'page_next': self.get_next_link(),
                 'page_previous': self.get_previous_link()
-            },
-            'page_count': self.page.paginator.count,
-            'page_details': self.page_details,
-            # 'page_count': math.ceil(self.page.paginator.count/self.size),
-            'page_results': data
+            }
         })
-
-    # Pagination paginate_queryset function extension:
-    def paginate_queryset(self, queryset, request, view=None):
-
-        # Run only if request contain page_details=True value:
-        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        # Collect class details:
-        class_representation = queryset.model
-        class_all_attributes = inspect.getmembers(class_representation)
-        class_filtered_attributes = []
-        # Filter class attributes:
-        for attribut in class_all_attributes:
-            if not attribut[0].startswith('_'):
-                class_filtered_attributes.append(attribut)
-        # Add resoult to page details variable:
-        self.page_details = class_filtered_attributes
-
-        # Extend paginate_queryset function:
-        super().paginate_queryset(queryset, request, view)
 
 
 class BaseSmallPaginator(BasePaginator):

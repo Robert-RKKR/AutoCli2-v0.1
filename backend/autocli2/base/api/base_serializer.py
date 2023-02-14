@@ -11,7 +11,7 @@ class BaseSerializer(serializers.HyperlinkedModelSerializer):
         'is_root',
         'created',
         'updated',
-        'active',
+        'is_active',
     ]
     base_read_only_fields = [
         'pk',

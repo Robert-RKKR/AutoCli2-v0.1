@@ -9,4 +9,7 @@ urlpatterns = [
 
     # Test view registration:
     path('test/', include('a_test.urls')),
+
+    # Network API view registration:
+    path('api-inventory/', include('inventory.api.urls')),
 ]
