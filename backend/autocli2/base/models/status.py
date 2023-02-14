@@ -10,25 +10,32 @@ class StatusModel(BaseModel):
 
     class Meta:
         
+        # Model name values:
+        verbose_name = 'StatusModel'
+        verbose_name_plural = 'StatusModels'
+        
         # Abstract class value:
         abstract = True
 
     # Deleted information:
     is_deleted = models.BooleanField(
         verbose_name='Deleted',
-        help_text='Is object deleted (Deleted object is reserved for backward compatibility).',
+        help_text=f'Is {Meta.verbose_name} deleted (Deleted {Meta.verbose_name} '\
+        'is reserved for backward compatibility).',
         default=False,
     )
 
     # Model status values:
     is_root = models.BooleanField(
         verbose_name='Root',
-        help_text='Is object root (Root object cannot be deleted or modify).',
+        help_text=f'Is {Meta.verbose_name} root (Root {Meta.verbose_name} '\
+        'cannot be deleted or modify).',
         default=False,
     )
     is_active = models.BooleanField(
         verbose_name='Active',
-        help_text='Is object active (Inactive object has limited functionality).',
+        help_text=f'Is {Meta.verbose_name} active (Inactive {Meta.verbose_name} '\
+        'has limited functionality).',
         default=True,
     )
 
