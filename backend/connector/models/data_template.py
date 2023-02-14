@@ -1,7 +1,7 @@
-# Django Import:
+# Django import:
 from django.db import models
 
-# Base model import:
+# Base models import:
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
@@ -10,7 +10,7 @@ from .data_group_template import DataGroupTemplate
 from .model_template import ModelTemplate
 
 
-# Base models class:
+# Data template models class:
 class DataTemplate(StatusModel, DataTimeModel):
 
     class Meta:

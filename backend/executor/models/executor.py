@@ -46,14 +46,12 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         Host,
         verbose_name='Xxx',
         help_text='Xxx.',
-        null=True,
-        blank=True,
     )
     
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
         verbose_name='Xxx',
-        help_text='Xxx.'
+        help_text='Xxx.',
     )
     
     credential = models.ForeignKey(

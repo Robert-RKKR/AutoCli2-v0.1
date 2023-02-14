@@ -1,12 +1,12 @@
-# Django Import:
+# Django import:
 from django.db import models
 
-# Base model import:
+# Base models import:
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 
-# Base models class:
+# Connection SSH template model clas:
 class ConnectionSshTemplate(StatusModel, DataTimeModel):
 
     class Meta:

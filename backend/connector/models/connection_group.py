@@ -1,13 +1,13 @@
-# Django Import:
+# Django import:
 from django.db import models
 
-# Base model import:
+# Base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 
-# Base models class:
+# Connection group model clas:
 class ConnectionGroup(StatusModel, DataTimeModel, IdentificationModel):
 
     class Meta:

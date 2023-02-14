@@ -10,10 +10,10 @@ from autocli2.base.models.status import StatusModel
 from .connection_ssh_template import ConnectionSshTemplate
 from .connection_group import ConnectionGroup
 
-# Other application relations models import:
+# Other application relations model import:
 from inventory.models.platform import Platform
 
-# Base message model constants:
+# Connectiont template model constants:
 EXECUTION_PROTOCOL = (
     (1, 'SSH'),
     (2, 'HTTP')
@@ -30,7 +30,7 @@ HTTP_EXECUTION_METHOD = (
 )
 
 
-# Connectiont template model class:
+# Connectiont template model clas:
 class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
 
     class Meta:
@@ -40,37 +40,35 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name_plural = 'Connection templates'
 
     # Relations with other classes:
-    connection_template_group = models.ForeignKey(
+    connection_template_groups = models.ManyToManyField(
         ConnectionGroup,
         verbose_name='Connection template group',
-        help_text='Connection template group.',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
+        help_text='Connection template can be added to one or '\
+        'more connection template group(s). For the purpose of '\
+        'arranging templates in order.',
     )
 
-    platform = models.ForeignKey(
+    platforms = models.ManyToManyField(
         Platform,
         verbose_name='Platform',
-        help_text='Platform.',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
+        help_text='One or more platform(s) can be added to the connection '\
+        'template. To associate the template with the appropriate platform(s). '\
+        'Template execution will only be available to hosts belonging to '\
+        'the specified platform.',
     )
 
     connection_ssh_template = models.ForeignKey(
         ConnectionSshTemplate,
         verbose_name='SSH template',
         help_text='SSH template.',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
+        on_delete=models.PROTECT
     )
 
     # Execution type:
     execution_protocol = models.IntegerField(
         verbose_name='Execution protocol',
-        help_text='Network protocol used to execute the connection template (SSH / HTTP).',
+        help_text='Network protocol used to execute the connection template '\
+        '(SSH / HTTP).',
         choices=EXECUTION_PROTOCOL,
         default=1,
     )

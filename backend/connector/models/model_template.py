@@ -1,16 +1,16 @@
-# Django Import:
+# Django import:
 from django.db import models
 
-# Base model import:
+# Base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
-# Relations models import:
+# Relations model import:
 from .model_group_template import ModelGroupTemplate
 
 
-# Base models class:
+# Model template models class:
 class ModelTemplate(StatusModel, DataTimeModel, IdentificationModel):
 
     class Meta:
