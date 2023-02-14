@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
 
-    # AutoC
-    # li2 apps:
+    # AutoCli2 applications:
     'a_test.apps.ATestConfig', # Temporary.
     'notification.apps.NotificationConfig',
     'management.apps.ManagementConfig',
@@ -120,7 +119,7 @@ JAZZMIN_UI_TWEAKS = {
 # Rest Framework API:
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 100,
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
