@@ -1,6 +1,3 @@
-# Django import:
-from django.db.models import Model
-
 # Base message model import:
 from autocli2.base.models.base_model import BaseModel
 
@@ -85,7 +82,7 @@ class Messenger:
 
     def critical(self,
         message: str,
-        correlated_object: Model = None,
+        correlated_object: BaseModel = None,
         action_type: int = 0) -> NotificationModel:
         """
         Create a new critical log / notification based on the following data:
@@ -111,7 +108,7 @@ class Messenger:
 
     def error(self,
         message: str,
-        correlated_object: Model = None,
+        correlated_object: BaseModel = None,
         action_type: int = 0) -> NotificationModel:
         """
         Create a new error log / notification based on the following data:
@@ -137,7 +134,7 @@ class Messenger:
 
     def warning(self,
         message: str,
-        correlated_object: Model = None,
+        correlated_object: BaseModel = None,
         action_type: int = 0) -> NotificationModel:
         """
         Create a new warning log / notification based on the following data:
@@ -163,7 +160,7 @@ class Messenger:
 
     def info(self,
         message: str,
-        correlated_object: Model = None,
+        correlated_object: BaseModel = None,
         action_type: int = 0) -> NotificationModel:
         """
         Create a new info log / notification based on the following data:
@@ -189,7 +186,7 @@ class Messenger:
                 
     def debug(self,
         message: str,
-        correlated_object: Model = None,
+        correlated_object: BaseModel = None,
         action_type: int = 0) -> NotificationModel:
         """
         Create a new debug log / notification based on the following data:
@@ -215,7 +212,7 @@ class Messenger:
 
     def _create_message(self,
         message: str,
-        correlated_object: Model,
+        correlated_object: BaseModel,
         action_type: int,
         severity_level: int) -> NotificationModel:
         """ Create a new message. """
