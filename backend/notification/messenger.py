@@ -24,7 +24,7 @@ ERROR = 2
 CRITICAL = 1
 
 
-# Messenger class: print(f'===============>: {application}')
+# Messenger class:
 class Messenger:
     """ Logger class. """
 
