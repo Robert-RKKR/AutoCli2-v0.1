@@ -29,7 +29,7 @@ HTTP_EXECUTION_METHOD = (
 )
 
 
-# Connectiont template model clas:
+# Connection template model class:
 class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
 
     class Meta:
@@ -131,15 +131,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         help_text='If this option is active, the API request is repeated '\
         'to collect all objects from all paginated pages.',
         default=False,
-    )
-
-    http_pagination_path = models.JSONField(
-        verbose_name='HTTP(S) body',
-        help_text='The pagination path value is used to retrieve information '\
-        'about the next pagination page from APi requests (Required only if '\
-        'the HTTP(S) pagination field is enabled).',
-        null=True,
-        blank=True,
     )
 
     # Output validation expressions:

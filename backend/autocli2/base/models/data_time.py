@@ -28,14 +28,3 @@ class DataTimeModel(BaseModel):
         help_text=f'{Meta.verbose_name} last update date.',
         auto_now=True,
     )
-
-    # Object representation:
-    def __repr__(self) -> str:
-        return f'{self.pk}: {self.created}'
-
-    def __str__(self) -> str:
-        return  f'{self.pk}: {self.created}'
-
-    # Natural key representation:
-    def natural_key(self):
-        return str(self.created)

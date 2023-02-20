@@ -65,14 +65,3 @@ class IdentificationModel(BaseModel):
         help_text=f'{Meta.verbose_name} graphical representation.',
         default=1,
     )
-
-    # Object representation:
-    def __repr__(self) -> str:
-        return f'{self.pk}: {self.name}'
-
-    def __str__(self) -> str:
-        return  f'{self.pk}: {self.name}'
-
-    # Natural key representation:
-    def natural_key(self):
-        return str(self.name)

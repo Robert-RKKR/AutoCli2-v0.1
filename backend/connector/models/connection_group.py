@@ -7,7 +7,7 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 
-# Connection group model clas:
+# Connection group model class:
 class ConnectionGroup(StatusModel, DataTimeModel, IdentificationModel):
 
     class Meta:

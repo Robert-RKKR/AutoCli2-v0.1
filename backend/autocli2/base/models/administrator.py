@@ -29,14 +29,3 @@ class AdministratorModel(BaseModel):
         null=True,
         blank=True,
     )
-
-    # Object representation:
-    def __repr__(self) -> str:
-        return f'{self.pk}: {self.administrator}'
-
-    def __str__(self) -> str:
-        return  f'{self.pk}: {self.administrator}'
-
-    # Natural key representation:
-    def natural_key(self):
-        return str(self.administrator)

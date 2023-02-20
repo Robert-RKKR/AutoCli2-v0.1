@@ -68,14 +68,3 @@ class StatusModel(BaseModel):
             # raise ValidationError('Root object cannot be changed or deleted.')
         else:
             super(StatusModel, self).update(*args, **kwargs)
-
-    # Object representation:
-    def __repr__(self) -> str:
-        return f'{self.pk}: {self.is_deleted}'
-
-    def __str__(self) -> str:
-        return  f'{self.pk}: {self.is_deleted}'
-
-    # Natural key representation:
-    def natural_key(self):
-        return str(self.is_deleted)
