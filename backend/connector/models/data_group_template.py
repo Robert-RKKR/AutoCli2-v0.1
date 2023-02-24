@@ -5,10 +5,10 @@ from django.db import models
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
-# Relations models import:
+# Other application relations model import:
 from .model_group_template import ModelGroupTemplate
 from .connection_template import ConnectionTemplate
-
+from inventory.models.software import Software
 
 
 # Data group template models class:
@@ -39,14 +39,14 @@ class DataGroupTemplate(StatusModel, DataTimeModel):
         blank=True,
     )
 
-    # platform  = models.ForeignKey(
-    #     Platform,
-    #     verbose_name='Platform',
-    #     help_text='Platform.',
-    #     on_delete=models.PROTECT,
-    #     null=True,
-    #     blank=True,
-    # )
+    softwares = models.ManyToManyField(
+        Software,
+        verbose_name='Software',
+        help_text='One or more software(s) can be added to the connection '\
+        'template. To associate the template with the appropriate software(s). '\
+        'Template execution will only be available to hosts belonging to '\
+        'the specified software.',
+    )
 
     # Data group specific fields:
     keys = models.JSONField(

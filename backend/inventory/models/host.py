@@ -8,7 +8,7 @@ from autocli2.base.models.status import StatusModel
 
 # Relations models import:
 from .credentials import Credential
-from .platform import Platform
+from .software import Software
 from .site import Site
 
 
@@ -31,10 +31,10 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
     
-    platform = models.ForeignKey(
-        Platform,
-        verbose_name='Platform',
-        help_text='Platform.',
+    software = models.ForeignKey(
+        Software,
+        verbose_name='Software',
+        help_text='Software.',
         on_delete=models.PROTECT,
         null=True,
         blank=True,
@@ -54,28 +54,12 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name='Hostname',
         help_text='Xxx.',
         max_length=128,
-        null=True,
-        blank=True,
     )
 
     # Default settings:
-    default_certificate_check = models.BooleanField(
-        verbose_name='Default certificate check',
+    certificate_check = models.BooleanField(
+        verbose_name='Certificate check',
         help_text='If enabled, attempts to validate host certificate. '\
         'If disabled, ignores certificate validation process.',
         default=False,
-    )
-
-    default_http_header = models.JSONField(
-        verbose_name='Default HTTP heder',
-        help_text='Xxx.',
-        null=True,
-        blank=True,
-    )
-
-    default_http_params = models.JSONField(
-        verbose_name='Default HTTP parameters',
-        help_text='Xxx.',
-        null=True,
-        blank=True,
     )

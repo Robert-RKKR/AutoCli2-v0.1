@@ -10,9 +10,9 @@ from autocli2.base.models.status import StatusModel
 from .connection_group import ConnectionGroup
 
 # Other application relations model import:
-from inventory.models.platform import Platform
+from inventory.models.software import Software
 
-# Connectiont template model constants:
+# Connections template model constants:
 EXECUTION_PROTOCOL = (
     (1, 'SSH'),
     (2, 'HTTP')
@@ -47,13 +47,13 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         'arranging templates in order.',
     )
 
-    platforms = models.ManyToManyField(
-        Platform,
-        verbose_name='Platform',
-        help_text='One or more platform(s) can be added to the connection '\
-        'template. To associate the template with the appropriate platform(s). '\
+    softwares = models.ManyToManyField(
+        Software,
+        verbose_name='Software',
+        help_text='One or more software(s) can be added to the connection '\
+        'template. To associate the template with the appropriate software(s). '\
         'Template execution will only be available to hosts belonging to '\
-        'the specified platform.',
+        'the specified software.',
     )
 
     # Execution type:
@@ -124,13 +124,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         help_text='HTTP(S) body field used to generate API request.',
         null=True,
         blank=True,
-    )
-
-    http_pagination = models.BooleanField(
-        verbose_name='HTTP(S) pagination',
-        help_text='If this option is active, the API request is repeated '\
-        'to collect all objects from all paginated pages.',
-        default=False,
     )
 
     # Output validation expressions:
