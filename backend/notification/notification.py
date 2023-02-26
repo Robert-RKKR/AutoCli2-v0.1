@@ -1,10 +1,6 @@
 # Messenger class import:
 from .messenger import Messenger
 
-# Notification constants:
-IS_NOTIFICATION = True
-NOTIFICATION_TYPE = 1
-
 
 # Notification class:
 class Notification(Messenger):
@@ -47,6 +43,10 @@ class Notification(Messenger):
         # Extend init function from Messenger class:
         super().__init__(application, task_id)
 
+        # Notification constants:
+        self.IS_NOTIFICATION = True
+        self.NOTIFICATION_TYPE = 1
+
         # Verify if the channel name variable is a valid sting:
         if isinstance(channel_name, str):
             self.__channel_name = channel_name
@@ -54,8 +54,8 @@ class Notification(Messenger):
             raise TypeError('The provided application variable must be string.')
 
         # Default notification information's:
-        self.notification_type = NOTIFICATION_TYPE
-        self.is_notification = IS_NOTIFICATION
+        self.notification_type = self.NOTIFICATION_TYPE
+        self.is_notification = self.IS_NOTIFICATION
 
     @property
     def channel_name(self):

@@ -1,9 +1,6 @@
 # Messenger class import:
 from .messenger import Messenger
 
-# Notification constants:
-NOTIFICATION_TYPE = 2
-
 
 # Logger class:
 class Logger(Messenger):
@@ -38,9 +35,13 @@ class Logger(Messenger):
         task_id: string
             Taks ID related with celery task.
         """
-
         # Extend init function from Messenger class:
         super().__init__(application, task_id)
 
+        # Notification constants:
+        self.IS_NOTIFICATION = False
+        self.NOTIFICATION_TYPE = 2
+
+
         # Default notification information's:
-        self.notification_type = NOTIFICATION_TYPE
+        self.notification_type = self.NOTIFICATION_TYPE

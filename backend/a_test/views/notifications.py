@@ -15,7 +15,7 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
-
+    
 
     host_one = Host.objects.get(pk=1)
 
@@ -25,7 +25,7 @@ def notifications_test(request):
     return_output = notification.info(
         '2 - Welcome in AutoCli2 application',
         host_one, 2)
-    data['return_output'] = collect_global_settings('notification_level')
+    data['return_output'] = return_output
    
     # GET method:
     return render(request, 'test.html', data)

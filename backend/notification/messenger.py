@@ -15,6 +15,7 @@ from asgiref.sync import async_to_sync
 
 # Settings import:
 from django.conf import settings
+from management.settings import collect_global_settings
 
 # Severity constants declaration:
 DEBUG = 5
@@ -31,6 +32,9 @@ class Messenger:
     def __init__(self,
         application: str = '--NoName--',
         task_id: str = None) -> None:
+        
+        # Notification constants:
+        self.IS_NOTIFICATION = None
 
         # Verify if the application variable is a valid sting:
         if isinstance(application, str):
@@ -98,13 +102,19 @@ class Messenger:
             Default: 0-None.
         """
 
-        # Run process of log and details log creation:
-        if settings.NOTIFICATION_DEBUG:
-            return self._create_message(
-                message,
-                correlated_object,
-                action_type,
-                CRITICAL)
+        # Check that notification settings allow logging:
+        if self.IS_NOTIFICATION:
+            if CRITICAL > collect_global_settings('notification_level'):
+                return None
+        else: # Check that logger settings allow logging:
+            if CRITICAL > collect_global_settings('notification_level'):
+                return None
+        # Create log:
+        return self._create_message(
+            message,
+            correlated_object,
+            action_type,
+            CRITICAL)
 
     def error(self,
         message: str,
@@ -124,13 +134,19 @@ class Messenger:
             Default: 0-None.
         """
 
-        # Run process of log and details log creation:
-        if settings.NOTIFICATION_DEBUG:
-            return self._create_message(
-                message,
-                correlated_object,
-                action_type,
-                ERROR)
+        # Check that notification settings allow logging:
+        if self.IS_NOTIFICATION:
+            if ERROR > collect_global_settings('notification_level'):
+                return None
+        else: # Check that logger settings allow logging:
+            if ERROR > collect_global_settings('notification_level'):
+                return None
+        # Create log:
+        return self._create_message(
+            message,
+            correlated_object,
+            action_type,
+            ERROR)
 
     def warning(self,
         message: str,
@@ -150,13 +166,19 @@ class Messenger:
             Default: 0-None.
         """
 
-        # Run process of log and details log creation:
-        if settings.NOTIFICATION_DEBUG:
-            return self._create_message(
-                message,
-                correlated_object,
-                action_type,
-                WARNING)
+        # Check that notification settings allow logging:
+        if self.IS_NOTIFICATION:
+            if WARNING > collect_global_settings('notification_level'):
+                return None
+        else: # Check that logger settings allow logging:
+            if WARNING > collect_global_settings('notification_level'):
+                return None
+        # Create log:
+        return self._create_message(
+            message,
+            correlated_object,
+            action_type,
+            WARNING)
 
     def info(self,
         message: str,
@@ -176,13 +198,19 @@ class Messenger:
             Default: 0-None.
         """
 
-        # Run process of log and details log creation:
-        if settings.NOTIFICATION_DEBUG:
-            return self._create_message(
-                message,
-                correlated_object,
-                action_type,
-                INFO)
+        # Check that notification settings allow logging:
+        if self.IS_NOTIFICATION:
+            if INFO > collect_global_settings('notification_level'):
+                return None
+        else: # Check that logger settings allow logging:
+            if INFO > collect_global_settings('notification_level'):
+                return None
+        # Create log:
+        return self._create_message(
+            message,
+            correlated_object,
+            action_type,
+            INFO)
                 
     def debug(self,
         message: str,
@@ -202,13 +230,19 @@ class Messenger:
             Default: 0-None.
         """
 
-        # Run process of log and details log creation:
-        if settings.NOTIFICATION_DEBUG:
-            return self._create_message(
-                message,
-                correlated_object,
-                action_type,
-                DEBUG)
+        # Check that notification settings allow logging:
+        if self.IS_NOTIFICATION:
+            if DEBUG > collect_global_settings('notification_level'):
+                return None
+        else: # Check that logger settings allow logging:
+            if DEBUG > collect_global_settings('notification_level'):
+                return None
+        # Create log:
+        return self._create_message(
+            message,
+            correlated_object,
+            action_type,
+            DEBUG)
 
     def _create_message(self,
         message: str,

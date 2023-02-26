@@ -30,12 +30,12 @@ class GlobalSetting(DataTimeModel, IdentificationModel):
         verbose_name='Notification severity level',
         help_text='The level of severity of the performed action.',
         choices=SEVERITY,
-        default=0,
+        default=4,
     )
 
     logger_level = models.IntegerField(
         verbose_name='Logger severity level',
         help_text='The level of severity of the performed action.',
         choices=SEVERITY,
-        default=0,
+        default=1,
     )
