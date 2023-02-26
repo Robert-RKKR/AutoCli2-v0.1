@@ -72,6 +72,14 @@ class Notification(BaseMessageModel):
         },
     )
 
+    # Execution time:
+    execution_time = models.FloatField(
+        verbose_name='Execution time',
+        help_text='Log execution time.',
+        null=True,
+        blank=True,
+    )
+
     # Object representation:
     def __repr__(self) -> str:
         return f'{self.pk}: {self.message}'

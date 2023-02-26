@@ -55,6 +55,16 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         help_text='Xxx.',
         max_length=128,
     )
+    ssh_port = models.IntegerField(
+        verbose_name='SSH port',
+        help_text='Xxx.',
+        default=22
+    )
+    http_port = models.IntegerField(
+        verbose_name='HTTP/S port',
+        help_text='Xxx.',
+        default=443
+    )
 
     # Default settings:
     certificate_check = models.BooleanField(

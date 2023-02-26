@@ -107,7 +107,7 @@ class Messenger:
             if CRITICAL > collect_global_settings('notification_level'):
                 return None
         else: # Check that logger settings allow logging:
-            if CRITICAL > collect_global_settings('notification_level'):
+            if CRITICAL > collect_global_settings('logger_level'):
                 return None
         # Create log:
         return self._create_message(
@@ -139,7 +139,7 @@ class Messenger:
             if ERROR > collect_global_settings('notification_level'):
                 return None
         else: # Check that logger settings allow logging:
-            if ERROR > collect_global_settings('notification_level'):
+            if ERROR > collect_global_settings('logger_level'):
                 return None
         # Create log:
         return self._create_message(
@@ -171,7 +171,7 @@ class Messenger:
             if WARNING > collect_global_settings('notification_level'):
                 return None
         else: # Check that logger settings allow logging:
-            if WARNING > collect_global_settings('notification_level'):
+            if WARNING > collect_global_settings('logger_level'):
                 return None
         # Create log:
         return self._create_message(
@@ -203,7 +203,7 @@ class Messenger:
             if INFO > collect_global_settings('notification_level'):
                 return None
         else: # Check that logger settings allow logging:
-            if INFO > collect_global_settings('notification_level'):
+            if INFO > collect_global_settings('logger_level'):
                 return None
         # Create log:
         return self._create_message(
@@ -235,7 +235,7 @@ class Messenger:
             if DEBUG > collect_global_settings('notification_level'):
                 return None
         else: # Check that logger settings allow logging:
-            if DEBUG > collect_global_settings('notification_level'):
+            if DEBUG > collect_global_settings('logger_level'):
                 return None
         # Create log:
         return self._create_message(
