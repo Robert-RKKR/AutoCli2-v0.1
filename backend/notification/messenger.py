@@ -87,7 +87,8 @@ class Messenger:
     def critical(self,
         message: str,
         correlated_object: BaseModel = None,
-        action_type: int = 0) -> NotificationModel:
+        action_type: int = 0,
+        execution_time: float = None) -> NotificationModel:
         """
         Create a new critical log / notification based on the following data:
 
@@ -100,6 +101,8 @@ class Messenger:
         action_type: integer
             Type of action (1-Created, 2-Updated, 3-Deleted).
             Default: 0-None.
+        execution_time: float
+            Time of script / task / connection execution.
         """
 
         # Check that notification settings allow logging:
@@ -114,12 +117,14 @@ class Messenger:
             message,
             correlated_object,
             action_type,
-            CRITICAL)
+            CRITICAL,
+            execution_time)
 
     def error(self,
         message: str,
         correlated_object: BaseModel = None,
-        action_type: int = 0) -> NotificationModel:
+        action_type: int = 0,
+        execution_time: float = None) -> NotificationModel:
         """
         Create a new error log / notification based on the following data:
 
@@ -132,6 +137,8 @@ class Messenger:
         action_type: integer
             Type of action (1-Created, 2-Updated, 3-Deleted).
             Default: 0-None.
+        execution_time: float
+            Time of script / task / connection execution.
         """
 
         # Check that notification settings allow logging:
@@ -146,12 +153,14 @@ class Messenger:
             message,
             correlated_object,
             action_type,
-            ERROR)
+            ERROR,
+            execution_time)
 
     def warning(self,
         message: str,
         correlated_object: BaseModel = None,
-        action_type: int = 0) -> NotificationModel:
+        action_type: int = 0,
+        execution_time: float = None) -> NotificationModel:
         """
         Create a new warning log / notification based on the following data:
 
@@ -164,6 +173,8 @@ class Messenger:
         action_type: integer
             Type of action (1-Created, 2-Updated, 3-Deleted).
             Default: 0-None.
+        execution_time: float
+            Time of script / task / connection execution.
         """
 
         # Check that notification settings allow logging:
@@ -178,12 +189,14 @@ class Messenger:
             message,
             correlated_object,
             action_type,
-            WARNING)
+            WARNING,
+            execution_time)
 
     def info(self,
         message: str,
         correlated_object: BaseModel = None,
-        action_type: int = 0) -> NotificationModel:
+        action_type: int = 0,
+        execution_time: float = None) -> NotificationModel:
         """
         Create a new info log / notification based on the following data:
 
@@ -196,6 +209,8 @@ class Messenger:
         action_type: integer
             Type of action (1-Created, 2-Updated, 3-Deleted).
             Default: 0-None.
+        execution_time: float
+            Time of script / task / connection execution.
         """
 
         # Check that notification settings allow logging:
@@ -210,12 +225,14 @@ class Messenger:
             message,
             correlated_object,
             action_type,
-            INFO)
+            INFO,
+            execution_time)
                 
     def debug(self,
         message: str,
         correlated_object: BaseModel = None,
-        action_type: int = 0) -> NotificationModel:
+        action_type: int = 0,
+        execution_time: float = None) -> NotificationModel:
         """
         Create a new debug log / notification based on the following data:
 
@@ -228,6 +245,8 @@ class Messenger:
         action_type: integer
             Type of action (1-Created, 2-Updated, 3-Deleted).
             Default: 0-None.
+        execution_time: float
+            Time of script / task / connection execution.
         """
 
         # Check that notification settings allow logging:
@@ -242,13 +261,15 @@ class Messenger:
             message,
             correlated_object,
             action_type,
-            DEBUG)
+            DEBUG,
+            execution_time)
 
     def _create_message(self,
         message: str,
         correlated_object: BaseModel,
         action_type: int,
-        severity_level: int) -> NotificationModel:
+        severity_level: int,
+        execution_time: float) -> NotificationModel:
         """ Create a new message. """
 
         # Collect data:
@@ -256,6 +277,7 @@ class Messenger:
         self.correlated_object = correlated_object
         self.action_type = action_type
         self.severity_level = severity_level
+        self.execution_time = execution_time
 
         # Verify provided variables:
         self._verification()
@@ -274,7 +296,8 @@ class Messenger:
             'action_type': self.action_type,
             'notification_type': self.notification_type,
             'severity': self.severity_level,
-            'application': self.application}
+            'application': self.application,
+            'execution_time': self.execution_time}
 
         if self.is_notification:
             # Send channel notification:
