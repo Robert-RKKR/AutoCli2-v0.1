@@ -1,6 +1,9 @@
 # Django import:
 from django.contrib import admin
 
+# base admin class import:
+from autocli2.base.admins.based_admin import BaseAdmin
+
 # Models import:
 from .models.connection_template import ConnectionTemplate
 from .models.data_group_template import DataGroupTemplate
@@ -11,7 +14,7 @@ from .models.model_template import ModelTemplate
 
 # All connectors admin classes: 
 @admin.register(ConnectionTemplate)
-class ConnectionTemplateAdmin(admin.ModelAdmin):
+class ConnectionTemplateAdmin(BaseAdmin):
 
     list_display = (
         'name', 'created', 'updated', 'name', 'execution_protocol',
@@ -49,6 +52,7 @@ class ConnectionTemplateAdmin(admin.ModelAdmin):
         'created', 'updated',
     )
     empty_value_display = '(None)'
+    
 
     
 @admin.register(DataGroupTemplate)
