@@ -19,3 +19,14 @@ class BaseModel(models.Model):
 
     # Model objects manager:
     objects = BaseManager()
+
+    # object representation:
+    def __repr__(self) -> str:
+        return f'PK: {self.pk}'
+
+    def __str__(self) -> str:
+        return  f'PK: {self.pk}'
+
+    # Natural key representation:
+    def natural_key(self):
+        return f'PK: {self.pk}'

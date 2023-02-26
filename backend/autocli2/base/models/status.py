@@ -39,32 +39,32 @@ class StatusModel(BaseModel):
         default=True,
     )
 
-    # Model Save override:
-    def save(self, *args, **kwargs):
+    # # Model Save override:
+    # def save(self, *args, **kwargs):
         
-        # Check if object root value is true:
-        if self.is_root is True:
-            pass
-            # raise ValidationError('Root object cannot be changed or deleted.')
-        else:
-            super(StatusModel, self).save(*args, **kwargs)
+    #     # Check if object root value is true:
+    #     if self.is_root is True:
+    #         pass
+    #         # raise ValidationError('Root object cannot be changed or deleted.')
+    #     else:
+    #         super(StatusModel, self).save(*args, **kwargs)
 
-    # Model Save override:
-    def delete(self, *args, **kwargs):
+    # # Model Save override:
+    # def delete(self, *args, **kwargs):
         
-        # Check if object root value is true:
-        if self.is_root is True:
-            pass
-            # raise ValidationError('Root object cannot be changed or deleted.')
-        else:
-            super(StatusModel, self).delete(*args, **kwargs)
+    #     # Check if object root value is true:
+    #     if self.is_root is True:
+    #         pass
+    #         # raise ValidationError('Root object cannot be changed or deleted.')
+    #     else:
+    #         super(StatusModel, self).delete(*args, **kwargs)
 
-    # Model Save override:
-    def update(self, *args, **kwargs):
+    # # Model Save override:
+    # def update(self, *args, **kwargs):
         
-        # Check if object root value is true:
-        if self.is_root is True:
-            pass
-            # raise ValidationError('Root object cannot be changed or deleted.')
-        else:
-            super(StatusModel, self).update(*args, **kwargs)
+    #     # Check if object root value is true:
+    #     if self.is_root is True:
+    #         pass
+    #         # raise ValidationError('Root object cannot be changed or deleted.')
+    #     else:
+    #         super(StatusModel, self).update(*args, **kwargs)
