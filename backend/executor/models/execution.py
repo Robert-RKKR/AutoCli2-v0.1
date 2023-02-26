@@ -23,28 +23,28 @@ class Execution(DataTimeModel):
     # Relations with other classes:
     executor = models.ForeignKey(
         Executor,
-        verbose_name='Xxx',
+        verbose_name='Executor',
         help_text='Xxx.',
         on_delete=models.PROTECT,
     )
 
     hosts = models.ForeignKey(
         Host,
-        verbose_name='Xxx',
+        verbose_name='Hosts',
         help_text='Xxx.',
         on_delete=models.PROTECT
     )
     
     connection_templates = models.ForeignKey(
         ConnectionTemplate,
-        verbose_name='Xxx',
+        verbose_name='Connection templates',
         help_text='Xxx.',
         on_delete=models.PROTECT
     )
     
     credential = models.ForeignKey(
         Credential,
-        verbose_name='Xxx',
+        verbose_name='Credential',
         help_text='Xxx.',
         on_delete=models.PROTECT
     )
@@ -84,19 +84,19 @@ class Execution(DataTimeModel):
 
     # HTTP status and data:
     https_response_status = models.BooleanField(
-        verbose_name='Xxx',
+        verbose_name='HTTP/S response status',
         help_text='Xxx.',
         default=False,
     )
 
     https_response_code = models.IntegerField(
-        verbose_name='Xxx',
+        verbose_name='HTTP/S response code',
         help_text='Xxx.',
         default=0,
     )
 
     https_response = models.JSONField(
-        verbose_name='HTTP heder',
+        verbose_name='HTTP/S response',
         help_text='Xxx.',
         null=True,
         blank=True,

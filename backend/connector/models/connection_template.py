@@ -6,9 +6,6 @@ from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
-# Relations models import:
-from .connection_group import ConnectionGroup
-
 # Other application relations model import:
 from inventory.models.software import Software
 
@@ -39,14 +36,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name_plural = 'Connection templates'
 
     # Relations with other classes:
-    connection_template_groups = models.ManyToManyField(
-        ConnectionGroup,
-        verbose_name='Connection template group',
-        help_text='Connection template can be added to one or '\
-        'more connection template group(s). For the purpose of '\
-        'arranging templates in order.',
-    )
-
     softwares = models.ManyToManyField(
         Software,
         verbose_name='Software',

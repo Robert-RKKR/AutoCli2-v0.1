@@ -11,7 +11,7 @@ from .models.change_log import ChangeLog
 class NotificationAdmin(admin.ModelAdmin):
 
     list_display = (
-        'pk', 'administrator', 'timestamp', 'action_type', 'object_id',
+        'pk', 'timestamp', 'action_type', 'object_id',
         'object_representation', 'severity', 'notification_type',
         'task_id', 'application', 'message',
     )
@@ -37,11 +37,15 @@ class NotificationAdmin(admin.ModelAdmin):
             'classes': ('wide', 'extrapretty',),
             'fields': ('message',),
         }),
+        ('Execution time', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('execution_time',),
+        }),
     )
     readonly_fields = (
         'timestamp', 'notification_type', 'object_representation', 'severity',
         'notification_type', 'task_id', 'application', 'message', 'app_name',
-        'model_name', 'object_representation', 'object_id',
+        'model_name', 'object_representation', 'object_id', 'administrator', 
     )
 
 

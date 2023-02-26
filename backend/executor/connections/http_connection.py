@@ -35,8 +35,15 @@ class Connection:
             Xxx
         """
 
+        # Verify if the host variable is a valid host object:
+        if not isinstance(host, Host):
+            raise TypeError('The provided host must be instance of Host class.')
+        # Verify if the headers variable is a valid sting:
+        if not isinstance(headers, dict):
+            raise TypeError('The provided headers variable must be dictionary.')
+
         # Collect data from host object:
-        self.host = host
+        self.__host = host
         self.hostname = host.hostname
         self.http_port = host.http_port
         self.certificate = host.certificate_check
@@ -58,6 +65,10 @@ class Connection:
         # Execution timer:
         self.execution_time = None
 
+    @property
+    def host(self):
+        return self.__host
+    
     def __repr__(self):
         """
         Connection class representation is IP address /
@@ -82,6 +93,13 @@ class Connection:
 
     def _connection_center(self, request_method, url, params, body=None):
         """ Xxx. """
+
+        # Verify if the host url is a valid host object:
+        if not isinstance(url, str):
+            raise TypeError('The provided url variable must be string.')
+        # Verify if the params variable is a valid sting:
+        if not isinstance(params, list):
+            raise TypeError('The provided params variable must be list of strings.')
 
         request_url = f'https://{self.hostname}:{self.http_port}/{url}'
 
@@ -147,35 +165,40 @@ class Connection:
                 Connection.logger.warning(
                     f'Connection to {self.hostname}, '\
                         'was a informational HTTPS request. '\
-                        f'HTTP/S code {response.status_code}', self.host)
+                        f'HTTP/S code {response.status_code}', self.host,
+                        execution_time=self.execution_time)
                 # Change connection status to True:
                 self.status = True
             elif response.status_code < 300: # All response from 200 to 299.
                 Connection.logger.info(
                     f'Connection to {self.hostname}, '\
                         'was a success HTTPS request. '\
-                        f'HTTP/S code {response.status_code}', self.host)
+                        f'HTTP/S code {response.status_code}', self.host,
+                        execution_time=self.execution_time)
                 # Change connection status to True:
                 self.status = True
             elif response.status_code < 400: # All response from 300 to 399.
                 Connection.logger.warning(
                     f'Connection to {self.hostname}, '\
                         'returned redirection HTTPS error. '\
-                        f'HTTP/S code {response.status_code}', self.host)
+                        f'HTTP/S code {response.status_code}', self.host,
+                        execution_time=self.execution_time)
                 # Change connection status to False:
                 self.status = False
             elif response.status_code < 500: # All response from 400 to 499.
                 Connection.logger.error(
                     f'Connection to {self.hostname}, '\
                         'returned client HTTPS error. '\
-                        f'HTTP/S code {response.status_code}', self.host)
+                        f'HTTP/S code {response.status_code}', self.host,
+                        execution_time=self.execution_time)
                 # Change connection status to False:
                 self.status = False
             elif response.status_code < 600: # All response from 500 to 599.
                 Connection.logger.error(
                     f'Connection to {self.hostname}, '\
                         'returned server HTTPS error. '\
-                        f'HTTP/S code {response.status_code}', self.host)
+                        f'HTTP/S code {response.status_code}', self.host,
+                        execution_time=self.execution_time)
                 # Change connection status to False:
                 self.status = False
             

@@ -44,19 +44,19 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
     # Relations with other classes:
     hosts = models.ManyToManyField(
         Host,
-        verbose_name='Xxx',
+        verbose_name='hosts',
         help_text='Xxx.',
     )
     
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
-        verbose_name='Xxx',
+        verbose_name='connection_templates',
         help_text='Xxx.',
     )
     
     credential = models.ForeignKey(
         Credential,
-        verbose_name='Xxx',
+        verbose_name='credential',
         help_text='Xxx.',
         on_delete=models.PROTECT
     )
@@ -77,21 +77,21 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
 
     # Task fields:
     task = models.IntegerField(
-        verbose_name='Xxx',
+        verbose_name='task',
         help_text='Xxx.',
         choices=TASK_ID,
         default=0,
     )
 
-    task_argumants = models.JSONField(
-        verbose_name='Xxx',
+    task_arguments = models.JSONField(
+        verbose_name='task_arguments',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
 
     task_id = models.CharField(
-        verbose_name='Xxx',
+        verbose_name='task_id',
         help_text='Xxx.',
         max_length=128,
         null=True,
@@ -100,21 +100,21 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
 
     # Status fields:
     status = models.IntegerField(
-        verbose_name='Xxx',
+        verbose_name='status',
         help_text='Xxx.',
         choices=EXECUTOR_STATUS,
         default=0,
     )
 
     output = models.JSONField(
-        verbose_name='Xxx',
+        verbose_name='output',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
 
     results = models.BooleanField(
-        verbose_name='Xxx',
+        verbose_name='results',
         help_text='Xxx.',
         default=False,
     )
