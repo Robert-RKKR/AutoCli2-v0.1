@@ -21,16 +21,22 @@ class ApiData(StatusModel, DataTimeModel, IdentificationModel):
 
     # API token information:
     http_token_heder_key = models.CharField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) token heder key',
+        help_text='When authenticating an HTTP(S) connection using an API ''\
+        token, the token header key value defines the HTTP(S) request header '\
+        'key. In the example "Authorisation=APIToken {{key}}", the token '\
+        'header key value is Authorisation.',
         max_length=128,
         null=True,
         blank=True,
     )
 
     http_token_heder_value = models.CharField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) token heder value',
+        help_text='When authenticating an HTTP(S) connection using an API '\
+        'token, the token header value defines the HTTP(S) request header '\
+        'key. In the example "Authorisation=APIToken {{key}}", the '\
+        'token header value is APIToken.',
         max_length=128,
         null=True,
         blank=True,
@@ -39,30 +45,41 @@ class ApiData(StatusModel, DataTimeModel, IdentificationModel):
     # Pagination information:
     http_pagination = models.BooleanField(
         verbose_name='HTTP(S) pagination',
-        help_text='If this option is active, the API request is repeated '\
-        'to collect all objects from all paginated pages.',
+        help_text='When the pagination value is active, the API request will '\
+        'be repeated to collect all objects from all paginated pages.',
         default=True,
     )
 
-    http_pagination_path = models.JSONField(
-        verbose_name='HTTP(S) pagination path',
-        help_text='The pagination path value is used to retrieve information '\
-        'about the next pagination page from APi requests (Required only if '\
-        'the HTTP(S) pagination field is enabled).',
+    http_next_page_code_path = models.JSONField(
+        verbose_name='HTTP(S) next page code path',
+        help_text='The next page path value is used by the connection template '\
+        'when the API request returns a response, that is divided into many pages '\
+        '(paginated response). In this case next page path value is used to '\
+        'retrieve the pagination code required to prepare the next API request '\
+        'for other pages (The value will only be used if the pagination field is '\
+        'enabled).',
         null=True,
         blank=True,
     )
 
-    http_next_page_path = models.JSONField(
-        verbose_name='HTTP(S) next page path',
-        help_text='Xxx',
+    http_next_page_link_path = models.JSONField(
+        verbose_name='HTTP(S) next page link path',
+        help_text='The next page path value is used by the connection template '\
+        'when the API request returns a response that is divided into many pages '\
+        '(paginated response). In this case, the next page path value is used to '\
+        'retrieve the pagination URL link used in the next API request for other '\
+        'pages (The value will only be used if the pagination field is enabled).',
         null=True,
         blank=True,
     )
 
     http_pagination_param_key = models.CharField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
+        verbose_name='HTTP(S) pagination param key',
+        help_text='Information collected based on the next page code path value '\
+        'is added to the URL with a specific code. This code should be provided '\
+        'as a pagination param key value. For example, the value "cursor" will '\
+        'be added to the URL in the form "?cursor={{next page code}}" '\
+        '(The value will only be used if the pagination field is enabled).',
         max_length=128,
         null=True,
         blank=True,
@@ -71,7 +88,8 @@ class ApiData(StatusModel, DataTimeModel, IdentificationModel):
     # Data path:
     http_data_path = models.JSONField(
         verbose_name='HTTP(S) data path',
-        help_text='Xxx',
+        help_text='The data path value is used to collect useful data included '\
+        'in the HTTP(S) response.',
         null=True,
         blank=True,
     )
