@@ -39,7 +39,7 @@ class Connection:
         if not isinstance(host, Host):
             raise TypeError('The provided host must be instance of Host class.')
         # Verify if the headers variable is a valid sting:
-        if not isinstance(headers, dict):
+        if not isinstance(headers, dict) and not headers is None:
             raise TypeError('The provided headers variable must be dictionary.')
 
         # Collect data from host object:
@@ -98,7 +98,7 @@ class Connection:
         if not isinstance(url, str):
             raise TypeError('The provided url variable must be string.')
         # Verify if the params variable is a valid sting:
-        if not isinstance(params, list):
+        if not isinstance(params, list) and not params is None:
             raise TypeError('The provided params variable must be list of strings.')
 
         request_url = f'https://{self.hostname}:{self.http_port}/{url}'
