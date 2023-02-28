@@ -57,7 +57,7 @@ class DataGroupTemplate(StatusModel, DataTimeModel):
     )
 
     keys_regex = models.CharField(
-        verbose_name='Xxx',
+        verbose_name='Keys REGEX',
         help_text='Xxx.',
         max_length=128,
         null=True,
