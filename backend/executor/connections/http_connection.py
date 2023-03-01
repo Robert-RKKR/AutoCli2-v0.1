@@ -114,7 +114,8 @@ class Connection:
         start_time = time.perf_counter()
         # Create session:
         session = requests.Session()
-        # Connect to the network device with password and username or by using token:
+        # Connect to the network device with password and username
+        # or by using token:
         if self.token:
             request = requests.Request(
                 request_method,
