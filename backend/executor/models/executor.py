@@ -44,21 +44,25 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
     # Relations with other classes:
     hosts = models.ManyToManyField(
         Host,
-        verbose_name='hosts',
+        verbose_name='Hosts',
         help_text='Xxx.',
+        blank=True,
     )
     
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
-        verbose_name='connection_templates',
+        verbose_name='Connection templates',
         help_text='Xxx.',
+        blank=True,
     )
     
     credential = models.ForeignKey(
         Credential,
-        verbose_name='credential',
+        verbose_name='Credential',
         help_text='Xxx.',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
 
     # Execution / executor type:
@@ -69,7 +73,7 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         default=1,
     )
     executor_type = models.IntegerField(
-        verbose_name='Xxx',
+        verbose_name='Executor type',
         help_text='Xxx.',
         choices=EXECUTOR_TYPE,
         default=1,
@@ -77,44 +81,36 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
 
     # Task fields:
     task = models.IntegerField(
-        verbose_name='task',
+        verbose_name='Task',
         help_text='Xxx.',
         choices=TASK_ID,
         default=0,
     )
 
     task_arguments = models.JSONField(
-        verbose_name='task_arguments',
+        verbose_name='Task arguments',
         help_text='Xxx.',
-        null=True,
-        blank=True,
-    )
-
-    task_id = models.CharField(
-        verbose_name='task_id',
-        help_text='Xxx.',
-        max_length=128,
         null=True,
         blank=True,
     )
 
     # Status fields:
     status = models.IntegerField(
-        verbose_name='status',
+        verbose_name='Status',
         help_text='Xxx.',
         choices=EXECUTOR_STATUS,
         default=0,
     )
 
     output = models.JSONField(
-        verbose_name='output',
+        verbose_name='Output',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
 
     results = models.BooleanField(
-        verbose_name='results',
+        verbose_name='Results',
         help_text='Xxx.',
         default=False,
     )

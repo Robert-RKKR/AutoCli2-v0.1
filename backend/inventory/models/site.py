@@ -29,6 +29,15 @@ class Site(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
 
+    # Site details:
+    code = models.CharField(
+        verbose_name='Site code',
+        help_text='Xxx.',
+        max_length=32,
+        null=True,
+        blank=True,
+    )
+
     # Base site information:
     gps_coordinates = models.CharField(
         verbose_name='GPS coordinates',

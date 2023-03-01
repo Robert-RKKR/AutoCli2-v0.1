@@ -1,6 +1,9 @@
 # Django import:
 from django.contrib import admin
 
+# base admin class import:
+from autocli2.base.admins.based_admin import BaseAdmin
+
 # Notification log model import:
 from .models.converted_data import ConvertedData
 from .models.execution import Execution
@@ -10,10 +13,11 @@ from .models.snapshot import Snapshot
 
 # All messenger admin classes:
 @admin.register(Executor)
-class ExecutorAdmin(admin.ModelAdmin):
+class ExecutorAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'is_active', 'status', 'output', 'results'
+        'name', 'is_active', 'status', 'output', 'results',
+        'created', 'updated'
     )
     list_display_links = ('name',)
     list_filter = (
@@ -28,19 +32,17 @@ class ExecutorAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated', 'name', 'description')
-        }),
-        ('Type of executor', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('execution_protocol', 'executor_type')
+            'fields': ('is_active', 'created', 'updated', 'name',
+                       'description', 'executor_type')
         }),
         ('Task type executor', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('task', 'task_arguments', 'task_id')
+            'fields': ('task', 'task_arguments')
         }),
         ('Host type executor', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('hosts', 'connection_templates', 'credential')
+            'fields': ('execution_protocol', 'hosts',
+                       'connection_templates', 'credential')
         }),
         ('Executor status', {
             'classes': ('wide', 'extrapretty',),
@@ -54,10 +56,10 @@ class ExecutorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Snapshot)
-class SnapshotAdmin(admin.ModelAdmin):
+class SnapshotAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'is_active', 'status', 'created'
+        'name', 'is_active', 'created', 'updated'
     )
     list_display_links = ('name',)
     list_filter = (
@@ -79,14 +81,14 @@ class SnapshotAdmin(admin.ModelAdmin):
 
 
 @admin.register(ConvertedData)
-class ConvertedDataAdmin(admin.ModelAdmin):
+class ConvertedDataAdmin(BaseAdmin):
 
     list_display = (
-        'pk', 'created', 'updated', 'value', 'json_value'
+        'pk', 'value', 'json_value', 'created', 'updated'
     )
     list_display_links = ('pk',)
     list_filter = (
-        'is_active', 'snapshot'
+        'snapshot',
     )
     search_fields = (
         'name', 'description', 'value', 'json_value'
@@ -103,20 +105,23 @@ class ConvertedDataAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = (
-        'created', 'updated',
+        'created', 'updated', 'snapshot', 'data_template',
+        'execution', 'value', 'json_value'
     )
     empty_value_display = '--None--'
 
 
 @admin.register(Execution)
-class ExecutionAdmin(admin.ModelAdmin):
+class ExecutionAdmin(BaseAdmin):
 
     list_display = (
-        'pk', 'executor', 'hosts', 'connection_templates', 'credential', 'result_status'
+        'pk', 'executor', 'hosts', 'connection_templates', 'credential',
+        'result_status', 'created', 'updated'
     )
     list_display_links = ('pk',)
     list_filter = (
-        'is_active', 'snapshot'
+        'executor', 'hosts', 'connection_templates', 'credential',
+        'result_status'
     )
     search_fields = (
         'name', 'description', 'value', 'json_value'
@@ -124,8 +129,11 @@ class ExecutionAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('created', 'updated', 'executor',
-                        'hosts', 'connection_templates', 'credential',
+            'fields': ('created', 'updated', 'executor')
+        }),
+        ('Execution information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('hosts', 'connection_templates', 'credential',
                         'result_status')
         }),
         ('Status information', {
@@ -143,6 +151,9 @@ class ExecutionAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = (
-        'created', 'updated',
+        'created', 'updated', 'ssh_raw_data_status', 'ssh_processed_data_status',
+        'ssh_raw_data', 'ssh_processed_data', 'https_response_status',
+        'https_response_code', 'https_response', 'hosts', 'connection_templates',
+        'credential', 'result_status', 'executor'
     )
     empty_value_display = '--None--'

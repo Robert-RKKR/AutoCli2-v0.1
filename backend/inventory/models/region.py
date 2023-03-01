@@ -15,3 +15,12 @@ class Region(StatusModel, DataTimeModel, IdentificationModel):
         # Model name values:
         verbose_name = 'Region'
         verbose_name_plural = 'Regions'
+
+    # Region details:
+    code = models.CharField(
+        verbose_name='Region code',
+        help_text='Xxx.',
+        max_length=32,
+        null=True,
+        blank=True,
+    )

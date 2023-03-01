@@ -22,7 +22,7 @@ class ConvertedData(DataTimeModel):
     # Relations with other classes:
     snapshot = models.ForeignKey(
         Snapshot,
-        verbose_name='Xxx',
+        verbose_name='Snapshot',
         help_text='Xxx.',
         on_delete=models.PROTECT,
         null=True,
@@ -31,14 +31,14 @@ class ConvertedData(DataTimeModel):
 
     data_template = models.ForeignKey(
         DataTemplate,
-        verbose_name='Xxx',
+        verbose_name='Data template',
         help_text='Xxx.',
         on_delete=models.PROTECT,
     )
 
     execution = models.ForeignKey(
         Execution,
-        verbose_name='Xxx',
+        verbose_name='Execution',
         help_text='Xxx.',
         on_delete=models.PROTECT,
     )

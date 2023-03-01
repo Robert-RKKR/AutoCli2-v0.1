@@ -84,19 +84,19 @@ class Execution(DataTimeModel):
 
     # HTTP status and data:
     https_response_status = models.BooleanField(
-        verbose_name='HTTP/S response status',
+        verbose_name='HTTP(S) response status',
         help_text='Xxx.',
         default=False,
     )
 
     https_response_code = models.IntegerField(
-        verbose_name='HTTP/S response code',
+        verbose_name='HTTP(S) response code',
         help_text='Xxx.',
         default=0,
     )
 
     https_response = models.JSONField(
-        verbose_name='HTTP/S response',
+        verbose_name='HTTP(S) response',
         help_text='Xxx.',
         null=True,
         blank=True,

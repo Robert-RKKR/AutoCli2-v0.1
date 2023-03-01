@@ -12,13 +12,13 @@ from .models.model_group_template import ModelGroupTemplate
 from .models.model_template import ModelTemplate
 
 
-# All connectors admin classes: 
+# All connectors admin classes:
 @admin.register(ConnectionTemplate)
 class ConnectionTemplateAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'created', 'updated', 'name', 'execution_protocol',
-        'ssh_command', 'http_url',
+        'name', 'is_active', 'execution_protocol',
+        'ssh_command', 'http_url', 'created', 'updated'
     )
     list_display_links = ('name',)
     list_filter = (
@@ -51,70 +51,14 @@ class ConnectionTemplateAdmin(BaseAdmin):
     readonly_fields = (
         'created', 'updated',
     )
-    readonly_fields = (
-        'created', 'updated',
-    )
-    empty_value_display = '--None--'
-    
-
-    
-@admin.register(DataGroupTemplate)
-class DataGroupTemplateAdmin(admin.ModelAdmin):
-
-    list_display = (
-        'pk', 'created', 'updated', 'model_group_template', 'connection_template',
-    )
-    list_filter = (
-        'is_active', 'model_group_template', 'connection_template',
-    )
-    search_fields = (
-        'keys', 'keys_regex',
-    )
-    fieldsets = (
-        ('Basic information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated',
-                        'model_group_template', 'connection_template')
-        }),
-        ('Data group specific fields', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('keys', 'keys_regex',),
-        }),
-    )
-    empty_value_display = '--None--'
-
-    
-@admin.register(DataTemplate)
-class DataTemplateAdmin(admin.ModelAdmin):
-
-    list_display = (
-        'pk', 'created', 'updated',
-    )
-    list_filter = (
-        'is_active', 'data_group_template', 'model_template',
-    )
-    search_fields = (
-        'path',
-    )
-    fieldsets = (
-        ('Basic information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated',
-                        'data_group_template', 'model_template')
-        }),
-        ('Data path', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('path',),
-        }),
-    )
     empty_value_display = '--None--'
 
     
 @admin.register(ModelGroupTemplate)
-class ModelGroupTemplateAdmin(admin.ModelAdmin):
+class ModelGroupTemplateAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'created', 'updated'
+        'name', 'is_active', 'created', 'updated'
     )
     list_display_links = ('name',)
     list_filter = (
@@ -126,7 +70,8 @@ class ModelGroupTemplateAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated', 'name', 'description')
+            'fields': ('is_active', 'created', 'updated', 'name',
+                       'description')
         }),
     )
     readonly_fields = (
@@ -136,10 +81,10 @@ class ModelGroupTemplateAdmin(admin.ModelAdmin):
 
     
 @admin.register(ModelTemplate)
-class ModelTemplateAdmin(admin.ModelAdmin):
+class ModelTemplateAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'created', 'updated'
+        'name', 'is_active', 'created', 'updated'
     )
     list_display_links = ('name',)
     list_filter = (
@@ -159,6 +104,66 @@ class ModelTemplateAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = (
-        'created', 'updated',
+        'created', 'updated'
+    )
+    empty_value_display = '--None--'
+    
+
+    
+@admin.register(DataGroupTemplate)
+class DataGroupTemplateAdmin(BaseAdmin):
+
+    list_display = (
+        'pk', 'is_active', 'model_group_template', 'connection_template',
+        'created', 'updated'
+    )
+    list_filter = (
+        'is_active', 'model_group_template', 'connection_template'
+    )
+    search_fields = (
+        'keys', 'keys_regex'
+    )
+    fieldsets = (
+        ('Basic information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('is_active', 'created', 'updated',
+                        'model_group_template', 'connection_template')
+        }),
+        ('Data group specific fields', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('keys', 'keys_regex',),
+        }),
+    )
+    readonly_fields = (
+        'created', 'updated'
+    )
+    empty_value_display = '--None--'
+
+    
+@admin.register(DataTemplate)
+class DataTemplateAdmin(BaseAdmin):
+
+    list_display = (
+        'pk', 'is_active', 'created', 'updated'
+    )
+    list_filter = (
+        'is_active', 'data_group_template', 'model_template'
+    )
+    search_fields = (
+        'path',
+    )
+    fieldsets = (
+        ('Basic information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('is_active', 'created', 'updated',
+                        'data_group_template', 'model_template')
+        }),
+        ('Data path', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('path',),
+        }),
+    )
+    readonly_fields = (
+        'created', 'updated'
     )
     empty_value_display = '--None--'
