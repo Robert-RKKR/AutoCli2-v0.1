@@ -20,7 +20,9 @@ class ConnectionTemplateAdmin(BaseAdmin):
         'name', 'is_active', 'execution_protocol',
         'ssh_command', 'http_url', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active', 'execution_protocol', 'ssh_type', 'http_method',
     )
@@ -60,7 +62,9 @@ class ModelGroupTemplateAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active',
     )
@@ -86,7 +90,9 @@ class ModelTemplateAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active', 'model_group_template'
     )
@@ -117,6 +123,9 @@ class DataGroupTemplateAdmin(BaseAdmin):
         'pk', 'is_active', 'model_group_template', 'connection_template',
         'created', 'updated'
     )
+    list_display_links = (
+        'pk',
+    )
     list_filter = (
         'is_active', 'model_group_template', 'connection_template'
     )
@@ -145,6 +154,9 @@ class DataTemplateAdmin(BaseAdmin):
 
     list_display = (
         'pk', 'is_active', 'created', 'updated'
+    )
+    list_display_links = (
+        'pk',
     )
     list_filter = (
         'is_active', 'data_group_template', 'model_template'

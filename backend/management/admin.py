@@ -7,16 +7,12 @@ from .models.global_settings import GlobalSetting
 # from .models.administrator import Administrator
 
 
-# All messenger admin classes:
-admin.site.register(AdministratorSetting)
-# admin.site.register(Administrator)
-
 # All management admin classes:
 @admin.register(GlobalSetting)
 class GlobalSettingAdmin(admin.ModelAdmin):
 
     list_display = (
-        'pk', 'name', 'is_current',
+        'pk', 'is_active', 'name', 'is_current', 'created', 'updated'
     )
     search_fields = (
         'name',
@@ -29,5 +25,22 @@ class GlobalSettingAdmin(admin.ModelAdmin):
         ('Notification settings', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('notification_level', 'logger_level',),
+        }),
+    )
+
+
+@admin.register(AdministratorSetting)
+class AdministratorSettingAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'pk', 'default_credentials',
+    )
+    search_fields = (
+        'pk',
+    )
+    fieldsets = (
+        ('Basic information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('default_credentials', 'administrator')
         }),
     )

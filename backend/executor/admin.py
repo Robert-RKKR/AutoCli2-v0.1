@@ -19,7 +19,9 @@ class ExecutorAdmin(BaseAdmin):
         'name', 'is_active', 'status', 'output', 'results',
         'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active', 'connection_templates', 'credential',
         'execution_protocol', 'executor_type'
@@ -61,7 +63,9 @@ class SnapshotAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active', 'created'
     )
@@ -86,7 +90,9 @@ class ConvertedDataAdmin(BaseAdmin):
     list_display = (
         'pk', 'value', 'json_value', 'created', 'updated'
     )
-    list_display_links = ('pk',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'snapshot',
     )
@@ -118,7 +124,9 @@ class ExecutionAdmin(BaseAdmin):
         'pk', 'executor', 'hosts', 'connection_templates', 'credential',
         'result_status', 'created', 'updated'
     )
-    list_display_links = ('pk',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'executor', 'hosts', 'connection_templates', 'credential',
         'result_status'

@@ -21,7 +21,9 @@ class CredentialAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active',
     )
@@ -51,7 +53,9 @@ class ApiSettingAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active',
     )
@@ -94,7 +98,9 @@ class PlatformAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'api_setting', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active',
     )
@@ -120,7 +126,9 @@ class SoftwareAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active',
     )
@@ -146,7 +154,9 @@ class RegionAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'code', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active',
     )
@@ -172,7 +182,9 @@ class SiteAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active', 'region'
     )
@@ -202,7 +214,9 @@ class HostAdmin(BaseAdmin):
     list_display = (
         'name', 'is_active', 'site', 'software', 'created', 'updated'
     )
-    list_display_links = ('name',)
+    list_display_links = (
+        'name',
+    )
     list_filter = (
         'is_active', 'site', 'software', 'credential'
     )
