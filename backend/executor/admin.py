@@ -87,6 +87,9 @@ class SnapshotAdmin(BaseAdmin):
 @admin.register(ConvertedData)
 class ConvertedDataAdmin(BaseAdmin):
 
+    actions = [
+        'export_hosts'
+    ]
     list_display = (
         'pk', 'value', 'json_value', 'created', 'updated'
     )
@@ -120,6 +123,9 @@ class ConvertedDataAdmin(BaseAdmin):
 @admin.register(Execution)
 class ExecutionAdmin(BaseAdmin):
 
+    actions = [
+        'export_hosts'
+    ]
     list_display = (
         'pk', 'executor', 'hosts', 'connection_templates', 'credential',
         'result_status', 'created', 'updated'
