@@ -26,8 +26,13 @@ def notifications_test(request):
     return_output = notification.info(
         '#################',
         host_one, 2)
-    con = Connection(host_one)
-    data['return_output'] = con.get('restconf/data/Cisco-IOS-XE-native:native')
+    # con = Connection(host_one)
+    # data['return_output'] = con.get('restconf/data/Cisco-IOS-XE-native:native')
+
+    from django.core.serializers import serialize
+    import json
+    output = serialize('json', [host_one], use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    data['return_output'] = json.loads(output)[0]['fields'].keys()
    
     # GET method:
     return render(request, 'test.html', data)

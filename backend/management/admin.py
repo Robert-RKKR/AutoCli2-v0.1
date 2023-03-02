@@ -12,7 +12,7 @@ from .models.global_settings import GlobalSetting
 class GlobalSettingAdmin(admin.ModelAdmin):
 
     list_display = (
-        'pk', 'is_active', 'name', 'is_current', 'created', 'updated'
+        'pk', 'name', 'is_current', 'created', 'updated'
     )
     search_fields = (
         'name',

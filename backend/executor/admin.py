@@ -91,13 +91,13 @@ class ConvertedDataAdmin(BaseAdmin):
         'pk', 'value', 'json_value', 'created', 'updated'
     )
     list_display_links = (
-        'name',
+        'pk',
     )
     list_filter = (
         'snapshot',
     )
     search_fields = (
-        'name', 'description', 'value', 'json_value'
+        'value', 'json_value'
     )
     fieldsets = (
         ('Basic information', {
@@ -125,14 +125,14 @@ class ExecutionAdmin(BaseAdmin):
         'result_status', 'created', 'updated'
     )
     list_display_links = (
-        'name',
+        'pk',
     )
     list_filter = (
         'executor', 'hosts', 'connection_templates', 'credential',
         'result_status'
     )
     search_fields = (
-        'name', 'description', 'value', 'json_value'
+        'value', 'json_value'
     )
     fieldsets = (
         ('Basic information', {

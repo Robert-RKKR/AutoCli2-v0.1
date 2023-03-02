@@ -210,7 +210,7 @@ class SiteAdmin(BaseAdmin):
     
 @admin.register(Host)
 class HostAdmin(BaseAdmin):
-
+    
     list_display = (
         'name', 'is_active', 'site', 'software', 'created', 'updated'
     )
