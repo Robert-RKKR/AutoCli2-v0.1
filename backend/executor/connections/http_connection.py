@@ -13,6 +13,12 @@ from inventory.models.host import Host
 # Settings import:
 from management.settings import collect_global_settings
 
+# Constance:
+METHODS = [
+    'GET',
+    'POST'
+]
+
 
 # HTTP connection class:
 class Connection:
@@ -83,8 +89,31 @@ class Connection:
         hostname of HTTP/S server.
         """
         return self.hostname
+    
+    def connection(self, method: str, url: str, params: dict = {}):
+        """
+        Connection class representation is IP address /
+        hostname of HTTP/S server.
 
-    def get(self, url: str, params: list[str] = []):
+        Parameters:
+        -----------------
+        method: string
+            HTTP connection method (GET, POST, DELETE).
+        url: string
+            Xxx.
+        params: list of strings
+            Xxx.
+        """
+
+        # Check if provided HTTP method is valid:
+        if method in METHODS:
+            # Execute HTTP(S) request:
+            return self._connection_center('GET', url, params)
+        else:
+            raise NotImplementedError(
+                f'Provided HTTP(S) method "{method}", is not supported')
+
+    def get(self, url: str, params: dict = {}):
         """
         Connection class representation is IP address /
         hostname of HTTP/S server.
@@ -97,6 +126,7 @@ class Connection:
             Xxx.
         """
 
+        # Execute HTTP(S) request:
         return self._connection_center('GET', url, params)
 
     def _connection_center(self, request_method, url, params, body=None):
@@ -106,8 +136,8 @@ class Connection:
         if not isinstance(url, str):
             raise TypeError('The provided url variable must be string.')
         # Verify if the params variable is a valid sting:
-        if not isinstance(params, list) and not params is None:
-            raise TypeError('The provided params variable must be list of strings.')
+        if not isinstance(params, dict) and not params is None:
+            raise TypeError('The provided params variable must be list of dictionary.')
 
         request_url = f'https://{self.hostname}:{self.http_port}/{url}'
 

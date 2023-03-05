@@ -48,30 +48,14 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         help_text='Xxx.',
         blank=True,
     )
-    
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
         verbose_name='Connection templates',
         help_text='Xxx.',
         blank=True,
     )
-    
-    credential = models.ForeignKey(
-        Credential,
-        verbose_name='Credential',
-        help_text='Xxx.',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-    )
 
-    # Execution / executor type:
-    execution_protocol = models.IntegerField(
-        verbose_name='Execution protocol',
-        help_text='Network protocol used to execute the connection template (SSH / HTTP).',
-        choices=EXECUTION_PROTOCOL,
-        default=1,
-    )
+    # Executor type:
     executor_type = models.IntegerField(
         verbose_name='Executor type',
         help_text='Xxx.',
@@ -86,7 +70,6 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         choices=TASK_ID,
         default=0,
     )
-
     task_arguments = models.JSONField(
         verbose_name='Task arguments',
         help_text='Xxx.',
@@ -101,14 +84,12 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         choices=EXECUTOR_STATUS,
         default=0,
     )
-
     output = models.JSONField(
         verbose_name='Output',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
-
     results = models.BooleanField(
         verbose_name='Results',
         help_text='Xxx.',

@@ -37,4 +37,4 @@ class CheckHostStatusTask(ConnectionBaseTask):
         # T
 
 # Task registration:
-# task = app.register_task(CheckHostStatusTask())
+CheckHostStatusTask = app.register_task(CheckHostStatusTask())

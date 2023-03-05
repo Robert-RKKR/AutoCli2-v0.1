@@ -42,8 +42,7 @@ class ConnectionTemplateAdmin(BaseAdmin):
         }),
         ('HTTP/S information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('http_method', 'http_url', 'http_header',
-                       'http_params', 'http_body'),
+            'fields': ('http_method', 'http_url', 'http_body', 'http_params'),
         }),
         ('Output validation', {
             'classes': ('wide', 'extrapretty',),

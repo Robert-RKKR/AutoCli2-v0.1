@@ -94,13 +94,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
 
-    http_header = models.JSONField(
-        verbose_name='HTTP(S) heder',
-        help_text='HTTP(S) heder field used to generate API request.',
-        null=True,
-        blank=True,
-    )
-
     http_params = models.JSONField(
         verbose_name='HTTP(S) parameters',
         help_text='HTTP(S) parameters field used to generate API request.',

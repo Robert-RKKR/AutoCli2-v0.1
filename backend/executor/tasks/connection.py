@@ -19,7 +19,7 @@ from inventory.models.credentials import Credential
 from inventory.models.host import Host
 
 # Helper function:
-def combine_data(first, second):
+def combine_data(first, second) -> dict:
     # Check if provided data belongs to dictionary instance:
     if not isinstance(first, dict):
         first = None
@@ -36,40 +36,76 @@ def combine_data(first, second):
     elif second:
         return second
     else:
-        return False
+        return {}
    
+def http_template_execution(host: Host,
+    connection_template: ConnectionTemplate,
+    con: Connection):
+
+    # Collect host related data:
+    if host.platform:
+        host_default_params = host.platform.api_default_params
+    else:
+        host_default_params = {}
+    # Collect template data:
+    template_http_method = connection_template.get_http_method_display()
+    template_http_url = connection_template.http_url
+    template_http_params = connection_template.http_params
+    template_http_body = connection_template.http_body
+    # Combine collected param data:
+    http_params = combine_data(template_http_params, host_default_params)
+    # Execute template:
+    output = con.connection(
+        template_http_method,
+        template_http_url,
+        http_params)
+    # Return HTTPS request output:
+    return output
+
+def http_templates_execution(host: Host,
+    connection_templates: list[ConnectionTemplate]):
+
+    # Collect host related data:
+    if host.platform:
+        host_default_header = host.platform.api_default_header
+    else:
+        host_default_header = {}
+    # Create HTTP connection:
+    if host_default_header:
+        con = Connection(host, host_default_header)
+    else:
+        con = Connection(host)
+    # Execute template:
+    collected_outputs = {}
+    # Iterate thru all provided templates:
+    for template in connection_templates:
+        # Collect output from template execution:
+        output = http_template_execution(
+            host, template, con)
+        # Add output to collected output variable:
+        collected_outputs[template] = output
+    # Return all collected template outputs:
+    return collected_outputs
 
 # Test taks class:
 class ConnectionBaseTask(BaseTask):
     """
     Xxx.
     """
+        
+    def _http_connections(self,
+    hosts: list[Host],
+    connection_templates: list[ConnectionTemplate]):
+        
+        
+        # Execute devices:
+        collected_outputs = {}
+        # Iterate thru all provided devices:
+        for host in hosts:
+            # Collect output from device templates executions:
+            output = http_templates_execution(
+                host, connection_templates)
+            # Add output to collected output variable:
+            collected_outputs[host] = output
 
-    def _http_connection(self,
-        connection_templates: ConnectionTemplate,
-        credential: Credential,
-        host: Host):
-
-        # Collect host related data:
-        if host.platform:
-            self.host_default_header = host.platform.api_default_header
-            self.host_default_params = host.platform.api_default_params
-        else:
-            self.host_default_header = None
-            self.host_default_params = None
-
-        # Collect template data:
-        self.template_http_method = connection_templates.http_method
-        self.template_http_url = connection_templates.http_url
-        self.template_http_header = connection_templates.http_header
-        self.template_http_params = connection_templates.http_params
-        self.template_http_body = connection_templates.http_body
-        # Combine collected heder data:
-        self.http_header = combine_data(self.template_http_header, self.host_default_header)
-        # Combine collected param data:
-        self.http_params = combine_data(self.template_http_params, self.host_default_params)
-        # Create connection:
-        if self.http_header:
-            con = Connection(host, self.http_header)
-        else:
-            con = Connection(host)
+        return collected_outputs

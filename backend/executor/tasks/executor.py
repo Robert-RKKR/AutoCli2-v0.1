@@ -28,12 +28,25 @@ class ExecutorTask(ConnectionBaseTask):
     logger_name = 'ConnectionExecutor'
     channel_name = 'execution'
 
-    def _run(self, executor: Executor, *args, **kwargs) -> None:
-        # Check provided data:
-        if not isinstance(executor, Executor):
-            raise TypeError('Provided executor object is not a valid Executor '\
-            f'object. Provided: "{executor}"')
-        print('======> ', executor)
+    def _run(self, data, *args, **kwargs) -> None:
+        # Collect task data:
+        executor_id = data[0]
+        try: # Try to collect executor:
+            executor = Executor.objects.get(pk=executor_id)
+        except:
+            pass # Pass for now.
+        else:
+            # Check executor type:
+            if executor.executor_type == 1:
+                pass
+            elif executor.executor_type == 2:
+                # Collect executor data:
+                hosts = executor.hosts.all()
+                connection_templates = executor.connection_templates.all()
+                # Execute template:
+                output = self._http_connections(
+                    hosts, connection_templates)
+                return output
 
 # Task registration:
-# task = app.register_task(ExecutorTask())
+ExecutorTask = app.register_task(ExecutorTask())
