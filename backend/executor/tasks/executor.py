@@ -45,7 +45,7 @@ class ExecutorTask(ConnectionBaseTask):
                 connection_templates = executor.connection_templates.all()
                 # Execute template:
                 output = self._http_connections(
-                    hosts, connection_templates)
+                    hosts, connection_templates, executor)
                 return output
 
 # Task registration:

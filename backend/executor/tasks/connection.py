@@ -15,8 +15,11 @@ from executor.connections.http_connection import Connection
 from connector.models.connection_template import ConnectionTemplate
 
 # Inventory models import:
-from inventory.models.credentials import Credential
 from inventory.models.host import Host
+
+# Executors models import:
+from executor.models.execution import Execution
+from executor.models.executor import Executor
 
 # Helper function:
 def combine_data(first, second) -> dict:
@@ -40,7 +43,8 @@ def combine_data(first, second) -> dict:
    
 def http_template_execution(host: Host,
     connection_template: ConnectionTemplate,
-    con: Connection):
+    con: Connection,
+    executor: Executor):
 
     # Collect host related data:
     if host.platform:
@@ -63,7 +67,8 @@ def http_template_execution(host: Host,
     return output
 
 def http_templates_execution(host: Host,
-    connection_templates: list[ConnectionTemplate]):
+    connection_templates: list[ConnectionTemplate],
+    executor: Executor):
 
     # Collect host related data:
     if host.platform:
@@ -81,7 +86,7 @@ def http_templates_execution(host: Host,
     for template in connection_templates:
         # Collect output from template execution:
         output = http_template_execution(
-            host, template, con)
+            host, template, con, executor)
         # Add output to collected output variable:
         collected_outputs[template] = output
     # Return all collected template outputs:
@@ -95,7 +100,8 @@ class ConnectionBaseTask(BaseTask):
         
     def _http_connections(self,
     hosts: list[Host],
-    connection_templates: list[ConnectionTemplate]):
+    connection_templates: list[ConnectionTemplate],
+    executor: Executor):
         
         
         # Execute devices:
@@ -104,7 +110,7 @@ class ConnectionBaseTask(BaseTask):
         for host in hosts:
             # Collect output from device templates executions:
             output = http_templates_execution(
-                host, connection_templates)
+                host, connection_templates, executor)
             # Add output to collected output variable:
             collected_outputs[host] = output
 

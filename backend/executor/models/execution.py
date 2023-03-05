@@ -46,6 +46,15 @@ class Execution(DataTimeModel):
         on_delete=models.PROTECT
     )
 
+    # Related task ID:
+    task_id = models.CharField(
+        verbose_name='Task ID',
+        help_text='ID of the associated task.',
+        max_length=64,
+        null=True,
+        blank=True,
+    )
+
     # 
     result_status = models.BooleanField(
         verbose_name='Result status',

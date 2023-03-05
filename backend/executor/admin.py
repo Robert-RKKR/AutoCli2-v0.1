@@ -126,7 +126,7 @@ class ExecutionAdmin(BaseAdmin):
     ]
     list_display = (
         'pk', 'executor', 'hosts', 'connection_templates', 'credential',
-        'result_status', 'created', 'updated'
+        'task_id', 'result_status', 'created', 'updated'
     )
     list_display_links = (
         'pk',
@@ -146,7 +146,7 @@ class ExecutionAdmin(BaseAdmin):
         ('Execution information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('hosts', 'connection_templates', 'credential',
-                        'result_status')
+                        'task_id', 'result_status')
         }),
         ('Status information', {
             'classes': ('wide', 'extrapretty',),
@@ -166,6 +166,6 @@ class ExecutionAdmin(BaseAdmin):
         'created', 'updated', 'ssh_raw_data_status', 'ssh_processed_data_status',
         'ssh_raw_data', 'ssh_processed_data', 'https_response_status',
         'https_response_code', 'https_response', 'hosts', 'connection_templates',
-        'credential', 'result_status', 'executor'
+        'credential', 'result_status', 'executor', 'task_id'
     )
     empty_value_display = '--None--'
