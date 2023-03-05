@@ -125,14 +125,14 @@ class ExecutionAdmin(BaseAdmin):
         'export_hosts'
     ]
     list_display = (
-        'pk', 'executor', 'hosts', 'connection_templates', 'credential',
+        'pk', 'executor', 'host', 'connection_template', 'credential',
         'task_id', 'result_status', 'created', 'updated'
     )
     list_display_links = (
         'pk',
     )
     list_filter = (
-        'executor', 'hosts', 'connection_templates', 'credential',
+        'executor', 'host', 'connection_template', 'credential',
         'result_status'
     )
     search_fields = (
@@ -145,7 +145,7 @@ class ExecutionAdmin(BaseAdmin):
         }),
         ('Execution information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('hosts', 'connection_templates', 'credential',
+            'fields': ('host', 'connection_template', 'credential',
                         'task_id', 'result_status')
         }),
         ('Status information', {
@@ -165,7 +165,7 @@ class ExecutionAdmin(BaseAdmin):
     readonly_fields = (
         'created', 'updated', 'ssh_raw_data_status', 'ssh_processed_data_status',
         'ssh_raw_data', 'ssh_processed_data', 'https_response_status',
-        'https_response_code', 'https_response', 'hosts', 'connection_templates',
+        'https_response_code', 'https_response', 'host', 'connection_template',
         'credential', 'result_status', 'executor', 'task_id'
     )
     empty_value_display = '--None--'

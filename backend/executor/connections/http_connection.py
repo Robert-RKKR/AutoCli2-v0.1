@@ -71,6 +71,7 @@ class Connection:
         self.headers = headers
 
         # Connection status:
+        self.response_code = None
         self.converted_response = None
         self.connection_status = None
         self.xml_status = None
@@ -206,6 +207,8 @@ class Connection:
                         'was a informational HTTPS request. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
+                # Change response code:
+                self.response_code = response.status_code
                 # Change connection status to True:
                 self.status = True
             elif response.status_code < 300: # All response from 200 to 299.
@@ -214,6 +217,8 @@ class Connection:
                         'was a success HTTPS request. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
+                # Change response code:
+                self.response_code = response.status_code
                 # Change connection status to True:
                 self.status = True
             elif response.status_code < 400: # All response from 300 to 399.
@@ -222,6 +227,8 @@ class Connection:
                         'returned redirection HTTPS error. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
+                # Change response code:
+                self.response_code = response.status_code
                 # Change connection status to False:
                 self.status = False
             elif response.status_code < 500: # All response from 400 to 499.
@@ -230,6 +237,8 @@ class Connection:
                         'returned client HTTPS error. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
+                # Change response code:
+                self.response_code = response.status_code
                 # Change connection status to False:
                 self.status = False
             elif response.status_code < 600: # All response from 500 to 599.
@@ -238,6 +247,8 @@ class Connection:
                         'returned server HTTPS error. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
+                # Change response code:
+                self.response_code = response.status_code
                 # Change connection status to False:
                 self.status = False
             

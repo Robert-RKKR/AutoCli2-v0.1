@@ -27,13 +27,13 @@ class Execution(DataTimeModel):
         help_text='Xxx.',
         on_delete=models.PROTECT,
     )
-    hosts = models.ForeignKey(
+    host = models.ForeignKey(
         Host,
         verbose_name='Hosts',
         help_text='Xxx.',
         on_delete=models.PROTECT
     )
-    connection_templates = models.ForeignKey(
+    connection_template = models.ForeignKey(
         ConnectionTemplate,
         verbose_name='Connection templates',
         help_text='Xxx.',

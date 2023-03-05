@@ -40,11 +40,38 @@ def combine_data(first, second) -> dict:
         return second
     else:
         return {}
+    
+def save_execution(host: Host,
+    connection_template: ConnectionTemplate,
+    executor: Executor,
+    task_id: str,
+    response,
+    response_status,
+    response_code):
+
+    # Collect execution data:
+    execution_data = {
+        'executor': executor,
+        'host': host,
+        'connection_template': connection_template,
+        'credential': host.credential,
+        'task_id': task_id,
+        'https_response_status': response_status,
+        'https_response_code': response_code,
+        'https_response': response}
+
+    try: # Try to create a new execution object:
+        execution = Execution.objects.create(**execution_data)
+    except:
+        pass
+    else:
+        pass
    
 def http_template_execution(host: Host,
     connection_template: ConnectionTemplate,
     con: Connection,
-    executor: Executor):
+    executor: Executor,
+    task_id: str):
 
     # Collect host related data:
     if host.platform:
@@ -63,12 +90,21 @@ def http_template_execution(host: Host,
         template_http_method,
         template_http_url,
         http_params)
+    # Create execution object:
+    save_execution(host,
+        connection_template,
+        executor,
+        task_id,
+        output,
+        con.status,
+        con.response_code)
     # Return HTTPS request output:
     return output
 
 def http_templates_execution(host: Host,
     connection_templates: list[ConnectionTemplate],
-    executor: Executor):
+    executor: Executor,
+    task_id: str):
 
     # Collect host related data:
     if host.platform:
@@ -86,7 +122,7 @@ def http_templates_execution(host: Host,
     for template in connection_templates:
         # Collect output from template execution:
         output = http_template_execution(
-            host, template, con, executor)
+            host, template, con, executor, task_id)
         # Add output to collected output variable:
         collected_outputs[template] = output
     # Return all collected template outputs:
@@ -110,7 +146,7 @@ class ConnectionBaseTask(BaseTask):
         for host in hosts:
             # Collect output from device templates executions:
             output = http_templates_execution(
-                host, connection_templates, executor)
+                host, connection_templates, executor, self.task_id)
             # Add output to collected output variable:
             collected_outputs[host] = output
 
