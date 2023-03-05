@@ -14,7 +14,6 @@ channel_layer = get_channel_layer()
 from asgiref.sync import async_to_sync
 
 # Settings import:
-from django.conf import settings
 from management.settings import collect_global_settings
 
 # Severity constants declaration:
@@ -24,6 +23,31 @@ WARNING = 3
 ERROR = 2
 CRITICAL = 1
 
+# Helper function:
+def verification(message, correlated_object, action_type):
+    """
+    Provided data verification.
+    """
+
+    # Verify if the notification message variable is a valid sting:
+    if isinstance(message, str):
+        if len(message) > 256:
+            raise ValueError('The provided notification message variable is to long (Allowed max 256 signs).')
+    elif message is not None:
+        raise TypeError('The provided notification message variable must be string. '\
+        f'Provided: "{message}"')
+
+    # Verify if provided object is valid:
+    if not isinstance(correlated_object, BaseModel) and correlated_object is not None:
+        if correlated_object is not None:
+            raise TypeError('Provided object id not a valid Django object. '\
+            f' Provided: "{correlated_object}"')
+
+    # Verify if the action type variable is a valid sting:     
+    if not isinstance(action_type, int) and action_type is not None:
+        raise TypeError('The provided action type variable must be integer. '\
+        f' Provided: "{action_type}"')
+
 
 # Messenger class:
 class Messenger:
@@ -31,7 +55,7 @@ class Messenger:
 
     def __init__(self,
         application: str = '--NoName--',
-        task_id: str = None) -> None:
+        task_id: str = '') -> None:
         
         # Notification constants:
         self.IS_NOTIFICATION = None
@@ -88,7 +112,7 @@ class Messenger:
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = None) -> NotificationModel:
+        execution_time: float = 0) -> NotificationModel:
         """
         Create a new critical log / notification based on the following data:
 
@@ -124,7 +148,7 @@ class Messenger:
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = None) -> NotificationModel:
+        execution_time: float = 0) -> NotificationModel:
         """
         Create a new error log / notification based on the following data:
 
@@ -160,7 +184,7 @@ class Messenger:
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = None) -> NotificationModel:
+        execution_time: float = 0) -> NotificationModel:
         """
         Create a new warning log / notification based on the following data:
 
@@ -196,7 +220,7 @@ class Messenger:
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = None) -> NotificationModel:
+        execution_time: float = 0) -> NotificationModel:
         """
         Create a new info log / notification based on the following data:
 
@@ -232,7 +256,7 @@ class Messenger:
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = None) -> NotificationModel:
+        execution_time: float = 0) -> NotificationModel:
         """
         Create a new debug log / notification based on the following data:
 
@@ -280,7 +304,7 @@ class Messenger:
         self.execution_time = execution_time
 
         # Verify provided variables:
-        self._verification()
+        verification(message, correlated_object, action_type)
         
         # Collect object information:
         self._collect_object_information()
@@ -326,27 +350,3 @@ class Messenger:
                 self.object_representation = self.correlated_object.name
             except:
                 self.object_representation = 'Empty'
-
-    def _verification(self):
-        """
-        Provided data verification.
-        """
-
-        # Verify if the notification message variable is a valid sting:
-        if isinstance(self.message, str):
-            if len(self.message) > 256:
-                raise ValueError('The provided notification message variable is to long (Allowed max 256 signs).')
-        elif self.message is not None:
-            raise TypeError('The provided notification message variable must be string. '\
-            f'Provided: "{self.message}"')
-
-        # Verify if provided object is valid:
-        if not isinstance(self.correlated_object, BaseModel) and self.correlated_object is not None:
-            if self.correlated_object is not None:
-                raise TypeError('Provided object id not a valid Django object. '\
-                f' Provided: "{self.correlated_object}"')
-
-        # Verify if the action type variable is a valid sting:     
-        if not isinstance(self.action_type, int) and self.action_type is not None:
-            raise TypeError('The provided action type variable must be integer. '\
-            f' Provided: "{self.action_type}"')

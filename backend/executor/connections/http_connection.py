@@ -10,6 +10,9 @@ from notification.logger import Logger
 # Application Import:
 from inventory.models.host import Host
 
+# Settings import:
+from management.settings import collect_global_settings
+
 
 # HTTP connection class:
 class Connection:
@@ -17,7 +20,7 @@ class Connection:
     # Logger class initiation:
     logger = Logger('HTTP/S connection')
 
-    def __init__(self, host: Host, headers: dict = None) -> None:
+    def __init__(self, host: Host, headers: dict = {}) -> None:
         """
         The HTTP/S connection class uses requests library,
         to connect with Https server for API connections.
@@ -34,7 +37,7 @@ class Connection:
         get: (url, connectionType='GET', payload=None)
             Xxx
         """
-
+        
         # Verify if the host variable is a valid host object:
         if not isinstance(host, Host):
             raise TypeError('The provided host must be instance of Host class.')
@@ -49,9 +52,14 @@ class Connection:
         self.certificate = host.certificate_check
 
         # Collect data from host credentials object:
-        self.token = host.credential.token
-        self.username = host.credential.username
-        self.password = host.credential.password
+        if host.credential:
+            self.token = host.credential.token
+            self.username = host.credential.username
+            self.password = host.credential.password
+        else:
+            self.token = None
+            self.username = collect_global_settings('default_user')
+            self.password = collect_global_settings('default_password')
 
         # Headers declaration:
         self.headers = headers
@@ -76,7 +84,7 @@ class Connection:
         """
         return self.hostname
 
-    def get(self, url: str, params: list[str] = None):
+    def get(self, url: str, params: list[str] = []):
         """
         Connection class representation is IP address /
         hostname of HTTP/S server.

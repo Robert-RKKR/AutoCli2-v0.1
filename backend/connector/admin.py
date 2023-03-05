@@ -34,7 +34,7 @@ class ConnectionTemplateAdmin(BaseAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'created', 'updated', 'name', 'description',
-                       'execution_protocol')
+                       'execution_protocol', 'platform')
         }),
         ('SSH information', {
             'classes': ('wide', 'extrapretty',),
@@ -136,7 +136,8 @@ class DataGroupTemplateAdmin(BaseAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'created', 'updated',
-                        'model_group_template', 'connection_template')
+                        'model_group_template', 'connection_template',
+                        'platform')
         }),
         ('Data group specific fields', {
             'classes': ('wide', 'extrapretty',),

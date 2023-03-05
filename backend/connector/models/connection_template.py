@@ -7,7 +7,7 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 # Other application relations model import:
-from inventory.models.software import Software
+from inventory.models.platform import Platform
 
 # Connections template model constants:
 EXECUTION_PROTOCOL = (
@@ -36,8 +36,8 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name_plural = 'Connection templates'
 
     # Relations with other classes:
-    softwares = models.ManyToManyField(
-        Software,
+    platform = models.ManyToManyField(
+        Platform,
         verbose_name='Software',
         help_text='One or more software(s) can be added to the connection '\
         'template. To associate the template with the appropriate software(s). '\

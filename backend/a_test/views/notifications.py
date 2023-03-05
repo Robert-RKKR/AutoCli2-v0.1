@@ -5,6 +5,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from inventory.models.host import Host
 from management.settings import collect_global_settings
 from executor.connections.http_connection import Connection
+from executor.tasks.executor import ExecutorTask
 
 # Test view:
 def notifications_test(request):
@@ -16,7 +17,7 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
-    
+    # task = ExecutorTask(1)
 
     host_one = Host.objects.get(pk=1)
 

@@ -39,3 +39,18 @@ class GlobalSetting(DataTimeModel, IdentificationModel):
         choices=SEVERITY,
         default=1,
     )
+
+    # Connection settings:
+    default_user = models.CharField(
+        verbose_name='Default username',
+        help_text='Xxx.',
+        max_length=128,
+        default='admin',
+    )
+
+    default_password = models.CharField(
+        verbose_name='Default password',
+        help_text='Xxx.',
+        max_length=128,
+        default='!Cisco123',
+    )

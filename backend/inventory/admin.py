@@ -6,9 +6,7 @@ from autocli2.base.admins.based_admin import BaseAdmin
 
 # Notification log model import:
 from .models.credentials import Credential
-from .models.api_setting import ApiSetting
 from .models.platform import Platform
-from .models.software import Software
 from .models.region import Region
 from .models.site import Site
 from .models.host import Host
@@ -47,8 +45,8 @@ class CredentialAdmin(BaseAdmin):
     empty_value_display = '--None--'
 
     
-@admin.register(ApiSetting)
-class ApiSettingAdmin(BaseAdmin):
+@admin.register(Platform)
+class PlatformAdmin(BaseAdmin):
 
     list_display = (
         'name', 'is_active', 'created', 'updated'
@@ -60,7 +58,7 @@ class ApiSettingAdmin(BaseAdmin):
         'is_active',
     )
     search_fields = (
-        'name', 'description',
+        'name', 'description'
     )
     fieldsets = (
         ('Basic information', {
@@ -84,66 +82,10 @@ class ApiSettingAdmin(BaseAdmin):
         ('Token information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('api_token_heder_key', 'api_token_heder_value')
-        }),
+        })
     )
     readonly_fields = (
-        'created', 'updated',
-    )
-    empty_value_display = '--None--'
-
-    
-@admin.register(Platform)
-class PlatformAdmin(BaseAdmin):
-
-    list_display = (
-        'name', 'is_active', 'api_setting', 'created', 'updated'
-    )
-    list_display_links = (
-        'name',
-    )
-    list_filter = (
-        'is_active',
-    )
-    search_fields = (
-        'name', 'description',
-    )
-    fieldsets = (
-        ('Basic information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated', 'name',
-                       'api_setting', 'description')
-        }),
-    )
-    readonly_fields = (
-        'created', 'updated',
-    )
-    empty_value_display = '--None--'
-
-    
-@admin.register(Software)
-class SoftwareAdmin(BaseAdmin):
-
-    list_display = (
-        'name', 'is_active', 'created', 'updated'
-    )
-    list_display_links = (
-        'name',
-    )
-    list_filter = (
-        'is_active',
-    )
-    search_fields = (
-        'name', 'description',
-    )
-    fieldsets = (
-        ('Basic information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated', 'name',
-                       'description')
-        }),
-    )
-    readonly_fields = (
-        'created', 'updated',
+        'created', 'updated'
     )
     empty_value_display = '--None--'
 
@@ -212,13 +154,13 @@ class SiteAdmin(BaseAdmin):
 class HostAdmin(BaseAdmin):
     
     list_display = (
-        'name', 'is_active', 'site', 'software', 'created', 'updated'
+        'name', 'is_active', 'site', 'platform', 'created', 'updated'
     )
     list_display_links = (
         'name',
     )
     list_filter = (
-        'is_active', 'site', 'software', 'credential'
+        'is_active', 'site', 'platform', 'credential'
     )
     search_fields = (
         'name', 'description', 'hostname'
@@ -231,7 +173,7 @@ class HostAdmin(BaseAdmin):
         }),
         ('Detailed information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('site', 'software', 'credential')
+            'fields': ('site', 'platform', 'credential')
         }),
         ('Port settings', {
             'classes': ('wide', 'extrapretty',),

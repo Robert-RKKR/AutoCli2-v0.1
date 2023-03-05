@@ -8,7 +8,7 @@ from autocli2.base.models.status import StatusModel
 
 # Relations models import:
 from .credentials import Credential
-from .software import Software
+from .platform import Platform
 from .site import Site
 
 
@@ -31,8 +31,8 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         blank=True,
     )
     
-    software = models.ForeignKey(
-        Software,
+    platform = models.ForeignKey(
+        Platform,
         verbose_name='Software',
         help_text='Software.',
         on_delete=models.PROTECT,

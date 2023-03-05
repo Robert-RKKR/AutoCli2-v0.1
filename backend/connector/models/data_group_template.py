@@ -8,7 +8,7 @@ from autocli2.base.models.status import StatusModel
 # Other application relations model import:
 from .model_group_template import ModelGroupTemplate
 from .connection_template import ConnectionTemplate
-from inventory.models.software import Software
+from inventory.models.platform import Platform
 
 
 # Data group template models class:
@@ -39,8 +39,8 @@ class DataGroupTemplate(StatusModel, DataTimeModel):
         blank=True,
     )
 
-    softwares = models.ManyToManyField(
-        Software,
+    platform = models.ManyToManyField(
+        Platform,
         verbose_name='Software',
         help_text='One or more software(s) can be added to the connection '\
         'template. To associate the template with the appropriate software(s). '\

@@ -23,18 +23,24 @@ class BaseTask(Task):
     name = 'default'
     queue = 'rkkr'
 
-    # Define logger / notification name:
-    message_name = 'BaseTask'
+    # Define logger / notification application name:
+    notification_name = 'BaseTask'
+    logger_name = 'BaseTask'
+    channel_name = 'notification'
+
 
     def run(self, *args, **kwargs) -> None:
-        # Logger initialization:
-        self.logger = Logger(self.message_name)
-        # Notification initialization:
-        self.notification = Notification(self.message_name)
         # Collect process ID:
         self.task_id = self.request.id
+        # Logger initialization:
+        self.logger = Logger(self.logger_name, self.task_id)
+        # Notification initialization:
+        self.notification = Notification(
+            self.notification_name,
+            self.task_id,
+            self.channel_name)
         # Run task in delay:
-        self._run(*args, **kwargs)
+        return self._run(args, kwargs)
 
     def _run(self, *args, **kwargs) -> bool:
         return True
