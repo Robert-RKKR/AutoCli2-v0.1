@@ -126,14 +126,14 @@ class ExecutionAdmin(BaseAdmin):
     ]
     list_display = (
         'pk', 'executor', 'host', 'connection_template', 'credential',
-        'task_id', 'result_status', 'created', 'updated'
+        'task_id', 'execution_status', 'created', 'updated'
     )
     list_display_links = (
         'pk',
     )
     list_filter = (
         'executor', 'host', 'connection_template', 'credential',
-        'result_status'
+        'execution_status'
     )
     search_fields = (
         'value', 'json_value'
@@ -145,27 +145,29 @@ class ExecutionAdmin(BaseAdmin):
         }),
         ('Execution information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('host', 'connection_template', 'credential',
-                        'task_id', 'result_status')
-        }),
-        ('Status information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('ssh_raw_data_status', 'ssh_processed_data_status')
+            'fields': ('host', 'host_representation', 'connection_template',
+                       'connection_template_representation', 'credential',
+                       'credential_representation', 'task_id',
+                       'execution_status')
         }),
         ('Collected SSH data', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('ssh_raw_data', 'ssh_processed_data')
+            'fields': ('ssh_response_status', 'ssh_raw_data_status',
+                       'ssh_processed_data_status', 'ssh_raw_data',
+                       'ssh_processed_data')
         }),
         ('Collected HTTP(S) data', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('https_response_status', 'https_response_code',
-                        'https_response')
+                       'https_response')
         }),
     )
     readonly_fields = (
         'created', 'updated', 'ssh_raw_data_status', 'ssh_processed_data_status',
         'ssh_raw_data', 'ssh_processed_data', 'https_response_status',
         'https_response_code', 'https_response', 'host', 'connection_template',
-        'credential', 'result_status', 'executor', 'task_id'
+        'credential', 'execution_status', 'executor', 'task_id', 'ssh_response_status',
+        'host_representation', 'connection_template_representation',
+        'credential_representation'
     )
     empty_value_display = '--None--'

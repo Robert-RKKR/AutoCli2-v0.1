@@ -46,6 +46,29 @@ class Execution(DataTimeModel):
         on_delete=models.PROTECT
     )
 
+    # Relations objects representation:
+    host_representation = models.CharField(
+        verbose_name='Host representation',
+        help_text='Xxx.',
+        max_length=128,
+        null=True,
+        blank=True,
+    )
+    connection_template_representation = models.CharField(
+        verbose_name='Connection template representation',
+        help_text='Xxx.',
+        max_length=128,
+        null=True,
+        blank=True,
+    )
+    credential_representation = models.CharField(
+        verbose_name='Credential representation',
+        help_text='Xxx.',
+        max_length=128,
+        null=True,
+        blank=True,
+    )
+
     # Related task ID:
     task_id = models.CharField(
         verbose_name='Task ID',
@@ -55,34 +78,37 @@ class Execution(DataTimeModel):
         blank=True,
     )
 
-    # 
-    result_status = models.BooleanField(
-        verbose_name='Result status',
+    # Execution status:
+    execution_status = models.BooleanField(
+        verbose_name='Execution status',
         help_text='A positive result means that the command output was successfully received and processed.',
         default=False,
     )
 
-    # Ssh status values:
+    # SSH status and data:
+    ssh_response_status = models.BooleanField(
+        verbose_name='SSH response status',
+        help_text='Xxx.',
+        default=False,
+    )
     ssh_raw_data_status = models.BooleanField(
-        verbose_name='Raw data status',
+        verbose_name='SSH raw data status',
         help_text='A positive result means that the raw data collection process has been successfully completed.',
         default=False,
     )
     ssh_processed_data_status = models.BooleanField(
-        verbose_name='Processed data status',
+        verbose_name='SSH processed data status',
         help_text='A positive result means that the process of processing the data was completed successfully.',
         default=False,
     )
-
-    # SSH data:
     ssh_raw_data = models.TextField(
-        verbose_name='Command raw data',
+        verbose_name='SSH command raw data',
         help_text='CLI command raw data output.',
         null=True,
         blank=True,
     )
     ssh_processed_data = models.JSONField(
-        verbose_name='Command processed data',
+        verbose_name='SSH command processed data',
         help_text='CLI command FSM process data.',
         null=True,
         blank=True,
@@ -94,13 +120,11 @@ class Execution(DataTimeModel):
         help_text='Xxx.',
         default=False,
     )
-
     https_response_code = models.IntegerField(
         verbose_name='HTTP(S) response code',
         help_text='Xxx.',
         default=0,
     )
-
     https_response = models.JSONField(
         verbose_name='HTTP(S) response',
         help_text='Xxx.',

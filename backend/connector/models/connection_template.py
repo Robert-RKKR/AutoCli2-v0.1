@@ -61,7 +61,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         choices=SSH_EXECUTION_TYPE,
         default=1,
     )
-
     ssh_command = models.CharField(
         verbose_name='CLI command',
         help_text='The CLI command that will be executed on the remote host.',
@@ -69,7 +68,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         null=True,
         blank=True,
     )
-
     ssh_template = models.TextField(
         verbose_name='Template',
         help_text='SSh template will be used to create CLI command(s), '\
@@ -116,7 +114,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         null=True,
         blank=True,
     )
-
     regex_expression = models.TextField(
         verbose_name='Regex expression',
         help_text='Regex expression used to validate the output '\
