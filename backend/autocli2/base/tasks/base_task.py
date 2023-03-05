@@ -40,7 +40,7 @@ class BaseTask(Task):
             self.task_id,
             self.channel_name)
         # Run task in delay:
-        return self._run(args, kwargs)
+        return self._run(*args, **kwargs)
 
     def _run(self, *args, **kwargs) -> bool:
         return True

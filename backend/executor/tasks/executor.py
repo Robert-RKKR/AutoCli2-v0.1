@@ -28,9 +28,7 @@ class ExecutorTask(ConnectionBaseTask):
     logger_name = 'ConnectionExecutor'
     channel_name = 'execution'
 
-    def _run(self, data, *args, **kwargs) -> None:
-        # Collect task data:
-        executor_id = data[0]
+    def _run(self, executor_id, *args, **kwargs) -> None:
         try: # Try to collect executor:
             executor = Executor.objects.get(pk=executor_id)
         except:
@@ -44,9 +42,8 @@ class ExecutorTask(ConnectionBaseTask):
                 hosts = executor.hosts.all()
                 connection_templates = executor.connection_templates.all()
                 # Execute template:
-                output = self._http_connections(
+                self._http_connections(
                     hosts, connection_templates, executor)
-                return output
 
 # Task registration:
 ExecutorTask = app.register_task(ExecutorTask())
