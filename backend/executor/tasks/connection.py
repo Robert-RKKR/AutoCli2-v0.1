@@ -151,9 +151,9 @@ class ConnectionBaseTask(BaseTask):
                 self.logger.error(
                     'An error has occurred during the creation of a new '\
                     f'execution object. Error: {error}')
-            # Check connection status:
-            if con.status:
-                positive_result += 1
+            else: # Check connection status:
+                if con.status:
+                    positive_result += 1
         # Return connection status count:
         return (positive_result, len(connection_templates))
 
