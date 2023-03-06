@@ -169,7 +169,7 @@ class HostAdmin(BaseAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'created', 'updated', 'name',
-                       'hostname', 'description')
+                       'hostname', 'data_collection_protocol', 'description')
         }),
         ('Detailed information', {
             'classes': ('wide', 'extrapretty',),

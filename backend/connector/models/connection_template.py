@@ -10,10 +10,7 @@ from autocli2.base.models.status import StatusModel
 from inventory.models.platform import Platform
 
 # Connections template model constants:
-EXECUTION_PROTOCOL = (
-    (1, 'SSH'),
-    (2, 'HTTP')
-)
+from inventory.models.host import EXECUTION_PROTOCOLS
 SSH_EXECUTION_TYPE = (
     (1, 'Command'),
     (2, 'template')
@@ -50,7 +47,7 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name='Execution protocol',
         help_text='The network protocol that will be used to execute '\
         'connection template (SSH / HTTP(S)).',
-        choices=EXECUTION_PROTOCOL,
+        choices=EXECUTION_PROTOCOLS,
         default=1,
     )
 

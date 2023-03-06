@@ -59,6 +59,7 @@ class ConnectionBaseTask(BaseTask):
         hosts: list[Host],
         connection_templates: list[ConnectionTemplate],
         executor: Executor):
+        """ Xxx. """
         
         # Iterate thru all provided devices:
         for host in hosts:
@@ -69,65 +70,52 @@ class ConnectionBaseTask(BaseTask):
         hosts: list[Host],
         connection_templates: list[ConnectionTemplate],
         executor: Executor):
+        """ Xxx. """
 
         raise NotImplementedError('Multithreading connection is not implemented yet')
 
     def _device_execution(self,
         host: Host,
-        template: list[ConnectionTemplate],
+        connection_templates: list[ConnectionTemplate],
         executor: Executor):
+        """ Xxx. """
 
-            # Collect default header from host object:
-            if host.platform:
-                host_default_header = host.platform.api_default_header
-            else:
-                host_default_header = {}
-            # Collect default params from host object:
-            if host.platform:
-                host_default_params = host.platform.api_default_params
-            else:
-                host_default_params = {}
-            # Create HTTP connection:
-            if host_default_header:
-                con = Connection(host, host_default_header)
-            else:
-                con = Connection(host)
+        # Check host data collection protocol:
+        data_collection_protocol = host.data_collection_protocol
 
-            # Count template execution:
-            positive_result = 0
-            # Iterate thru all provided templates:
-            for template in connection_templates:
-                # Collect template execution protocol:
-                execution_protocol = template.execution_protocol
-                # Execute template using SSH protocol:
-                if execution_protocol == 1:
-                    result = self._ssh_template_execution(
-                        con, host, template, executor)
-                # Execute template using HTTP(S) protocol:
-                elif execution_protocol == 2:
-                    result = self._http_template_execution(
-                        con, host, template, executor)
-                else: # Log error:
-                    self.logger.error(
-                        'Template object contains unsupported  "execution_protocol" '\
-                        f'value: {execution_protocol}.', template)
-                # Check connection status:
-                if result:
-                    positive_result += 1
+        if data_collection_protocol == 1:
+            pass
+        elif data_collection_protocol == 2:
+            self._device_http_execution(
+                host, connection_templates, executor)
+        else: # Log error:
+            self.logger.error(
+                'Host object contains unsupported  "data_collection_protocol" '\
+                f'value: {data_collection_protocol}.', host)
 
-    def _ssh_template_execution(self,
+    def _device_http_execution(self,
         host: Host,
-        template: ConnectionTemplate,
-        executor: Executor):
+        connection_templates: list[ConnectionTemplate],
+        executor: Executor) -> tuple:
+        """ Xxx. """
+            
+        # Collect default header / params values from host object:
+        if host.platform:
+            host_default_header = host.platform.api_default_header
+            host_default_params = host.platform.api_default_params
+        else:
+            host_default_header = {}
+            host_default_params = {}
+        # Create HTTP connection:
+        if host_default_header:
+            con = Connection(host, host_default_header)
+        else:
+            con = Connection(host)
 
-        raise NotImplementedError('SSH is not implemented yet')
-
-    def _http_template_execution(self,
-        con: Connection,
-        host: Host,
-        template: ConnectionTemplate,
-        executor: Executor):
-
+        # Count template execution:
+        positive_result = 0
+        # Iterate thru all provided templates:
+        for template in connection_templates:
             # Collect template data:
             template_http_method = template.get_http_method_display()
             template_http_url = template.http_url
@@ -139,22 +127,9 @@ class ConnectionBaseTask(BaseTask):
                 template_http_method,
                 template_http_url,
                 http_params)
-            # Collect object representation:
-            if host.credential:
-                credential_name = host.credential.name
-                credential_username = host.credential.name
-                credential_representation = f'{credential_name}: '\
-                    f'{credential_username}'
-            else:
-                credential_representation = collect_global_settings(
-                    'default_user')
-            if template.ssh_command:
-                connection_template_representation = f'{template.name}: '\
-                    f'{template.ssh_command}'
-            else:
-                connection_template_representation = f'{template.name}: '\
-                    f'{template.http_url}'
-            host_representation = f'{host.name}: {host.hostname}'
+            # Collect host, credentials and template representations:
+            re = self._collect_execution_data(
+                host, template)
             # Collect execution data:
             execution_data = {
                 'executor': executor,
@@ -163,18 +138,58 @@ class ConnectionBaseTask(BaseTask):
                 'credential': host.credential,
                 'task_id': self.task_id,
                 'execution_status': con.status,
-                'https_response_statusTESTTESTTESTTESTTEST': con.status,
+                'https_response_status': con.status,
                 'https_response_code': con.response_code,
                 'https_response': output,
-                'host_representation': host_representation,
+                'host_representation': re['host_representation'],
                 'connection_template_representation': 
-                 connection_template_representation,
-                'credential_representation': credential_representation}
+                 re['connection_template_representation'],
+                'credential_representation': re['credential_representation']}
             try: # Try to create a new execution object:
-                execution = Execution.objects.create(**execution_data)
+                Execution.objects.create(**execution_data)
             except IntegrityError as error:
                 self.logger.error(
                     'An error has occurred during the creation of a new '\
                     f'execution object. Error: {error}')
-            # Return template execution result:
-            return con.status
+            # Check connection status:
+            if con.status:
+                positive_result += 1
+        # Return connection status count:
+        return (positive_result, len(connection_templates))
+
+    def _device_ssh_execution(self,
+        host: Host,
+        connection_templates: list[ConnectionTemplate],
+        executor: Executor) -> tuple:
+        """ Xxx. """
+
+        raise NotImplementedError('SSH is not implemented yet')
+    
+    def _collect_execution_data(self,
+        host: Host,
+        template: ConnectionTemplate):
+        """ Xxx. """
+
+        # Collect host credential representation:
+        if host.credential:
+            credential_name = host.credential.name
+            credential_username = host.credential.name
+            credential_representation = f'{credential_name}: '\
+                f'{credential_username}'
+        else:
+            credential_representation = collect_global_settings(
+                'default_user')
+        # Collect template representation:
+        if template.ssh_command:
+            connection_template_representation = f'{template.name}: '\
+                f'{template.ssh_command}'
+        else:
+            connection_template_representation = f'{template.name}: '\
+                f'{template.http_url}'
+        # Collect host representation:
+        host_representation = f'{host.name}: {host.hostname}'
+        # Return representations:
+        return {
+            'credential_representation': credential_representation,
+            'connection_template_representation': connection_template_representation,
+            'host_representation': host_representation}

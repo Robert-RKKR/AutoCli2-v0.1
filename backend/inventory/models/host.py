@@ -11,6 +11,12 @@ from .credentials import Credential
 from .platform import Platform
 from .site import Site
 
+# Connections template model constants:
+EXECUTION_PROTOCOLS = (
+    (1, 'SSH'),
+    (2, 'HTTP')
+)
+
 
 # Host model class:
 class Host(StatusModel, DataTimeModel, IdentificationModel):
@@ -30,7 +36,6 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         null=True,
         blank=True,
     )
-    
     platform = models.ForeignKey(
         Platform,
         verbose_name='Software',
@@ -39,7 +44,6 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         null=True,
         blank=True,
     )
-    
     credential = models.ForeignKey(
         Credential,
         verbose_name='Credentials',
@@ -54,6 +58,13 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name='Hostname',
         help_text='Xxx.',
         max_length=128,
+    )
+    data_collection_protocol = models.IntegerField(
+        verbose_name='Data collection protocol',
+        help_text='The network protocol that will be used to execute '\
+        'connection template (SSH / HTTP(S)).',
+        choices=EXECUTION_PROTOCOLS,
+        default=1,
     )
     ssh_port = models.IntegerField(
         verbose_name='SSH port',
