@@ -21,6 +21,9 @@ from inventory.models.host import Host
 from executor.models.execution import Execution
 from executor.models.executor import Executor
 
+# Django exception import:
+from django.db import IntegrityError
+
 # Settings import:
 from management.settings import collect_global_settings
 
@@ -51,47 +54,72 @@ class ConnectionBaseTask(BaseTask):
     Xxx.
     """
         
-    def _http_connections(self,
+    def singlethreading_connection(self,
         hosts: list[Host],
         connection_templates: list[ConnectionTemplate],
         executor: Executor):
         
-        # Execute devices:
-        collected_outputs = {}
         # Iterate thru all provided devices:
         for host in hosts:
-            # Collect output from device templates executions:
-            output = self.http_templates_execution(
+            self._device_execution(
                 host, connection_templates, executor)
-            # Add output to collected output variable:
-            collected_outputs[host] = output
 
-        return collected_outputs
-
-    def http_templates_execution(self,
-        host: Host,
+    def multithreading_connection(self,
+        hosts: list[Host],
         connection_templates: list[ConnectionTemplate],
         executor: Executor):
 
-        # Collect default header from host object:
-        if host.platform:
-            host_default_header = host.platform.api_default_header
-        else:
-            host_default_header = {}
-        # Collect default params from host object:
-        if host.platform:
-            host_default_params = host.platform.api_default_params
-        else:
-            host_default_params = {}
-        # Create HTTP connection:
-        if host_default_header:
-            con = Connection(host, host_default_header)
-        else:
-            con = Connection(host)
+        raise NotImplementedError('Multithreading connection is not implemented yet')
 
-        # Execute provided templates on provided host:
-        # Iterate thru all provided templates:
-        for template in connection_templates:
+    def _device_execution(self,
+        host: Host,
+        template: list[ConnectionTemplate],
+        executor: Executor):
+
+            # Collect default header from host object:
+            if host.platform:
+                host_default_header = host.platform.api_default_header
+            else:
+                host_default_header = {}
+            # Collect default params from host object:
+            if host.platform:
+                host_default_params = host.platform.api_default_params
+            else:
+                host_default_params = {}
+            # Create HTTP connection:
+            if host_default_header:
+                con = Connection(host, host_default_header)
+            else:
+                con = Connection(host)
+            # Iterate thru all provided templates:
+            for template in connection_templates:
+                # Collect template execution protocol:
+                execution_protocol = template.execution_protocol
+                # Execute template using SSH protocol:
+                if execution_protocol == 1:
+                    self._ssh_template_execution(
+                        host, template, executor)
+                # Execute template using HTTP(S) protocol:
+                elif execution_protocol == 2:
+                    self._http_template_execution(
+                        host, template, executor)
+                else: # Log error:
+                    self.logger.error(
+                        'Template object contains unsupported  "execution_protocol" '\
+                        f'value: {execution_protocol}.', template)
+
+    def _ssh_template_execution(self,
+        host: Host,
+        template: list[ConnectionTemplate],
+        executor: Executor):
+
+        raise NotImplementedError('SSH is not implemented yet')
+
+    def _http_template_execution(self,
+        host: Host,
+        template: list[ConnectionTemplate],
+        executor: Executor):
+
             # Collect template data:
             template_http_method = template.get_http_method_display()
             template_http_url = template.http_url
@@ -107,9 +135,11 @@ class ConnectionBaseTask(BaseTask):
             if host.credential:
                 credential_name = host.credential.name
                 credential_username = host.credential.name
-                credential_representation = f'{credential_name}: {credential_username}'
+                credential_representation = f'{credential_name}: '\
+                    f'{credential_username}'
             else:
-                credential_representation = collect_global_settings('default_user')
+                credential_representation = collect_global_settings(
+                    'default_user')
             if template.ssh_command:
                 connection_template_representation = f'{template.name}: '\
                     f'{template.ssh_command}'
@@ -125,15 +155,16 @@ class ConnectionBaseTask(BaseTask):
                 'credential': host.credential,
                 'task_id': self.task_id,
                 'execution_status': con.status,
-                'https_response_status': con.status,
+                'https_response_statusTESTTESTTESTTESTTEST': con.status,
                 'https_response_code': con.response_code,
                 'https_response': output,
                 'host_representation': host_representation,
-                'connection_template_representation': connection_template_representation,
+                'connection_template_representation': 
+                 connection_template_representation,
                 'credential_representation': credential_representation}
             try: # Try to create a new execution object:
                 execution = Execution.objects.create(**execution_data)
-            except:
-                pass
-            else:
-                pass
+            except IntegrityError as error:
+                self.logger.error(
+                    'An error has occurred during the creation of a new '\
+                    f'execution object. Error: {error}')

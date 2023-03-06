@@ -32,7 +32,8 @@ class ExecutorTask(ConnectionBaseTask):
         try: # Try to collect executor:
             executor = Executor.objects.get(pk=executor_id)
         except:
-            pass # Pass for now.
+            self.logger.error(
+                f'Executor object with ID: {executor_id}, has not been found.')
         else:
             # Check executor type:
             if executor.executor_type == 1:
@@ -42,8 +43,12 @@ class ExecutorTask(ConnectionBaseTask):
                 hosts = executor.hosts.all()
                 connection_templates = executor.connection_templates.all()
                 # Execute template:
-                self._http_connections(
+                self.singlethreading_connection(
                     hosts, connection_templates, executor)
+            else:
+                self.logger.error(
+                    'Executor object contains unsupported  "executor_type" '\
+                    f'value: {executor.executor_type}.', executor)
 
 # Task registration:
 ExecutorTask = app.register_task(ExecutorTask())
