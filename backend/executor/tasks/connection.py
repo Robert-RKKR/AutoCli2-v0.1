@@ -51,7 +51,8 @@ def combine_data(first, second) -> dict:
 # Test taks class:
 class ConnectionBaseTask(BaseTask):
     """
-    Xxx.
+    Abstract connection task that includes the basic functionality of HTTP(S)
+    and SSH connections, for other tasks.
     """
         
     def singlethreading_connection(self,
@@ -91,33 +92,40 @@ class ConnectionBaseTask(BaseTask):
                 con = Connection(host, host_default_header)
             else:
                 con = Connection(host)
+
+            # Count template execution:
+            positive_result = 0
             # Iterate thru all provided templates:
             for template in connection_templates:
                 # Collect template execution protocol:
                 execution_protocol = template.execution_protocol
                 # Execute template using SSH protocol:
                 if execution_protocol == 1:
-                    self._ssh_template_execution(
-                        host, template, executor)
+                    result = self._ssh_template_execution(
+                        con, host, template, executor)
                 # Execute template using HTTP(S) protocol:
                 elif execution_protocol == 2:
-                    self._http_template_execution(
-                        host, template, executor)
+                    result = self._http_template_execution(
+                        con, host, template, executor)
                 else: # Log error:
                     self.logger.error(
                         'Template object contains unsupported  "execution_protocol" '\
                         f'value: {execution_protocol}.', template)
+                # Check connection status:
+                if result:
+                    positive_result += 1
 
     def _ssh_template_execution(self,
         host: Host,
-        template: list[ConnectionTemplate],
+        template: ConnectionTemplate,
         executor: Executor):
 
         raise NotImplementedError('SSH is not implemented yet')
 
     def _http_template_execution(self,
+        con: Connection,
         host: Host,
-        template: list[ConnectionTemplate],
+        template: ConnectionTemplate,
         executor: Executor):
 
             # Collect template data:
@@ -168,3 +176,5 @@ class ConnectionBaseTask(BaseTask):
                 self.logger.error(
                     'An error has occurred during the creation of a new '\
                     f'execution object. Error: {error}')
+            # Return template execution result:
+            return con.status
