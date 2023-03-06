@@ -52,11 +52,11 @@ def collect_object_representation(instance):
 # Post save signal:
 def post_save_change_signal(sender, instance=None, created=False, **kwargs):
     """
-    When application will receive a new post save signal in case of new object creation,
-    the function will check if provided object model belongs to the group
-    of models supporting change tracking (In application settings),
-    change tracking will create a new change log object to keep
-    information about the change occurred.
+    When application will receive a new post save signal in case of new
+    object creation, the function will check if provided object model
+    belongs to the group of models supporting change tracking
+    (In application settings), change tracking will create a new
+    change log object to keep information about the change occurred.
     """
 
     # Application change log import:
@@ -74,7 +74,8 @@ def post_save_change_signal(sender, instance=None, created=False, **kwargs):
     
     if collected_names in settings.CHANGE_LOG_MODELS:
         # Collect object content:
-        json_str = serialize('json', [instance], use_natural_foreign_keys=True, use_natural_primary_keys=True)
+        json_str = serialize('json', [instance], use_natural_foreign_keys=True,
+            use_natural_primary_keys=True)
         data = json.loads(json_str)[0]['fields']
         # Try to create a new change log:
         try:
@@ -92,11 +93,11 @@ def post_save_change_signal(sender, instance=None, created=False, **kwargs):
 # Post delete signal:
 def post_delete_change_signal(sender, instance=None, origin=None, **kwargs):
     """
-    When application will receive a new post delete signal in case of new object creation,
-    the function will check if provided object model belongs to the group
-    of models supporting change tracking (In application settings),
-    change tracking will create a new change log object to keep
-    information about the change occurred.
+    When application will receive a new post delete signal in case of
+    new object creation, the function will check if provided object
+    model belongs to the group of models supporting change tracking
+    (In application settings), change tracking will create a new
+    change log object to keep information about the change occurred.
     """
 
     # Application change log import:
@@ -113,7 +114,8 @@ def post_delete_change_signal(sender, instance=None, origin=None, **kwargs):
                 app_name=collected_names[0],
                 model_name=collected_names[1],
                 object_id=instance.pk,
-                object_representation=collect_object_representation(instance),
+                object_representation=collect_object_representation(
+                    instance),
             )
         except: # Pass if sender was not register:
             pass
