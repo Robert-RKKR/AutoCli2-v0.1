@@ -1,5 +1,6 @@
 # Python import:
 import urllib.request
+import threading
 import datetime
 import zipfile
 import csv
@@ -59,39 +60,103 @@ class ConnectionBaseTask(BaseTask):
         hosts: list[Host],
         connection_templates: list[ConnectionTemplate],
         executor: Executor):
-        """ Xxx. """
+        """ 
+        Single-threading connection method is responsible for collecting
+        data from single remote hosts at the same time.
+        """
         
+        # Start timer:
+        self._start_timer()
+        # Collect execution status:
+        positive_result = 0
         # Iterate thru all provided devices:
         for host in hosts:
-            self._device_execution(
+            output = self._device_execution(
                 host, connection_templates, executor)
+            if output: # Increase when output is True:
+                positive_result += 1
+        # End timer:
+        end_time = self._end_timer()
+        # Create user notification:
+        if positive_result > 0:
+            self.notification.info(
+                f'The data collection process running on the {len(hosts)} '\
+                'devices was successful. Data has been collected '\
+                f'from {positive_result} devices.', executor,
+                execution_time=end_time)
+        else:
+            self.notification.warning(
+                f'The data collection process running on the {len(hosts)} '\
+                'devices was unsuccessful. No data was collected.', executor,
+                execution_time=end_time)
 
     def multithreading_connection(self,
         hosts: list[Host],
         connection_templates: list[ConnectionTemplate],
         executor: Executor):
-        """ Xxx. """
+        """ 
+        Multi-threading connection method is responsible for collecting data
+        from multiple remote hosts at the same time.
+        """
 
-        raise NotImplementedError('Multithreading connection is not implemented yet')
+        # Define threads list:
+        threads = list()
+        # Iterate thru all provided devices:
+        for host in hosts:
+            # Run thread:
+            thread = threading.Thread(target=self._device_execution,
+                args=(host, connection_templates, executor))
+            # Add current thread to threads list:
+            threads.append(thread)
+            # Start current thread:
+            thread.start()
+
+        # Wait to end of all threads execution:
+        for index, thread in enumerate(threads):
+            thread.join()
 
     def _device_execution(self,
         host: Host,
         connection_templates: list[ConnectionTemplate],
-        executor: Executor):
-        """ Xxx. """
+        executor: Executor) -> bool:
+        """ 
+        The device execution method is responsible for verifying the
+        protocol used to connect to the remote host.
+        """
 
         # Check host data collection protocol:
         data_collection_protocol = host.data_collection_protocol
 
         if data_collection_protocol == 1:
-            pass
+            output = self._device_ssh_execution(
+                host, connection_templates, executor)
         elif data_collection_protocol == 2:
-            self._device_http_execution(
+            output = self._device_http_execution(
                 host, connection_templates, executor)
         else: # Log error:
             self.logger.error(
                 'Host object contains unsupported  "data_collection_protocol" '\
                 f'value: {data_collection_protocol}.', host)
+            output = False
+        # Create user notification:
+        if output:
+            # Collect template output data:
+            collected_templates = output[0]
+            templates = output[1]
+            # Check if template execution process was sucessful:
+            if collected_templates > 0:
+                self.notification.info(
+                    f'The template collection process running on the {host.name} '\
+                    f'device was successful. {collected_templates} templates '\
+                    f'were collected from {templates} available.', host)
+                # Return positive resoults:
+                return True
+            else:
+                self.notification.warning(
+                    f'The template collection process running on the {host.name} '\
+                    'device was unsuccessful. No data was collected.', host)
+                # Return false resoults:
+                return False
 
     def _device_http_execution(self,
         host: Host,
@@ -167,8 +232,8 @@ class ConnectionBaseTask(BaseTask):
     
     def _collect_execution_data(self,
         host: Host,
-        template: ConnectionTemplate):
-        """ Xxx. """
+        template: ConnectionTemplate) -> dict:
+        """ Collect objects representations. """
 
         # Collect host credential representation:
         if host.credential:
