@@ -22,9 +22,6 @@ from inventory.models.host import Host
 from executor.models.execution import Execution
 from executor.models.executor import Executor
 
-# Django exception import:
-from django.db import IntegrityError
-
 # Settings import:
 from management.settings import collect_global_settings
 
@@ -66,28 +63,32 @@ class ConnectionBaseTask(BaseTask):
         """
         
         # Start timer:
-        self._start_timer()
-        # Collect execution status:
+        start_timer = self._start_timer()
+        # Collect host execution status:
         positive_result = 0
         # Iterate thru all provided devices:
         for host in hosts:
+            # Execute all provided templates on current host:
             output = self._device_execution(
                 host, connection_templates, executor)
-            if output: # Increase when output is True:
+            # Increase positive results when output is True:
+            if output:
                 positive_result += 1
         # End timer:
-        end_time = self._end_timer()
+        end_time = self._end_timer(start_timer)
         # Create user notification:
         if positive_result > 0:
+            # Creative user notification for one or more positive results:
             self.notification.info(
                 f'The data collection process running on the {len(hosts)} '\
-                'devices was successful. Data has been collected '\
-                f'from {positive_result} devices.', executor,
+                'device/s was successful. Data has been collected '\
+                f'from {positive_result} device/s.', executor,
                 execution_time=end_time)
         else:
+            # Creative user notification in the absence of positive results:
             self.notification.warning(
                 f'The data collection process running on the {len(hosts)} '\
-                'devices was unsuccessful. No data was collected.', executor,
+                'device/s was unsuccessful. No data was collected.', executor,
                 execution_time=end_time)
 
     def multithreading_connection(self,
@@ -124,9 +125,12 @@ class ConnectionBaseTask(BaseTask):
         protocol used to connect to the remote host.
         """
 
+        # Start timer:
+        start_timer = self._start_timer()
+
         # Check host data collection protocol:
         data_collection_protocol = host.data_collection_protocol
-
+        # Start HTTP / SSH connection process:
         if data_collection_protocol == 1:
             output = self._device_ssh_execution(
                 host, connection_templates, executor)
@@ -137,26 +141,32 @@ class ConnectionBaseTask(BaseTask):
             self.logger.error(
                 'Host object contains unsupported  "data_collection_protocol" '\
                 f'value: {data_collection_protocol}.', host)
-            output = False
-        # Create user notification:
-        if output:
-            # Collect template output data:
-            collected_templates = output[0]
-            templates = output[1]
-            # Check if template execution process was sucessful:
-            if collected_templates > 0:
-                self.notification.info(
-                    f'The template collection process running on the {host.name} '\
-                    f'device was successful. {collected_templates} templates '\
-                    f'were collected from {templates} available.', host)
-                # Return positive resoults:
-                return True
-            else:
-                self.notification.warning(
-                    f'The template collection process running on the {host.name} '\
-                    'device was unsuccessful. No data was collected.', host)
-                # Return false resoults:
-                return False
+            # Return false results:
+            return False
+            
+        # End timer:
+        end_time = self._end_timer(start_timer)
+        # Collect template output data:
+        collected_templates = output[0]
+        templates = output[1]
+        # Check if template execution process was successful:
+        if collected_templates > 0:
+            # Creative user notification for one or more positive results:
+            self.notification.info(
+                f'The template collection process running on the {host.name} '\
+                f'device was successful. {collected_templates} template/s '\
+                f'were collected from {templates} available.', host,
+                execution_time=end_time)
+            # Return positive results:
+            return True
+        else:
+            # Creative user notification in the absence of positive results:
+            self.notification.warning(
+                f'The template collection process running on the {host.name} '\
+                'device was unsuccessful. No data was collected.', host,
+                execution_time=end_time)
+            # Return false results:
+            return False
 
     def _device_http_execution(self,
         host: Host,
@@ -182,7 +192,7 @@ class ConnectionBaseTask(BaseTask):
         # Iterate thru all provided templates:
         for template in connection_templates:
             # Collect template data:
-            template_http_method = template.get_http_method_display()
+            template_http_method = template.get_http_method_display()# type: ignore
             template_http_url = template.http_url
             template_http_params = template.http_params
             # Combine collected param data:
@@ -190,10 +200,10 @@ class ConnectionBaseTask(BaseTask):
             # Execute template:
             output = con.connection(
                 template_http_method,
-                template_http_url,
+                template_http_url,# type: ignore
                 http_params)
             # Collect host, credentials and template representations:
-            re = self._collect_execution_data(
+            representation = self._collect_execution_data(
                 host, template)
             # Collect execution data:
             execution_data = {
@@ -205,20 +215,22 @@ class ConnectionBaseTask(BaseTask):
                 'execution_status': con.status,
                 'https_response_status': con.status,
                 'https_response_code': con.response_code,
-                'https_response': output,
-                'host_representation': re['host_representation'],
+                'https_response': 'output',
+                'host_representation':
+                 representation['host_representation'],
                 'connection_template_representation': 
-                 re['connection_template_representation'],
-                'credential_representation': re['credential_representation']}
+                 representation['connection_template_representation'],
+                'credential_representation':
+                 representation['credential_representation']}
             try: # Try to create a new execution object:
                 Execution.objects.create(**execution_data)
-            except IntegrityError as error:
+            except:
                 self.logger.error(
                     'An error has occurred during the creation of a new '\
-                    f'execution object. Error: {error}')
-            else: # Check connection status:
-                if con.status:
-                    positive_result += 1
+                    f'execution object.')
+            # Check connection status:
+            if con.status:
+                positive_result += 1
         # Return connection status count:
         return (positive_result, len(connection_templates))
 

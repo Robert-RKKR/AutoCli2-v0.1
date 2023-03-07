@@ -29,7 +29,7 @@ class BaseTask(Task):
     channel_name = 'notification'
 
 
-    def run(self, *args, **kwargs) -> None:
+    def run(self, *args, **kwargs) -> bool:
         # Collect process ID:
         self.task_id = self.request.id
         # Logger initialization:
@@ -45,15 +45,15 @@ class BaseTask(Task):
     def _run(self, *args, **kwargs) -> bool:
         return True
 
-    def _start_timer(self) -> None:
+    def _start_timer(self) -> float:
         """
         Start task execution time counting.
         """
 
         # Start timer:
-        self._start_time = time.perf_counter()
+        return time.perf_counter()
 
-    def _end_timer(self) -> float:
+    def _end_timer(self, start_time) -> float:
         """
         End task execution time counting.
         """
@@ -61,7 +61,7 @@ class BaseTask(Task):
         # Finish clock count & method execution time:
         finish_time = time.perf_counter()
         # Return execution timer value:
-        return round(finish_time - self._start_time, 5)
+        return round(finish_time - start_time, 5)
 
     def _check_output_status(self, output) -> bool:
         if output == {} or output == [] or output is None or output is False:

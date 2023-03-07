@@ -31,7 +31,7 @@ class NotificationAdmin(admin.ModelAdmin):
             'fields': ('administrator', 'notification_type', 'severity',
                        'task_id', 'application',)
         }),
-        ('Change object information', {
+        ('Notification information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('app_name', 'model_name', 'object_representation',
                        'object_id',),

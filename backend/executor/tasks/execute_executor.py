@@ -8,18 +8,21 @@ from .connection import ConnectionBaseTask
 from executor.connections.http_connection import Connection
 
 # Executors models import:
-from executor.models.execution import Execution
 from executor.models.executor import Executor
+
+# Task import:
+from executor.tasks.check_host_status import CheckHostStatusTask
+from executor.tasks.collect_host_data import CollectHostDataTask
 
 
 # Test taks class:
-class ExecutorTask(ConnectionBaseTask):
+class ExecuteExecutorTask(ConnectionBaseTask):
     """
     Xxx.
     """
 
     # Basic task information:    
-    name = 'Executor'
+    name = 'Execute executor'
     description = 'Xxx.'
     queue = 'execution'
 
@@ -37,7 +40,14 @@ class ExecutorTask(ConnectionBaseTask):
         else:
             # Check executor type:
             if executor.executor_type == 1:
-                pass
+                # Collect execution data:
+                task_id = executor.task
+                task_arguments = executor.task_arguments
+                # Rune provided task:
+                if task_id == 1:
+                    CollectHostDataTask(task_arguments)# type: ignore
+                elif task_id == 2:
+                    CheckHostStatusTask(task_arguments)# type: ignore
             elif executor.executor_type == 2:
                 # Collect executor data:
                 hosts = executor.hosts.all()
@@ -51,4 +61,4 @@ class ExecutorTask(ConnectionBaseTask):
                     f'value: {executor.executor_type}.', executor)
 
 # Task registration:
-ExecutorTask = app.register_task(ExecutorTask())
+ExecuteExecutorTask = app.register_task(ExecuteExecutorTask())# type: ignore

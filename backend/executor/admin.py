@@ -16,8 +16,7 @@ from .models.snapshot import Snapshot
 class ExecutorAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'is_active', 'status', 'output', 'results',
-        'created', 'updated'
+        'name', 'is_active', 'created', 'updated'
     )
     list_display_links = (
         'name',
@@ -43,10 +42,6 @@ class ExecutorAdmin(BaseAdmin):
             'classes': ('wide', 'extrapretty',),
             'fields': ('hosts',
                        'connection_templates')
-        }),
-        ('Executor status', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('status', 'output', 'results')
         })
     )
     readonly_fields = (

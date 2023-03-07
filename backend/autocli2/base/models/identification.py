@@ -42,12 +42,12 @@ class IdentificationModel(BaseModel):
             'invalid': 'Enter the correct name value. It must contain 3 to 64 digits, letters or special characters -, _ or spaces.',
         },
     )
-    slug = models.CharField(
-        verbose_name='Slug',
-        help_text=f'{Meta.verbose_name} name representation (Slug).',
-        max_length=64,
-        unique=True,
-    )
+    # slug = models.CharField(
+    #     verbose_name='Slug',
+    #     help_text=f'{Meta.verbose_name} name representation (Slug).',
+    #     max_length=64,
+    #     unique=True,
+    # )
     description = models.CharField(
         verbose_name='Description',
         help_text=f'{Meta.verbose_name} description.',

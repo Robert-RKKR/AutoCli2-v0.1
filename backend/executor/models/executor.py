@@ -27,8 +27,8 @@ EXECUTOR_STATUS = (
     (3, 'Executed')
 )
 TASK_ID = (
-    (1, 'Task one'),
-    (2, 'Task Two')
+    (1, 'Collect host/s data'),
+    (2, 'Check host/s status')
 )
 
 
@@ -75,23 +75,4 @@ class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         help_text='Xxx.',
         null=True,
         blank=True,
-    )
-
-    # Status fields:
-    status = models.IntegerField(
-        verbose_name='Status',
-        help_text='Xxx.',
-        choices=EXECUTOR_STATUS,
-        default=0,
-    )
-    output = models.JSONField(
-        verbose_name='Output',
-        help_text='Xxx.',
-        null=True,
-        blank=True,
-    )
-    results = models.BooleanField(
-        verbose_name='Results',
-        help_text='Xxx.',
-        default=False,
     )

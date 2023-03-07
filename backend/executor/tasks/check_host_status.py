@@ -24,17 +24,8 @@ class CheckHostStatusTask(ConnectionBaseTask):
     logger_name = 'CheckHostStatus'
     channel_name = 'status_check'
 
-    def _run(self, pks: list[int], *args, **kwargs) -> None:
-        # Check provided data:
-        if isinstance(pks, list):
-            for pk in pks:
-                if not isinstance(pk, int):
-                    raise TypeError('The provided pk variable '\
-                    f'must be list of strings. Provided: "{pk}"')
-        else:
-            raise TypeError('The provided pk variable '\
-            f'must be list of strings. Provided: "{pks}"')
-        # T
+    def _run(self, test, *args, **kwargs) -> None:
+        print('===(CheckHostStatusTask)===> ', test)
 
 # Task registration:
-CheckHostStatusTask = app.register_task(CheckHostStatusTask())
+CheckHostStatusTask = app.register_task(CheckHostStatusTask())# type: ignore
