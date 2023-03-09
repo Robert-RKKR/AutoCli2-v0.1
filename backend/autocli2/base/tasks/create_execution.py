@@ -9,12 +9,6 @@ import os
 # Base task import:
 from .base_task import BaseTask
 
-# Connections model import:
-from connector.models.connection_template import ConnectionTemplate
-
-# Inventory models import:
-from inventory.models.host import Host
-
 # Executors models import:
 from executor.models.execution import Execution
 
