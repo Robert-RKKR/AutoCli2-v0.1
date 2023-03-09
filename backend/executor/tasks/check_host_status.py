@@ -2,7 +2,7 @@
 from autocli2.celery import app
 
 # Base task import:
-from .connection import ConnectionBaseTask
+from autocli2.base.tasks.connection import ConnectionBaseTask
 
 # Connection class import:
 from executor.connections.http_connection import Connection

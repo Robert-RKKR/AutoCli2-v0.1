@@ -68,3 +68,23 @@ class BaseTask(Task):
             return False
         else:
             return True
+
+    # Helper function:
+    def _combine_data(self, first, second) -> dict:
+        # Check if provided data belongs to dictionary instance:
+        if not isinstance(first, dict):
+            first = None
+        if not isinstance(second, dict):
+            second = None
+        # Combine provided data if valid:
+        if first and second:
+            # Combine provided data:
+            second.update(first)
+            # Return combined data:
+            return second
+        elif first:
+            return first
+        elif second:
+            return second
+        else:
+            return {}
