@@ -81,24 +81,22 @@ class Execution(DataTimeModel):
     # Execution status:
     execution_status = models.BooleanField(
         verbose_name='Execution status',
-        help_text='A positive result means that the command output was successfully received and processed.',
+        help_text='A positive result means that the command output was '\
+            'successfully received and processed.',
         default=False,
     )
 
     # SSH status and data:
-    ssh_response_status = models.BooleanField(
-        verbose_name='SSH response status',
-        help_text='Xxx.',
-        default=False,
-    )
     ssh_raw_data_status = models.BooleanField(
         verbose_name='SSH raw data status',
-        help_text='A positive result means that the raw data collection process has been successfully completed.',
+        help_text='A positive result means that the raw data collection '\
+            'process has been successfully completed.',
         default=False,
     )
     ssh_processed_data_status = models.BooleanField(
         verbose_name='SSH processed data status',
-        help_text='A positive result means that the process of processing the data was completed successfully.',
+        help_text='A positive result means that the process of processing '\
+            'the data was completed successfully.',
         default=False,
     )
     ssh_raw_data = models.TextField(
@@ -115,11 +113,6 @@ class Execution(DataTimeModel):
     )
 
     # HTTP status and data:
-    https_response_status = models.BooleanField(
-        verbose_name='HTTP(S) response status',
-        help_text='Xxx.',
-        default=False,
-    )
     https_response_code = models.IntegerField(
         verbose_name='HTTP(S) response code',
         help_text='Xxx.',

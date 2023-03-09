@@ -8,10 +8,9 @@ import os
 
 # Base task import:
 from .create_execution import CreateExecutionBaseTask
-from .base_task import BaseTask
 
 # Connection class import:
-from executor.connections.http_connection import Connection
+from executor.connections.ssh_connection import Connection
 
 # Connections model import:
 from connector.models.connection_template import ConnectionTemplate
@@ -28,7 +27,7 @@ from management.settings import collect_global_settings
 
 
 # Test taks class:
-class SshConnectionBaseTask(BaseTask, CreateExecutionBaseTask):
+class SshConnectionBaseTask(CreateExecutionBaseTask):
     """
     Xxx.
     """

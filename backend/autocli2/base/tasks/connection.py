@@ -10,9 +10,6 @@ import os
 from .http_connection import HttpConnectionBaseTask
 from .ssh_connection import SshConnectionBaseTask
 
-# Connection class import:
-from executor.connections.http_connection import Connection
-
 # Connections model import:
 from connector.models.connection_template import ConnectionTemplate
 
@@ -20,11 +17,7 @@ from connector.models.connection_template import ConnectionTemplate
 from inventory.models.host import Host
 
 # Executors models import:
-from executor.models.execution import Execution
 from executor.models.executor import Executor
-
-# Settings import:
-from management.settings import collect_global_settings
 
 
 # Test taks class:
@@ -109,7 +102,7 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         # Start timer:
         start_timer = self._start_timer()
 
-        # Check host data collection protocol:
+        # Collect host data collection protocol:
         data_collection_protocol = host.data_collection_protocol
         # Start HTTP / SSH connection process:
         if data_collection_protocol == 1:

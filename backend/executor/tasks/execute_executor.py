@@ -4,9 +4,6 @@ from autocli2.celery import app
 # Base task import:
 from autocli2.base.tasks.connection import ConnectionBaseTask
 
-# Connection class import:
-from executor.connections.http_connection import Connection
-
 # Executors models import:
 from executor.models.executor import Executor
 
@@ -45,9 +42,9 @@ class ExecuteExecutorTask(ConnectionBaseTask):
                 task_arguments = executor.task_arguments
                 # Rune provided task:
                 if task_id == 1:
-                    CollectHostDataTask(task_arguments)# type: ignore
+                    CollectHostDataTask(task_arguments)
                 elif task_id == 2:
-                    CheckHostStatusTask(task_arguments)# type: ignore
+                    CheckHostStatusTask(task_arguments)
             elif executor.executor_type == 2:
                 # Collect executor data:
                 hosts = executor.hosts.all()
@@ -61,4 +58,4 @@ class ExecuteExecutorTask(ConnectionBaseTask):
                     f'value: {executor.executor_type}.', executor)
 
 # Task registration:
-ExecuteExecutorTask = app.register_task(ExecuteExecutorTask())# type: ignore
+ExecuteExecutorTask = app.register_task(ExecuteExecutorTask())

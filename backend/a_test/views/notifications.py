@@ -18,7 +18,7 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
-    task = ExecuteExecutorTask(2)# type: ignore
+    task = ExecuteExecutorTask(1)# type: ignore
     data['return_output'] = task# type: ignore
 
     host_one = Host.objects.get(pk=1)

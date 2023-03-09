@@ -13,18 +13,9 @@ from inventory.models.credentials import Credential
 from inventory.models.host import Host
 
 # Base message model constants:
-EXECUTION_PROTOCOL = (
-    (1, 'SSH'),
-    (2, 'HTTP')
-)
 EXECUTOR_TYPE = (
     (1, 'Task'),
     (2, 'Template/s')
-)
-EXECUTOR_STATUS = (
-    (1, 'Initiation'),
-    (2, 'Execution'),
-    (3, 'Executed')
 )
 TASK_ID = (
     (1, 'Collect host/s data'),

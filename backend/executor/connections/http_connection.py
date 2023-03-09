@@ -40,7 +40,7 @@ class Connection:
 
         Methods:
         --------
-        get: (url, connectionType='GET', payload=None)
+        get:
             Xxx
         """
         
@@ -73,7 +73,7 @@ class Connection:
         # Connection status:
         self.response_code = None
         self.converted_response = None
-        self.connection_status = None
+        self.connection_status = False
         self.xml_status = None
         self.json_status = None
 

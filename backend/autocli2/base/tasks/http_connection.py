@@ -8,7 +8,6 @@ import os
 
 # Base task import:
 from .create_execution import CreateExecutionBaseTask
-from .base_task import BaseTask
 
 # Connection class import:
 from executor.connections.http_connection import Connection
@@ -28,7 +27,7 @@ from management.settings import collect_global_settings
 
 
 # Test taks class:
-class HttpConnectionBaseTask(BaseTask, CreateExecutionBaseTask):
+class HttpConnectionBaseTask(CreateExecutionBaseTask):
     """
     Xxx.
     """
@@ -67,32 +66,9 @@ class HttpConnectionBaseTask(BaseTask, CreateExecutionBaseTask):
                 template_http_method,
                 template_http_url,# type: ignore
                 http_params)
-            # Collect host, credentials and template representations:
-            representation = self._collect_execution_data(
-                host, template)
-            # Collect execution data:
-            execution_data = {
-                'executor': executor,
-                'host': host,
-                'connection_template': template,
-                'credential': host.credential,
-                'task_id': self.task_id,
-                'execution_status': con.status,
-                'https_response_status': con.status,
-                'https_response_code': con.response_code,
-                'https_response': 'output',
-                'host_representation':
-                 representation['host_representation'],
-                'connection_template_representation': 
-                 representation['connection_template_representation'],
-                'credential_representation':
-                 representation['credential_representation']}
-            try: # Try to create a new execution object:
-                Execution.objects.create(**execution_data)
-            except:
-                self.logger.error(
-                    'An error has occurred during the creation of a new '\
-                    f'execution object.')
+            # Create execution object:
+            execution_object = self._create_execution_object(
+                host, template, executor, con, output)
             # Check connection status:
             if con.status:
                 positive_result += 1

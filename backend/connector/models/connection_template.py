@@ -72,6 +72,16 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         null=True,
         blank=True,
     )
+    ssh_special_template = models.BooleanField(
+        verbose_name='Special template',
+        help_text='Xxx.',
+        default=False,
+    )
+    ssh_vrf_template = models.BooleanField(
+        verbose_name='VRF template',
+        help_text='VRF cli command template.',
+        default=False,
+    )
 
     # HTTP execution type fields:
     http_method = models.IntegerField(
@@ -80,7 +90,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         choices=HTTP_EXECUTION_METHOD,
         default=1,
     )
-
     http_url = models.CharField(
         verbose_name='HTTP(S) URL',
         help_text='HTTP(S) URL field used to generate API request.',
@@ -88,19 +97,22 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         null=True,
         blank=True,
     )
-
     http_params = models.JSONField(
         verbose_name='HTTP(S) parameters',
         help_text='HTTP(S) parameters field used to generate API request.',
         null=True,
         blank=True,
     )
-
     http_body = models.JSONField(
         verbose_name='HTTP(S) body',
         help_text='HTTP(S) body field used to generate API request.',
         null=True,
         blank=True,
+    )
+    xxx = models.BooleanField(
+        verbose_name='Xxx',
+        help_text='Xxx.',
+        default=False,
     )
 
     # Output validation expressions:
