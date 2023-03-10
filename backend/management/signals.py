@@ -11,9 +11,10 @@ from .settings import update_global_settings_dictionary
 
 # 
 @receiver(post_save, sender=GlobalSetting)
-def global_settings_edit(sender: GlobalSetting,
-                        instance: GlobalSetting,
-                        created, **kwargs):
+def global_settings_edit(
+    sender: GlobalSetting,
+    instance: GlobalSetting,
+    created, **kwargs):
     """
     Signal Make sure that there are no other objects
     that have field 'is_current' set to True.
@@ -50,11 +51,11 @@ def global_settings_delete(instance: GlobalSetting, **kwargs):
     """
     if instance.is_current == True:
         try: # Try to collect default global settings object:
-           collect_settings = GlobalSetting.objects.filter(name='Default')
+           collect_settings = GlobalSetting.objects.get(name='Default')
         except:
             # Create default global settings object:
             collect_settings = GlobalSetting.objects.create(
-                name='Default', slug='default', is_current=True)
+                name='Default', is_current=True)
         else:
             collect_settings.is_current = False
             collect_settings.save(update_fields=['is_current'])
