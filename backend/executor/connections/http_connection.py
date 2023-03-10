@@ -13,11 +13,8 @@ from inventory.models.host import Host
 # Settings import:
 from management.settings import collect_global_settings
 
-# Constance:
-METHODS = [
-    'GET',
-    'POST'
-]
+# Constance import:
+from connector.models.connection_template import HTTP_EXECUTION_METHOD
 
 
 # HTTP connection class:
@@ -26,7 +23,7 @@ class Connection:
     # Logger class initiation:
     logger = Logger('HTTP/S connection')
 
-    def __init__(self, host: Host, headers: dict = {}) -> None:
+    def __init__(self, host: Host, header: dict = {}) -> None:
         """
         The HTTP/S connection class uses requests library,
         to connect with Https server for API connections.
@@ -40,6 +37,8 @@ class Connection:
 
         Methods:
         --------
+        connection:
+            Xxx
         get:
             Xxx
         """
@@ -47,9 +46,9 @@ class Connection:
         # Verify if the host variable is a valid host object:
         if not isinstance(host, Host):
             raise TypeError('The provided host must be instance of Host class.')
-        # Verify if the headers variable is a valid sting:
-        if not isinstance(headers, dict) and not headers is None:
-            raise TypeError('The provided headers variable must be dictionary.')
+        # Verify if the header variable is a valid sting:
+        if not isinstance(header, dict) and not header is None:
+            raise TypeError('The provided header variable must be dictionary.')
 
         # Collect data from host object:
         self.__host = host
@@ -58,19 +57,26 @@ class Connection:
         self.certificate = host.certificate_check
 
         # Collect data from host credentials object:
-        if host.credential:
-            self.token = host.credential.token
-            self.username = host.credential.username
-            self.password = host.credential.password
-        else:
-            self.token = None
-            self.username = collect_global_settings('default_user')
-            self.password = collect_global_settings('default_password')
+        self.token = host.credential.token
+        self.username = host.credential.username
+        self.password = host.credential.password
 
-        # 
+        # Collect data from host platform object:
+        self.api_token_heder_key = host.platform.api_token_heder_key
+        self.api_token_heder_value = host.platform.api_token_heder_value
+        self.api_pagination = host.platform.api_pagination
+        self.api_next_page_code_path = host.platform.api_next_page_code_path
+        self.api_next_page_link_path = host.platform.api_next_page_link_path
+        self.api_pagination_param_key = host.platform.api_pagination_param_key
+        self.api_data_path = host.platform.api_data_path
+        self.api_default_header = host.platform.api_default_header
+        self.api_default_params = host.platform.api_default_params
 
-        # Headers declaration:
-        self.headers = headers
+        # Credentials and platform is mandatory:
+        # If not provided default will appear (Default credentials and default platform (Default platfor is not discover))
+
+        # header declaration:
+        self.header = header
 
         # Connection status:
         self.converted_response = None
@@ -95,8 +101,7 @@ class Connection:
     
     def connection(self, method: str, url: str, parameters: dict = {}):
         """
-        Connection class representation is IP address /
-        hostname of HTTP/S server.
+        Xxx.
 
         Parameters:
         -----------------
@@ -110,7 +115,7 @@ class Connection:
         """
 
         # Check if provided HTTP method is valid:
-        if method in METHODS:
+        if method in HTTP_EXECUTION_METHOD:
             # Execute HTTP(S) request:
             return self._connection_center('GET', url, parameters)
         else:
@@ -119,8 +124,7 @@ class Connection:
 
     def get(self, url: str, parameters: dict = {}):
         """
-        Connection class representation is IP address /
-        hostname of HTTP/S server.
+        Xxx.
 
         Parameters:
         -----------------
@@ -184,8 +188,23 @@ class Connection:
         # Return URL with parameters:
         return url
 
+    def _add_token_to_heder(self):
+        """
+        Xxx.
+        """
+
+        # Prepare token value:
+        if self.api_token_heder_value:
+            token_value = f'{self.api_token_heder_value} {self.token}'
+        else:
+            token_value = self.token
+        # Add token heder to HTTP(S) heder:
+        self.header[self.api_token_heder_key] = token_value
+
     def _connection(self, request_method, request_url, body):
-        """ Xxx. """
+        """
+        Xxx.
+        """
 
         # Log the beginning of a new connection to the HTTP/S server:
         Connection.logger.info('Starting a new HTTP/S connection.', self.host)
@@ -196,16 +215,20 @@ class Connection:
         # Connect to the network device with password and username
         # or by using token:
         if self.token:
+            # Add token to HTTP(S) heder:
+            self._add_token_to_heder()
+            # Send HTTP(S) API reguest with heder token authorisation:
             request = requests.Request(
                 request_method,
                 request_url,
-                headers=self.headers,
+                header=self.header,
                 data=body)
         else:
+            # Send HTTP(S) API reguest with user and password authorisation:
             request = requests.Request(
                 request_method,
                 request_url,
-                headers=self.headers,
+                header=self.header,
                 auth=(self.username, self.password),
                 data=body)
         # Confect session with request data:
