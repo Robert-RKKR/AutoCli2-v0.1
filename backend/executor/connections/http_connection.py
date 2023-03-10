@@ -91,7 +91,7 @@ class Connection:
         """
         return self.hostname
     
-    def connection(self, method: str, url: str, params: dict = {}):
+    def connection(self, method: str, url: str, parameters: dict = {}):
         """
         Connection class representation is IP address /
         hostname of HTTP/S server.
@@ -99,22 +99,23 @@ class Connection:
         Parameters:
         -----------------
         method: string
-            HTTP connection method (GET, POST, DELETE).
+            HTTP connection method (GET, POST, DELETE ...).
         url: string
-            Xxx.
-        params: list of strings
-            Xxx.
+            URL string that will be used when requesting the API.
+        parameters: dictionary
+            Dictionary containing additional parameters, formatted as specified:
+            {'Key': 'Value', ...}
         """
 
         # Check if provided HTTP method is valid:
         if method in METHODS:
             # Execute HTTP(S) request:
-            return self._connection_center('GET', url, params)
+            return self._connection_center('GET', url, parameters)
         else:
             raise NotImplementedError(
                 f'Provided HTTP(S) method "{method}", is not supported')
 
-    def get(self, url: str, params: dict = {}):
+    def get(self, url: str, parameters: dict = {}):
         """
         Connection class representation is IP address /
         hostname of HTTP/S server.
@@ -122,26 +123,51 @@ class Connection:
         Parameters:
         -----------------
         url: string
-            Xxx.
-        params: list of strings
-            Xxx.
+            URL string that will be used when requesting the API.
+        parameters: dictionary
+            Dictionary containing additional parameters, formatted as specified:
+            {'Key': 'Value', ...}
         """
 
         # Execute HTTP(S) request:
-        return self._connection_center('GET', url, params)
+        return self._connection_center('GET', url, parameters)
 
-    def _connection_center(self, request_method, url, params, body=None):
+    def _connection_center(self, request_method, url, parameters, body=None):
         """ Xxx. """
 
         # Verify if the host url is a valid host object:
         if not isinstance(url, str):
             raise TypeError('The provided url variable must be string.')
-        # Verify if the params variable is a valid sting:
-        if not isinstance(params, dict) and not params is None:
-            raise TypeError('The provided params variable must be list of dictionary.')
+        # Verify if the parameters variable is a dictionary:
+        if not isinstance(parameters, dict) and not parameters is None:
+            raise TypeError('The provided parameters variable '\
+                'must be list of dictionary.')
+        else: # Verify parameters dictionary virable:
+            for key in parameters:
+                if not isinstance(key, str):
+                    raise TypeError('The provided key variable must be list '\
+                        f'of dictionary. Recived {key}')
+                if not isinstance(parameters[key], str):
+                    raise TypeError('The provided key value variable must '\
+                        f'be list of dictionary. Recived {parameters[key]}')
+        # Collect parameters:
+        if parameters:
+            # Declain first parameter bool value:
+            first_parameter = True
+            # Itterate thru all parameters:
+            for parameter_key in parameters:
+                # Collect parameter data:
+                parameter_value = parameters[parameter_key]
+                # Add parameter to URL:
+                if first_parameter:
+                    url = f'{url}?{parameter_key}={parameter_value}'
+                    # Chand first parameter value to False:
+                    first_parameter = False
+                else:
+                    url = f'{url}&{parameter_key}={parameter_value}'
 
+        # TEMPORARY:
         request_url = f'https://{self.hostname}:{self.http_port}/{url}'
-
         return self._connection(request_method, request_url, body)
 
     def _connection(self, request_method, request_url, body):
@@ -160,16 +186,14 @@ class Connection:
                 request_method,
                 request_url,
                 headers=self.headers,
-                data=body,
-            )
+                data=body)
         else:
             request = requests.Request(
                 request_method,
                 request_url,
                 headers=self.headers,
                 auth=(self.username, self.password),
-                data=body,
-            )
+                data=body)
         # Confect session with request data:
         prepare_request = session.prepare_request(request)
         try: # Try to establish a connection to a network device:
