@@ -41,16 +41,12 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name='Software',
         help_text='Software.',
         on_delete=models.PROTECT,
-        null=True,
-        blank=True,
     )
     credential = models.ForeignKey(
         Credential,
         verbose_name='Credentials',
         help_text='Credentials.',
         on_delete=models.PROTECT,
-        null=True,
-        blank=True,
     )
 
     # Base host information:

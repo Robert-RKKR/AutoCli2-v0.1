@@ -13,8 +13,13 @@ from inventory.models.host import Host
 # Settings import:
 from management.settings import collect_global_settings
 
-# Constance import:
-from connector.models.connection_template import HTTP_EXECUTION_METHOD
+# Constance:
+HTTP_EXECUTION_METHOD = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE'
+]
 
 
 # HTTP connection class:
@@ -150,14 +155,14 @@ class Connection:
         if not isinstance(parameters, dict) and not parameters is None:
             raise TypeError('The provided parameters variable '\
                 'must be list of dictionary.')
-        else: # Verify parameters dictionary virable:
+        else: # Verify parameters dictionary variable:
             for key in parameters:
                 if not isinstance(key, str):
                     raise TypeError('The provided key variable must be list '\
-                        f'of dictionary. Recived {key}')
+                        f'of dictionary. Received {key}')
                 if not isinstance(parameters[key], str):
                     raise TypeError('The provided key value variable must '\
-                        f'be list of dictionary. Recived {parameters[key]}')
+                        f'be list of dictionary. Received {parameters[key]}')
         # Collect parameters:
         if parameters:
             url = self._add_parameters_to_url(url, parameters)
@@ -172,16 +177,16 @@ class Connection:
         Add provided parameter into URL string.
         """
 
-        # Declain first parameter bool value:
+        # Declaim first parameter bool value:
         first_parameter = True
-        # Itterate thru all parameters:
+        # Iterate thru all parameters:
         for parameter_key in parameters:
             # Collect parameter data:
             parameter_value = parameters[parameter_key]
             # Add parameter to URL:
             if first_parameter:
                 url = f'{url}?{parameter_key}={parameter_value}'
-                # Chand first parameter value to False:
+                # Change first parameter value to False:
                 first_parameter = False
             else:
                 url = f'{url}&{parameter_key}={parameter_value}'
@@ -217,18 +222,18 @@ class Connection:
         if self.token:
             # Add token to HTTP(S) heder:
             self._add_token_to_heder()
-            # Send HTTP(S) API reguest with heder token authorisation:
+            # Send HTTP(S) API request with heder token authorization:
             request = requests.Request(
                 request_method,
                 request_url,
-                header=self.header,
+                headers=self.header,
                 data=body)
         else:
-            # Send HTTP(S) API reguest with user and password authorisation:
+            # Send HTTP(S) API request with user and password authorization:
             request = requests.Request(
                 request_method,
                 request_url,
-                header=self.header,
+                headers=self.header,
                 auth=(self.username, self.password),
                 data=body)
         # Confect session with request data:
