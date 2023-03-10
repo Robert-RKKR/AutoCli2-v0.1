@@ -18,8 +18,8 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
-    task = execute_executor_task.delay(1)
-    # task = execute_executor_task(1)
+    # task = execute_executor_task.delay(1)
+    task = execute_executor_task(1)
     data['return_output'] = task
 
     host_one = Host.objects.get(pk=1)
