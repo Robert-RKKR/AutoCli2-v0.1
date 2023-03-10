@@ -1,10 +1,5 @@
 # Python import:
-import urllib.request
 import threading
-import datetime
-import zipfile
-import csv
-import os
 
 # Base task import:
 from .http_connection import HttpConnectionBaseTask

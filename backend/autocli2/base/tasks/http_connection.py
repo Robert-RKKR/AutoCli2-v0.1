@@ -1,11 +1,3 @@
-# Python import:
-import urllib.request
-import threading
-import datetime
-import zipfile
-import csv
-import os
-
 # Base task import:
 from .create_execution import CreateExecutionBaseTask
 
@@ -19,11 +11,7 @@ from connector.models.connection_template import ConnectionTemplate
 from inventory.models.host import Host
 
 # Executors models import:
-from executor.models.execution import Execution
 from executor.models.executor import Executor
-
-# Settings import:
-from management.settings import collect_global_settings
 
 
 # Test taks class:

@@ -23,7 +23,7 @@ class Logger(Messenger):
 
     def __init__(self,
         application: str = '--NoName--',
-        task_id: str = None) -> None:
+        task_id: str = 'None') -> None:
         """
         Logger class.
         Provided the ability to log events in database.

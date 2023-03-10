@@ -293,7 +293,7 @@ class Messenger:
         correlated_object: BaseModel,
         action_type: int,
         severity_level: int,
-        execution_time: float) -> NotificationModel:
+        execution_time: float) -> NotificationModel or None:
         """ Create a new message. """
 
         # Collect data:

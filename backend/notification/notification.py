@@ -23,7 +23,7 @@ class Notification(Messenger):
 
     def __init__(self,
         application: str = '--NoName--',
-        task_id: str = None,
+        task_id: str = 'None',
         channel_name: str = 'notification') -> None:
         """
         Notification class.
