@@ -67,12 +67,14 @@ class Connection:
             self.username = collect_global_settings('default_user')
             self.password = collect_global_settings('default_password')
 
+        # 
+
         # Headers declaration:
         self.headers = headers
 
         # Connection status:
-        self.response_code = None
         self.converted_response = None
+        self.response_code = None
         self.connection_status = False
         self.xml_status = None
         self.json_status = None
@@ -133,7 +135,9 @@ class Connection:
         return self._connection_center('GET', url, parameters)
 
     def _connection_center(self, request_method, url, parameters, body=None):
-        """ Xxx. """
+        """
+        Xxx.
+        """
 
         # Verify if the host url is a valid host object:
         if not isinstance(url, str):
@@ -152,23 +156,33 @@ class Connection:
                         f'be list of dictionary. Recived {parameters[key]}')
         # Collect parameters:
         if parameters:
-            # Declain first parameter bool value:
-            first_parameter = True
-            # Itterate thru all parameters:
-            for parameter_key in parameters:
-                # Collect parameter data:
-                parameter_value = parameters[parameter_key]
-                # Add parameter to URL:
-                if first_parameter:
-                    url = f'{url}?{parameter_key}={parameter_value}'
-                    # Chand first parameter value to False:
-                    first_parameter = False
-                else:
-                    url = f'{url}&{parameter_key}={parameter_value}'
+            url = self._add_parameters_to_url(url, parameters)
+        # Paginate API request:
 
         # TEMPORARY:
         request_url = f'https://{self.hostname}:{self.http_port}/{url}'
         return self._connection(request_method, request_url, body)
+
+    def _add_parameters_to_url(self, url, parameters):
+        """
+        Add provided parameter into URL string.
+        """
+
+        # Declain first parameter bool value:
+        first_parameter = True
+        # Itterate thru all parameters:
+        for parameter_key in parameters:
+            # Collect parameter data:
+            parameter_value = parameters[parameter_key]
+            # Add parameter to URL:
+            if first_parameter:
+                url = f'{url}?{parameter_key}={parameter_value}'
+                # Chand first parameter value to False:
+                first_parameter = False
+            else:
+                url = f'{url}&{parameter_key}={parameter_value}'
+        # Return URL with parameters:
+        return url
 
     def _connection(self, request_method, request_url, body):
         """ Xxx. """
@@ -227,7 +241,7 @@ class Connection:
             # Check response status:
             if response.status_code < 200: # All response from 0 to 199.
                 Connection.logger.warning(
-                    f'Connection to {self.hostname}, '\
+                    f'Connection to "{request_url}", '\
                         'was a informational HTTPS request. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
@@ -237,7 +251,7 @@ class Connection:
                 self.status = True
             elif response.status_code < 300: # All response from 200 to 299.
                 Connection.logger.info(
-                    f'Connection to {self.hostname}, '\
+                    f'Connection to "{request_url}", '\
                         'was a success HTTPS request. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
@@ -247,7 +261,7 @@ class Connection:
                 self.status = True
             elif response.status_code < 400: # All response from 300 to 399.
                 Connection.logger.warning(
-                    f'Connection to {self.hostname}, '\
+                    f'Connection to "{request_url}", '\
                         'returned redirection HTTPS error. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
@@ -257,7 +271,7 @@ class Connection:
                 self.status = False
             elif response.status_code < 500: # All response from 400 to 499.
                 Connection.logger.error(
-                    f'Connection to {self.hostname}, '\
+                    f'Connection to "{request_url}", '\
                         'returned client HTTPS error. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
@@ -267,7 +281,7 @@ class Connection:
                 self.status = False
             elif response.status_code < 600: # All response from 500 to 599.
                 Connection.logger.error(
-                    f'Connection to {self.hostname}, '\
+                    f'Connection to "{request_url}", '\
                         'returned server HTTPS error. '\
                         f'HTTP/S code {response.status_code}', self.host,
                         execution_time=self.execution_time)
