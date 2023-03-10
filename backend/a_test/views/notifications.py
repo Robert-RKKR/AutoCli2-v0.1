@@ -5,7 +5,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from inventory.models.host import Host
 from management.settings import collect_global_settings
 from executor.connections.http_connection import Connection
-from executor.tasks.execute_executor import ExecuteExecutorTask
+from executor.tasks.execute_executor import execute_executor_task
 from connector.models.connection_template import ConnectionTemplate
 
 # Test view:
@@ -18,8 +18,9 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
-    task = ExecuteExecutorTask(1)# type: ignore
-    data['return_output'] = task# type: ignore
+    task = execute_executor_task.delay(1)
+    # task = execute_executor_task(1)
+    data['return_output'] = task
 
     host_one = Host.objects.get(pk=1)
 

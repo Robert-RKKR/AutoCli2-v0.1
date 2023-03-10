@@ -33,19 +33,8 @@ class CreateExecutionBaseTask(BaseTask):
         # Collect host, credentials and template representations:
         representation = self._collect_execution_data(
             host, template, data_collection_protocol)
-        # Collect data based on connection protocol type (HTTP/SSH)::
-        if data_collection_protocol == 1:
-            execution_data = {
-                'ssh_raw_data_status': con.raw_data_status,
-                'ssh_processed_data_status': con.processed_data_status,
-                'ssh_raw_data': con.raw_data,
-                'ssh_processed_data': con.processed_data}
-        elif data_collection_protocol == 2:
-            execution_data = {
-                'https_response_code': con.response_code,
-                'https_response': output}
         # Collect execution data:
-        execution_data.update({
+        execution_data = {
             'executor': executor,
             'host': host,
             'connection_template': template,
@@ -57,7 +46,16 @@ class CreateExecutionBaseTask(BaseTask):
             'connection_template_representation': 
                 representation['connection_template_representation'],
             'credential_representation':
-                representation['credential_representation']})
+                representation['credential_representation']}
+        # Collect data based on connection protocol type (HTTP/SSH)::
+        if data_collection_protocol == 1:
+            execution_data['ssh_raw_data_status'] = con.raw_data_status
+            execution_data['ssh_processed_data_status'] = con.processed_data_status
+            execution_data['ssh_raw_data'] = con.raw_data
+            execution_data['ssh_processed_data'] = con.processed_data
+        elif data_collection_protocol == 2:
+            execution_data['https_response_code'] = con.response_code
+            execution_data['https_response'] = output
         try: # Try to create a new execution object:
             execution_object = Execution.objects.create(**execution_data)
         except:

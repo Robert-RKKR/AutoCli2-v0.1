@@ -325,7 +325,7 @@ class Messenger:
 
         if self.is_notification:
             # Send channel notification:
-            async_to_sync(channel_layer.group_send)(self.channel_name, 
+            async_to_sync(channel_layer.group_send)('notification', 
                 notification_data)
         
         try: # Try to save notification in database:

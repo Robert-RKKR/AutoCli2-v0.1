@@ -4,6 +4,10 @@ import xmltodict
 import json
 import time
 
+# Disable ssl warnings:
+import urllib3
+urllib3.disable_warnings()
+
 # Logger import:
 from notification.logger import Logger
 

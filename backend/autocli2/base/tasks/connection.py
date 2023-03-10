@@ -1,6 +1,6 @@
 # Python import:
 import urllib.request
-import threading
+# import threading
 import datetime
 import zipfile
 import csv
@@ -65,30 +65,30 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
                 'device/s was unsuccessful. No data was collected.', executor,
                 execution_time=end_time)
 
-    def multithreading_connection(self,
-        hosts: list[Host],
-        connection_templates: list[ConnectionTemplate],
-        executor: Executor):
-        """ 
-        Multi-threading connection method is responsible for collecting data
-        from multiple remote hosts at the same time.
-        """
+    # def multithreading_connection(self,
+    #     hosts: list[Host],
+    #     connection_templates: list[ConnectionTemplate],
+    #     executor: Executor):
+    #     """ 
+    #     Multi-threading connection method is responsible for collecting data
+    #     from multiple remote hosts at the same time.
+    #     """
 
-        # Define threads list:
-        threads = list()
-        # Iterate thru all provided devices:
-        for host in hosts:
-            # Run thread:
-            thread = threading.Thread(target=self._device_execution,
-                args=(host, connection_templates, executor))
-            # Add current thread to threads list:
-            threads.append(thread)
-            # Start current thread:
-            thread.start()
+    #     # Define threads list:
+    #     threads = list()
+    #     # Iterate thru all provided devices:
+    #     for host in hosts:
+    #         # Run thread:
+    #         thread = threading.Thread(target=self._device_execution,
+    #             args=(host, connection_templates, executor))
+    #         # Add current thread to threads list:
+    #         threads.append(thread)
+    #         # Start current thread:
+    #         thread.start()
 
-        # Wait to end of all threads execution:
-        for index, thread in enumerate(threads):
-            thread.join()
+    #     # Wait to end of all threads execution:
+    #     for index, thread in enumerate(threads):
+    #         thread.join()
 
     def _device_execution(self,
         host: Host,
