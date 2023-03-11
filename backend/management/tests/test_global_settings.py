@@ -4,6 +4,7 @@ import pytest
 # Models import:
 from management.models.global_settings import GlobalSetting
 
+# Test functions:
 @pytest.mark.django_db
 def test_global_settings_create(create_global_settings):
     # Collect test global settings:
@@ -24,9 +25,12 @@ def test_global_settings_delete(create_global_settings):
 
 @pytest.mark.django_db
 def test_global_settings_new(create_global_settings):
-    # Collect test data:
+    # Collect test global settings:
+    test_1 = GlobalSetting.objects.get(pk=1)
+    test_2 = GlobalSetting.objects.get(pk=2)
+    # Collect global settings is_current values:
     test_data = [
-        create_global_settings[0].is_current,
-        create_global_settings[1].is_current]
+       test_1.is_current,
+        test_2.is_current]
     # Check if default global settings where created:
     assert test_data == [False, True]

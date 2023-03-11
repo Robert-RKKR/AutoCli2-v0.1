@@ -33,13 +33,13 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name_plural = 'Connection templates'
 
     # Relations with other classes:
-    platform = models.ManyToManyField(
+    platforms = models.ManyToManyField(
         Platform,
-        verbose_name='Software',
-        help_text='One or more software(s) can be added to the connection '\
-        'template. To associate the template with the appropriate software(s). '\
+        verbose_name='Platform',
+        help_text='One or more platform(s) can be added to the connection '\
+        'template. To associate the template with the appropriate platform(s). '\
         'Template execution will only be available to hosts belonging to '\
-        'the specified software.',
+        'the specified platform.',
     )
 
     # Execution type:
@@ -108,11 +108,6 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         help_text='HTTP(S) body field used to generate API request.',
         null=True,
         blank=True,
-    )
-    xxx = models.BooleanField(
-        verbose_name='Xxx',
-        help_text='Xxx.',
-        default=False,
     )
 
     # Output validation expressions:

@@ -34,7 +34,7 @@ class ConnectionTemplateAdmin(BaseAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'created', 'updated', 'name', 'description',
-                       'execution_protocol', 'platform')
+                       'execution_protocol', 'platforms')
         }),
         ('SSH information', {
             'classes': ('wide', 'extrapretty',),
