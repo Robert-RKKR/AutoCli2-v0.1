@@ -35,11 +35,15 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         start_timer = self._start_timer()
         # Collect host execution status:
         positive_result = 0
+        # Collect outputs:
+        result = {}
         # Iterate thru all provided devices:
         for host in hosts:
             # Execute all provided templates on current host:
             output = self._device_execution(
                 host, connection_templates, executor)
+            # Add output to result dictionary:
+            result[host.name] = output
             # Increase positive results when output is True:
             if output:
                 positive_result += 1
@@ -59,6 +63,8 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
                 f'The data collection process running on the {len(hosts)} '\
                 'device/s was unsuccessful. No data was collected.', executor,
                 execution_time=end_time)
+        # Return result:
+        return result
 
     def multithreading_connection(self,
         hosts: list[Host],

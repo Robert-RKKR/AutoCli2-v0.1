@@ -28,7 +28,7 @@ class ExecuteExecutorTask(ConnectionBaseTask):
     logger_name = 'ConnectionExecutor'
     channel_name = 'execution'
 
-    def _run(self, executor_id, *args, **kwargs) -> None:
+    def _run(self, executor_id, *args, **kwargs) -> dict:
         try: # Try to collect executor:
             executor = Executor.objects.get(pk=executor_id)
         except:
@@ -50,12 +50,14 @@ class ExecuteExecutorTask(ConnectionBaseTask):
                 hosts = executor.hosts.all()
                 connection_templates = executor.connection_templates.all()
                 # Execute template:
-                self.singlethreading_connection(
+                output = self.singlethreading_connection(
                     hosts, connection_templates, executor)
             else:
                 self.logger.error(
                     'Executor object contains unsupported  "executor_type" '\
                     f'value: {executor.executor_type}.', executor)
+        # Return output:
+        return output
 
 # Task registration:
 execute_executor_task = app.register_task(ExecuteExecutorTask())
