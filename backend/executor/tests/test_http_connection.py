@@ -14,6 +14,9 @@ from connector.models.connection_template import ConnectionTemplate
 # Project executor models import:
 from executor.models.executor import Executor
 
+# Task import:
+from executor.tasks.execute_executor import execute_executor_task
+
 # Test functions:
 @pytest.mark.django_db
 def test_created_objects(create_test_objects):
@@ -25,5 +28,6 @@ def test_created_objects(create_test_objects):
     test_region = Region.objects.get(pk=1)
     test_host = Host.objects.get(pk=1)
     test_site = Site.objects.get(pk=1)
-    # Check if test global settings where created:
-    assert test_executor.name == 'Test executor'
+    # Test task 'execute_executor_task':
+    task = execute_executor_task(1)
+    assert task == {'Test host': False}

@@ -78,5 +78,5 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
         verbose_name='Certificate check',
         help_text='If enabled, attempts to validate host certificate. '\
         'If disabled, ignores certificate validation process.',
-        default=False,
+        default=True,
     )
