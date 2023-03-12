@@ -183,8 +183,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # other settings data:
 CHANGE_LOG_MODELS = [
+    # Executor models:
+    ('executor', 'executor'),
+    ('executor', 'snapshot'),
+    # Connector models:
+    ('connector', 'connection_template'),
+    ('connector', 'data_group_template'),
+    ('connector', 'data_template'),
+    ('connector', 'model_group_template'),
+    ('connector', 'model_template'),
     # Inventory models:
-    ('connectors', 'ConnectionTemplate'),
+    ('inventory', 'credentials'),
+    ('inventory', 'host'),
+    ('inventory', 'platform'),
+    ('inventory', 'region'),
+    ('inventory', 'site'),
+    # Management models:
+    ('management', 'administrator_settings'),
+    ('management', 'global_settings'),
+    ('management', 'administrator'),
 ]
 
 # Default user:

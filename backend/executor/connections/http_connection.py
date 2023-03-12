@@ -30,11 +30,11 @@ HTTP_EXECUTION_METHOD = [
 class Connection:
     
     # Logger class initiation:
-    logger = Logger('HTTP/S connection')
+    logger = Logger('HTTP(S) connection')
 
     def __init__(self, host: Host, header: dict = {}) -> None:
         """
-        The HTTP/S connection class uses requests library,
+        The HTTP(S) connection class uses requests library,
         to connect with Https server for API connections.
 
         Class attributes:
@@ -104,7 +104,7 @@ class Connection:
     def __repr__(self):
         """
         Connection class representation is IP address /
-        hostname of HTTP/S server.
+        hostname of HTTP(S) server.
         """
         return self.hostname
     
@@ -215,8 +215,9 @@ class Connection:
         Xxx.
         """
 
-        # Log the beginning of a new connection to the HTTP/S server:
-        Connection.logger.info('Starting a new HTTP/S connection.', self.host)
+        # Log the beginning of a new connection to the HTTP(S) server:
+        Connection.logger.info('The initiation of a new HTTP(S) '\
+            f'request to "{request_url}" has been started.', self.host)
         # Start clock count:
         start_time = time.perf_counter()
         # Create session:
@@ -273,50 +274,50 @@ class Connection:
             # Check response status:
             if response.status_code < 200: # All response from 0 to 199.
                 Connection.logger.warning(
-                    f'Connection to "{request_url}", '\
-                        'was a informational HTTPS request. '\
-                        f'HTTP/S code {response.status_code}', self.host,
-                        execution_time=self.execution_time)
+                    f'HTTP(S) request sent to "{request_url}" URL, receives '\
+                    'an informative HTTP(S) response. The response code is: '\
+                    f'{response.status_code}.', self.host,
+                    execution_time=self.execution_time)
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to True:
                 self.status = True
             elif response.status_code < 300: # All response from 200 to 299.
                 Connection.logger.info(
-                    f'Connection to "{request_url}", '\
-                        'was a success HTTPS request. '\
-                        f'HTTP/S code {response.status_code}', self.host,
-                        execution_time=self.execution_time)
+                    f'HTTP(S) request sent to "{request_url}" URL, receives '\
+                    'a successful HTTP(S) response. The response code is: '\
+                    f'{response.status_code}.', self.host,
+                    execution_time=self.execution_time)
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to True:
                 self.status = True
             elif response.status_code < 400: # All response from 300 to 399.
                 Connection.logger.warning(
-                    f'Connection to "{request_url}", '\
-                        'returned redirection HTTPS error. '\
-                        f'HTTP/S code {response.status_code}', self.host,
-                        execution_time=self.execution_time)
+                    f'HTTP(S) request sent to "{request_url}" URL, return '\
+                    'error response. The response code is: '\
+                    f'{response.status_code}.', self.host,
+                    execution_time=self.execution_time)
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to False:
                 self.status = False
             elif response.status_code < 500: # All response from 400 to 499.
                 Connection.logger.error(
-                    f'Connection to "{request_url}", '\
-                        'returned client HTTPS error. '\
-                        f'HTTP/S code {response.status_code}', self.host,
-                        execution_time=self.execution_time)
+                    f'HTTP(S) request sent to "{request_url}" URL, return '\
+                    'error response. The response code is: '\
+                    f'{response.status_code}.', self.host,
+                    execution_time=self.execution_time)
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to False:
                 self.status = False
             elif response.status_code < 600: # All response from 500 to 599.
                 Connection.logger.error(
-                    f'Connection to "{request_url}", '\
-                        'returned server HTTPS error. '\
-                        f'HTTP/S code {response.status_code}', self.host,
-                        execution_time=self.execution_time)
+                    f'HTTP(S) request sent to "{request_url}" URL, return '\
+                    'error response. The response code is: '\
+                    f'{response.status_code}.', self.host,
+                    execution_time=self.execution_time)
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to False:
@@ -339,11 +340,13 @@ class Connection:
                 if self.xml_status is False and self.json_status is False:
                     # Log when python dictionary convert process fail:
                     Connection.logger.warning(
-                        'Python JSON/XML -> dictionary convert process fail.',
+                        'Python JSON/XML -> dictionary convert process fail, '\
+                        f'in relation to "{request_url}" URL request.',
                         self.host)
                 # Return response:
                 return self.converted_response
             else:
                 Connection.logger.debug(
-                        'HTTP/S response was empty', self.host)
+                    f'HTTP(S) response received for "{request_url}" URL '\
+                    'request was empty', self.host)
                 return False

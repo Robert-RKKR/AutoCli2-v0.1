@@ -28,4 +28,4 @@ class CollectHostDataTask(ConnectionBaseTask):
         print('===(CollectHostDataTask)===> ', test)
 
 # Task registration:
-CollectHostDataTask = app.register_task(CollectHostDataTask())# type: ignore
+collect_host_data_task = app.register_task(CollectHostDataTask())

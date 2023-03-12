@@ -28,4 +28,4 @@ class CheckHostStatusTask(ConnectionBaseTask):
         print('===(CheckHostStatusTask)===> ', test)
 
 # Task registration:
-CheckHostStatusTask = app.register_task(CheckHostStatusTask())# type: ignore
+check_host_status_task = app.register_task(CheckHostStatusTask())# type: ignore

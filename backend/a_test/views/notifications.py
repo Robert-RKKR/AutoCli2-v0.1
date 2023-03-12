@@ -8,8 +8,19 @@ from executor.connections.http_connection import Connection
 from executor.tasks.execute_executor import execute_executor_task
 from connector.models.connection_template import ConnectionTemplate
 
+from celery import current_app
+from autocli2.celery import app
+
+
+# Notification:
+notification = Notification('Test')
+
 # Test view:
 def notifications_test(request):
+
+    
+    return_output = notification.info(
+        '#################')
 
     # s = SessionStore()
 
@@ -18,18 +29,22 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
+    
     # task = execute_executor_task.delay(1)
-    task = execute_executor_task(1)
-    data['return_output'] = task
+    # task = execute_executor_task(1)
+    
+    print('===(registered tasks)===> ', app.control.inspect().registered())
+    print('===(registered tasks)===> ', app.control.inspect().registered('serializer', 'max_retries'))
+    print('===()===> ', app.control.inspect().registered())
+    print('===()===> ', app.control.inspect().registered())
+    print('===()===> ', app.control.inspect().registered())
+    print('===()===> ', app.control.inspect().registered())
+    print('===()===> ', app.control.inspect().registered())
+    print('===()===> ', app.control.inspect().registered())
+    data['return_output'] = 'inspector'
 
-    host_one = Host.objects.get(pk=1)
+    # host_one = Host.objects.get(pk=1)
 
-    notification = Notification('Test')
-    # return_output = notification.info(
-    #     '1 - Welcome in AutoCli2 application')
-    return_output = notification.info(
-        '#################',
-        host_one, 2)
     # # con = Connection(host_one)
     # # data['return_output'] = con.get('restconf/data/Cisco-IOS-XE-native:native')
 
