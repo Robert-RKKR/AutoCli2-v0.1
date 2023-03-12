@@ -51,10 +51,18 @@ def create_test_objects(db):
         name='Test credential',
         username='developer',
         password='C1sco12345')
-    # Create test host:
-    test_host = Host.objects.create(
-        name='Test host',
+    # Create test hosts:
+    test_host_1 = Host.objects.create(
+        name='Test HTTP host Cisco online',
         hostname='sandbox-iosxe-latest-1.cisco.com',
+        data_collection_protocol=2,
+        site=test_site,
+        platform=test_platform,
+        credential=test_credential,
+        certificate_check=False)
+    test_host_2 = Host.objects.create(
+        name='Test HTTP host London underground',
+        hostname='api.tfl.gov.uk',
         data_collection_protocol=2,
         site=test_site,
         platform=test_platform,
@@ -69,5 +77,5 @@ def create_test_objects(db):
     test_executor = Executor.objects.create(
         name='Test executor',
         executor_type=2)
-    test_executor.hosts.add(test_host)
+    test_executor.hosts.add(test_host_1)
     test_executor.connection_templates.add(test_template)

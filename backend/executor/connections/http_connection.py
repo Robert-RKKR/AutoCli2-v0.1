@@ -81,16 +81,13 @@ class Connection:
         self.api_default_header = host.platform.api_default_header
         self.api_default_params = host.platform.api_default_params
 
-        # Credentials and platform is mandatory:
-        # If not provided default will appear (Default credentials and default platform (Default platfor is not discover))
-
         # header declaration:
         self.header = header
 
         # Connection status:
+        self.status = False
         self.converted_response = None
         self.response_code = None
-        self.connection_status = False
         self.xml_status = None
         self.json_status = None
 
