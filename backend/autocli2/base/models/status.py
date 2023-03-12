@@ -4,6 +4,9 @@ from django.db import models
 # Base model import:
 from .base_model import BaseModel
 
+# Django validation error import:
+from django.core.exceptions import ValidationError
+
 
 # Status models class:
 class StatusModel(BaseModel):
@@ -16,14 +19,6 @@ class StatusModel(BaseModel):
         
         # Abstract class value:
         abstract = True
-
-    # Deleted information:
-    is_deleted = models.BooleanField(
-        verbose_name='Deleted',
-        help_text=f'Is {Meta.verbose_name} deleted (Deleted {Meta.verbose_name} '\
-        'is reserved for backward compatibility).',
-        default=False,
-    )
 
     # Model status values:
     is_root = models.BooleanField(
@@ -39,32 +34,31 @@ class StatusModel(BaseModel):
         default=True,
     )
 
-    # # Model Save override:
-    # def save(self, *args, **kwargs):
-        
-    #     # Check if object root value is true:
-    #     if self.is_root is True:
-    #         pass
-    #         # raise ValidationError('Root object cannot be changed or deleted.')
-    #     else:
-    #         super(StatusModel, self).save(*args, **kwargs)
+    # Check if object can be deleted:
+    def can_be_deleted(self):
+        # Return True if the object can be deleted, False otherwise:
+        if self.is_root is True:
+            return False
+        else:
+            return True
 
-    # # Model Save override:
-    # def delete(self, *args, **kwargs):
-        
-    #     # Check if object root value is true:
-    #     if self.is_root is True:
-    #         pass
-    #         # raise ValidationError('Root object cannot be changed or deleted.')
-    #     else:
-    #         super(StatusModel, self).delete(*args, **kwargs)
+    # Model save method override:
+    def save(self, *args, **kwargs):
+        if self.pk is not None:
+            # Check if object root value is true:
+            if not self.can_be_deleted():
+                return False
+                # raise ValidationError(f"{self._meta.object_name} object can't be "\
+                #     "changed because its root object")
+        # Save object if allowed:
+        super(StatusModel, self).save(*args, **kwargs)
 
-    # # Model Save override:
-    # def update(self, *args, **kwargs):
-        
-    #     # Check if object root value is true:
-    #     if self.is_root is True:
-    #         pass
-    #         # raise ValidationError('Root object cannot be changed or deleted.')
-    #     else:
-    #         super(StatusModel, self).update(*args, **kwargs)
+    # Model delete method override:
+    def delete(self, *args, **kwargs):
+        # Check if object root value is true:
+        if self.can_be_deleted():
+            super(StatusModel, self).delete(*args, **kwargs)
+        else:
+            return False
+            # raise ValidationError(f"{self._meta.object_name} object can't be "\
+            #     "deleted because its root object")

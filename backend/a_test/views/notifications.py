@@ -8,6 +8,8 @@ from management.settings import collect_global_settings
 from executor.connections.http_connection import Connection
 from executor.tasks.execute_executor import execute_executor_task
 from connector.models.connection_template import ConnectionTemplate
+from inventory.models.credentials import Credential
+from inventory.models.platform import Platform
 
 from celery import current_app
 from autocli2.celery import app
@@ -30,11 +32,22 @@ def notifications_test(request):
         'page_title': 'Test RKKR - Notifications',
         'output': 'Welcome to notifications test!',
     }
+
+    credential = Credential.objects.get(pk=1)
+    platform = Platform.objects.get(pk=1)
+
+    host = Host.objects.create(
+        name='Root test',
+        hostname='4.4.4.45',
+        credential=credential,
+        platform=platform,
+        is_root=True
+    )
     
     # task = execute_executor_task.delay(1)
     # task = execute_executor_task(1)
 
-    data['return_output'] = 'json.dumps(stats)'
+    data['return_output'] = host
 
     # host_one = Host.objects.get(pk=1)
 
