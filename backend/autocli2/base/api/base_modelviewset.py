@@ -19,8 +19,38 @@ from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
 
+from rest_framework.response import Response
+from rest_framework import status
+
+class DestroyModelMixin:
+    """
+    Destroy a model instance.
+    """
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        response = self.perform_destroy(instance)
+        if response:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def perform_destroy(self, instance):
+        response = instance.delete()
+        print('====> ', response)
+        return response
+
+
+class ModelViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
+
+    pass
+
 # Base ModelViewSet model:
-class BaseModelViewSet(viewsets.ModelViewSet):
+class BaseModelViewSet(ModelViewSet):
     """
     Base ModelViewSet model.
     """
@@ -50,24 +80,24 @@ class BaseModelViewSet(viewsets.ModelViewSet):
                 # use default serializer class:
                 return self.serializer_class
 
-    # overwrite create method to add many serializer functionality:
+    # Overwrite create method to add many serializer functionality:
     def create(self, *args, **kwargs):
         self.serializer_class = self.get_own_serializer_class(many=False)
         return viewsets.ModelViewSet.create(self, *args, **kwargs)
 
-    # overwrite update method to add many serializer functionality:
+    # Overwrite update method to add many serializer functionality:
     def update(self, *args, **kwargs):
         self.serializer_class = self.get_own_serializer_class(many=False)
         return viewsets.ModelViewSet.update(self, *args, **kwargs)
 
-    # overwrite list method to add many serializer functionality:
+    # Overwrite list method to add many serializer functionality:
     def list(self, *args, **kwargs):
         self.serializer_class = self.get_own_serializer_class(many=True)
         # Collect default search and ordering fields:
         self._receive_base_search_ordering_lists()
         return viewsets.ModelViewSet.list(self, *args, **kwargs)
 
-    # overwrite retrieve method to add many serializer functionality:
+    # Overwrite retrieve method to add many serializer functionality:
     def retrieve(self, *args, **kwargs):
         self.serializer_class = self.get_own_serializer_class(many=True)
         # Collect default search and ordering fields:
@@ -90,19 +120,19 @@ class BaseModelViewSet(viewsets.ModelViewSet):
 
 
 # Read only Base ModelViewSet model:
-class BaseRoModelViewSet(
-    viewsets.GenericViewSet,
-    mixins.RetrieveModelMixin,
-    mixins.DestroyModelMixin,
-    mixins.ListModelMixin):
-    """
-    Base Read only ModelViewSet model.
-    """
-    # Authentication and permissions:
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
-    permission_classes = [DjangoModelPermissions]
+# class BaseRoModelViewSet(
+#     viewsets.GenericViewSet,
+#     mixins.RetrieveModelMixin,
+#     mixins.DestroyModelMixin,
+#     mixins.ListModelMixin):
+#     """
+#     Base Read only ModelViewSet model.
+#     """
+#     # Authentication and permissions:
+#     authentication_classes = [SessionAuthentication, TokenAuthentication]
+#     permission_classes = [DjangoModelPermissions]
 
-    # Django rest framework filters:
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    base_search_fields = ['id']
-    base_ordering_fields = ['id', 'created', 'updated', 'active', 'root']
+#     # Django rest framework filters:
+#     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+#     base_search_fields = ['id']
+#     base_ordering_fields = ['id', 'created', 'updated', 'active', 'root']

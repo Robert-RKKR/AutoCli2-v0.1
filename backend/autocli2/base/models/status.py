@@ -4,9 +4,6 @@ from django.db import models
 # Base model import:
 from .base_model import BaseModel
 
-# Django validation error import:
-from django.core.exceptions import ValidationError
-
 
 # Status models class:
 class StatusModel(BaseModel):
@@ -52,12 +49,14 @@ class StatusModel(BaseModel):
                 #     "changed because its root object")
         # Save object if allowed:
         super(StatusModel, self).save(*args, **kwargs)
+        return True
 
     # Model delete method override:
     def delete(self, *args, **kwargs):
         # Check if object root value is true:
         if self.can_be_deleted():
             super(StatusModel, self).delete(*args, **kwargs)
+            return True
         else:
             return False
             # raise ValidationError(f"{self._meta.object_name} object can't be "\

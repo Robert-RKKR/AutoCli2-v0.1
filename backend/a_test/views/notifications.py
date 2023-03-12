@@ -37,11 +37,11 @@ def notifications_test(request):
     platform = Platform.objects.get(pk=1)
 
     host = Host.objects.create(
-        name='Root test',
-        hostname='4.4.4.45',
+        name='Root test eeeee',
+        hostname='4.4.4.4e5',
         credential=credential,
         platform=platform,
-        is_root=True
+        is_root=False
     )
     
     # task = execute_executor_task.delay(1)
