@@ -1,4 +1,5 @@
 # Django import:
+import json
 from django.shortcuts import render
 from notification.notification import Notification
 from django.contrib.sessions.backends.db import SessionStore
@@ -32,16 +33,8 @@ def notifications_test(request):
     
     # task = execute_executor_task.delay(1)
     # task = execute_executor_task(1)
-    
-    print('===(registered tasks)===> ', app.control.inspect().registered())
-    print('===(registered tasks)===> ', app.control.inspect().registered('serializer', 'max_retries'))
-    print('===()===> ', app.control.inspect().registered())
-    print('===()===> ', app.control.inspect().registered())
-    print('===()===> ', app.control.inspect().registered())
-    print('===()===> ', app.control.inspect().registered())
-    print('===()===> ', app.control.inspect().registered())
-    print('===()===> ', app.control.inspect().registered())
-    data['return_output'] = 'inspector'
+
+    data['return_output'] = 'json.dumps(stats)'
 
     # host_one = Host.objects.get(pk=1)
 

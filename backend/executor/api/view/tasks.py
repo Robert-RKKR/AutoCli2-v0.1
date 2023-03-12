@@ -10,8 +10,10 @@ from celery.result import AsyncResult
 def get_task_status(request, task_id):
     task_result = AsyncResult(task_id)
     result = {
-        "task_id": task_id,
-        "task_status": task_result.status,
-        "task_result": task_result.result
+        'page_results': {
+            'task_id': task_id,
+            'task_status': task_result.status,
+            'task_result': task_result.result
+        }  
     }
     return JsonResponse(result, status=200)
