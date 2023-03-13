@@ -31,8 +31,10 @@ def verification(message, correlated_object, action_type):
 
     # Verify if the notification message variable is a valid sting:
     if isinstance(message, str):
-        if len(message) > 512:
-            raise ValueError('The provided notification message variable is to long (Allowed max 512 signs).')
+        if len(message) > 1024:
+            # Cut message if it's to long.
+            message = message[:1024]
+            # raise ValueError('The provided notification message variable is to long (Allowed max 1024 signs).')
     elif message is not None:
         raise TypeError('The provided notification message variable must be string. '\
         f'Provided: "{message}"')

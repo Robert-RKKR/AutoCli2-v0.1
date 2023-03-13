@@ -64,11 +64,11 @@ class Notification(BaseMessageModel):
     message = models.CharField(
         verbose_name='Message',
         help_text='Notification message.',
-        max_length=512,
+        max_length=1024,
         error_messages={
             'null': 'Notification message field is mandatory.',
             'blank': 'Notification message field is mandatory.',
-            'invalid': 'Enter a valid Notification message. It must contain 1 to 512 digits.',
+            'invalid': 'Enter a valid Notification message. It must contain 1 to 1024 digits.',
         },
     )
 
