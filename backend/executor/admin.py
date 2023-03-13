@@ -1,14 +1,14 @@
-# Django import:
+# Django - admin import:
 from django.contrib import admin
 
-# base admin class import:
+# AutoCli2 - base admin models import:
 from autocli2.base.admins.based_admin import BaseAdmin
 
-# Notification log model import:
-from .models.converted_data import ConvertedData
-from .models.execution import Execution
-from .models.executor import Executor
-from .models.snapshot import Snapshot
+# AutoCli2 - executor model import:
+from executor.models.converted_data import ConvertedData
+from executor.models.execution import Execution
+from executor.models.executor import Executor
+from executor.models.snapshot import Snapshot
 
 
 # All messenger admin classes:

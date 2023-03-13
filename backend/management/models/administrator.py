@@ -1,7 +1,7 @@
-# # Django import:
+# # Django - models import:
 # from django.db import models
 
-# # Django abstract user import:
+# # Django - abstract user import:
 # from django.contrib.auth.models import AbstractUser
 
 

@@ -1,10 +1,10 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base message model import:
+# AutoCli2 - base model import:
 from .base_message import BaseMessageModel
 
-# Notification constants:
+# Notification model constants:
 SEVERITY = (
     (1, 'CRITICAL'),
     (2, 'ERROR'),
@@ -18,7 +18,7 @@ NOTIFICATION_TYPE = (
 )
 
 
-# Notification models:
+# Notification model class:
 class Notification(BaseMessageModel):
 
     class Meta:

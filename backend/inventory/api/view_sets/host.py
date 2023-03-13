@@ -1,17 +1,15 @@
-# Paginator import:
+# AutoCli2 - base pagination import:
 from autocli2.base.api.base_pagination import BaseSmallPaginator
 
-# Base mode view set import:
+# AutoCli2 - base view set import:
 from autocli2.base.api.base_modelviewset import BaseModelViewSet
 
-# Serializer import:
-from ..serializers.host import HostSimpleSerializer
-from ..serializers.host import HostSerializer
-
-# Filter set class import:
+# AutoCli2 - serializer import:
+from inventory.api.serializers.host import HostSimpleSerializer
+from inventory.api.serializers.host import HostSerializer
 
 # Model import:
-from ...models.host import Host
+from inventory.models.host import Host
 
 
 # ViewSet model classes:

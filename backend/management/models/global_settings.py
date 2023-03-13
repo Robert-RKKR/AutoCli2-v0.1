@@ -1,11 +1,11 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base models import:
+# AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 
-# Notification severity import:
+# AutoCli2 - notification model import:
 from notification.models.notification import SEVERITY
 
 

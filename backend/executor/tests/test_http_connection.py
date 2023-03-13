@@ -1,10 +1,10 @@
-# PyTest import:
+# PyTest - test import:
 import pytest
 
-# Project inventory models import:
+# AutoCli2 - HTTP Connection class import:
 from executor.connections.http_connection import Connection
 
-# Project inventory models import:
+# AutoCli2 - inventory model import:
 from inventory.models.host import Host
 
 # Test functions:

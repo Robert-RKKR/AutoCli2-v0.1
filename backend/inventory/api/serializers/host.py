@@ -1,14 +1,11 @@
-# Rest framework import:
+# Rest framework - serializer import:
 from rest_framework.serializers import HyperlinkedIdentityField
 
-# Base serializer import:
+# AutoCli2 - base serializer import:
 from autocli2.base.api.base_serializer import BaseSerializer
 
-# Model import:
-from ...models.host import Host
-
-# Other serializer import:
-
+# AutoCli2 - inventory model import:
+from inventory.models.host import Host
 
 
 # Main serializer class:

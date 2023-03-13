@@ -1,15 +1,15 @@
-# Django import:
+# Django - admin import:
 from django.contrib import admin
 
-# base admin class import:
+# AutoCli2 - base admin models import:
 from autocli2.base.admins.based_admin import BaseAdmin
 
-# Notification log model import:
-from .models.credentials import Credential
-from .models.platform import Platform
-from .models.region import Region
-from .models.site import Site
-from .models.host import Host
+# AutoCli2 - inventory model import:
+from inventory.models.credentials import Credential
+from inventory.models.platform import Platform
+from inventory.models.region import Region
+from inventory.models.site import Site
+from inventory.models.host import Host
 
 
 # All inventory admin classes:

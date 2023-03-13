@@ -1,5 +1,5 @@
-# Messenger class import:
-from .messenger import Messenger
+# AutoCli2 - notification model import:
+from notification.messenger import Messenger
 
 
 # Logger class:

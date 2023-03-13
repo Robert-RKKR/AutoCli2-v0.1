@@ -1,11 +1,11 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base message model import:
+# AutoCli2 - base model import:
 from .base_message import BaseMessageModel
 
 
-# Change models:
+# Change model class:
 class ChangeLog(BaseMessageModel):
 
     class Meta:

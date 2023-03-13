@@ -1,14 +1,18 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base models import:
+# AutoCli2 - base models import:
 from autocli2.base.models.data_time import DataTimeModel
 
-# Relations models import:
+# AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
+
+# AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
 from inventory.models.host import Host
-from .executor import Executor
+
+# AutoCli2 - executor model import:
+from executor.models.executor import Executor
 
 
 # Execution model class:

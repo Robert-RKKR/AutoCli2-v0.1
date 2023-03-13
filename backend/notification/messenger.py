@@ -1,20 +1,20 @@
-# Base message model import:
+# AutoCli2 - base models import:
 from autocli2.base.models.base_model import BaseModel
 
-# Notification model import:
+# AutoCli2 - notification model import:
 from notification.models.notification import Notification as NotificationModel
 
-# Channels import:
+# Channels - layers import:
 from channels.layers import get_channel_layer
+
+# Channels - async import:
+from asgiref.sync import async_to_sync
+
+# AutoCli2 - settings import:
+from management.settings import collect_global_settings
 
 # Channels registration:
 channel_layer = get_channel_layer()
-
-# Async import:
-from asgiref.sync import async_to_sync
-
-# Settings import:
-from management.settings import collect_global_settings
 
 # Severity constants declaration:
 DEBUG = 5

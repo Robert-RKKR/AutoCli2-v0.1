@@ -1,15 +1,15 @@
-# Django import:
+# Django - admin import:
 from django.contrib import admin
 
-# base admin class import:
+# AutoCli2 - base admin models import:
 from autocli2.base.admins.based_admin import BaseAdmin
 
-# Models import:
-from .models.connection_template import ConnectionTemplate
-from .models.data_group_template import DataGroupTemplate
-from .models.data_template import DataTemplate
-from .models.model_group_template import ModelGroupTemplate
-from .models.model_template import ModelTemplate
+# AutoCli2 - connector model import:
+from connector.models.connection_template import ConnectionTemplate
+from connector.models.data_group_template import DataGroupTemplate
+from connector.models.data_template import DataTemplate
+from connector.models.model_group_template import ModelGroupTemplate
+from connector.models.model_template import ModelTemplate
 
 
 # All connectors admin classes:

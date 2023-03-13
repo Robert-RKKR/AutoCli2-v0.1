@@ -1,23 +1,14 @@
-# Python Import:
-import requests
-import xmltodict
-import json
+# Python - library import:
 import time
 
-# Logger import:
-from notification.logger import Logger
-
-# Application Import:
-from inventory.models.host import Host
-
-# Settings import:
+# AutoCli2 - Settings import:
 from management.settings import collect_global_settings
 
-# Constance:
-METHODS = [
-    'GET',
-    'POST'
-]
+# AutoCli2 - Logger import:
+from notification.logger import Logger
+
+# AutoCli2 - other model import:
+from inventory.models.host import Host
 
 
 # HTTP connection class:

@@ -1,23 +1,23 @@
-# Python Import:
+# Python - libraries import:
 import requests
 import xmltodict
+import urllib3
 import json
 import time
 
-# Disable ssl warnings:
-import urllib3
-urllib3.disable_warnings()
-
-# Logger import:
-from notification.logger import Logger
-
-# Application Import:
-from inventory.models.host import Host
-
-# Settings import:
+# AutoCli2 - Settings import:
 from management.settings import collect_global_settings
 
-# Constance:
+# AutoCli2 - Logger import:
+from notification.logger import Logger
+
+# AutoCli2 - other model import:
+from inventory.models.host import Host
+
+# Disable ssl warnings:
+urllib3.disable_warnings()
+
+# HTTP constance:
 HTTP_EXECUTION_METHOD = [
     'GET',
     'POST',

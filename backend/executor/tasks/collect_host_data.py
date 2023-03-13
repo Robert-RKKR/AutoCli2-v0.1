@@ -1,14 +1,14 @@
-# Celery application import:
+# Celery - application import:
 from autocli2.celery import app
 
-# Base task import:
+# AutoCli2 - base task import:
 from autocli2.base.tasks.connection import ConnectionBaseTask
 
-# Connection class import:
+# AutoCli2 - HTTP Connection class import:
 from executor.connections.http_connection import Connection
 
 
-# Test taks class:
+# Collect host data taks class:
 class CollectHostDataTask(ConnectionBaseTask):
     """
     Xxx.

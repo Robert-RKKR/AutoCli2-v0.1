@@ -1,18 +1,18 @@
-# Celery application import:
+# Celery - application import:
 from autocli2.celery import app
 
-# Base task import:
+# AutoCli2 - base task import:
 from autocli2.base.tasks.connection import ConnectionBaseTask
 
-# Executors models import:
+# AutoCli2 - inventory model import:
 from executor.models.executor import Executor
 
-# Task import:
+# AutoCli2 - executor task import:
 from executor.tasks.check_host_status import CheckHostStatusTask
 from executor.tasks.collect_host_data import CollectHostDataTask
 
 
-# Test taks class:
+# Execute executor taks class:
 class ExecuteExecutorTask(ConnectionBaseTask):
     """
     Xxx.

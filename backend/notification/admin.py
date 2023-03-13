@@ -1,14 +1,17 @@
-# Django import:
+# Django - admin import:
 from django.contrib import admin
 
-# Notification log model import:
-from .models.notification import Notification
-from .models.change_log import ChangeLog
+# AutoCli2 - base admin models import:
+from autocli2.base.admins.based_admin import BaseAdmin
+
+# AutoCli2 - notification model import:
+from notification.models.notification import Notification
+from notification.models.change_log import ChangeLog
 
 
 # All notification admin classes:
 @admin.register(Notification)
-class NotificationAdmin(admin.ModelAdmin):
+class NotificationAdmin(BaseAdmin):
 
     list_display = (
         'pk', 'timestamp', 'action_type', 'object_id',
@@ -54,7 +57,7 @@ class NotificationAdmin(admin.ModelAdmin):
 
 
 @admin.register(ChangeLog)
-class ChangLogAdmin(admin.ModelAdmin):
+class ChangLogAdmin(BaseAdmin):
 
     list_display = (
         'pk', 'administrator', 'timestamp', 'action_type',

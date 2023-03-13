@@ -1,13 +1,15 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base models import:
+# AutoCli2 - base models import:
 from autocli2.base.models.data_time import DataTimeModel
 
-# Relations models import:
+# AutoCli2 - connector model import:
 from connector.models.data_template import DataTemplate
-from .execution import Execution
-from .snapshot  import Snapshot
+
+# AutoCli2 - executor model import:
+from executor.models.execution import Execution
+from executor.models.snapshot  import Snapshot
 
 
 # Converted data model class:

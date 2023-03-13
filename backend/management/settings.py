@@ -1,4 +1,4 @@
-# Python import:
+# Python - library import:
 import json
 
 # Settings model import:

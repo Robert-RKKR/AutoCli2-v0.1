@@ -1,13 +1,13 @@
-# Django import:
+# Django - model import:
 from django.db import models
 
-# Base models import:
+# AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
-# Relations model import:
-from .model_group_template import ModelGroupTemplate
+# AutoCli2 - connector model import:
+from connector.models.model_group_template import ModelGroupTemplate
 
 
 # Model template models class:

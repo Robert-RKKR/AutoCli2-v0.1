@@ -1,16 +1,18 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base models import:
+# AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
-# Other application relations model import:
+# AutoCli2 - inventory model import:
 from inventory.models.platform import Platform
 
-# Connections template model constants:
+# AutoCli2 - inventory host constant import:
 from inventory.models.host import EXECUTION_PROTOCOLS
+
+# Connections template constants:
 SSH_EXECUTION_TYPE = (
     (1, 'Command'),
     (2, 'template')

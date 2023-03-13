@@ -1,21 +1,21 @@
-# Django import:
+# Django - models import:
 from django.urls import path
 
-# Base default route import:
+# AutoCli2 - base route import:
 from autocli2.base.api.base_default_router import BaseDefaultRouter
 
-# Celery related view import:
-from .view.celery import get_celery_registered_tasks
-from .view.celery import get_celery_scheduled_tasks
-from .view.celery import get_celery_reserved_tasks
-from .view.celery import get_celery_revoked_tasks
-from .view.celery import get_celery_report
-from .view.celery import get_celery_stats
+# AutoCli2 - celery related view import:
+from executor.api.view.celery import get_celery_registered_tasks
+from executor.api.view.celery import get_celery_scheduled_tasks
+from executor.api.view.celery import get_celery_reserved_tasks
+from executor.api.view.celery import get_celery_revoked_tasks
+from executor.api.view.celery import get_celery_report
+from executor.api.view.celery import get_celery_stats
 
-# Task related view import:
-from .view.tasks import get_task_status
+# AutoCli2 - task related view import:
+from executor.api.view.tasks import get_task_status
 
-# Register router:
+# Register default router:
 router = BaseDefaultRouter()
 
 # URLs registration:

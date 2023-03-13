@@ -1,20 +1,20 @@
-# PyTest import:
+# PyTest - test import:
 import pytest
 
-# Project inventory models import:
+# AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
 from inventory.models.platform import Platform
 from inventory.models.region import Region
 from inventory.models.host import Host
 from inventory.models.site import Site
 
-# Project executor models import:
+# AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
 
-# Project executor models import:
+# AutoCli2 - executor model import:
 from executor.models.executor import Executor
 
-# Task import:
+# AutoCli2 - executor task import:
 from executor.tasks.execute_executor import execute_executor_task
 
 # Test functions:

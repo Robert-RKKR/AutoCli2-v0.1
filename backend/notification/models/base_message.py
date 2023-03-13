@@ -1,7 +1,7 @@
-# Django Import:
+# Django - models import:
 from django.db import models
 
-# Base model import:
+# AutoCli2 - base model import:
 from autocli2.base.models.administrator import AdministratorModel
 
 # Base message model constants:
@@ -13,7 +13,7 @@ ACTION_TYPE = (
 )
 
 
-# Base models class:
+# Base message model class:
 class BaseMessageModel(AdministratorModel):
 
     class Meta:

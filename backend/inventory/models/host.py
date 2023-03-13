@@ -1,17 +1,17 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base models import:
+# AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
 from autocli2.base.models.status import StatusModel
 
-# Relations models import:
-from .credentials import Credential
-from .platform import Platform
-from .site import Site
+# AutoCli2 - inventory model import:
+from inventory.models.credentials import Credential
+from inventory.models.platform import Platform
+from inventory.models.site import Site
 
-# Connections template model constants:
+# Connections template model constant:
 EXECUTION_PROTOCOLS = (
     (1, 'SSH'),
     (2, 'HTTP')

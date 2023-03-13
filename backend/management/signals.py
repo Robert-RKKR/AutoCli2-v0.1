@@ -1,15 +1,15 @@
-# Django import:
+# Django - models import:
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
-# Settings model import:
-from .models.administrator_settings import AdministratorSetting
-from .models.global_settings import GlobalSetting
+# AutoCli2 - management model import:
+from management.models.administrator_settings import AdministratorSetting
+from management.models.global_settings import GlobalSetting
 
-# Settings function import:
-from .settings import update_global_settings_dictionary
+# AutoCli2 - settings function import:
+from management.settings import update_global_settings_dictionary
 
-# 
+# Singnals functions:
 @receiver(post_save, sender=GlobalSetting)
 def global_settings_edit(
     sender: GlobalSetting,

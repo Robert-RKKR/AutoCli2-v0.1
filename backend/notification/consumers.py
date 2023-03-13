@@ -1,12 +1,12 @@
-# Python import:
+# Python - library import:
 import json
 
-# Django import:
-from asgiref.sync import async_to_sync
+# Channels - async import:
 from channels.generic.websocket import AsyncWebsocketConsumer
+from asgiref.sync import async_to_sync
 
 
-# Consumers classes:
+# Notification consumer class:
 class NotificationConsumer(AsyncWebsocketConsumer):
 
     # Join to channel group:

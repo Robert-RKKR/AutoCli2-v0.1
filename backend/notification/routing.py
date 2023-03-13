@@ -1,8 +1,8 @@
-# Django import:
+# Django - url import:
 from django.urls import path
 
-# Application import:
-from .consumers import NotificationConsumer
+# AutoCli2 - notification consumers import:
+from notification.consumers import NotificationConsumer
 
 ws_urlpatterns = [
     path('ws/notification/', NotificationConsumer.as_asgi()),

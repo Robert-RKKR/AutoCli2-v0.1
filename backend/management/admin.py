@@ -1,15 +1,18 @@
-# Django import:
+# Django - admin import:
 from django.contrib import admin
 
-# Notification log model import:
-from .models.administrator_settings import AdministratorSetting
-from .models.global_settings import GlobalSetting
-# from .models.administrator import Administrator
+# AutoCli2 - base admin models import:
+from autocli2.base.admins.based_admin import BaseAdmin
+
+# AutoCli2 - management model import:
+from management.models.administrator_settings import AdministratorSetting
+from management.models.global_settings import GlobalSetting
+# from management.models.administrator import Administrator
 
 
 # All management admin classes:
 @admin.register(GlobalSetting)
-class GlobalSettingAdmin(admin.ModelAdmin):
+class GlobalSettingAdmin(BaseAdmin):
 
     list_display = (
         'pk', 'name', 'is_current', 'created', 'updated'
@@ -30,7 +33,7 @@ class GlobalSettingAdmin(admin.ModelAdmin):
 
 
 @admin.register(AdministratorSetting)
-class AdministratorSettingAdmin(admin.ModelAdmin):
+class AdministratorSettingAdmin(BaseAdmin):
 
     list_display = (
         'pk', 'default_credentials',

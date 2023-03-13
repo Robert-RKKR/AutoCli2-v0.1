@@ -1,8 +1,8 @@
-# Django import:
+# Django - models import:
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
-# Celery import:
+# Celery - application import:
 from autocli2.celery import app
 
 # View functions:
