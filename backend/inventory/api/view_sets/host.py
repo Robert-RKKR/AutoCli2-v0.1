@@ -2,18 +2,28 @@
 from autocli2.base.api.base_pagination import BaseSmallPaginator
 
 # AutoCli2 - base view set import:
-from autocli2.base.api.base_modelviewset import BaseModelViewSet
+from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
 from inventory.api.serializers.host import HostSimpleSerializer
 from inventory.api.serializers.host import HostSerializer
 
-# Model import:
+# AutoCli2 - inventory model import:
 from inventory.models.host import Host
+
+# AutoCli2 - inventory filter import:
+from inventory.filters.host import HostFilter
+
+# Ordering and search values:
+ordering_fields = [
+    'id', 'name', 'description', 'ico', 'created', 'updated',
+     'is_root', 'is_active']
+search_fields = [
+    'id', 'name', 'description', 'created', 'updated']
 
 
 # ViewSet model classes:
-class HostView(BaseModelViewSet):
+class HostView(BaseRwModelViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """
@@ -24,16 +34,12 @@ class HostView(BaseModelViewSet):
     serializer_class = HostSerializer
     single_serializer_class = HostSimpleSerializer
     # Django rest framework filters:
-    # filterset_class = DeviceFilter
-    search_fields = BaseModelViewSet.base_search_fields + [
-        'hostname',
-    ]
-    ordering_fields = BaseModelViewSet.base_ordering_fields + [
-        'hostname',
-    ]
+    filterset_class = HostFilter
+    ordering_fields = ordering_fields
+    search_fields = search_fields
 
 
-class HostSimpleView(BaseModelViewSet):
+class HostSimpleView(BaseRwModelViewSet):
     """
     A simple ViewSet for viewing and editing object/s.
     """
@@ -46,10 +52,6 @@ class HostSimpleView(BaseModelViewSet):
     # Serializer classes:
     serializer_class = HostSimpleSerializer
     # Django rest framework filters:
-    # filterset_class = DeviceFilter
-    search_fields = BaseModelViewSet.base_search_fields + [
-        'hostname',
-    ]
-    ordering_fields = BaseModelViewSet.base_ordering_fields + [
-        'hostname',
-    ]
+    filterset_class = HostFilter
+    ordering_fields = ordering_fields
+    search_fields = search_fields

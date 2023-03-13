@@ -21,6 +21,8 @@ class HostSerializer(BaseSerializer):
 
         model = Host
         fields = BaseSerializer.base_fields + [
+            'is_active',
+            'is_root',
             'name',
             'description',
             'hostname',
@@ -43,6 +45,8 @@ class HostSimpleSerializer(BaseSerializer):
 
         model = Host
         fields = BaseSerializer.base_fields + [
+            'is_active',
+            'is_root',
             'name',
             'description',
             'hostname',

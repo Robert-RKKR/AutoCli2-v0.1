@@ -1,0 +1,106 @@
+# Rest framework - viewsets import:
+from rest_framework import viewsets
+
+# Rest framework - authentication & permissions import:
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import DjangoModelPermissions
+
+# Rest framework - filters import:
+from rest_framework.filters import OrderingFilter
+from rest_framework.filters import SearchFilter
+
+# Django filters - rest framework filters import:
+from django_filters.rest_framework import DjangoFilterBackend
+
+# AutoCli2 - base models import:
+from autocli2.base.models.identification import IdentificationModel
+from autocli2.base.models.administrator import AdministratorModel
+from autocli2.base.models.data_time import DataTimeModel
+from autocli2.base.models.status import StatusModel
+
+# AutoCli2 - base model mixin import:
+from autocli2.base.api.base_model_mixin import BaseRetrieveModelMixin
+from autocli2.base.api.base_model_mixin import BaseDestroyModelMixin
+from autocli2.base.api.base_model_mixin import BaseUpdateModelMixin
+from autocli2.base.api.base_model_mixin import BaseCreateModelMixin
+from autocli2.base.api.base_model_mixin import BaseListModelMixin
+
+
+# Base ModelViewSet models:
+class BaseRwModelViewSet(
+    BaseCreateModelMixin,
+    BaseRetrieveModelMixin,
+    BaseUpdateModelMixin,
+    BaseDestroyModelMixin,
+    BaseListModelMixin,
+    viewsets.GenericViewSet):
+    """
+    Base ModelViewSet model.
+    """
+
+    # Initiate empty QuerySet:
+    queryset = None
+
+    # Authentication and permissions:
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [DjangoModelPermissions]
+
+    # Django rest framework filters:
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
+    # Serializer values:
+    serializer_class = None
+    single_serializer_class = None
+
+    def collect_serializer_class(self, many: bool):
+
+        # Collect class:
+        if many:
+            return self.serializer_class
+        else:
+            try:
+                # Try to collect single serializer class:
+                return self.single_serializer_class
+            except:
+                # use default serializer class:
+                return self.serializer_class
+
+    # Overwrite create method to add many serializer functionality:
+    def create(self, *args, **kwargs):
+        self.serializer_class = self.collect_serializer_class(False)
+        return viewsets.ModelViewSet.create(self, *args, **kwargs)
+
+    # Overwrite update method to add many serializer functionality:
+    def update(self, *args, **kwargs):
+        self.serializer_class = self.collect_serializer_class(False)
+        return viewsets.ModelViewSet.update(self, *args, **kwargs)
+
+    # Overwrite list method to add many serializer functionality:
+    def list(self, *args, **kwargs):
+        self.serializer_class = self.collect_serializer_class(True)
+        return viewsets.ModelViewSet.list(self, *args, **kwargs)
+
+    # Overwrite retrieve method to add many serializer functionality:
+    def retrieve(self, *args, **kwargs):
+        self.serializer_class = self.collect_serializer_class(True)
+        return viewsets.ModelViewSet.retrieve(self, *args, **kwargs)
+
+
+# Read only Base ModelViewSet model:
+class BaseRoModelViewSet(
+    viewsets.GenericViewSet,
+    BaseRetrieveModelMixin,
+    BaseListModelMixin):
+    """
+    Base Read only ModelViewSet model.
+    """
+
+    # Authentication and permissions:
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [DjangoModelPermissions]
+
+    # Django rest framework filters:
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    base_search_fields = ['id']
+    base_ordering_fields = ['id', 'created', 'updated', 'active', 'root']
