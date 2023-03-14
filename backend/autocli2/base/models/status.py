@@ -1,8 +1,11 @@
 # Django - models import:
 from django.db import models
 
+# Django - validator error import:
+from django.core.exceptions import ValidationError
+
 # AutoCli2 - base models import:
-from autocli.base.models.base_model import BaseModel
+from autocli2.base.models.base_model import BaseModel
 
 
 # Status models class:
@@ -44,9 +47,9 @@ class StatusModel(BaseModel):
         if self.pk is not None:
             # Check if object root value is true:
             if not self.can_be_deleted():
-                return False
-                # raise ValidationError(f"{self._meta.object_name} object can't be "\
-                #     "changed because its root object")
+                # return False
+                raise ValidationError(f"{self._meta.object_name} object can't be "\
+                    "changed because its root object")
         # Save object if allowed:
         super(StatusModel, self).save(*args, **kwargs)
         return True
@@ -58,6 +61,6 @@ class StatusModel(BaseModel):
             super(StatusModel, self).delete(*args, **kwargs)
             return True
         else:
-            return False
-            # raise ValidationError(f"{self._meta.object_name} object can't be "\
-            #     "deleted because its root object")
+            # return False
+            raise ValidationError(f"{self._meta.object_name} object can't be "\
+                "deleted because its root object")

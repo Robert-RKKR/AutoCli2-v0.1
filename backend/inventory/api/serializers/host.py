@@ -20,15 +20,22 @@ class HostSerializer(BaseSerializer):
     class Meta:
 
         model = Host
-        fields = BaseSerializer.base_fields + [
+        fields = [
+            'pk',
+            'url',
             'is_active',
             'is_root',
             'name',
             'description',
             'hostname',
         ]
-        read_only_fields = BaseSerializer.base_read_only_fields
-
+        read_only_fields = [
+            'pk',
+            'url',
+            'is_root',
+            'created',
+            'updated',
+        ]
 
 
 # Simple serializer class:
@@ -44,11 +51,19 @@ class HostSimpleSerializer(BaseSerializer):
     class Meta:
 
         model = Host
-        fields = BaseSerializer.base_fields + [
+        fields = [
+            'pk',
+            'url',
             'is_active',
             'is_root',
             'name',
             'description',
             'hostname',
         ]
-        read_only_fields = BaseSerializer.base_read_only_fields
+        read_only_fields = [
+            'pk',
+            'url',
+            'is_root',
+            'created',
+            'updated',
+        ]

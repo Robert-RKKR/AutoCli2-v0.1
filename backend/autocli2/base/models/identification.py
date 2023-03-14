@@ -2,11 +2,11 @@
 from django.db import models
 
 # AutoCli2 - base models import:
-from autocli.base.models.base_model import BaseModel
+from autocli2.base.models.base_model import BaseModel
 
 # AutoCli2 - validators Import:
-from autocli.base.validators.base_validator import DescriptionValueValidator
-from autocli.base.validators.base_validator import NameValueValidator
+from autocli2.base.validators.base_validator import DescriptionValueValidator
+from autocli2.base.validators.base_validator import NameValueValidator
 
 
 # Identification models class:

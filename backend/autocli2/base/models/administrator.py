@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # AutoCli2 - base models import:
-from autocli.base.models.base_model import BaseModel
+from autocli2.base.models.base_model import BaseModel
 
 
 # Administrator models class:

@@ -53,8 +53,8 @@ class BaseRwModelViewSet(
     serializer_class = None
     single_serializer_class = None
 
+    # Collect serializer / simple serializer:
     def collect_serializer_class(self, many: bool):
-
         # Collect class:
         if many:
             return self.serializer_class
@@ -102,5 +102,3 @@ class BaseRoModelViewSet(
 
     # Django rest framework filters:
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    base_search_fields = ['id']
-    base_ordering_fields = ['id', 'created', 'updated', 'active', 'root']

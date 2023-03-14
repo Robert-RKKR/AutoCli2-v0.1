@@ -83,7 +83,6 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels_redis.pubsub.RedisPubSubChannelLayer',
         'CONFIG': {
             'hosts': ['redis://127.0.0.1:6379'],
-            # 'hosts': [('127.0.0.1', 6379)],
         },
     },
 }

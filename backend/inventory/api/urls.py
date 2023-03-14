@@ -7,7 +7,7 @@ from .view_sets.root import InventoryRootView
 # AutoCli2 - simple view set import:
 from .view_sets.host import HostSimpleView
 
-# AutoCli2 - standart view set import:
+# AutoCli2 - standard view set import:
 from .view_sets.host import HostView
 
 # Register router:
@@ -23,7 +23,7 @@ router.APIRootView = InventoryRootView
 router.register(r'host', HostView, basename='host')
 
 # Simple view route registration:
-router.register(r'simple_host', HostSimpleView, basename='simple_host')
+# router.register(r'simple_host', HostSimpleView, basename='simple_host')
 
 # Add urlpatterns:
 urlpatterns = router.urls
