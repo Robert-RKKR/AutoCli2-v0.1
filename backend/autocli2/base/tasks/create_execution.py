@@ -1,10 +1,10 @@
-# Base task import:
-from .base_task import BaseTask
+# AutoCli2 - base task import:
+from autocli2.base.tasks.base_task import BaseTask
 
-# Executors models import:
+# AutoCli2 - executors model import:
 from executor.models.execution import Execution
 
-# Settings import:
+# AutoCli2 - management model import:
 from management.settings import collect_global_settings
 
 

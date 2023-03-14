@@ -1,11 +1,11 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Django user import:
+# Django - user model import:
 from django.contrib.auth.models import User
 
-# Base model import:
-from .base_model import BaseModel
+# AutoCli2 - base models import:
+from autocli.base.models.base_model import BaseModel
 
 
 # Administrator models class:

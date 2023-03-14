@@ -1,17 +1,17 @@
-# Python import:
+# Python - library import:
 import threading
 
-# Base task import:
-from .http_connection import HttpConnectionBaseTask
-from .ssh_connection import SshConnectionBaseTask
+# AutoCli2 - base task import:
+from autocli2.base.tasks.http_connection import HttpConnectionBaseTask
+from autocli2.base.tasks.ssh_connection import SshConnectionBaseTask
 
-# Connections model import:
+# AutoCli2 - connections model import:
 from connector.models.connection_template import ConnectionTemplate
 
-# Inventory models import:
+# AutoCli2 - inventory model import:
 from inventory.models.host import Host
 
-# Executors models import:
+# AutoCli2 - executors model import:
 from executor.models.executor import Executor
 
 

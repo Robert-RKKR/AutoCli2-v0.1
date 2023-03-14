@@ -1,8 +1,8 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base model import:
-from .base_model import BaseModel
+# AutoCli2 - base models import:
+from autocli.base.models.base_model import BaseModel
 
 
 # Status models class:

@@ -1,16 +1,16 @@
-# Base task import:
-from .create_execution import CreateExecutionBaseTask
+# AutoCli2 - base task import:
+from autocli2.base.tasks.create_execution import CreateExecutionBaseTask
 
-# Connection class import:
+# AutoCli2 - connections model import:
 from executor.connections.http_connection import Connection
 
-# Connections model import:
+# AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
 
-# Inventory models import:
+# AutoCli2 - inventory models import:
 from inventory.models.host import Host
 
-# Executors models import:
+# AutoCli2 - executor models import:
 from executor.models.executor import Executor
 
 

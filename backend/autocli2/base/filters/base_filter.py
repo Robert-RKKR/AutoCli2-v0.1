@@ -1,4 +1,4 @@
-# Django import:
+# Django - filters import:
 import django_filters
 
 

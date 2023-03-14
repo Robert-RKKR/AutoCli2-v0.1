@@ -1,4 +1,4 @@
-# Django import:
+# Django - import:
 from django.utils.deconstruct import deconstructible
 from django.core import validators
 

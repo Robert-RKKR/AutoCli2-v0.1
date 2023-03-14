@@ -1,7 +1,7 @@
-# Django Import:
+# Django - models import:
 from django.db import models
 
-# base manager import:
+# AutoCli2 - base models import:
 from autocli2.base.managers.base_manager import BaseManager
 
 

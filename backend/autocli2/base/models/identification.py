@@ -1,12 +1,12 @@
-# Django import:
+# Django - models import:
 from django.db import models
 
-# Base model import:
-from .base_model import BaseModel
+# AutoCli2 - base models import:
+from autocli.base.models.base_model import BaseModel
 
-# Validators Import:
-from ..validators.base_validator import DescriptionValueValidator
-from ..validators.base_validator import NameValueValidator
+# AutoCli2 - validators Import:
+from autocli.base.validators.base_validator import DescriptionValueValidator
+from autocli.base.validators.base_validator import NameValueValidator
 
 
 # Identification models class:

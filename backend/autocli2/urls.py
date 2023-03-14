@@ -1,4 +1,4 @@
-# Django import:
+# Django - url import:
 from django.contrib import admin
 from django.urls import include
 from django.urls import path, re_path

@@ -1,9 +1,9 @@
-# Python import:
+# Python - Libraries import:
 import decimal
 import json
 import csv
 
-# Django import:
+# Django - import:
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.contrib import messages

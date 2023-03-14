@@ -1,8 +1,8 @@
-# Rest framework import:
+# Rest framework - serializers import:
 from rest_framework import serializers
 
 
-# Base serializer:
+# Base serializer class:
 class BaseSerializer(serializers.HyperlinkedModelSerializer):
 
     base_fields = [

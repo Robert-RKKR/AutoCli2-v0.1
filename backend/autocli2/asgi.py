@@ -1,14 +1,14 @@
-# Python import:
+# Python - library import:
 import os
 
-# Django import:
+# Django - asgi import:
 from django.core.asgi import get_asgi_application
 
-# Channels import:
+# Channels - import:
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 
-# Application import:
+# AutoCli2 - routing import:
 from notification.routing import ws_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'autocli2.settings')

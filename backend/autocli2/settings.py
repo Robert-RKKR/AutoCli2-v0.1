@@ -1,8 +1,8 @@
-# Python import:
+# Python - libraries import:
 from pathlib import Path
 import os
 
-# Jazzmin import:
+# Jazzmin - settings import:
 from .jazzmin import GLOBAL_JAZZMIN_SETTINGS
 
 # Basis application data.

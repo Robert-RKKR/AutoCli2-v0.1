@@ -1,4 +1,4 @@
-# Rest framework import:
+# Rest framework - routers import:
 from rest_framework.routers import DefaultRouter
 
 

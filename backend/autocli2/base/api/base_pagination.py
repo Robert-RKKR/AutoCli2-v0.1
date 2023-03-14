@@ -1,8 +1,8 @@
-# Python import:
+# Python - library import:
 import inspect
 import math
 
-# Rest framework import:
+# Rest framework - import:
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 

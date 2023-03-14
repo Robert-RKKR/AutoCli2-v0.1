@@ -1,4 +1,4 @@
-# Python import:
+# Python - libraries import:
 import urllib.request
 import threading
 import datetime
@@ -6,23 +6,23 @@ import zipfile
 import csv
 import os
 
-# Base task import:
-from .create_execution import CreateExecutionBaseTask
+# AutoCli2 - base task import:
+from autocli2.base.tasks.create_execution import CreateExecutionBaseTask
 
-# Connection class import:
+# AutoCli2 - executor class import:
 from executor.connections.ssh_connection import Connection
 
-# Connections model import:
+# AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
 
-# Inventory models import:
+# AutoCli2 - inventory models import:
 from inventory.models.host import Host
 
-# Executors models import:
+# AutoCli2 - executor models import:
 from executor.models.execution import Execution
 from executor.models.executor import Executor
 
-# Settings import:
+# AutoCli2 - management import:
 from management.settings import collect_global_settings
 
 

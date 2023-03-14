@@ -1,10 +1,10 @@
-# Celery Import:
+# Celery - task import:
 from celery import Task
 
-# Python Import:
+# Python - library import:
 import time
 
-# Application Import:
+# AutoCli2 - notification import:
 from notification.notification import Notification
 from notification.logger import Logger
 
