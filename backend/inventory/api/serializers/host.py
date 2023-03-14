@@ -7,6 +7,24 @@ from autocli2.base.api.base_serializer import BaseSerializer
 # AutoCli2 - inventory model import:
 from inventory.models.host import Host
 
+# Fields and read only values:
+fields = [
+    'pk',
+    'url',
+    'is_active',
+    'is_root',
+    'name',
+    'description',
+    'hostname',
+]
+read_only_fields = [
+    'pk',
+    'url',
+    'is_root',
+    'created',
+    'updated',
+]
+
 
 # Main serializer class:
 class HostSerializer(BaseSerializer):
@@ -20,22 +38,8 @@ class HostSerializer(BaseSerializer):
     class Meta:
 
         model = Host
-        fields = [
-            'pk',
-            'url',
-            'is_active',
-            'is_root',
-            'name',
-            'description',
-            'hostname',
-        ]
-        read_only_fields = [
-            'pk',
-            'url',
-            'is_root',
-            'created',
-            'updated',
-        ]
+        fields = fields
+        read_only_fields = read_only_fields
 
 
 # Simple serializer class:
@@ -51,19 +55,5 @@ class HostSimpleSerializer(BaseSerializer):
     class Meta:
 
         model = Host
-        fields = [
-            'pk',
-            'url',
-            'is_active',
-            'is_root',
-            'name',
-            'description',
-            'hostname',
-        ]
-        read_only_fields = [
-            'pk',
-            'url',
-            'is_root',
-            'created',
-            'updated',
-        ]
+        fields = fields
+        read_only_fields = read_only_fields
