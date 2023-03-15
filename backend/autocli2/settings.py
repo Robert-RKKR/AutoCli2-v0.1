@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework',
     'django_filters',
+    'drf_yasg',
 
     # AutoCli2 applications:
     'a_test.apps.ATestConfig', # Temporary.
