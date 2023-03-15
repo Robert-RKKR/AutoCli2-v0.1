@@ -29,12 +29,20 @@ schema_view = get_schema_view(
 
 # URLs registration:
 urlpatterns = [
+
+    ################## Admin ##################
+
     # Django admin registration:
     path('admin/', admin.site.urls),
 
-    # Main API views registration:
+
+    ################## API ##################
+
+    # API root view registration:
     path('api/', APIRootView.as_view(), name='api-root'),
-    path('api-admin/token-auth/', obtain_auth_token),
+
+    # API token generator registration:
+    path('api-admin/token-generator/', obtain_auth_token),
 
     # API documentation views registration:
     re_path(r'^doc(?P<format>\.json|\.yaml)$',
@@ -44,12 +52,15 @@ urlpatterns = [
     path('api-admin/redoc/', schema_view.with_ui('redoc', cache_timeout=0),
          name='schema-redoc'),
 
-    # Test view registration:
-    path('test/', include('a_test.urls')),
-
-    # Network API view registration:
+    # API inventory views registration:
     path('api-inventory/', include('inventory.api.urls')),
 
-    # API taks views:
+    # API task views registration:
     path('api-task/', include('executor.api.urls')),
+
+
+    ################## Views ##################
+
+    # Test view registration:
+    path('test/', include('a_test.urls')),
 ]

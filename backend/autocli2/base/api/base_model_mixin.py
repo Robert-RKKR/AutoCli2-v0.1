@@ -36,7 +36,7 @@ class BaseDestroyModelMixin(DestroyModelMixin):
             response = self.perform_destroy(instance)
         except ProtectedError as exception:
             object_list = []
-            # Prepare data about correlated objects:
+            # Iterate thru all related objects:
             for row in exception.protected_objects:
                 try: # Try to collect object representation:
                     object_representation = row.name
@@ -59,14 +59,14 @@ class BaseDestroyModelMixin(DestroyModelMixin):
                     # Add collected object data into list:
                     object_list.append(related_object_data)
             # Collect error data:
-            data['page_error']['error']['type'] = str(type(exception))
+            data['page_error']['error']['type'] = 'ProtectedError'
             data['page_error']['error']['message'] = str(exception.args)
             data['page_error']['error']['related_objects'] = object_list
             # Return JSON error response:
             return Response(data, status=status.HTTP_403_FORBIDDEN)
         except ValidationError as exception:
             # Collect error data:
-            data['page_error']['error']['type'] = str(type(exception))
+            data['page_error']['error']['type'] = 'ValidationError'
             data['page_error']['error']['message'] = str(exception)
             # Return JSON error response:
             return Response(data, status=status.HTTP_403_FORBIDDEN)

@@ -19,5 +19,6 @@ class APIRootView(APIView):
     def get(self, request, format=None):
 
         return Response({
+            'task': reverse('api-task:api-root', request=request, format=format),
             'inventory': reverse('api-inventory:api-root', request=request, format=format),
         })

@@ -2,13 +2,13 @@
 from autocli2.base.api.base_default_router import BaseDefaultRouter
 
 # AutoCli2 - root view import:
-from .view_sets.root import InventoryRootView
+from inventory.api.view_sets.root import InventoryRootView
 
 # AutoCli2 - simple view set import:
-from .view_sets.host import HostSimpleView
+from inventory.api.view_sets.host import HostSimpleView
 
 # AutoCli2 - standard view set import:
-from .view_sets.host import HostView
+from inventory.api.view_sets.host import HostView
 
 # Register router:
 router = BaseDefaultRouter()
@@ -23,7 +23,7 @@ router.APIRootView = InventoryRootView
 router.register(r'host', HostView, basename='host')
 
 # Simple view route registration:
-# router.register(r'simple_host', HostSimpleView, basename='simple_host')
+router.register(r'simple_host', HostSimpleView, basename='simple_host')
 
 # Add urlpatterns:
 urlpatterns = router.urls
