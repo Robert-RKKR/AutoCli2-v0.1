@@ -35,19 +35,19 @@ class Execution(DataTimeModel):
         Host,
         verbose_name='Hosts',
         help_text='Xxx.',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
     connection_template = models.ForeignKey(
         ConnectionTemplate,
         verbose_name='Connection templates',
         help_text='Xxx.',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
     credential = models.ForeignKey(
         Credential,
         verbose_name='Credential',
         help_text='Xxx.',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
 
     # Relations objects representation:

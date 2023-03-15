@@ -22,16 +22,56 @@ class BaseDestroyModelMixin(DestroyModelMixin):
     """
 
     def destroy(self, request, *args, **kwargs):
+        # Prepare data to return:
+        data = {
+            'page_error': {
+                'code': 'server_error',
+                'message': 'Internal server error.',
+                'error': {}
+            }
+        }
+        # Collect instance object:
         instance = self.get_object()
-        try:
+        try: # Try to delete provided object:
             response = self.perform_destroy(instance)
-        except ProtectedError as error:
-            error_string = str(error)
-            return Response(error_string, status=status.HTTP_403_FORBIDDEN)
-        except ValidationError as error:
-            error_string = str(error)
-            return Response(error_string, status=status.HTTP_403_FORBIDDEN)
+        except ProtectedError as exception:
+            object_list = []
+            # Prepare data about correlated objects:
+            for row in exception.protected_objects:
+                try: # Try to collect object representation:
+                    object_representation = row.name
+                except:
+                    object_representation = 'Empty'
+                try: # Try to collect object related data:
+                    application_name = row.__class__._meta.app_label
+                    model_name = row.__class__.__name__
+                    object_id = row.pk
+                except:
+                    application_name = None
+                    model_name = None
+                    object_id = None
+                finally:
+                    related_object_data = {
+                        'application_name': application_name,
+                        'model_name': model_name,
+                        'object_representation': object_representation,
+                        'object_id': object_id}
+                    # Add collected object data into list:
+                    object_list.append(related_object_data)
+            # Collect error data:
+            data['page_error']['error']['type'] = str(type(exception))
+            data['page_error']['error']['message'] = str(exception.args)
+            data['page_error']['error']['related_objects'] = object_list
+            # Return JSON error response:
+            return Response(data, status=status.HTTP_403_FORBIDDEN)
+        except ValidationError as exception:
+            # Collect error data:
+            data['page_error']['error']['type'] = str(type(exception))
+            data['page_error']['error']['message'] = str(exception)
+            # Return JSON error response:
+            return Response(data, status=status.HTTP_403_FORBIDDEN)
         else:
+            # Return 204 HTTP response if object was deleted:
             return Response(status=status.HTTP_204_NO_CONTENT)     
 
 
