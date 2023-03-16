@@ -33,21 +33,23 @@ def notifications_test(request):
         'output': 'Welcome to notifications test!',
     }
 
-    credential = Credential.objects.get(pk=1)
-    platform = Platform.objects.get(pk=1)
+    # credential = Credential.objects.get(pk=1)
+    # platform = Platform.objects.get(pk=1)
 
-    host = Host.objects.create(
-        name='Root test eeeee',
-        hostname='4.4.4.4e5',
-        credential=credential,
-        platform=platform,
-        is_root=False
-    )
+    # host = Host.objects.create(
+    #     name='Root test eeeee',
+    #     hostname='4.4.4.4e5',
+    #     credential=credential,
+    #     platform=platform,
+    #     is_root=False
+    # )
     
-    # task = execute_executor_task.delay(1)
+    # task = execute_executor_task.delay(2)
     # task = execute_executor_task(1)
 
-    data['return_output'] = host
+    from autocli2.celery import app
+    celery_data = app.control.inspect().query_task('70653b07-88a7-4c0c-86f9-ef93614d237c')
+    data['return_output'] = celery_data
 
     # host_one = Host.objects.get(pk=1)
 

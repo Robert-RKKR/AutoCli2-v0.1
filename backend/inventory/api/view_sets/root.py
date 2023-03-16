@@ -7,5 +7,6 @@ class InventoryRootView(APIRootView):
     """
     Inventory API root view.
     """
+    
     def get_view_name(self):
         return 'api-inventory'

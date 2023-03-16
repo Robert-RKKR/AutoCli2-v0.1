@@ -7,5 +7,6 @@ class TaskRootView(APIRootView):
     """
     Task API root view.
     """
+    
     def get_view_name(self):
         return 'api-task'

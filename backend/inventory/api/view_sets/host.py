@@ -22,9 +22,6 @@ search_fields = [
     'id', 'name', 'description', 'created', 'updated']
 
 
-
-
-
 # ViewSet model classes:
 class HostView(BaseRwModelViewSet):
     """

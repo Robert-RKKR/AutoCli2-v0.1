@@ -314,6 +314,7 @@ class Messenger:
         # Prepare data dictionary:
         notification_data = {
             'type': 'send_collect',
+            'task_id': self.task_id,
             'message': self.message,
             'app_name': self.app_name,
             'model_name': self.model_name,
