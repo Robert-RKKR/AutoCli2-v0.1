@@ -6,7 +6,6 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.mixins import ListModelMixin
 
 # Rest framework - other imports:
-from rest_framework.settings import api_settings
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -33,7 +32,7 @@ class BaseDestroyModelMixin(DestroyModelMixin):
         # Collect instance object:
         instance = self.get_object()
         try: # Try to delete provided object:
-            response = self.perform_destroy(instance)
+            self.perform_destroy(instance)
         except ProtectedError as exception:
             object_list = []
             # Iterate thru all related objects:

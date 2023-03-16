@@ -20,10 +20,3 @@ class Snapshot(StatusModel, DataTimeModel, IdentificationModel, AdministratorMod
         # Model name values:
         verbose_name = 'Snapshot'
         verbose_name_plural = 'Snapshots'
-
-    host = models.ForeignKey(
-        Host,
-        verbose_name='Hosts',
-        help_text='Xxx.',
-        on_delete=models.PROTECT,
-    )

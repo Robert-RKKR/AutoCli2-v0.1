@@ -68,7 +68,7 @@ class SnapshotAdmin(BaseAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated', 'name', 'description', 'host')
+            'fields': ('is_active', 'created', 'updated', 'name', 'description')
         }),
     )
     readonly_fields = (
