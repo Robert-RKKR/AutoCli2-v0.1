@@ -44,12 +44,10 @@ def notifications_test(request):
     #     is_root=False
     # )
     
-    task = execute_executor_task.delay(1)
-    # task = execute_executor_task(1)
+    # task = execute_executor_task.delay(1)
+    task = execute_executor_task(1)
 
-    from autocli2.celery import app
-    celery_data = app.control.inspect().query_task(task)
-    data['return_output'] = f'{str(task)} {str(celery_data)}'
+    data['return_output'] = task
 
     # host_one = Host.objects.get(pk=1)
 

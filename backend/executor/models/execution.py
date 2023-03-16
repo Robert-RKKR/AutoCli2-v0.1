@@ -120,7 +120,8 @@ class Execution(DataTimeModel):
     https_response_code = models.IntegerField(
         verbose_name='HTTP(S) response code',
         help_text='Xxx.',
-        default=0,
+        null=True,
+        blank=True,
     )
     https_response = models.JSONField(
         verbose_name='HTTP(S) response',

@@ -74,11 +74,10 @@ class Messenger:
 
         # Verify if the task ID variable is a valid sting:
         if isinstance(task_id, str):
-            if len(task_id) <= 256:
-                self.__task_id = task_id
-            else:
-                raise ValueError('The provided task ID variable is to long (Allowed max 256 signs).')
-        elif task_id is not None:
+            self.__task_id = task_id[:256]
+        elif task_id is None:
+            self.__task_id = None
+        else:
             raise TypeError('The provided task ID variable must be string. '\
             f'Provided: "{task_id}"')
 

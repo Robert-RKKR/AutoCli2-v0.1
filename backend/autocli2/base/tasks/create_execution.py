@@ -48,6 +48,7 @@ class CreateExecutionBaseTask(BaseTask):
         elif data_collection_protocol == 2:
             execution_data['https_response_code'] = con.response_code
             execution_data['https_response'] = output
+        execution_object = Execution.objects.create(**execution_data)
         try: # Try to create a new execution object:
             execution_object = Execution.objects.create(**execution_data)
         except:
