@@ -11,8 +11,8 @@ Django-based web automation application for multi-vendor network devices. Allows
 
 - Template-based tool to collect data from network devices using HTTP or SSH protocol.
 - Template-based tool to send configuration to network devices using HTTP or SSH protocol.
-- Unified and customisable database prepared to collect data from multi-vendor environment.
-- Reaports tool to generate summary reports based on data collected from network devices.
+- Unified and customizable database prepared to collect data from multi-vendor environment.
+- Reports tool to generate summary reports based on data collected from network devices.
 
 ------------
 ### Screenshots
