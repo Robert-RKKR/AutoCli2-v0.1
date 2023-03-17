@@ -27,8 +27,12 @@ class GlobalSettingAdmin(BaseAdmin):
         }),
         ('Notification settings', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('notification_level', 'logger_level',),
+            'fields': ('notification_level', 'logger_level'),
         }),
+        ('Timeout settings', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('http_timeout', 'ssh_timeout'),
+        })
     )
 
 

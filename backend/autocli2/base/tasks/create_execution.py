@@ -32,7 +32,7 @@ class CreateExecutionBaseTask(BaseTask):
             'connection_template': template,
             'credential': host.credential,
             'task_id': self.task_id,
-            'execution_status': con.status,
+            'execution_status': con.response_status,
             'host_representation':
                 representation['host_representation'],
             'connection_template_representation': 
@@ -46,9 +46,8 @@ class CreateExecutionBaseTask(BaseTask):
             execution_data['ssh_raw_data'] = con.raw_data
             execution_data['ssh_processed_data'] = con.processed_data
         elif data_collection_protocol == 2:
-            execution_data['https_response_code'] = con.response_code
-            execution_data['https_response'] = output
-        execution_object = Execution.objects.create(**execution_data)
+            execution_data['http_response_code'] = con.response_code
+            execution_data['http_response'] = output
         try: # Try to create a new execution object:
             execution_object = Execution.objects.create(**execution_data)
         except:
@@ -71,8 +70,7 @@ class CreateExecutionBaseTask(BaseTask):
         if host.credential:
             credential_name = host.credential.name
             credential_username = host.credential.name
-            credential_representation = f'{credential_name}: '\
-                f'{credential_username}'
+            credential_representation = credential_name
         else:
             credential_representation = collect_global_settings(
                 'default_user')

@@ -117,13 +117,13 @@ class Execution(DataTimeModel):
     )
 
     # HTTP status and data:
-    https_response_code = models.IntegerField(
+    http_response_code = models.IntegerField(
         verbose_name='HTTP(S) response code',
         help_text='Xxx.',
         null=True,
         blank=True,
     )
-    https_response = models.JSONField(
+    http_response = models.JSONField(
         verbose_name='HTTP(S) response',
         help_text='Xxx.',
         null=True,

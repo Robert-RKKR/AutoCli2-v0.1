@@ -47,10 +47,19 @@ class GlobalSetting(DataTimeModel, IdentificationModel):
         max_length=128,
         default='admin',
     )
-
     default_password = models.CharField(
         verbose_name='Default password',
         help_text='Xxx.',
         max_length=128,
         default='!Cisco123',
+    )
+    http_timeout = models.IntegerField(
+        verbose_name='HTTP session timeout',
+        help_text='Xxx.',
+        default=1,
+    )
+    ssh_timeout = models.IntegerField(
+        verbose_name='SSH session timeout',
+        help_text='Xxx.',
+        default=1,
     )

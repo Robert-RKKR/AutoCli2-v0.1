@@ -152,13 +152,13 @@ class ExecutionAdmin(BaseAdmin):
         }),
         ('Collected HTTP(S) data', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('https_response_code', 'https_response')
+            'fields': ('http_response_code', 'http_response')
         }),
     )
     readonly_fields = (
         'created', 'updated', 'ssh_raw_data_status', 'ssh_processed_data_status',
         'ssh_raw_data', 'ssh_processed_data', 'credential_representation',
-        'https_response_code', 'https_response', 'host', 'connection_template',
+        'http_response_code', 'http_response', 'host', 'connection_template',
         'credential', 'execution_status', 'executor', 'task_id',
         'host_representation', 'connection_template_representation'
     )

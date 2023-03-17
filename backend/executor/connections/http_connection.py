@@ -14,6 +14,9 @@ from notification.logger import Logger
 # AutoCli2 - other model import:
 from inventory.models.host import Host
 
+# AutoCli2 - management model import:
+from management.settings import collect_global_settings
+
 # Disable ssl warnings:
 urllib3.disable_warnings()
 
@@ -84,15 +87,30 @@ class Connection:
         # header declaration:
         self.header = header
 
-        # Connection status:
-        self.status = False
+        # Connection status declaration:
+        self.connection_status = False
+
+        # Response declaration:
         self.converted_response = None
         self.response_code = None
+
+        # Response status declaration:
+        self.response_status = False
         self.xml_status = None
         self.json_status = None
 
-        # Execution timer:
+        # Execution timer declaration:
         self.execution_time = None
+
+        # Timeout declaration:
+        self.timeout = collect_global_settings('http_timeout')
+
+        # Create http session:
+        self.session = requests.Session()
+        
+        # Execute test connection:
+        if self.test_connection():
+            self.connection_status = True
 
     @property
     def host(self):
@@ -104,6 +122,21 @@ class Connection:
         hostname of HTTP(S) server.
         """
         return self.hostname
+    
+    def test_connection(self) -> bool:
+        """
+        Execute tes HTTP connection.
+        """
+
+        # Prepare test request:
+        request_url = f'https://{self.hostname}:{self.http_port}'
+        # Execute test connection:
+        response = self._connection('GET', request_url, None)
+        # If connection return status code from 1 to 299 return True:
+        if self.response_status:
+            return True
+        else: # If not return False:
+            return False
     
     def connection(self, method: str, url: str, parameters: dict = {}):
         """
@@ -123,7 +156,7 @@ class Connection:
         # Check if provided HTTP method is valid:
         if method in HTTP_EXECUTION_METHOD:
             # Execute HTTP(S) request:
-            return self._connection_center('GET', url, parameters)
+            return self._connection_center(method, url, parameters)
         else:
             raise NotImplementedError(
                 f'Provided HTTP(S) method "{method}", is not supported')
@@ -149,29 +182,31 @@ class Connection:
         Xxx.
         """
 
-        # Verify if the host url is a valid host object:
-        if not isinstance(url, str):
-            raise TypeError('The provided url variable must be string.')
-        # Verify if the parameters variable is a dictionary:
-        if not isinstance(parameters, dict) and not parameters is None:
-            raise TypeError('The provided parameters variable '\
-                'must be list of dictionary.')
-        else: # Verify parameters dictionary variable:
-            for key in parameters:
-                if not isinstance(key, str):
-                    raise TypeError('The provided key variable must be list '\
-                        f'of dictionary. Received {key}')
-                if not isinstance(parameters[key], str):
-                    raise TypeError('The provided key value variable must '\
-                        f'be list of dictionary. Received {parameters[key]}')
-        # Collect parameters:
-        if parameters:
-            url = self._add_parameters_to_url(url, parameters)
-        # Paginate API request:
+        # Check connection status:
+        if self.connection_status:
+            # Verify if the host url is a valid host object:
+            if not isinstance(url, str):
+                raise TypeError('The provided url variable must be string.')
+            # Verify if the parameters variable is a dictionary:
+            if not isinstance(parameters, dict) and not parameters is None:
+                raise TypeError('The provided parameters variable '\
+                    'must be list of dictionary.')
+            else: # Verify parameters dictionary variable:
+                for key in parameters:
+                    if not isinstance(key, str):
+                        raise TypeError('The provided key variable must be list '\
+                            f'of dictionary. Received {key}')
+                    if not isinstance(parameters[key], str):
+                        raise TypeError('The provided key value variable must '\
+                            f'be list of dictionary. Received {parameters[key]}')
+            # Collect parameters:
+            if parameters:
+                url = self._add_parameters_to_url(url, parameters)
+            # Paginate API request:
 
-        # TEMPORARY:
-        request_url = f'https://{self.hostname}:{self.http_port}/{url}'
-        return self._connection(request_method, request_url, body)
+            # TEMPORARY:
+            request_url = f'https://{self.hostname}:{self.http_port}/{url}'
+            return self._connection(request_method, request_url, body)
 
     def _add_parameters_to_url(self, url, parameters):
         """
@@ -217,8 +252,6 @@ class Connection:
             f'request to "{request_url}" has been started.', self.host)
         # Start clock count:
         start_time = time.perf_counter()
-        # Create session:
-        session = requests.Session()
         # Connect to the network device with password and username
         # or by using token:
         if self.token:
@@ -239,31 +272,32 @@ class Connection:
                 auth=(self.username, self.password),
                 data=body)
         # Confect session with request data:
-        prepare_request = session.prepare_request(request)
+        prepare_request = self.session.prepare_request(request)
         try: # Try to establish a connection to a network device:
-            response = session.send(
+            response = self.session.send(
                 prepare_request,
-                verify=self.certificate,)
+                verify=self.certificate,
+                timeout=self.timeout)
         except requests.exceptions.SSLError as error:
             Connection.logger.error(str(error), self.host)
             # Change connection status to False:
-            self.status = False
-            return self.status
+            self.response_status = False
+            return self.response_status
         except requests.exceptions.Timeout as error:
             Connection.logger.error(str(error), self.host) 
             # Change connection status to False:
-            self.status = False
-            return self.status
+            self.response_status = False
+            return self.response_status
         except requests.exceptions.InvalidURL as error:
             Connection.logger.error(str(error), self.host)        
             # Change connection status to False:
-            self.status = False
-            return self.status
+            self.response_status = False
+            return self.response_status
         except requests.exceptions.ConnectionError as error:
             Connection.logger.error(str(error), self.host)        
             # Change connection status to False:
-            self.status = False
-            return self.status
+            self.response_status = False
+            return self.response_status
         else:
             # Finish clock count & method execution time:
             finish_time = time.perf_counter()
@@ -278,7 +312,7 @@ class Connection:
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to True:
-                self.status = True
+                self.response_status = True
             elif response.status_code < 300: # All response from 200 to 299.
                 Connection.logger.info(
                     f'HTTP(S) request sent to "{request_url}" URL, receives '\
@@ -288,7 +322,7 @@ class Connection:
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to True:
-                self.status = True
+                self.response_status = True
             elif response.status_code < 400: # All response from 300 to 399.
                 Connection.logger.warning(
                     f'HTTP(S) request sent to "{request_url}" URL, return '\
@@ -298,7 +332,7 @@ class Connection:
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to False:
-                self.status = False
+                self.response_status = False
             elif response.status_code < 500: # All response from 400 to 499.
                 Connection.logger.error(
                     f'HTTP(S) request sent to "{request_url}" URL, return '\
@@ -308,7 +342,7 @@ class Connection:
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to False:
-                self.status = False
+                self.response_status = False
             elif response.status_code < 600: # All response from 500 to 599.
                 Connection.logger.error(
                     f'HTTP(S) request sent to "{request_url}" URL, return '\
@@ -318,11 +352,11 @@ class Connection:
                 # Change response code:
                 self.response_code = response.status_code
                 # Change connection status to False:
-                self.status = False
+                self.response_status = False
             
             # Convert response to python dictionary:
             response_text = response.text
-            if self.status and response_text:
+            if self.response_status and response_text:
                 try: # Try to convert JSON response to python dictionary:
                     self.converted_response = json.loads(response_text)
                     self.json_status = True

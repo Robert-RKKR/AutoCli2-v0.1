@@ -44,7 +44,7 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
         # Iterate thru all provided templates:
         for template in connection_templates:
             # Collect template data:
-            template_http_method = template.get_http_method_display()# type: ignore
+            template_http_method = template.get_http_method_display()
             template_http_url = template.http_url
             template_http_params = template.http_params
             # Combine collected param data:
@@ -52,13 +52,12 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
             # Execute template:
             output = con.connection(
                 template_http_method,
-                template_http_url,# type: ignore
+                template_http_url,
                 http_params)
             # Create execution object:
-            execution_object = self._create_execution_object(
-                host, template, executor, con, output)
-            # Check connection status:
-            if con.status:
+            self._create_execution_object(host, template, executor, con, output)
+            # Check connection response status:
+            if con.response_status:
                 positive_result += 1
         # Return connection status count:
         return (positive_result, len(connection_templates))
