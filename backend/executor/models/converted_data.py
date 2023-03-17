@@ -30,17 +30,15 @@ class ConvertedData(DataTimeModel):
         null=True,
         blank=True,
     )
-
-    data_template = models.ForeignKey(
-        DataTemplate,
-        verbose_name='Data template',
-        help_text='Xxx.',
-        on_delete=models.PROTECT,
-    )
-
     execution = models.ForeignKey(
         Execution,
         verbose_name='Execution',
+        help_text='Xxx.',
+        on_delete=models.PROTECT,
+    )
+    data_template = models.ForeignKey(
+        DataTemplate,
+        verbose_name='Data template',
         help_text='Xxx.',
         on_delete=models.PROTECT,
     )
@@ -53,7 +51,6 @@ class ConvertedData(DataTimeModel):
         null=True,
         blank=True,
     )
-
     json_value = models.JSONField(
         verbose_name='JSON value',
         help_text='Xxx.',

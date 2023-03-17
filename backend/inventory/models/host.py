@@ -11,7 +11,7 @@ from inventory.models.credentials import Credential
 from inventory.models.platform import Platform
 from inventory.models.site import Site
 
-# Connections template model constant:
+# Host model constant:
 EXECUTION_PROTOCOLS = (
     (1, 'SSH'),
     (2, 'HTTP')

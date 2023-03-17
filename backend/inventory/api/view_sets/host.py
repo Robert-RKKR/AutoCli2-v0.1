@@ -14,7 +14,6 @@ from inventory.models.host import Host
 # AutoCli2 - inventory filter import:
 from inventory.filters.host import HostFilter
 
-# Ordering and search values:
 ordering_fields = [
     'id', 'name', 'description', 'ico', 'created', 'updated',
      'is_root', 'is_active']
