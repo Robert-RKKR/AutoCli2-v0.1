@@ -2,8 +2,8 @@
 import threading
 
 # AutoCli2 - base task import:
-from autocli2.base.tasks.http_connection import HttpConnectionBaseTask
-from autocli2.base.tasks.ssh_connection import SshConnectionBaseTask
+from autocli2.base.tasks.connections.http_connection import HttpConnectionBaseTask
+from autocli2.base.tasks.connections.ssh_connection import SshConnectionBaseTask
 
 # AutoCli2 - connections model import:
 from connector.models.connection_template import ConnectionTemplate

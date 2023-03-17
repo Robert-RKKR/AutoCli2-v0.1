@@ -68,12 +68,9 @@ class CreateExecutionBaseTask(BaseTask):
 
         # Collect host credential representation:
         if host.credential:
-            credential_name = host.credential.name
-            credential_username = host.credential.name
-            credential_representation = credential_name
+            credential_representation = host.credential.name
         else:
-            credential_representation = collect_global_settings(
-                'default_user')
+            credential_representation = None
         # Collect template representation:
         if data_collection_protocol == 1:
             connection_template_representation = f'{template.name}: '\

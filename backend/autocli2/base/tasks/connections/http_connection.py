@@ -1,5 +1,5 @@
 # AutoCli2 - base task import:
-from autocli2.base.tasks.create_execution import CreateExecutionBaseTask
+from autocli2.base.tasks.connections.create_execution import CreateExecutionBaseTask
 
 # AutoCli2 - connections model import:
 from executor.connections.http_connection import Connection
