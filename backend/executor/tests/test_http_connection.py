@@ -20,6 +20,6 @@ def test_created_objects(create_test_objects):
     connection_data = [
         isinstance(response, list),
         con.json_status,
-        con.status]
+        con.response_status]
     # Check result:
     assert connection_data == [True, True, True]
