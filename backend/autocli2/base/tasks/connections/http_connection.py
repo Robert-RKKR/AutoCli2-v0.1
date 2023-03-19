@@ -17,14 +17,16 @@ from executor.models.executor import Executor
 # Test taks class:
 class HttpConnectionBaseTask(CreateExecutionBaseTask):
     """
-    Xxx.
+    Base HTTP(S) connection class.
     """
 
     def _device_http_execution(self,
         host: Host,
         connection_templates: list[ConnectionTemplate],
         executor: Executor) -> tuple:
-        """ Xxx. """
+        """
+        Xxx.
+        """
             
         # Collect default header / params values from host object:
         if host.platform:

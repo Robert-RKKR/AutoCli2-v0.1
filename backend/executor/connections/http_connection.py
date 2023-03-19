@@ -43,16 +43,17 @@ class Connection:
         Class attributes:
         -----------------
         Host: Host object
-            Xxx.
+            The host used to establish the HTTP(S) connection.
         heder: dictionary
-            Xxx.
+            Header that will be added to HTTP(S) request.
 
         Methods:
         --------
         connection:
-            Xxx
+            Universal method that require the HTTP(S) method to be
+            executed (GET, POST ...).
         get:
-            Xxx
+            GET request method for HTTP(S) connection.
         """
         
         # Verify if the host variable is a valid host object:
@@ -140,7 +141,8 @@ class Connection:
     
     def connection(self, method: str, url: str, parameters: dict = {}):
         """
-        Xxx.
+        Universal method that require the HTTP(S) method to be
+        executed (GET, POST ...).
 
         Parameters:
         -----------------
@@ -163,7 +165,7 @@ class Connection:
 
     def get(self, url: str, parameters: dict = {}):
         """
-        Xxx.
+        GET request method for HTTP(S) connection.
 
         Parameters:
         -----------------
@@ -179,7 +181,8 @@ class Connection:
 
     def _connection_center(self, request_method, url, parameters, body=None):
         """
-        Xxx.
+        Main connection hub responsible for collecting parameters and pagination
+        data to generate URL.
         """
 
         # Check connection status:
@@ -231,7 +234,7 @@ class Connection:
 
     def _add_token_to_heder(self):
         """
-        Xxx.
+        Method to add a token to the header.
         """
 
         # Prepare token value:
@@ -244,7 +247,8 @@ class Connection:
 
     def _connection(self, request_method, request_url, body):
         """
-        Xxx.
+        The main function of the connection class, responsible for
+        sending the HTTP(S) request.
         """
 
         # Log the beginning of a new connection to the HTTP(S) server:

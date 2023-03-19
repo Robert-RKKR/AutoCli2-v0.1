@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# AutoCli2 - connection template manager import:
+from connector.managers.connection_template import ConnectionTemplateManager
+
 # AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.data_time import DataTimeModel
@@ -8,6 +11,9 @@ from autocli2.base.models.status import StatusModel
 
 # AutoCli2 - inventory model import:
 from inventory.models.platform import Platform
+
+# AutoCli2 - connection template validator import:
+from connector.validators.connection_template_validators import regex_validator
 
 # AutoCli2 - inventory host constant import:
 from inventory.models.host import EXECUTION_PROTOCOLS
@@ -23,6 +29,12 @@ HTTP_EXECUTION_METHOD = (
     (3, 'PUT'),
     (4, 'DELETE'),
 )
+RESPONSE_TYPE = (
+    (1, '----'),
+    (2, 'List'),
+    (3, 'Dict'),
+    (4, 'String'),
+)
 
 
 # Connection template model class:
@@ -33,6 +45,9 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
         # Model name values:
         verbose_name = 'Connection template'
         verbose_name_plural = 'Connection templates'
+
+    # Model objects manager:
+    objects = ConnectionTemplateManager()
 
     # Relations with other classes:
     platforms = models.ManyToManyField(
@@ -113,17 +128,17 @@ class ConnectionTemplate(StatusModel, DataTimeModel, IdentificationModel):
     )
 
     # Output validation expressions:
-    sfm_expression = models.TextField(
-        verbose_name='SFM expression',
-        help_text='FSM expression used to validate the output '\
-        'after the execution of the template.',
-        null=True,
-        blank=True,
-    )
     regex_expression = models.TextField(
         verbose_name='Regex expression',
         help_text='Regex expression used to validate the output '\
         'after the execution of the template.',
+        validators=[regex_validator],
         null=True,
         blank=True,
+    )
+    response_type = models.IntegerField(
+        verbose_name='Type of response',
+        help_text='Xxx.',
+        choices=RESPONSE_TYPE,
+        default=1,
     )

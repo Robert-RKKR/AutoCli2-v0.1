@@ -1,3 +1,6 @@
+# Python - regex import:
+import re
+
 # Django - models import:
 from django.db import models
 
@@ -129,3 +132,64 @@ class Execution(DataTimeModel):
         null=True,
         blank=True,
     )
+
+    def is_response(self) -> bool:
+        """
+        Check if recited response is True
+        """
+
+        if self.connection_template:
+            # Check execution protocol:
+            if self.connection_template.execution_protocol == 1:
+                pass
+            elif self.connection_template.execution_protocol == 2:
+                # Check HTTP response:
+                if self.http_response:
+                    # Collect connection template data:
+                    regex_expression = self.connection_template.regex_expression
+                    response_type = self.connection_template.response_type
+                    # Prepare response:
+                    response = True
+                    # Check regex:
+                    if regex_expression:
+                        pattern = rf'{regex_expression}'
+                        try:
+                            re.compile(pattern)
+                        except Exception as error:
+                            # Print compile error:
+                            print(error)
+                        else:
+                            if re.fullmatch(pattern, str(self.http_response)):
+                                response = True
+                            else:
+                                response = False
+                    # Check response type:
+                    if response_type:
+                        if response_type == 1:
+                            pass
+                        elif response_type == 2:
+                            # Check if HTTP response is list type:
+                            if isinstance(self.http_response, list):
+                                response = True
+                            else: # If not change response value to False:
+                                response = False
+                        elif response_type == 3:
+                            # Check if HTTP response is dict type:
+                            if isinstance(self.http_response, dict):
+                                response = True
+                            else: # If not change response value to False:
+                                response = False
+                        elif response_type == 4:
+                            # Check if HTTP response is str type:
+                            if isinstance(self.http_response, str):
+                                response = True
+                            else: # If not change response value to False:
+                                response = False
+                        else: # If wrong value was provided return False:
+                            response = False
+                    # Return response value:
+                    return response
+                else: # If HTTP response is empty return False:
+                    return False
+            else: # If wrong value was provided return False:
+                return False

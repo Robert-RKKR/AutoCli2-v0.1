@@ -46,7 +46,7 @@ class ConnectionTemplateAdmin(BaseAdmin):
         }),
         ('Output validation', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('sfm_expression', 'regex_expression'),
+            'fields': ('regex_expression', 'response_type'),
         })
     )
     readonly_fields = (

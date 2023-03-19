@@ -57,6 +57,9 @@ class CreateExecutionBaseTask(BaseTask):
             # Return False if object was not created:
             return False
         else:
+            # Update execution status value:
+            execution_object.execution_status = execution_object.is_response()
+            execution_object.save(update_fields=['execution_status'])
             # Return created execution object:
             return execution_object
     
