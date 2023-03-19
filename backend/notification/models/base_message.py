@@ -6,7 +6,7 @@ from autocli2.base.models.administrator import AdministratorModel
 
 # Base message model constants:
 ACTION_TYPE = (
-    (0, '---'),
+    (0, 'None'),
     (1, 'Create'),
     (2, 'Update'),
     (3, 'Delete')

@@ -5,12 +5,10 @@ from rest_framework.serializers import HyperlinkedIdentityField
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - inventory serializers import:
-from inventory.api.serializers.credentials import CredentialSimpleSerializer
-from inventory.api.serializers.platform import PlatformSimpleSerializer
-from inventory.api.serializers.site import SiteSimpleSerializer
+from inventory.api.serializers.region import RegionSimpleSerializer
 
 # AutoCli2 - inventory model import:
-from inventory.models.host import Host
+from inventory.models.site import Site
 
 # Fields and read only fields:
 fields = [
@@ -28,15 +26,11 @@ fields = [
     'slug',
     'description',
     # Object related relations values:
-    'site',
-    'platform',
-    'credential',
+    'region',
     # Object related values:
-    'hostname',
-    'data_collection_protocol',
-    'ssh_port',
-    'http_port',
-    'certificate_check'
+    'code',
+    'gps_coordinates',
+    'physical_address',
 ]
 read_only_fields = [
     # Base values:
@@ -52,46 +46,38 @@ read_only_fields = [
 
 
 # Main serializer class:
-class HostSerializer(BaseSerializer):
+class SiteSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
-        view_name='api-inventory:host-detail',
+        view_name='api-inventory:site-detail',
         read_only=False
     )
     # Object relation definition:
-    site = SiteSimpleSerializer(
-        many=False,
-        read_only=True,
-    )
-    platform = PlatformSimpleSerializer(
-        many=False,
-        read_only=True,
-    )
-    credential = CredentialSimpleSerializer(
+    region = RegionSimpleSerializer(
         many=False,
         read_only=True,
     )
 
     class Meta:
 
-        model = Host
+        model = Site
         fields = fields
         read_only_fields = read_only_fields
 
 
 # Simple serializer class:
-class HostSimpleSerializer(BaseSerializer):
+class SiteSimpleSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
-        view_name='api-inventory:host-detail',
-        read_only=False
+        view_name='api-inventory:site-detail',
+        read_only=False,
     )
     # Object relation definition:
 
     class Meta:
 
-        model = Host
+        model = Site
         fields = fields
         read_only_fields = read_only_fields

@@ -32,7 +32,6 @@ class Credential(StatusModel, DataTimeModel, IdentificationModel, AdministratorM
         null=True,
         blank=True,
     )
-
     password = models.CharField(
         verbose_name='Password',
         help_text='Xxx.',
@@ -40,7 +39,6 @@ class Credential(StatusModel, DataTimeModel, IdentificationModel, AdministratorM
         null=True,
         blank=True,
     )
-
     token = models.CharField(
         verbose_name='Token',
         help_text='Xxx.',

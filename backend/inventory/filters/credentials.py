@@ -2,15 +2,15 @@
 from autocli2.base.filters.base_filter import BaseFilter
 
 # AutoCli2 - inventory model import:
-from inventory.models.host import Host
+from inventory.models.credentials import Credential
 
 
 # Filters:
-class HostFilter(BaseFilter):
+class CredentialFilter(BaseFilter):
 
     class Meta:
 
-        model = Host
+        model = Credential
         fields = {
             'is_active': ['exact'],
             'is_root': ['exact'],
@@ -18,9 +18,6 @@ class HostFilter(BaseFilter):
             'updated': ['exact', 'icontains', 'lt', 'gt'],
             'name': ['exact', 'icontains'],
             'description': ['exact', 'icontains'],
-            'hostname': ['exact', 'icontains'],
-            'data_collection_protocol': ['exact'],
-            'ssh_port': ['exact', 'icontains', 'lt', 'gt'],
-            'http_port': ['exact', 'icontains', 'lt', 'gt'],
-            'certificate_check': ['exact'],
+            'is_global': ['exact'],
+            'username': ['exact', 'icontains']
         }

@@ -5,35 +5,35 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from inventory.api.serializers.host import HostSimpleSerializer
-from inventory.api.serializers.host import HostSerializer
+from inventory.api.serializers.platform import PlatformSimpleSerializer
+from inventory.api.serializers.platform import PlatformSerializer
 
 # AutoCli2 - inventory model import:
-from inventory.models.host import Host
+from inventory.models.platform import Platform
 
 # AutoCli2 - inventory filter import:
-from inventory.filters.host import HostFilter
+from inventory.filters.platform import PlatformFilter
 
 
 # ViewSet model classes:
-class HostView(BaseRwModelViewSet):
+class PlatformView(BaseRwModelViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """
 
     # Basic API view parameters:
-    queryset = Host.objects.all()
+    queryset = Platform.objects.all()
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSerializer
-    single_serializer_class = HostSimpleSerializer
+    serializer_class = PlatformSerializer
+    single_serializer_class = PlatformSimpleSerializer
     # Django rest framework filters:
-    filterset_class = HostFilter
+    filterset_class = PlatformFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class HostSimpleView(BaseRwModelViewSet):
+class PlatformSimpleView(BaseRwModelViewSet):
     """
     A simple ViewSet for viewing and editing object/s.
     """
@@ -42,11 +42,11 @@ class HostSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Host.objects.all()
+    queryset = Platform.objects.all()
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSimpleSerializer
+    serializer_class = PlatformSimpleSerializer
     # Django rest framework filters:
-    filterset_class = HostFilter
+    filterset_class = PlatformFilter
     ordering_fields = '__all__'
     search_fields = '__all__'

@@ -5,35 +5,35 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from inventory.api.serializers.host import HostSimpleSerializer
-from inventory.api.serializers.host import HostSerializer
+from inventory.api.serializers.site import SiteSimpleSerializer
+from inventory.api.serializers.site import SiteSerializer
 
 # AutoCli2 - inventory model import:
-from inventory.models.host import Host
+from inventory.models.site import Site
 
 # AutoCli2 - inventory filter import:
-from inventory.filters.host import HostFilter
+from inventory.filters.site import SiteFilter
 
 
 # ViewSet model classes:
-class HostView(BaseRwModelViewSet):
+class SiteView(BaseRwModelViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """
 
     # Basic API view parameters:
-    queryset = Host.objects.all()
+    queryset = Site.objects.all()
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSerializer
-    single_serializer_class = HostSimpleSerializer
+    serializer_class = SiteSerializer
+    single_serializer_class = SiteSimpleSerializer
     # Django rest framework filters:
-    filterset_class = HostFilter
+    filterset_class = SiteFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class HostSimpleView(BaseRwModelViewSet):
+class SiteSimpleView(BaseRwModelViewSet):
     """
     A simple ViewSet for viewing and editing object/s.
     """
@@ -42,11 +42,11 @@ class HostSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Host.objects.all()
+    queryset = Site.objects.all()
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSimpleSerializer
+    serializer_class = SiteSimpleSerializer
     # Django rest framework filters:
-    filterset_class = HostFilter
+    filterset_class = SiteFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
