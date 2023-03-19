@@ -1,5 +1,6 @@
 # Rest framework - serializer import:
 from rest_framework.serializers import HyperlinkedIdentityField
+from rest_framework.serializers import PrimaryKeyRelatedField
 
 # AutoCli2 - base serializer import:
 from autocli2.base.api.base_serializer import BaseSerializer
@@ -10,6 +11,9 @@ from inventory.api.serializers.platform import PlatformSimpleSerializer
 from inventory.api.serializers.site import SiteSimpleSerializer
 
 # AutoCli2 - inventory model import:
+from inventory.models.credentials import Credential
+from inventory.models.platform import Platform
+from inventory.models.site import Site
 from inventory.models.host import Host
 
 # Fields and read only fields:
@@ -86,9 +90,28 @@ class HostSimpleSerializer(BaseSerializer):
     # Object URL definition:
     url = HyperlinkedIdentityField(
         view_name='api-inventory:host-detail',
-        read_only=False
+        read_only=False,
+        help_text='URL to provided object.',
     )
     # Object relation definition:
+    site = PrimaryKeyRelatedField(
+        queryset=Site.objects.all(),
+        required=False,
+        allow_null=True,
+        help_text=Host.site.field.help_text,
+    )
+    platform = PrimaryKeyRelatedField(
+        queryset=Platform.objects.all(),
+        required=False,
+        allow_null=True,
+        help_text=Host.platform.field.help_text,
+    )
+    credential = PrimaryKeyRelatedField(
+        queryset=Credential.objects.all(),
+        required=False,
+        allow_null=True,
+        help_text=Host.credential.field.help_text,
+    )
 
     class Meta:
 
