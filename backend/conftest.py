@@ -1,20 +1,20 @@
-# PyTest import:
+# PyTest - test import:
 import pytest
 
-# Project management models import:
+# AutoCli2 - management model import:
 from management.models.global_settings import GlobalSetting
 
-# Project inventory models import:
+# AutoCli2 - inventory models import:
 from inventory.models.credentials import Credential
 from inventory.models.platform import Platform
 from inventory.models.region import Region
 from inventory.models.site import Site
 from inventory.models.host import Host
 
-# Project executor models import:
+# AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
 
-# Project executor models import:
+# AutoCli2 - executor model import:
 from executor.models.executor import Executor
 
 # Model data:

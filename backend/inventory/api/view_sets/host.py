@@ -22,7 +22,7 @@ class HostView(BaseRwModelViewSet):
     """
 
     # Basic API view parameters:
-    queryset = Host.objects.all()
+    queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = HostSerializer
@@ -42,7 +42,7 @@ class HostSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Host.objects.all()
+    queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = HostSimpleSerializer

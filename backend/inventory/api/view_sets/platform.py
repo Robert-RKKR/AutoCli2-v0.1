@@ -22,7 +22,7 @@ class PlatformView(BaseRwModelViewSet):
     """
 
     # Basic API view parameters:
-    queryset = Platform.objects.all()
+    queryset = Platform.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = PlatformSerializer
@@ -42,7 +42,7 @@ class PlatformSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Platform.objects.all()
+    queryset = Platform.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = PlatformSimpleSerializer

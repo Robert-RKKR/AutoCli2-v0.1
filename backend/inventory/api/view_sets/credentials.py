@@ -22,7 +22,7 @@ class CredentialView(BaseRwModelViewSet):
     """
 
     # Basic API view parameters:
-    queryset = Credential.objects.all()
+    queryset = Credential.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = CredentialSerializer
@@ -42,7 +42,7 @@ class CredentialSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Credential.objects.all()
+    queryset = Credential.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = CredentialSimpleSerializer

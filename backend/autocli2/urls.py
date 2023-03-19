@@ -5,7 +5,6 @@ from django.urls import path, re_path
 
 # Rest framework - views import:
 from rest_framework.authtoken.views import obtain_auth_token
-from rest_framework_swagger.views import get_swagger_view
 from rest_framework import permissions
 
 # Main API view import:
@@ -39,18 +38,18 @@ urlpatterns = [
     ################## API ##################
 
     # API root view registration:
-    path('api/', APIRootView.as_view(), name='api-root'),
+    path('api/', APIRootView.as_view(), name='api_root'),
 
     # API token generator registration:
-    path('api-admin/token-generator/', obtain_auth_token),
+    path('api-admin/token-generate/', obtain_auth_token, name='token_generate'),
 
     # API documentation views registration:
     re_path(r'^doc(?P<format>\.json|\.yaml)$',
-            schema_view.without_ui(cache_timeout=0), name='schema-json'),
+            schema_view.without_ui(cache_timeout=0), name='api_json'),
     path('api-admin/doc/', schema_view.with_ui('swagger', cache_timeout=0),
-         name='schema-swagger-ui'),
+         name='api_documentation'),
     path('api-admin/redoc/', schema_view.with_ui('redoc', cache_timeout=0),
-         name='schema-redoc'),
+         name='api_redoc'),
 
     # API inventory views registration:
     path('api-inventory/', include('inventory.api.urls')),

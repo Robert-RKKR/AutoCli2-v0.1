@@ -22,7 +22,7 @@ class RegionView(BaseRwModelViewSet):
     """
 
     # Basic API view parameters:
-    queryset = Region.objects.all()
+    queryset = Region.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = RegionSerializer
@@ -42,7 +42,7 @@ class RegionSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Region.objects.all()
+    queryset = Region.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = RegionSimpleSerializer

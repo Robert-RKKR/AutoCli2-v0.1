@@ -13,6 +13,7 @@ from inventory.models.platform import Platform
 
 from celery import current_app
 from autocli2.celery import app
+from django.urls import reverse
 
 
 # Notification:
@@ -45,9 +46,9 @@ def notifications_test(request):
     # )
     
     # task = execute_executor_task.delay(1)
-    task = execute_executor_task(1)
-
-    data['return_output'] = task
+    # task = execute_executor_task(1)
+    credential = reverse('api-inventory:credential-list')
+    data['return_output'] = credential
 
     # host_one = Host.objects.get(pk=1)
 

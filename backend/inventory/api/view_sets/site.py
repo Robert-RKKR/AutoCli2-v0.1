@@ -22,7 +22,7 @@ class SiteView(BaseRwModelViewSet):
     """
 
     # Basic API view parameters:
-    queryset = Site.objects.all()
+    queryset = Site.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = SiteSerializer
@@ -42,7 +42,7 @@ class SiteSimpleView(BaseRwModelViewSet):
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
-    queryset = Site.objects.all()
+    queryset = Site.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = SiteSimpleSerializer

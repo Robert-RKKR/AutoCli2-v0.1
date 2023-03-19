@@ -49,10 +49,6 @@ class BaseRwModelViewSet(
     # Django rest framework filters:
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
 
-    # Serializer values:
-    serializer_class = None
-    single_serializer_class = None
-
     # Collect serializer / simple serializer:
     def collect_serializer_class(self, many: bool):
         # Collect class:
