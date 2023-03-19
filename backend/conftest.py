@@ -79,3 +79,17 @@ def create_test_objects(db):
         executor_type=2)
     test_executor.hosts.add(test_host_1)
     test_executor.connection_templates.add(test_template)
+
+@pytest.fixture()
+def create_test_connection_template_with_regex(db):
+    # Create test templates:
+    test_template_1 = ConnectionTemplate.objects.create(
+        name='Regex test template 1',
+        execution_protocol=2,
+        http_url=test_url,
+        regex_expression='.+')
+    test_template_2 = ConnectionTemplate.objects.create(
+        name='Regex test template 2',
+        execution_protocol=2,
+        http_url=test_url,
+        regex_expression='[5gt')
