@@ -8,6 +8,8 @@ from autocli2.base.models.base_model import BaseModel
 from autocli2.base.validators.base_validator import DescriptionValueValidator
 from autocli2.base.validators.base_validator import NameValueValidator
 
+from django.template.defaultfilters import slugify
+
 
 # Identification models class:
 class IdentificationModel(BaseModel):
@@ -42,12 +44,12 @@ class IdentificationModel(BaseModel):
             'invalid': 'Enter the correct name value. It must contain 3 to 64 digits, letters or special characters -, _ or spaces.',
         },
     )
-    # slug = models.CharField(
-    #     verbose_name='Slug',
-    #     help_text=f'{Meta.verbose_name} name representation (Slug).',
-    #     max_length=64,
-    #     unique=True,
-    # )
+    slug = models.CharField(
+        verbose_name='Slug',
+        help_text=f'{Meta.verbose_name} name representation (Slug).',
+        max_length=512,
+        unique=True,
+    )
     description = models.CharField(
         verbose_name='Description',
         help_text=f'{Meta.verbose_name} description.',
@@ -76,3 +78,9 @@ class IdentificationModel(BaseModel):
     # Natural key representation:
     def natural_key(self):
         return str(self.name)
+
+    # Model save method override:
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        # Save object if allowed:
+        super(IdentificationModel, self).save(*args, **kwargs)

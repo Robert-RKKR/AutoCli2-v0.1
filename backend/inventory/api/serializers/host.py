@@ -14,6 +14,7 @@ fields = [
     'is_active',
     'is_root',
     'name',
+    'slug',
     'description',
     'hostname',
 ]
@@ -23,6 +24,7 @@ read_only_fields = [
     'is_root',
     'created',
     'updated',
+    'slug',
 ]
 
 
@@ -33,6 +35,7 @@ class HostSerializer(BaseSerializer):
     url = HyperlinkedIdentityField(
         view_name='api-inventory:host-detail',
         read_only=False,
+        lookup_field='slug'
     )
 
     class Meta:

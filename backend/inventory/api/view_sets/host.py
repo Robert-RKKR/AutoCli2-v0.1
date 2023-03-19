@@ -26,9 +26,12 @@ class HostView(BaseRwModelViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """
+
     # Basic API view parameters:
     queryset = Host.objects.all()
     pagination_class = BaseSmallPaginator
+    # Lookup field:
+    lookup_field = 'slug'
     # Serializer classes:
     serializer_class = HostSerializer
     single_serializer_class = HostSimpleSerializer
@@ -42,12 +45,15 @@ class HostSimpleView(BaseRwModelViewSet):
     """
     A simple ViewSet for viewing and editing object/s.
     """
+
     # Execute API view from Swagger schema:
     exclude_from_schema = True
     swagger_schema = None
     # Basic API view parameters:
     queryset = Host.objects.all()
     pagination_class = BaseSmallPaginator
+    # Lookup field:
+    lookup_field = 'slug'
     # Serializer classes:
     serializer_class = HostSimpleSerializer
     # Django rest framework filters:
