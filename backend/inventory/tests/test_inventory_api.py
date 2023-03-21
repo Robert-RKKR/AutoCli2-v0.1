@@ -69,8 +69,5 @@ class TestInventoryApi(InventoryApiTest):
             self.site, self.site_data, {'name':'A new test site'}))
         responses.append(self.api_simple_test(
             self.host, self.host_data, {'name':'A new test host'}))
-        
-        print(responses)
-        
         # Check responses status
         self.assertEqual(True, self.check_status_code_list(True, responses))

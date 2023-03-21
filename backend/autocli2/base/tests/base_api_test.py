@@ -89,6 +89,7 @@ class BaseApiTest(APITestCase):
         # Collect return code:
         code = update_api.status_code 
         if code != 200: # Check return code:
+            print(f'===({url})===> ', create_api.content)
             return f'Update API action return code {code} instead 200.'
         
         # Retrieve test API object:
