@@ -94,14 +94,14 @@ class Platform(StatusModel, DataTimeModel, IdentificationModel):
     # API related default fields:
     api_default_header = models.JSONField(
         verbose_name='API default heder',
-        help_text='Xxx.',
+        help_text='Default heder used during HTTP(S) requests.',
         null=True,
         blank=True,
     )
 
     api_default_params = models.JSONField(
         verbose_name='API default parameters',
-        help_text='Xxx.',
+        help_text='Default parameters used during HTTP(S) requests.',
         null=True,
         blank=True,
     )

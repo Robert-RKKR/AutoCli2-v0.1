@@ -4,7 +4,7 @@ from django.db import models
 # AutoCli2 - base models import:
 from autocli2.base.models.base_model import BaseModel
 
-# AutoCli2 - validators Import:
+# AutoCli2 - base validators Import:
 from autocli2.base.validators.base_validator import DescriptionValueValidator
 from autocli2.base.validators.base_validator import NameValueValidator
 

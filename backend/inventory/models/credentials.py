@@ -19,29 +19,33 @@ class Credential(StatusModel, DataTimeModel, IdentificationModel, AdministratorM
 
     # Global credential settings:
     is_global = models.BooleanField(
-        verbose_name='Xxxx',
-        help_text='Xxx.',
+        verbose_name='Global credentials',
+        help_text='Global credentials visible to all administrators.',
         default=False,
     )
 
     # Credential information:
     username = models.CharField(
         verbose_name='Username',
-        help_text='Xxx.',
+        help_text='Value of the credential user name.',
         max_length=128,
         null=True,
         blank=True,
     )
     password = models.CharField(
         verbose_name='Password',
-        help_text='Xxx.',
+        help_text='Value of the credential password (If both Password and '\
+            'Token are specified, the Token will be used to authenticate '\
+            'HTTP requests).',
         max_length=128,
         null=True,
         blank=True,
     )
     token = models.CharField(
         verbose_name='Token',
-        help_text='Xxx.',
+        help_text='Value of the credential token (If both Password and Token '\
+            'are specified, the Token will be used to authenticate HTTP '\
+            'requests).',
         max_length=128,
         null=True,
         blank=True,

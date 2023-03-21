@@ -31,45 +31,46 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
     site = models.ForeignKey(
         Site,
         verbose_name='Site',
-        help_text='Site.',
+        help_text='Site associated with current host.',
         on_delete=models.PROTECT,
         null=True,
         blank=True,
     )
     platform = models.ForeignKey(
         Platform,
-        verbose_name='Software',
-        help_text='Software.',
+        verbose_name='Platform',
+        help_text='Platform associated with current host.',
         on_delete=models.PROTECT,
     )
     credential = models.ForeignKey(
         Credential,
         verbose_name='Credentials',
-        help_text='Credentials.',
+        help_text='Credentials associated with current host.',
         on_delete=models.PROTECT,
     )
 
     # Base host information:
     hostname = models.CharField(
         verbose_name='Hostname',
-        help_text='Xxx.',
+        help_text='Valid IP address or domain name used to establish '\
+            'the SSH / HTTP(S) connections.',
         max_length=128,
     )
     data_collection_protocol = models.IntegerField(
         verbose_name='Data collection protocol',
         help_text='The network protocol that will be used to execute '\
-        'connection template (SSH / HTTP(S)).',
+            'connection template (SSH / HTTP(S)).',
         choices=EXECUTION_PROTOCOLS,
         default=1,
     )
     ssh_port = models.IntegerField(
         verbose_name='SSH port',
-        help_text='Xxx.',
+        help_text='The TCP port that will be used during the SSH sessions.',
         default=22
     )
     http_port = models.IntegerField(
         verbose_name='HTTP/S port',
-        help_text='Xxx.',
+        help_text='The TCP port that will be used during the HTTP(S) sessions.',
         default=443
     )
 
@@ -77,6 +78,6 @@ class Host(StatusModel, DataTimeModel, IdentificationModel):
     certificate_check = models.BooleanField(
         verbose_name='Certificate check',
         help_text='If enabled, attempts to validate host certificate. '\
-        'If disabled, ignores certificate validation process.',
+            'If disabled, ignores certificate validation process.',
         default=True,
     )
