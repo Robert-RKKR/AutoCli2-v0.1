@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 class BaseApiTest(APITestCase):
 
     def setUp(self) -> None:
+        
         # Create a user for testing:
         self.user = User.objects.create_superuser(
             'testuser', 'test@example.com', 'password')
@@ -32,6 +33,7 @@ class BaseApiTest(APITestCase):
     
     def check_status_code_list(self,
             expected_status_code: int, status_code_list: list[int]):
+        
         # Return bool value:
         status = False
         # Iterate thru all status codes:
@@ -44,28 +46,42 @@ class BaseApiTest(APITestCase):
         # Return status:
         return status
     
-    def _compare_output(
-            self, data: dict, output: dict, action: str, url):
-        """ Compare two dictionary's, """
-        # Prepare output data:
-        if output.get('page_results', False):
-            output = output['page_results']
-        # Change output if it's a list:
-        if isinstance(output, list):
-            output = output[0]
-        # Compare two dictionary's:
-        for key in data:
-            if key in output:
-                if output[key] != data[key]:
-                    error = f"===> {url} output key: '{key}' value: "\
-                        f"'{output[key]}' doesn't match provided "\
-                        f"data value '{data[key]}' Action: {action}"
-                    return error
-            else:
-                error = f"===> {url} output key: '{key}' doesn't belongs "\
-                    "to data dictionary"
-                return error
-        return True
+    def _compare_data_with_response(
+            self, data: dict, response: dict, action: str, url):
+        """
+        Compare data provided to create a new object via API with API response.
+        """
+
+        try: # Try to convert response JSON output into dictionary:
+            response = json.loads(response.content)
+        except Exception as error:
+            return 'The response provided is not formatted as valid '\
+                f'JSON.\nError: {error}'
+        else:
+            # Prepare response page results data:
+            if response.get('page_results', False):
+                response = response['page_results']
+            # Collect only the first item if a list has been provided:
+            if isinstance(response, list):
+                response = response[0]
+            # Compare two dictionary's:
+            for key, value in list(data.items()):
+                if key in response:
+                    if response[key] != data[key]:
+                        # Print error message:
+                        print(f"===> {url} output key: '{key}' value: "\
+                            f"'{response[key]}' doesn't match provided "\
+                            f"data value '{value}' Action: {action}")
+                        # Return False value:
+                        return False
+                else:
+                    # Print error message:
+                    print(f"===> {url} output key: '{key}' doesn't belongs "\
+                        "to data dictionary")
+                    # Return False value:
+                    return False
+            # Return True value if not interrupted:
+            return True
     
     def api_simple_test_create(
             self, url: str, data: dict) -> bool:
@@ -74,45 +90,39 @@ class BaseApiTest(APITestCase):
         """
 
         # Create test API object:
-        create_api = self.client.post(url, data, format='json')
+        response = self.client.post(url, data, format='json')
         # Collect return code:
-        code = create_api.status_code 
-        if code != 201: # Check return code:
+        response_code = response.status_code 
+        if response_code != 201: # Check return code:
             # Print message:
-            print(f'===> Create API action ({url}), return code {code} instead '\
-                f'201.\nResponse: {create_api.content}')
+            print(f'===> Create API action ({url}), return code {response_code} '
+                f'instead 201.\nResponse: {response.content}')
             # Return False value:
             return False
         # Return True value if not interrupted:
         return True
     
     def api_simple_test_list(
-            self, simple_url: str, data: dict or bool) -> bool:
+            self, simple_url: str, data: dict or bool = False) -> bool:
         """
         Simple API test - list GET method:
         """
 
         # List test API objects:
-        list_api = self.client.get(simple_url, format='json')
-        # Collect response output:
-        list_output = json.loads(list_api.content)
-        # Check if data where provided:
-        if data:
-            # Compare output:
-            response = self._compare_output(
-                data, list_output, 'List', simple_url)
-            if response is not True:
-                # Print message:
-                print(response)
+        response = self.client.get(simple_url, format='json')
+        if data: # Check if data where provided:
+            # Compare response to provided data:
+            if not self._compare_data_with_response(
+                data, response, 'List', simple_url):
                 # Return False value:
                 return False
         else:
             # Collect return code:
-            code = list_api.status_code 
+            code = response.status_code 
             if code != 200: # Check return code:
                 # Print message:
                 print(f'===> List API action ({simple_url}), return code {code} '\
-                      f'instead 200.\nResponse: {list_api.content}')
+                      f'instead 200.\nResponse: {response.content}')
                 # Return False value:
                 return False
         # Return True value if not interrupted:
@@ -125,45 +135,39 @@ class BaseApiTest(APITestCase):
         """
 
         # Update test API object:
-        update_api = self.client.put(f'{url}1/', changes, format='json')
+        response = self.client.put(f'{url}1/', changes, format='json')
         # Collect return code:
-        code = update_api.status_code 
+        code = response.status_code 
         if code != 200: # Check return code:
             # Print message:
             print(f'===> Update API action ({url}), return code {code} instead '\
-                f'200.\nResponse: {update_api.content}')
+                f'200.\nResponse: {response.content}')
             # Return False value:
             return False
         # Return True value if not interrupted:
         return True
     
     def api_simple_test_retrieve(
-            self, simple_url: str, changes: dict or bool) -> bool:
+            self, simple_url: str, changes: dict or bool = False) -> bool:
         """
         Simple API test - retrieve GET method:
         """
 
         # Retrieve test API object:
-        retrieve_api = self.client.get(f'{simple_url}1/', format='json')
-        # Collect response output:
-        retrieve_output = json.loads(retrieve_api.content)
-        # Check if changes where provided:
-        if changes:
-            # Compare output:
-            response = self._compare_output(
-                changes, retrieve_output, 'Retrieve', simple_url)
-            if response is not True:
-                # Print message:
-                print(response)
+        response = self.client.get(f'{simple_url}1/', format='json')
+        if changes: # Check if changes where provided:
+            # Compare response:
+            if not self._compare_data_with_response(
+                changes, response, 'Retrieve', simple_url):
                 # Return False value:
                 return False
         else:
             # Collect return code:
-            code = retrieve_api.status_code 
+            code = response.status_code 
             if code != 200: # Check return code:
                 # Print message:
                 print(f'===> Retrieve API action ({simple_url}), return code {code} '\
-                      f'instead 200.\nResponse: {retrieve_api.content}')
+                      f'instead 200.\nResponse: {response.content}')
                 # Return False value:
                 return False
         # Return True value if not interrupted:
