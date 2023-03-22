@@ -20,6 +20,13 @@ class BaseModel(models.Model):
     # Model objects manager:
     objects = BaseManager()
 
+    # Delete status:
+    is_deleted = models.BooleanField(
+        verbose_name='Deleted',
+        help_text=f'Is {Meta.verbose_name} object deleted.',
+        default=False,
+    )
+
     # object representation:
     def __repr__(self) -> str:
         return f'PK: {self.pk}'
