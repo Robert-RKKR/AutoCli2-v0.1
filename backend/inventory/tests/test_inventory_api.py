@@ -60,15 +60,20 @@ class TestInventoryApi(InventoryApiTest):
         responses = []
         # Run API tests:
         responses.append(self.api_simple_test(
-            self.credential, self.credential_data, {'name':'A new test credential'}))
+            self.credential, self.simple_credential, self.credential_data,
+            {'name':'A new test credential'}))
         responses.append(self.api_simple_test(
-            self.platform, self.platform_data, {'name':'A new test platform'}))
+            self.platform, self.simple_platform, self.platform_data,
+            {'name':'A new test platform'}))
         responses.append(self.api_simple_test(
-            self.region, self.region_data, {'name':'A new test region'}))
+            self.region, self.simple_region, self.region_data,
+            {'name':'A new test region'}))
         responses.append(self.api_simple_test(
-            self.site, self.site_data, {'name':'A new test site'}))
+            self.site, self.simple_site, self.site_data,
+            {'name':'A new test site'}))
         responses.append(self.api_simple_test(
-            self.host, self.host_data, {'name':'A new test host', 'hostname':'2.2.2.2'}))
-        print('===============> ', responses)
+            self.host, self.simple_host, self.host_data,
+            {'name':'A new test host', 'hostname':'2.2.2.2'}))
         # Check responses status
-        self.assertEqual(True, self.check_status_code_list(True, responses))
+        self.assertEqual(True,
+            self.check_status_code_list(True, responses))

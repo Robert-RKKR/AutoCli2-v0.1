@@ -44,7 +44,7 @@ class BaseApiTest(APITestCase):
         # Return status:
         return status
     
-    def compare_output(self, data: dict, output: dict, action: str):
+    def compare_output(self, data: dict, output: dict, action: str, url):
         """ Compare two dictionary's, """
         # Prepare output data:
         if output.get('page_results', False):
@@ -56,53 +56,62 @@ class BaseApiTest(APITestCase):
         for key in data:
             if key in output:
                 if output[key] != data[key]:
-                    if isinstance(output[key], dict):
-                        return True
-                    else:
-                        error = f"Output key: '{key}' value: '{output[key]}' "\
-                            f"doesn't match provided data value '{data[key]}' "\
-                            f"Action: {action}"
-                        return error
+                    error = f"===> {url} output key: '{key}' value: "\
+                        f"'{output[key]}' doesn't match provided "\
+                        f"data value '{data[key]}' Action: {action}"
+                    return error
             else:
-                error = f"Output key: '{key}' doesn't belongs "\
+                error = f"===> {url} output key: '{key}' doesn't belongs "\
                     "to data dictionary"
                 return error
         return True
     
-    def api_simple_test(self, url, data, changes):
+    def api_simple_test(self, url, simple_url, data, changes):
         # Create test API object:
         create_api = self.client.post(url, data, format='json')
         # Collect return code:
         code = create_api.status_code 
         if code != 201: # Check return code:
-            print(f'===({url})===> ', create_api.content)
-            return f'Create API action return code {code} instead 201.'
+            # Print message:
+            print(f'===> Create API action ({url}), return code {code} instead '\
+                f'201.\nResponse: {create_api.content}')
+            # Return False value:
+            return False
         
         # List test API objects:
-        list_api = self.client.get(url, format='json')
+        list_api = self.client.get(simple_url, format='json')
         # Collect response output:
         list_output = json.loads(list_api.content)
         # Compare output:
-        response = self.compare_output(data, list_output, 'List')
+        response = self.compare_output(data, list_output, 'List', url)
         if response is not True:
-            return response
+            # Print message:
+            print(response)
+            # Return False value:
+            return False
         
         # Update test API object:
         update_api = self.client.put(f'{url}1/', changes, format='json')
         # Collect return code:
         code = update_api.status_code 
         if code != 200: # Check return code:
-            print(f'===({url})===> ', create_api.content)
-            return f'Update API action return code {code} instead 200.'
+            # Print message:
+            print(f'===> Update API action ({url}), return code {code} instead '\
+                f'200.\nResponse: {update_api.content}')
+            # Return False value:
+            return False
         
         # Retrieve test API object:
-        retrieve_api = self.client.get(f'{url}1/', format='json')
+        retrieve_api = self.client.get(f'{simple_url}1/', format='json')
         # Collect response output:
         retrieve_output = json.loads(retrieve_api.content)
         # Compare output:
-        response = self.compare_output(changes, retrieve_output, 'Retrieve')
+        response = self.compare_output(changes, retrieve_output, 'Retrieve', url)
         if response is not True:
-            return response
+            # Print message:
+            print(response)
+            # Return False value:
+            return False
         
         # Return True value if not interrupted:
         return True
