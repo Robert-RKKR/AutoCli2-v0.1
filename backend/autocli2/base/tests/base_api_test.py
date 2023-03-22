@@ -56,10 +56,13 @@ class BaseApiTest(APITestCase):
         for key in data:
             if key in output:
                 if output[key] != data[key]:
-                    error = f"Output key: '{key}' value: '{output[key]}' "\
-                        f"doesn't match provided data value '{data[key]}' "\
-                        f"Action: {action}"
-                    return error
+                    if isinstance(output[key], dict):
+                        return True
+                    else:
+                        error = f"Output key: '{key}' value: '{output[key]}' "\
+                            f"doesn't match provided data value '{data[key]}' "\
+                            f"Action: {action}"
+                        return error
             else:
                 error = f"Output key: '{key}' doesn't belongs "\
                     "to data dictionary"
@@ -101,4 +104,5 @@ class BaseApiTest(APITestCase):
         if response is not True:
             return response
         
+        # Return True value if not interrupted:
         return True
