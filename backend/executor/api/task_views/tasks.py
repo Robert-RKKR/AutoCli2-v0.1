@@ -24,18 +24,3 @@ class TaskStatusView(BaseRetrieveViewSet):
             'task_result': task_result.result}
         # Return collected data:
         return result
-    
-
-class TaskStatusViewTest(BaseRetrieveViewSet):
-    
-    def collect_data(self, task_id):
-        """
-        Return detail of tasks currently executed by workers.
-        """
-        
-        try: # Try to collect Celery related data:
-            celery_data = app.control.inspect().query_task(task_id)
-        except: # Return false if the process has failed:
-            celery_data = False
-        finally:
-            return celery_data

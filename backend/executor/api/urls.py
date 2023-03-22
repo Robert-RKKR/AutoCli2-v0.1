@@ -13,7 +13,6 @@ from executor.api.task_views.celery import CeleryReportView
 from executor.api.task_views.celery import CeleryStatsView
 
 # AutoCli2 - task related view import:
-from executor.api.task_views.tasks import TaskStatusViewTest
 from executor.api.task_views.tasks import TaskStatusView
 
 # Register router:
@@ -34,7 +33,6 @@ router.register(r'celery_report', CeleryReportView, basename='celery_report')
 router.register(r'celery_stats', CeleryStatsView, basename='celery_stats')
 
 # Task view route registration:
-router.register(r'task_status2', TaskStatusViewTest, basename='task_status2')
 router.register(r'task_status', TaskStatusView, basename='task_status')
 
 # Add urlpatterns:

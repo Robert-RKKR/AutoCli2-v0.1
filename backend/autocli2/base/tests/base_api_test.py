@@ -44,7 +44,8 @@ class BaseApiTest(APITestCase):
         # Return status:
         return status
     
-    def compare_output(self, data: dict, output: dict, action: str, url):
+    def _compare_output(
+            self, data: dict, output: dict, action: str, url):
         """ Compare two dictionary's, """
         # Prepare output data:
         if output.get('page_results', False):
@@ -66,7 +67,12 @@ class BaseApiTest(APITestCase):
                 return error
         return True
     
-    def api_simple_test(self, url, simple_url, data, changes):
+    def api_simple_test_create(
+            self, url: str, data: dict) -> bool:
+        """
+        Simple API test - create POST method:
+        """
+
         # Create test API object:
         create_api = self.client.post(url, data, format='json')
         # Collect return code:
@@ -77,19 +83,47 @@ class BaseApiTest(APITestCase):
                 f'201.\nResponse: {create_api.content}')
             # Return False value:
             return False
-        
+        # Return True value if not interrupted:
+        return True
+    
+    def api_simple_test_list(
+            self, simple_url: str, data: dict or bool) -> bool:
+        """
+        Simple API test - list GET method:
+        """
+
         # List test API objects:
         list_api = self.client.get(simple_url, format='json')
         # Collect response output:
         list_output = json.loads(list_api.content)
-        # Compare output:
-        response = self.compare_output(data, list_output, 'List', url)
-        if response is not True:
-            # Print message:
-            print(response)
-            # Return False value:
-            return False
-        
+        # Check if data where provided:
+        if data:
+            # Compare output:
+            response = self._compare_output(
+                data, list_output, 'List', simple_url)
+            if response is not True:
+                # Print message:
+                print(response)
+                # Return False value:
+                return False
+        else:
+            # Collect return code:
+            code = list_api.status_code 
+            if code != 200: # Check return code:
+                # Print message:
+                print(f'===> List API action ({simple_url}), return code {code} '\
+                      f'instead 200.\nResponse: {list_api.content}')
+                # Return False value:
+                return False
+        # Return True value if not interrupted:
+        return True
+    
+    def api_simple_test_update(
+            self, url: str, changes: dict) -> bool:
+        """
+        Simple API test - update PUT method:
+        """
+
         # Update test API object:
         update_api = self.client.put(f'{url}1/', changes, format='json')
         # Collect return code:
@@ -100,18 +134,68 @@ class BaseApiTest(APITestCase):
                 f'200.\nResponse: {update_api.content}')
             # Return False value:
             return False
-        
+        # Return True value if not interrupted:
+        return True
+    
+    def api_simple_test_retrieve(
+            self, simple_url: str, changes: dict or bool) -> bool:
+        """
+        Simple API test - retrieve GET method:
+        """
+
         # Retrieve test API object:
         retrieve_api = self.client.get(f'{simple_url}1/', format='json')
         # Collect response output:
         retrieve_output = json.loads(retrieve_api.content)
-        # Compare output:
-        response = self.compare_output(changes, retrieve_output, 'Retrieve', url)
-        if response is not True:
-            # Print message:
-            print(response)
-            # Return False value:
-            return False
-        
+        # Check if changes where provided:
+        if changes:
+            # Compare output:
+            response = self._compare_output(
+                changes, retrieve_output, 'Retrieve', simple_url)
+            if response is not True:
+                # Print message:
+                print(response)
+                # Return False value:
+                return False
+        else:
+            # Collect return code:
+            code = retrieve_api.status_code 
+            if code != 200: # Check return code:
+                # Print message:
+                print(f'===> Retrieve API action ({simple_url}), return code {code} '\
+                      f'instead 200.\nResponse: {retrieve_api.content}')
+                # Return False value:
+                return False
         # Return True value if not interrupted:
         return True
+
+    def api_simple_test(self, url, simple_url, data, changes) -> bool:
+        """
+        Simple API test wil run four API task in specific order:
+            - Create API test using POST method.
+            - List API test using GET method.
+            - Update API test using PUT method.
+            - Retrieve API test using GET method.
+        """
+
+        # Collect responses:
+        responses = []
+        
+        # Run create API test using POST method:
+        responses.append(self.api_simple_test_create(
+            url, data))
+        # Run list API test using GET method:
+        responses.append(self.api_simple_test_list(
+            simple_url, data))
+        # Run update API test using PUT method:
+        responses.append(self.api_simple_test_update(
+            url, changes))
+        # Run retrieve API test using GET method:
+        responses.append(self.api_simple_test_retrieve(
+            simple_url, changes))
+        
+        # Check responses:
+        if responses == [True, True, True, True]:
+            return True
+        else:
+            return False
