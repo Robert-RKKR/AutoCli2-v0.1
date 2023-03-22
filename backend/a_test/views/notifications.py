@@ -35,7 +35,8 @@ def notifications_test(request):
     }
 
     # credential = Credential.objects.get(pk=1)
-    # platform = Platform.objects.get(pk=1)
+    platform = Platform.objects.get(pk=1)
+    print('=====> ', platform.__class__)
 
     # host = Host.objects.create(
     #     name='Root test eeeee',
@@ -48,7 +49,7 @@ def notifications_test(request):
     # task = execute_executor_task.delay(1)
     # task = execute_executor_task(1)
     credential = reverse('api-inventory:credential-list')
-    data['return_output'] = credential
+    data['return_output'] = request.user
 
     # host_one = Host.objects.get(pk=1)
 

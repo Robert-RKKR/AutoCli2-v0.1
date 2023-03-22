@@ -21,6 +21,8 @@ class HostView(BaseRwModelViewSet):
     A ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Basic API view parameters:
     queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
@@ -38,6 +40,8 @@ class HostSimpleView(BaseRwModelViewSet):
     A simple ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Execute API view from Swagger schema:
     exclude_from_schema = True
     swagger_schema = None
