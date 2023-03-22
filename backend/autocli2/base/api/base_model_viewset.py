@@ -13,12 +13,6 @@ from rest_framework.filters import SearchFilter
 # Django filters - rest framework filters import:
 from django_filters.rest_framework import DjangoFilterBackend
 
-# AutoCli2 - base models import:
-from autocli2.base.models.identification import IdentificationModel
-from autocli2.base.models.administrator import AdministratorModel
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
-
 # AutoCli2 - base model mixin import:
 from autocli2.base.api.base_model_mixin import BaseRetrieveModelMixin
 from autocli2.base.api.base_model_mixin import BaseDestroyModelMixin

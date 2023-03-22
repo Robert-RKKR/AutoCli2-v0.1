@@ -56,10 +56,10 @@ class GlobalSetting(DataTimeModel, IdentificationModel):
     http_timeout = models.IntegerField(
         verbose_name='HTTP session timeout',
         help_text='Xxx.',
-        default=1,
+        default=10,
     )
     ssh_timeout = models.IntegerField(
         verbose_name='SSH session timeout',
         help_text='Xxx.',
-        default=1,
+        default=10,
     )
