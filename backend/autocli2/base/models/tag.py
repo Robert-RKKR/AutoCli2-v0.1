@@ -5,8 +5,7 @@ from django.db import models
 from autocli2.base.models.base_model import BaseModel
 
 # AutoCli2 - constance import:
-from autocli2.base.constants.color import COLOR_BLUE
-from autocli2.base.constants.color import COLORS
+from autocli2.base.constants.color import ColorChoices
 
 
 # Tag model class:
@@ -23,6 +22,6 @@ class Tag(BaseModel):
         verbose_name='Color',
         help_text='Tag related color.',
         max_length=6,
-        default=COLOR_BLUE,
-        choices=COLORS,
+        choices=ColorChoices.choices,
+        default=ColorChoices.COLOR_BLUE,
     )

@@ -10,7 +10,7 @@ from inventory.models.platform import Platform
 from inventory.models.site import Site
 
 # AutoCli2 - constance import:
-from autocli2.base.constants.execution_protocol import EXECUTION_PROTOCOLS
+from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
 
 
 # Host model class:
@@ -51,12 +51,12 @@ class Host(IdentificationModel):
             'the SSH / HTTP(S) connections.',
         max_length=128,
     )
-    data_collection_protocol = models.IntegerField(
+    data_collection_protocol = models.CharField(
         verbose_name='Data collection protocol',
         help_text='The network protocol that will be used to execute '\
             'connection template (SSH / HTTP(S)).',
-        choices=EXECUTION_PROTOCOLS,
-        default=1,
+        choices=ExecutionProtocolChoices.choices,
+        max_length=4,
     )
     ssh_port = models.IntegerField(
         verbose_name='SSH port',
