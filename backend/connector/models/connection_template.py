@@ -16,23 +16,10 @@ from connector.validators.connection_template_validators import regex_validator
 # AutoCli2 - inventory host constant import:
 from inventory.models.host import EXECUTION_PROTOCOLS
 
-# Connections template constants:
-SSH_EXECUTION_TYPE = (
-    (1, 'Command'),
-    (2, 'template')
-)
-HTTP_EXECUTION_METHOD = (
-    (1, 'GET'),
-    (2, 'POST'),
-    (3, 'PUT'),
-    (4, 'DELETE'),
-)
-RESPONSE_TYPE = (
-    (1, 'None'),
-    (2, 'List'),
-    (3, 'Dict'),
-    (4, 'String'),
-)
+# AutoCli2 - constance import:
+from autocli2.base.constants.execution_type import HTTP_EXECUTION_TYPE
+from autocli2.base.constants.execution_type import SSH_EXECUTION_TYPE
+from autocli2.base.constants.response_type import RESPONSE_TYPE
 
 
 # Connection template model class:
@@ -102,7 +89,7 @@ class ConnectionTemplate(IdentificationModel):
     http_method = models.IntegerField(
         verbose_name='HTTP(S) request method',
         help_text='Type of HTTP request method (GET, POST, PUT, DELETE).',
-        choices=HTTP_EXECUTION_METHOD,
+        choices=HTTP_EXECUTION_TYPE,
         default=1,
     )
     http_url = models.CharField(

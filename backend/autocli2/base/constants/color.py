@@ -26,6 +26,7 @@ COLOR_DARK_GREY = '607d8b'
 COLOR_BLACK = '111111'
 COLOR_WHITE = 'ffffff'
 
+# Constant value:
 COLORS = (
     (COLOR_DARK_RED, 'Dark Red'),
     (COLOR_RED, 'Red'),

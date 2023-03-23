@@ -9,11 +9,8 @@ from inventory.models.credentials import Credential
 from inventory.models.platform import Platform
 from inventory.models.site import Site
 
-# Host model constant:
-EXECUTION_PROTOCOLS = (
-    (1, 'SSH'),
-    (2, 'HTTP')
-)
+# AutoCli2 - constance import:
+from autocli2.base.constants.execution_protocol import EXECUTION_PROTOCOLS
 
 
 # Host model class:

@@ -12,15 +12,9 @@ from connector.models.connection_template import ConnectionTemplate
 from inventory.models.credentials import Credential
 from inventory.models.host import Host
 
-# Base message model constants:
-EXECUTOR_TYPE = (
-    (1, 'Task'),
-    (2, 'Template/s')
-)
-TASK_ID = (
-    (1, 'Collect host/s data'),
-    (2, 'Check host/s status')
-)
+# AutoCli2 - constances import:
+from autocli2.base.constants.executor_type import EXECUTOR_TYPES
+from autocli2.base.constants.task import TASKS
 
 
 # Executor model class:
