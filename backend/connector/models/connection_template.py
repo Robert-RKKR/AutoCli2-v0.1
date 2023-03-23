@@ -13,10 +13,8 @@ from inventory.models.platform import Platform
 # AutoCli2 - connection template validator import:
 from connector.validators.connection_template_validators import regex_validator
 
-# AutoCli2 - inventory host constant import:
-from inventory.models.host import EXECUTION_PROTOCOLS
-
 # AutoCli2 - constance import:
+from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
 from autocli2.base.constants.execution_type import HTTP_EXECUTION_TYPE
 from autocli2.base.constants.execution_type import SSH_EXECUTION_TYPE
 from autocli2.base.constants.response_type import RESPONSE_TYPE
@@ -49,7 +47,7 @@ class ConnectionTemplate(IdentificationModel):
         verbose_name='Execution protocol',
         help_text='The network protocol that will be used to execute '\
         'connection template (SSH / HTTP(S)).',
-        choices=EXECUTION_PROTOCOLS,
+        choices=ExecutionProtocolChoices.choices,
         default=1,
     )
 

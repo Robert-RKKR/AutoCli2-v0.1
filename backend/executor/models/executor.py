@@ -12,7 +12,7 @@ from connector.models.connection_template import ConnectionTemplate
 from inventory.models.credentials import Credential
 from inventory.models.host import Host
 
-# AutoCli2 - constances import:
+# AutoCli2 - constance's import:
 from autocli2.base.constants.executor_type import EXECUTOR_TYPES
 from autocli2.base.constants.task import TASKS
 
@@ -44,7 +44,7 @@ class Executor(IdentificationModel, AdministratorModel):
     executor_type = models.IntegerField(
         verbose_name='Executor type',
         help_text='Xxx.',
-        choices=EXECUTOR_TYPE,
+        choices=EXECUTOR_TYPES,
         default=1,
     )
 
@@ -52,7 +52,7 @@ class Executor(IdentificationModel, AdministratorModel):
     task = models.IntegerField(
         verbose_name='Task',
         help_text='Xxx.',
-        choices=TASK_ID,
+        choices=TASKS,
         default=0,
     )
     task_arguments = models.JSONField(

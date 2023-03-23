@@ -17,7 +17,7 @@ ACTION_TYPE = (
 
 
 # Base message model class:
-class BaseMessageModel:
+class BaseMessageModel(models.Model):
 
     class Meta:
 
@@ -35,7 +35,7 @@ class BaseMessageModel:
     administrator = models.ForeignKey(
         User,
         verbose_name='Administrator',
-        help_text=f'Administrator responsible for provided {Meta.verbose_name}.',
+        help_text=f'Administrator responsible for provided message object.',
         on_delete=models.PROTECT,
         null=True,
         blank=True,
