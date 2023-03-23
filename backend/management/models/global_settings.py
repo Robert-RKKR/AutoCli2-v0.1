@@ -1,16 +1,15 @@
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
+# AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
-from autocli2.base.models.data_time import DataTimeModel
 
 # AutoCli2 - notification model import:
 from notification.models.notification import SEVERITY
 
 
 # Global setting model class:
-class GlobalSetting(DataTimeModel, IdentificationModel):
+class GlobalSetting(IdentificationModel):
 
     class Meta:
         

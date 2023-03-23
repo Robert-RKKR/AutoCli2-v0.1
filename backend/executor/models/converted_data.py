@@ -1,8 +1,8 @@
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
-from autocli2.base.models.data_time import DataTimeModel
+# AutoCli2 - base model import:
+from autocli2.base.models.base_model import BaseModel
 
 # AutoCli2 - connector model import:
 from connector.models.data_template import DataTemplate
@@ -13,7 +13,7 @@ from executor.models.snapshot  import Snapshot
 
 
 # Converted data model class:
-class ConvertedData(DataTimeModel):
+class ConvertedData(BaseModel):
 
     class Meta:
         

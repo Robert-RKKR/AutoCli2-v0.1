@@ -1,14 +1,12 @@
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
+# AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
 
 
 # Platform model class:
-class Platform(StatusModel, DataTimeModel, IdentificationModel):
+class Platform(IdentificationModel):
 
     class Meta:
         

@@ -4,12 +4,10 @@ from django.db import models
 # AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.administrator import AdministratorModel
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
 
 
 # Credential model class:
-class Credential(StatusModel, DataTimeModel, IdentificationModel, AdministratorModel):
+class Credential(IdentificationModel, AdministratorModel):
 
     class Meta:
         

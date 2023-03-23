@@ -1,9 +1,8 @@
 # Django - model import:
 from django.db import models
 
-# AutoCli2 - base models import:
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
+# AutoCli2 - base model import:
+from autocli2.base.models.base_model import BaseModel
 
 # AutoCli2 - connector model import:
 from connector.models.model_group_template import ModelGroupTemplate
@@ -14,7 +13,7 @@ from inventory.models.platform import Platform
 
 
 # Data group template models class:
-class DataGroupTemplate(StatusModel, DataTimeModel):
+class DataGroupTemplate(BaseModel):
 
     class Meta:
         

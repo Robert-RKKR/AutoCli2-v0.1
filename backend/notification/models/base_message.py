@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - user model import:
+from django.contrib.auth.models import User
+
 # AutoCli2 - base model import:
 from autocli2.base.models.administrator import AdministratorModel
 
@@ -14,7 +17,7 @@ ACTION_TYPE = (
 
 
 # Base message model class:
-class BaseMessageModel(AdministratorModel):
+class BaseMessageModel:
 
     class Meta:
 
@@ -28,7 +31,17 @@ class BaseMessageModel(AdministratorModel):
         auto_now_add=True,
     )
 
-    # Type:
+    # Administrator information:
+    administrator = models.ForeignKey(
+        User,
+        verbose_name='Administrator',
+        help_text=f'Administrator responsible for provided {Meta.verbose_name}.',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
+
+    # Message type:
     action_type = models.IntegerField(
         verbose_name='Type of action',
         help_text='The type of action that was performed on the object.',

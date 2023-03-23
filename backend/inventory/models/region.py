@@ -1,17 +1,15 @@
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
+# AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
 
 # AutoCli2 - validator Import:
 from inventory.validators.inventory_validator import CodeValueValidator
 
 
 # Region model class:
-class Region(StatusModel, DataTimeModel, IdentificationModel):
+class Region(IdentificationModel):
 
     class Meta:
         

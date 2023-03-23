@@ -20,7 +20,7 @@ class AdministratorModel(BaseModel):
         # Abstract class value:
         abstract = True
 
-    # Deleted information:
+    # Administrator information:
     administrator = models.ForeignKey(
         User,
         verbose_name='Administrator',

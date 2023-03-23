@@ -4,8 +4,8 @@ import re
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
-from autocli2.base.models.data_time import DataTimeModel
+# AutoCli2 - base model import:
+from autocli2.base.models.base_model import BaseModel
 
 # AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
@@ -19,7 +19,7 @@ from executor.models.executor import Executor
 
 
 # Execution model class:
-class Execution(DataTimeModel):
+class Execution(BaseModel):
 
     class Meta:
         

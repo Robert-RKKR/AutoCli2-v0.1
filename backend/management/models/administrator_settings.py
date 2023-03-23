@@ -1,16 +1,15 @@
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
+# AutoCli2 - base model import:
 from autocli2.base.models.administrator import AdministratorModel
-from autocli2.base.models.data_time import DataTimeModel
 
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
 
 
 # Administrator setting model class:
-class AdministratorSetting(DataTimeModel, AdministratorModel):
+class AdministratorSetting(AdministratorModel):
 
     class Meta:
         

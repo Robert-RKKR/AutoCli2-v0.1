@@ -1,10 +1,8 @@
 # Django - models import:
 from django.db import models
 
-# AutoCli2 - base models import:
+# AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
 
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
@@ -19,7 +17,7 @@ EXECUTION_PROTOCOLS = (
 
 
 # Host model class:
-class Host(StatusModel, DataTimeModel, IdentificationModel):
+class Host(IdentificationModel):
 
     class Meta:
         

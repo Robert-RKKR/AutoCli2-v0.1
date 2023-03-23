@@ -4,8 +4,6 @@ from django.db import models
 # AutoCli2 - base models import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.administrator import AdministratorModel
-from autocli2.base.models.data_time import DataTimeModel
-from autocli2.base.models.status import StatusModel
 
 # AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
@@ -26,7 +24,7 @@ TASK_ID = (
 
 
 # Executor model class:
-class Executor(StatusModel, DataTimeModel, IdentificationModel, AdministratorModel):
+class Executor(IdentificationModel, AdministratorModel):
 
     class Meta:
         
