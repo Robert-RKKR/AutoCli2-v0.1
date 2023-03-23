@@ -7,6 +7,6 @@ class ExecutionProtocolChoices(TextChoices):
     __empty__ = 'Empty'
 
     # Choices values:
-    HTTP = 'HTTP', 'HTTP(S)'
-    SSH = 'SSH', 'SSH'
-    DISCOVERY = 'DS', 'Discovery'
+    HTTP = 'http', 'HTTP(S)'
+    SSH = 'ssh', 'SSH'
+    DISCOVERY = 'dsc', 'Discovery'

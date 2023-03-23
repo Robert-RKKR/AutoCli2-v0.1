@@ -119,8 +119,7 @@ JAZZMIN_UI_TWEAKS = {
 
 # Rest Framework API:
 REST_FRAMEWORK = {
-    # 'EXCEPTION_HANDLER': 'autocli2.base.api.base_exception_handler.custom_exception_handler',
-    # 'DEFAULT_RENDERER_CLASSES': ['autocli2.base.api.base_renderer.BaseRenderer'],
+    'EXCEPTION_HANDLER': 'autocli2.base.api.base_exception_handler.custom_exception_handler',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',

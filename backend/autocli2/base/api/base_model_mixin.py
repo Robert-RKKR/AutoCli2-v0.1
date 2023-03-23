@@ -18,6 +18,7 @@ from notification.log_change import log_change
 
 # Custom error page:
 error_response = {
+    'page_results': False,
     'page_error': {
         'code': 'server_error',
         'message': 'Internal server error.',
@@ -96,8 +97,10 @@ class BaseCreateModelMixin(CreateModelMixin):
         log_change(instance, request.user, 1)
         # Prepare headers:
         headers = self.get_success_headers(serializer.data)
+        response = {
+            'page_results': serializer.data}
         # Return HTTP response 201, object was created:
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(response, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class BaseRetrieveModelMixin(RetrieveModelMixin):
@@ -106,12 +109,15 @@ class BaseRetrieveModelMixin(RetrieveModelMixin):
     """
     
     def retrieve(self, request, *args, **kwargs):
+        # Collect instance:
         instance = self.get_object()
+        # Collect serializer:
         serializer = self.get_serializer(instance)
+        # Prepare response:
         response = {
-            'page_single': serializer.data
-        }
-        return Response(response)
+            'page_results': serializer.data}
+        # Return HTTP response 200.
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class BaseUpdateModelMixin:
@@ -150,8 +156,11 @@ class BaseUpdateModelMixin:
                 # If 'prefetch_related' has been applied to a queryset, we need to
                 # forcibly invalidate the prefetch cache on the instance.
                 instance._prefetched_objects_cache = {}
+            # Prepare response:
+            response = {
+                'page_results': serializer.data}
             # Return HTTP response 200, object was updated:
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(response, status=status.HTTP_200_OK)
 
 class BaseListModelMixin(ListModelMixin):
     """

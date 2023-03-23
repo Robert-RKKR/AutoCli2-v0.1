@@ -11,6 +11,7 @@ def custom_exception_handler(exc, context):
     # Collect exception:
     response = exception_handler(exc, context)
     error_response = {
+        'page_results': False,
         'page_error': {
             'code': 'server_error',
             'message': 'Internal server error.',

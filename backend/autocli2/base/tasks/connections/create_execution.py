@@ -75,10 +75,10 @@ class CreateExecutionBaseTask(BaseTask):
         else:
             credential_representation = None
         # Collect template representation:
-        if data_collection_protocol == 1:
+        if data_collection_protocol == 'ssh':
             connection_template_representation = f'{template.name}: '\
                 f'{template.ssh_command}'
-        elif data_collection_protocol == 2:
+        elif data_collection_protocol == 'http':
             connection_template_representation = f'{template.name}: '\
                 f'{template.http_url}'
         else:
