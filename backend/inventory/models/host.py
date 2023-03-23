@@ -57,6 +57,7 @@ class Host(IdentificationModel):
             'connection template (SSH / HTTP(S)).',
         choices=ExecutionProtocolChoices.choices,
         max_length=4,
+        default='HTTP',
     )
     ssh_port = models.IntegerField(
         verbose_name='SSH port',

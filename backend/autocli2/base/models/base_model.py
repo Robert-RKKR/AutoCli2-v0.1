@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - error import:
+from django.core.exceptions import ValidationError
+
 # AutoCli2 - base models import:
 from autocli2.base.managers.base_manager import BaseManager
 
@@ -79,14 +82,14 @@ class BaseModel(models.Model):
                 raise ValidationError(f"{self._meta.object_name} object can't be "\
                     "changed because its root object")
         # Save object if allowed:
-        super(StatusModel, self).save(*args, **kwargs)
+        super(BaseModel, self).save(*args, **kwargs)
 
     # Model delete method override:
     def delete(self, *args, **kwargs):
         # Check if object root value is true:
         if self.can_be_deleted():
-            super(StatusModel, self).delete(*args, **kwargs)
+            super(BaseModel, self).delete(*args, **kwargs)
         else:
             # return False
-            raise ValidationError(f"{self._meta.object_name} object can't be "\
+            raise BaseModel(f"{self._meta.object_name} object can't be "\
                 "deleted because its root object")

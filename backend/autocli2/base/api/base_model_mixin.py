@@ -16,6 +16,15 @@ from django.db.models import ProtectedError
 # AutoCli2 - log change import:
 from notification.log_change import log_change
 
+# Custom error page:
+error_response = {
+    'page_error': {
+        'code': 'server_error',
+        'message': 'Internal server error.',
+        'errors': None
+    }
+}
+
 
 # Base mixins classes:
 class BaseDestroyModelMixin(DestroyModelMixin):
@@ -24,14 +33,6 @@ class BaseDestroyModelMixin(DestroyModelMixin):
     """
 
     def destroy(self, request, *args, **kwargs):
-        # Prepare data to return:
-        error_response = {
-            'page_error': {
-                'code': 'server_error',
-                'message': 'Internal server error.',
-                'error': {}
-            }
-        }
         # Collect instance object:
         instance = self.get_object()
         try: # Try to delete provided object:
@@ -73,6 +74,8 @@ class BaseDestroyModelMixin(DestroyModelMixin):
             # Return JSON error response:
             return Response(error_response, status=status.HTTP_403_FORBIDDEN)
         else:
+            # Create change:
+            log_change(instance, request.user, 3)
             # Return 204 HTTP response if object was deleted:
             return Response(status=status.HTTP_204_NO_CONTENT)     
 
@@ -83,25 +86,17 @@ class BaseCreateModelMixin(CreateModelMixin):
     """
 
     def create(self, request, *args, **kwargs):
-
+        # Collect serializer:
         serializer = self.get_serializer(data=request.data)
-
-        print('\n\n\n\n\n\n===(serializer)=========> ', serializer)
+        # Validate serializer:
         serializer.is_valid(raise_exception=True)
-
-        # log_change(
-        #     request.user,
-
-        # )
-
-        print('\n\n\n\n\n\n===(serializer)=========> ', serializer)
-
-        self.perform_create(serializer)
-
-        print('\n\n\n\n\n\n===(serializer)=========> ', serializer)
+        # Save serializer:
+        instance = serializer.save()
+        # Create change:
+        log_change(instance, request.user, 1)
+        # Prepare headers:
         headers = self.get_success_headers(serializer.data)
-
-        print('\n\n\n\n\n\n===(serializer)=========> ', serializer)
+        # Return HTTP response 201, object was created:
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
@@ -109,8 +104,14 @@ class BaseRetrieveModelMixin(RetrieveModelMixin):
     """
     Retrieve a model instance.
     """
-
-    pass
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        response = {
+            'page_single': serializer.data
+        }
+        return Response(response)
 
 
 class BaseUpdateModelMixin:
@@ -142,10 +143,14 @@ class BaseUpdateModelMixin:
             # Return JSON error response:
             return Response(error_response, status=status.HTTP_403_FORBIDDEN)
         else:
+            # Create change:
+            log_change(instance, request.user, 2)
+            # getattr update action:
             if getattr(instance, '_prefetched_objects_cache', None):
                 # If 'prefetch_related' has been applied to a queryset, we need to
                 # forcibly invalidate the prefetch cache on the instance.
                 instance._prefetched_objects_cache = {}
+            # Return HTTP response 200, object was updated:
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 class BaseListModelMixin(ListModelMixin):

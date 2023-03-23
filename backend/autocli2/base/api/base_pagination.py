@@ -23,7 +23,7 @@ class BasePaginator(PageNumberPagination):
     # Pagination response schema:
     def get_paginated_response(self, data):
         return Response({
-            'page_results': data,
+            'page_multiple': data,
             'page_objects': self.page.paginator.count,
             'page_count': math.ceil(self.page.paginator.count/self.page_size),
             'page_links': {

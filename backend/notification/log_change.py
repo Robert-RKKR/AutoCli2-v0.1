@@ -1,3 +1,9 @@
+# Python - JSON import:
+import json
+
+# Django - serializers import:
+from django.core.serializers import serialize
+
 # AutoCli2 - notification model import:
 from notification.models.change_log import ChangeLog
 
@@ -49,7 +55,6 @@ def collect_object_representation(instance):
 
 def log_change(
         instance,
-        object_data,
         administrator,
         change_log_action,
     ):
@@ -59,12 +64,16 @@ def log_change(
 
     # Collect sender class:
     sender = instance.__class__
+    # Collect object content:
+    json_str = serialize('json', [instance], use_natural_foreign_keys=True,
+        use_natural_primary_keys=True)
+    object_data = json.loads(json_str)[0]['fields']
     # Collect base content type information:
     collected_names = collect_names(sender)
     try: # Try to create a new change log:
         ChangeLog.objects.create(
             administrator=administrator,
-            action=change_log_action,
+            action_type=change_log_action,
             app_name=collected_names[0],
             model_name=collected_names[1],
             object_id=instance.pk,

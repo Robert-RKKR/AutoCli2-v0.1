@@ -61,7 +61,7 @@ class ChangLogAdmin(BaseAdmin):
 
     list_display = (
         'pk', 'administrator', 'timestamp', 'action_type',
-        'object_representation', 'after',
+        'object_representation',
     )
     list_display_links = (
         'pk',
@@ -76,12 +76,12 @@ class ChangLogAdmin(BaseAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('administrator', 'after',)
+            'fields': ('administrator', 'app_name', 'model_name',
+                       'object_representation', 'object_id')
         }),
-        ('Change object information', {
+        ('Object Json representation', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('app_name', 'model_name', 'object_representation',
-                       'object_id',),
+            'fields': ('after',),
         }),
     )
     readonly_fields = (
