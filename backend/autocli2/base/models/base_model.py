@@ -64,32 +64,3 @@ class BaseModel(models.Model):
     # Natural key representation:
     def natural_key(self):
         return f'PK: {self.pk}'
-
-    # Check if object can be deleted:
-    def can_be_deleted(self):
-        # Return True if the object can be deleted, False otherwise:
-        if self.is_root is True:
-            return False
-        else:
-            return True
-
-    # Model save method override:
-    def save(self, *args, **kwargs):
-        if self.pk is not None:
-            # Check if object root value is true:
-            if not self.can_be_deleted():
-                # return False
-                raise ValidationError(f"{self._meta.object_name} object can't be "\
-                    "changed because its root object")
-        # Save object if allowed:
-        super(BaseModel, self).save(*args, **kwargs)
-
-    # Model delete method override:
-    def delete(self, *args, **kwargs):
-        # Check if object root value is true:
-        if self.can_be_deleted():
-            super(BaseModel, self).delete(*args, **kwargs)
-        else:
-            # return False
-            raise BaseModel(f"{self._meta.object_name} object can't be "\
-                "deleted because its root object")
