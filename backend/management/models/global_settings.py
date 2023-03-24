@@ -4,8 +4,8 @@ from django.db import models
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
 
-# AutoCli2 - notification model import:
-from notification.models.notification import SEVERITY
+# AutoCli2 - constance import:
+from autocli2.base.constants.severity import SeverityChoices
 
 
 # Global setting model class:
@@ -28,14 +28,13 @@ class GlobalSetting(IdentificationModel):
     notification_level = models.IntegerField(
         verbose_name='Notification severity level',
         help_text='The level of severity of the performed action.',
-        choices=SEVERITY,
+        choices=SeverityChoices.choices,
         default=4,
     )
-
     logger_level = models.IntegerField(
         verbose_name='Logger severity level',
         help_text='The level of severity of the performed action.',
-        choices=SEVERITY,
+        choices=SeverityChoices.choices,
         default=1,
     )
 
