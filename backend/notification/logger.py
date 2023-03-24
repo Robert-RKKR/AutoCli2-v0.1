@@ -1,6 +1,9 @@
 # AutoCli2 - notification model import:
 from notification.messenger import Messenger
 
+# AutoCli2 - constance import:
+from autocli2.base.constants.notification_type import NotificationTypeChoices as NotificationType
+
 
 # Logger class:
 class Logger(Messenger):
@@ -40,7 +43,7 @@ class Logger(Messenger):
 
         # Notification constants:
         self.IS_NOTIFICATION = False
-        self.NOTIFICATION_TYPE = 2
+        self.NOTIFICATION_TYPE = NotificationType.BACKLOG
 
 
         # Default notification information's:

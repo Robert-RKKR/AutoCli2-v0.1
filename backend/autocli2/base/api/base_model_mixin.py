@@ -19,6 +19,9 @@ from django.db.models import ProtectedError
 # AutoCli2 - log change import:
 from notification.log_change import log_change
 
+# AutoCli2 - constance import:
+from autocli2.base.constants.action_type import ActionTypeChoices as ActionType
+
 # Custom error page:
 error_response = {
     'page_results': False,
@@ -91,7 +94,7 @@ class BaseDestroyModelMixin(DestroyModelMixin):
                 return Response(error_response, status=status.HTTP_403_FORBIDDEN)
             else:
                 # Create change:
-                log_change(instance, request.user, 3)
+                log_change(instance, request.user, ActionType.DELETE)
                 # Return 204 HTTP response if object was deleted:
                 return Response(status=status.HTTP_204_NO_CONTENT)     
 
@@ -109,7 +112,7 @@ class BaseCreateModelMixin(CreateModelMixin):
         # Save serializer:
         instance = serializer.save()
         # Create change:
-        log_change(instance, request.user, 1)
+        log_change(instance, request.user, ActionType.CREATE)
         # Prepare headers:
         headers = self.get_success_headers(serializer.data)
         response = {
@@ -162,7 +165,7 @@ class BaseUpdateModelMixin:
                 return Response(error_response, status=status.HTTP_403_FORBIDDEN)
             else:
                 # Create change:
-                log_change(instance, request.user, 2)
+                log_change(instance, request.user, ActionType.UPDATE)
                 # getattr update action:
                 if getattr(instance, '_prefetched_objects_cache', None):
                     # If 'prefetch_related' has been applied to a queryset, we need to

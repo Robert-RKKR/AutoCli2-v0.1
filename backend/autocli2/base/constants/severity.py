@@ -4,5 +4,8 @@ from django.db.models import IntegerChoices
 class SeverityChoices(IntegerChoices):
 
     # Choices values:
-    USER = 1, 'User notification'
-    BACKLOG = 2, 'Backend log'
+    CRITICAL = 1, 'Critical'
+    ERROR = 2, 'Error'
+    WARNING = 3, 'Warning'
+    INFO = 4, 'Info'
+    DEBUG = 5, 'Debug'
