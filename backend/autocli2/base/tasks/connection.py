@@ -14,6 +14,9 @@ from inventory.models.host import Host
 # AutoCli2 - executors model import:
 from executor.models.executor import Executor
 
+# AutoCli2 - constance import:
+from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices as Protocol
+
 
 # Test taks class:
 class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
@@ -106,10 +109,10 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         # Collect host data collection protocol:
         data_collection_protocol = host.data_collection_protocol
         # Start HTTP / SSH connection process:
-        if data_collection_protocol == 1: # 1 == SSH:
+        if data_collection_protocol == Protocol.SSH:
             output = self._device_ssh_execution(
                 host, connection_templates, executor)
-        elif data_collection_protocol == 2: # 1 == HTTP:
+        elif data_collection_protocol == Protocol.HTTP:
             output = self._device_http_execution(
                 host, connection_templates, executor)
         else: # Log error:
