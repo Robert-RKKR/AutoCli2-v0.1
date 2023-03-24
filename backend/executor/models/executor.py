@@ -13,8 +13,8 @@ from inventory.models.credentials import Credential
 from inventory.models.host import Host
 
 # AutoCli2 - constance's import:
-from autocli2.base.constants.executor_type import EXECUTOR_TYPES
-from autocli2.base.constants.task import TASKS
+from autocli2.base.constants.executor_type import ExecutorTypeChoices
+from autocli2.base.constants.task import TaskChoices
 
 
 # Executor model class:
@@ -44,7 +44,7 @@ class Executor(IdentificationModel, AdministratorModel):
     executor_type = models.IntegerField(
         verbose_name='Executor type',
         help_text='Xxx.',
-        choices=EXECUTOR_TYPES,
+        choices=ExecutorTypeChoices.choices,
         default=1,
     )
 
@@ -52,7 +52,7 @@ class Executor(IdentificationModel, AdministratorModel):
     task = models.IntegerField(
         verbose_name='Task',
         help_text='Xxx.',
-        choices=TASKS,
+        choices=TaskChoices.choices,
         default=0,
     )
     task_arguments = models.JSONField(

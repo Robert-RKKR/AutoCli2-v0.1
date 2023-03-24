@@ -106,10 +106,10 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         # Collect host data collection protocol:
         data_collection_protocol = host.data_collection_protocol
         # Start HTTP / SSH connection process:
-        if data_collection_protocol == 1:
+        if data_collection_protocol == 1: # 1 == SSH:
             output = self._device_ssh_execution(
                 host, connection_templates, executor)
-        elif data_collection_protocol == 2:
+        elif data_collection_protocol == 2: # 1 == HTTP:
             output = self._device_http_execution(
                 host, connection_templates, executor)
         else: # Log error:

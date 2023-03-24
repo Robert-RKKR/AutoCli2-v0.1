@@ -51,13 +51,12 @@ class Host(IdentificationModel):
             'the SSH / HTTP(S) connections.',
         max_length=128,
     )
-    data_collection_protocol = models.CharField(
+    data_collection_protocol = models.IntegerField(
         verbose_name='Data collection protocol',
         help_text='The network protocol that will be used to execute '\
             'connection template (SSH / HTTP(S)).',
         choices=ExecutionProtocolChoices.choices,
-        max_length=4,
-        default='HTTP',
+        default=1,
     )
     ssh_port = models.IntegerField(
         verbose_name='SSH port',

@@ -7,13 +7,8 @@ from django.contrib.auth.models import User
 # AutoCli2 - base model import:
 from autocli2.base.models.administrator import AdministratorModel
 
-# Base message model constants:
-ACTION_TYPE = (
-    (0, 'None'),
-    (1, 'Create'),
-    (2, 'Update'),
-    (3, 'Delete')
-)
+# AutoCli2 - constance import:
+from autocli2.base.constants.action_type import ActionTypeChoices
 
 
 # Base message model class:
@@ -45,7 +40,7 @@ class BaseMessageModel(models.Model):
     action_type = models.IntegerField(
         verbose_name='Type of action',
         help_text='The type of action that was performed on the object.',
-        choices=ACTION_TYPE,
+        choices=ActionTypeChoices.choices,
         default=0,
     )
 

@@ -40,12 +40,12 @@ class CreateExecutionBaseTask(BaseTask):
             'credential_representation':
                 representation['credential_representation']}
         # Collect data based on connection protocol type (HTTP/SSH)::
-        if data_collection_protocol == 1:
+        if data_collection_protocol == 1: # 1 == SSH:
             execution_data['ssh_raw_data_status'] = con.raw_data_status
             execution_data['ssh_processed_data_status'] = con.processed_data_status
             execution_data['ssh_raw_data'] = con.raw_data
             execution_data['ssh_processed_data'] = con.processed_data
-        elif data_collection_protocol == 2:
+        elif data_collection_protocol == 2: # 1 == HTTP:
             execution_data['http_response_code'] = con.response_code
             execution_data['http_response'] = output
         try: # Try to create a new execution object:
@@ -75,10 +75,10 @@ class CreateExecutionBaseTask(BaseTask):
         else:
             credential_representation = None
         # Collect template representation:
-        if data_collection_protocol == 'ssh':
+        if data_collection_protocol == 1: # 1 == SSH:
             connection_template_representation = f'{template.name}: '\
                 f'{template.ssh_command}'
-        elif data_collection_protocol == 'http':
+        elif data_collection_protocol == 2: # 1 == HTTP:
             connection_template_representation = f'{template.name}: '\
                 f'{template.http_url}'
         else:

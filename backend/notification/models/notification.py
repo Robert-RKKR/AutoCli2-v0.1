@@ -4,18 +4,9 @@ from django.db import models
 # AutoCli2 - base model import:
 from .base_message import BaseMessageModel
 
-# Notification model constants:
-SEVERITY = (
-    (1, 'CRITICAL'),
-    (2, 'ERROR'),
-    (3, 'WARNING'),
-    (4, 'INFO'),
-    (5, 'DEBUG'),
-)
-NOTIFICATION_TYPE = (
-    (1, 'User notification'),
-    (2, 'Backend log')
-)
+# AutoCli2 - constance import:
+from autocli2.base.constants.notification_type import NotificationTypeChoices
+from autocli2.base.constants.severity import SeverityChoices
 
 
 # Notification model class:
@@ -34,7 +25,7 @@ class Notification(BaseMessageModel):
     severity = models.IntegerField(
         verbose_name='Severity level',
         help_text='The level of severity of the performed action.',
-        choices=SEVERITY,
+        choices=SeverityChoices.choices,
         default=0,
     )
 
@@ -42,7 +33,7 @@ class Notification(BaseMessageModel):
     notification_type = models.IntegerField(
         verbose_name='Notification type',
         help_text='Type of notification (User / backlog).',
-        choices=NOTIFICATION_TYPE,
+        choices=NotificationTypeChoices.choices,
         default=1,
     )
 

@@ -1,12 +1,9 @@
-from django.db.models import TextChoices
+from django.db.models import IntegerChoices
 
 # Choices class:
-class ExecutionProtocolChoices(TextChoices):
-
-    # Empty value:
-    __empty__ = 'Empty'
+class ExecutionProtocolChoices(IntegerChoices):
 
     # Choices values:
-    HTTP = 'http', 'HTTP(S)'
-    SSH = 'ssh', 'SSH'
-    DISCOVERY = 'dsc', 'Discovery'
+    SSH = 1, 'SSH'
+    HTTP = 2, 'HTTP(S)'
+    DISCOVERY = 3, 'Discovery'

@@ -165,21 +165,21 @@ class Execution(BaseModel):
                                 response = False
                     # Check response type:
                     if response_type:
-                        if response_type == 1:
+                        if response_type == 0: # 0 == Empty:
                             pass
-                        elif response_type == 2:
+                        elif response_type == 1: # 1 == List:
                             # Check if HTTP response is list type:
                             if isinstance(self.http_response, list):
                                 response = True
                             else: # If not change response value to False:
                                 response = False
-                        elif response_type == 3:
+                        elif response_type == 2: # 2 == Dict:
                             # Check if HTTP response is dict type:
                             if isinstance(self.http_response, dict):
                                 response = True
                             else: # If not change response value to False:
                                 response = False
-                        elif response_type == 4:
+                        elif response_type == 3: # 3 == String:
                             # Check if HTTP response is str type:
                             if isinstance(self.http_response, str):
                                 response = True

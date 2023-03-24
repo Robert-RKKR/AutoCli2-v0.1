@@ -15,9 +15,9 @@ from connector.validators.connection_template_validators import regex_validator
 
 # AutoCli2 - constance import:
 from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
-from autocli2.base.constants.execution_type import HTTP_EXECUTION_TYPE
-from autocli2.base.constants.execution_type import SSH_EXECUTION_TYPE
-from autocli2.base.constants.response_type import RESPONSE_TYPE
+from autocli2.base.constants.execution_type import HttpExecutionTypeChoices
+from autocli2.base.constants.execution_type import ShhExecutionTypeChoices
+from autocli2.base.constants.response_type import ResponseTypeChoices
 
 
 # Connection template model class:
@@ -55,7 +55,7 @@ class ConnectionTemplate(IdentificationModel):
     ssh_type = models.IntegerField(
         verbose_name='SSH execution type',
         help_text='Type of SSH connection template (Command / template).',
-        choices=SSH_EXECUTION_TYPE,
+        choices=ShhExecutionTypeChoices.choices,
         default=1,
     )
     ssh_command = models.CharField(
@@ -87,7 +87,7 @@ class ConnectionTemplate(IdentificationModel):
     http_method = models.IntegerField(
         verbose_name='HTTP(S) request method',
         help_text='Type of HTTP request method (GET, POST, PUT, DELETE).',
-        choices=HTTP_EXECUTION_TYPE,
+        choices=HttpExecutionTypeChoices.choices,
         default=1,
     )
     http_url = models.CharField(
@@ -122,6 +122,6 @@ class ConnectionTemplate(IdentificationModel):
     response_type = models.IntegerField(
         verbose_name='Type of response',
         help_text='Xxx.',
-        choices=RESPONSE_TYPE,
+        choices=ResponseTypeChoices.choices,
         default=1,
     )
