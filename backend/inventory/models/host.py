@@ -50,6 +50,7 @@ class Host(IdentificationModel):
         help_text='Valid IP address or domain name used to establish '\
             'the SSH / HTTP(S) connections.',
         max_length=128,
+        unique=True,
     )
     data_collection_protocol = models.IntegerField(
         verbose_name='Data collection protocol',

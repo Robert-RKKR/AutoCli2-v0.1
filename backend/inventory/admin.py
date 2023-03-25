@@ -154,7 +154,8 @@ class SiteAdmin(BaseAdmin):
 class HostAdmin(BaseAdmin):
     
     list_display = (
-        'name', 'is_active', 'site', 'platform', 'created', 'data_collection_protocol', 'updated'
+        'name', 'hostname', 'is_active', 'site', 'platform',
+        'data_collection_protocol', 'created', 'updated'
     )
     list_display_links = (
         'name',

@@ -4,9 +4,6 @@ from django.db import models
 # Django - user model import:
 from django.contrib.auth.models import User
 
-# AutoCli2 - base model import:
-from autocli2.base.models.administrator import AdministratorModel
-
 # AutoCli2 - constance import:
 from autocli2.base.constants.action_type import ActionTypeChoices
 
@@ -30,7 +27,7 @@ class BaseMessageModel(models.Model):
     administrator = models.ForeignKey(
         User,
         verbose_name='Administrator',
-        help_text=f'Administrator responsible for provided message object.',
+        help_text=f'Administrator responsible for provided change.',
         on_delete=models.PROTECT,
         null=True,
         blank=True,

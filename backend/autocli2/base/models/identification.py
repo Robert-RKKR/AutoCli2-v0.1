@@ -38,16 +38,13 @@ class IdentificationModel(BaseModel):
         unique=True,
         validators=[name_validator],
         error_messages={
-            'null': 'Name field is mandatory.',
-            'blank': 'Name field is mandatory.',
-            'unique': f'{Meta.verbose_name} with this name already exists.',
             'invalid': 'Enter the correct name value. It must contain 3 to 64 digits, letters or special characters -, _ or spaces.',
         },
     )
     slug = models.CharField(
         verbose_name='Slug',
         help_text=f'{Meta.verbose_name} name representation (Slug).',
-        max_length=512,
+        max_length=128,
         unique=True,
     )
     description = models.CharField(

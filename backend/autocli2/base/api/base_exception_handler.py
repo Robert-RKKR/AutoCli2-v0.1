@@ -15,7 +15,7 @@ def custom_exception_handler(exc, context):
         'page_error': {
             'code': 'server_error',
             'message': 'Internal server error.',
-            'errors': response.data
+            'error': response.data
         }
     }
     # Prepare response:
