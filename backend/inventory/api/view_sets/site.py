@@ -5,7 +5,7 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from inventory.api.serializers.site import SiteSimpleSerializer
+from inventory.api.serializers.site import SiteFullSerializer
 from inventory.api.serializers.site import SiteSerializer
 
 # AutoCli2 - inventory model import:
@@ -16,26 +16,26 @@ from inventory.filters.site import SiteFilter
 
 
 # ViewSet model classes:
-class SiteView(BaseRwModelViewSet):
+class SiteFullView(BaseRwModelViewSet):
     """
-    A ViewSet for viewing and editing object/s.
+    A full ViewSet for viewing and editing object/s.
     """
 
     # Basic API view parameters:
     queryset = Site.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = SiteSerializer
-    single_serializer_class = SiteSimpleSerializer
+    serializer_class = SiteFullSerializer
+    single_serializer_class = SiteSerializer
     # Django rest framework filters:
     filterset_class = SiteFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class SiteSimpleView(BaseRwModelViewSet):
+class SiteView(BaseRwModelViewSet):
     """
-    A simple ViewSet for viewing and editing object/s.
+    A ViewSet for viewing and editing object/s.
     """
 
     # Execute API view from Swagger schema:
@@ -45,7 +45,7 @@ class SiteSimpleView(BaseRwModelViewSet):
     queryset = Site.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = SiteSimpleSerializer
+    serializer_class = SiteSerializer
     # Django rest framework filters:
     filterset_class = SiteFilter
     ordering_fields = '__all__'

@@ -5,7 +5,6 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from inventory.api.serializers.platform import PlatformSimpleSerializer
 from inventory.api.serializers.platform import PlatformSerializer
 
 # AutoCli2 - inventory model import:
@@ -26,26 +25,6 @@ class PlatformView(BaseRwModelViewSet):
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = PlatformSerializer
-    single_serializer_class = PlatformSimpleSerializer
-    # Django rest framework filters:
-    filterset_class = PlatformFilter
-    ordering_fields = '__all__'
-    search_fields = '__all__'
-
-
-class PlatformSimpleView(BaseRwModelViewSet):
-    """
-    A simple ViewSet for viewing and editing object/s.
-    """
-
-    # Execute API view from Swagger schema:
-    exclude_from_schema = True
-    swagger_schema = None
-    # Basic API view parameters:
-    queryset = Platform.objects.all().order_by('pk')
-    pagination_class = BaseSmallPaginator
-    # Serializer classes:
-    serializer_class = PlatformSimpleSerializer
     # Django rest framework filters:
     filterset_class = PlatformFilter
     ordering_fields = '__all__'

@@ -5,7 +5,7 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from inventory.api.serializers.host import HostSimpleSerializer
+from inventory.api.serializers.host import HostFullSerializer
 from inventory.api.serializers.host import HostSerializer
 
 # AutoCli2 - inventory model import:
@@ -16,9 +16,9 @@ from inventory.filters.host import HostFilter
 
 
 # ViewSet model classes:
-class HostView(BaseRwModelViewSet):
+class HostFullView(BaseRwModelViewSet):
     """
-    A ViewSet for viewing and editing object/s.
+    A full ViewSet for viewing and editing object/s.
     """
 
     # Log changes:
@@ -27,17 +27,17 @@ class HostView(BaseRwModelViewSet):
     queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSerializer
-    single_serializer_class = HostSimpleSerializer
+    serializer_class = HostFullSerializer
+    single_serializer_class = HostSerializer
     # Django rest framework filters:
     filterset_class = HostFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class HostSimpleView(BaseRwModelViewSet):
+class HostView(BaseRwModelViewSet):
     """
-    A simple ViewSet for viewing and editing object/s.
+    A ViewSet for viewing and editing object/s.
     """
 
     # Log changes:
@@ -49,7 +49,7 @@ class HostSimpleView(BaseRwModelViewSet):
     queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSimpleSerializer
+    serializer_class = HostSerializer
     # Django rest framework filters:
     filterset_class = HostFilter
     ordering_fields = '__all__'

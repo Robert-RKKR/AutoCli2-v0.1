@@ -10,11 +10,6 @@ class InventoryApiTest(BaseApiTest):
 
     def setUp(self) -> None:
         # Collect test URLs:
-        self.simple_credential = reverse('api-inventory:simple_credential-list')
-        self.simple_platform = reverse('api-inventory:simple_platform-list')
-        self.simple_region = reverse('api-inventory:simple_region-list')
-        self.simple_host = reverse('api-inventory:simple_host-list')
-        self.simple_site = reverse('api-inventory:simple_site-list')
         self.credential = reverse('api-inventory:credential-list')
         self.platform = reverse('api-inventory:platform-list')
         self.region = reverse('api-inventory:region-list')
@@ -55,24 +50,24 @@ class InventoryApiTest(BaseApiTest):
 
 class TestInventoryApi(InventoryApiTest):
 
-    def test_api_update(self):
+    def test_inventory_api(self):
         # Collect responses:
         responses = []
         # Run API tests:
         responses.append(self.api_simple_test(
-            self.credential, self.simple_credential, self.credential_data,
+            self.credential, self.credential_data,
             {'name':'A new test credential'}))
         responses.append(self.api_simple_test(
-            self.platform, self.simple_platform, self.platform_data,
+            self.platform, self.platform_data,
             {'name':'A new test platform'}))
         responses.append(self.api_simple_test(
-            self.region, self.simple_region, self.region_data,
+            self.region, self.region_data,
             {'name':'A new test region'}))
         responses.append(self.api_simple_test(
-            self.site, self.simple_site, self.site_data,
+            self.site, self.site_data,
             {'name':'A new test site'}))
         responses.append(self.api_simple_test(
-            self.host, self.simple_host, self.host_data,
+            self.host, self.host_data,
             {'name':'A new test host', 'hostname':'2.2.2.2'}))
         # Check responses status
         self.assertEqual(True,

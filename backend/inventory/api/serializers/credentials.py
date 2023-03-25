@@ -12,7 +12,7 @@ from inventory.models.credentials import Credential
 from management.models.administrator import Administrator
 
 # AutoCli2 - management serializers import:
-from management.api.serializers.administrator import AdministratorSimpleSerializer
+from management.api.serializers.administrator import AdministratorSerializer
 
 # Fields and read only fields:
 fields = [
@@ -50,8 +50,8 @@ read_only_fields = [
 ]
 
 
-# Main serializer class:
-class CredentialSerializer(BaseSerializer):
+# Full serializer class:
+class CredentialFullSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -60,7 +60,7 @@ class CredentialSerializer(BaseSerializer):
     )
 
     # Object relation definition:
-    administrator = AdministratorSimpleSerializer(
+    administrator = AdministratorSerializer(
         many=False,
         read_only=True,
     )
@@ -72,8 +72,8 @@ class CredentialSerializer(BaseSerializer):
         read_only_fields = read_only_fields
 
 
-# Simple serializer class:
-class CredentialSimpleSerializer(BaseSerializer):
+# Main serializer class:
+class CredentialSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(

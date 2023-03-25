@@ -46,20 +46,3 @@ class AdministratorSerializer(BaseSerializer):
         model = Administrator
         fields = fields
         read_only_fields = read_only_fields
-
-
-# Simple serializer class:
-class AdministratorSimpleSerializer(BaseSerializer):
-
-    # Object URL definition:
-    url = HyperlinkedIdentityField(
-        view_name='api-management:administrator-detail',
-        read_only=False,
-        help_text='URL to provided object.',
-    )
-
-    class Meta:
-
-        model = Administrator
-        fields = fields
-        read_only_fields = read_only_fields

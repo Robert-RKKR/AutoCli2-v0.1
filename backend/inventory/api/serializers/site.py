@@ -6,7 +6,7 @@ from rest_framework.serializers import PrimaryKeyRelatedField
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - inventory serializers import:
-from inventory.api.serializers.region import RegionSimpleSerializer
+from inventory.api.serializers.region import RegionSerializer
 
 # AutoCli2 - inventory model import:
 from inventory.models.region import Region
@@ -47,8 +47,8 @@ read_only_fields = [
 ]
 
 
-# Main serializer class:
-class SiteSerializer(BaseSerializer):
+# Full serializer class:
+class SiteFullSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -57,7 +57,7 @@ class SiteSerializer(BaseSerializer):
     )
 
     # Object relation definition:
-    region = RegionSimpleSerializer(
+    region = RegionSerializer(
         many=False,
         read_only=True,
     )
@@ -69,8 +69,8 @@ class SiteSerializer(BaseSerializer):
         read_only_fields = read_only_fields
 
 
-# Simple serializer class:
-class SiteSimpleSerializer(BaseSerializer):
+# Main serializer class:
+class SiteSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(

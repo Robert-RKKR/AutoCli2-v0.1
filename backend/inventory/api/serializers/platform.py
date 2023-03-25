@@ -60,19 +60,3 @@ class PlatformSerializer(BaseSerializer):
         model = Platform
         fields = fields
         read_only_fields = read_only_fields
-
-
-# Simple serializer class:
-class PlatformSimpleSerializer(BaseSerializer):
-
-    # Object URL definition:
-    url = HyperlinkedIdentityField(
-        view_name='api-inventory:platform-detail',
-        read_only=False
-    )
-
-    class Meta:
-
-        model = Platform
-        fields = fields
-        read_only_fields = read_only_fields

@@ -5,7 +5,7 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from inventory.api.serializers.credentials import CredentialSimpleSerializer
+from inventory.api.serializers.credentials import CredentialFullSerializer
 from inventory.api.serializers.credentials import CredentialSerializer
 
 # AutoCli2 - inventory model import:
@@ -32,26 +32,26 @@ class CredentialViewSet(BaseRwModelViewSet):
 
 
 # ViewSet model classes:
-class CredentialView(CredentialViewSet):
+class CredentialFullView(CredentialViewSet):
     """
-    A ViewSet for viewing and editing object/s.
+    A full ViewSet for viewing and editing object/s.
     """
 
     # Basic API view parameters:
     queryset = Credential.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = CredentialSerializer
-    single_serializer_class = CredentialSimpleSerializer
+    serializer_class = CredentialFullSerializer
+    single_serializer_class = CredentialSerializer
     # Django rest framework filters:
     filterset_class = CredentialFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class CredentialSimpleView(CredentialViewSet):
+class CredentialView(CredentialViewSet):
     """
-    A simple ViewSet for viewing and editing object/s.
+    A ViewSet for viewing and editing object/s.
     """
 
     # Execute API view from Swagger schema:
@@ -61,7 +61,7 @@ class CredentialSimpleView(CredentialViewSet):
     queryset = Credential.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = CredentialSimpleSerializer
+    serializer_class = CredentialSerializer
     # Django rest framework filters:
     filterset_class = CredentialFilter
     ordering_fields = '__all__'

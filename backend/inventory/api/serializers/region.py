@@ -52,19 +52,3 @@ class RegionSerializer(BaseSerializer):
         model = Region
         fields = fields
         read_only_fields = read_only_fields
-
-
-# Simple serializer class:
-class RegionSimpleSerializer(BaseSerializer):
-
-    # Object URL definition:
-    url = HyperlinkedIdentityField(
-        view_name='api-inventory:region-detail',
-        read_only=False,
-    )
-
-    class Meta:
-
-        model = Region
-        fields = fields
-        read_only_fields = read_only_fields

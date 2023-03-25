@@ -6,9 +6,9 @@ from rest_framework.serializers import PrimaryKeyRelatedField
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - inventory serializers import:
-from inventory.api.serializers.credentials import CredentialSimpleSerializer
-from inventory.api.serializers.platform import PlatformSimpleSerializer
-from inventory.api.serializers.site import SiteSimpleSerializer
+from inventory.api.serializers.credentials import CredentialSerializer
+from inventory.api.serializers.platform import PlatformSerializer
+from inventory.api.serializers.site import SiteSerializer
 
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
@@ -55,8 +55,8 @@ read_only_fields = [
 ]
 
 
-# Main serializer class:
-class HostSerializer(BaseSerializer):
+# Full serializer class:
+class HostFullSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -65,15 +65,15 @@ class HostSerializer(BaseSerializer):
     )
     
     # Object relation definition:
-    site = SiteSimpleSerializer(
+    site = SiteSerializer(
         many=False,
         read_only=True,
     )
-    platform = PlatformSimpleSerializer(
+    platform = PlatformSerializer(
         many=False,
         read_only=True,
     )
-    credential = CredentialSimpleSerializer(
+    credential = CredentialSerializer(
         many=False,
         read_only=True,
     )
@@ -85,8 +85,8 @@ class HostSerializer(BaseSerializer):
         read_only_fields = read_only_fields
 
 
-# Simple serializer class:
-class HostSimpleSerializer(BaseSerializer):
+# Main serializer class:
+class HostSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(

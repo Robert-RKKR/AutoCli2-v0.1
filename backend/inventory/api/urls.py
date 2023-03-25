@@ -5,11 +5,9 @@ from autocli2.base.api.base_default_router import BaseDefaultRouter
 from inventory.api.view_sets.root import InventoryRootView
 
 # AutoCli2 - simple view set import:
-from inventory.api.view_sets.credentials import CredentialSimpleView
-from inventory.api.view_sets.platform import PlatformSimpleView
-from inventory.api.view_sets.region import RegionSimpleView
-from inventory.api.view_sets.host import HostSimpleView
-from inventory.api.view_sets.site import SiteSimpleView
+from inventory.api.view_sets.credentials import CredentialFullView
+from inventory.api.view_sets.host import HostFullView
+from inventory.api.view_sets.site import SiteFullView
 
 # AutoCli2 - standard view set import:
 from inventory.api.view_sets.credentials import CredentialView
@@ -28,11 +26,9 @@ app_name = 'api-inventory'
 router.APIRootView = InventoryRootView
 
 # Simple view route registration:
-router.register(r'simple_credential', CredentialSimpleView, basename='simple_credential')
-router.register(r'simple_platform', PlatformSimpleView, basename='simple_platform')
-router.register(r'simple_region', RegionSimpleView, basename='simple_region')
-router.register(r'simple_host', HostSimpleView, basename='simple_host')
-router.register(r'simple_site', SiteSimpleView, basename='simple_site')
+router.register(r'full_credential', CredentialFullView, basename='full_credential')
+router.register(r'full_host', HostFullView, basename='full_host')
+router.register(r'full_site', SiteFullView, basename='full_site')
 
 # Standard view route registration:
 router.register(r'credential', CredentialView, basename='credential')
