@@ -36,12 +36,14 @@ class Host(IdentificationModel):
         verbose_name='Platform',
         help_text='Platform associated with current host.',
         on_delete=models.PROTECT,
+        default=1,
     )
     credential = models.ForeignKey(
         Credential,
         verbose_name='Credentials',
         help_text='Credentials associated with current host.',
         on_delete=models.PROTECT,
+        default=1,
     )
 
     # Base host information:

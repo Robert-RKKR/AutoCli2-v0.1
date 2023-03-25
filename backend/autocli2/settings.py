@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'connector.apps.ConnectorConfig',
     'inventory.apps.InventoryConfig',
     'executor.apps.ExecutorConfig',
+
+    # AutoCli2 init application:
+    'app_initiator.apps.AppInitiatorConfig',
 ]
 
 # Main URL file:
