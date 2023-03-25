@@ -46,7 +46,7 @@ class TagAdmin(BaseAdmin):
 class CredentialAdmin(BaseAdmin):
 
     list_display = (
-        'name', 'is_active', 'created', 'updated'
+        'name', 'is_active', 'administrator', 'created', 'updated'
     )
     list_display_links = (
         'name',
@@ -61,7 +61,7 @@ class CredentialAdmin(BaseAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'created', 'updated', 'name', 'username',
-                       'description')
+                       'description', 'administrator')
         }),
         ('Security information', {
             'classes': ('wide', 'extrapretty',),

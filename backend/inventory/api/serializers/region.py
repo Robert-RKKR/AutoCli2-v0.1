@@ -62,7 +62,6 @@ class RegionSimpleSerializer(BaseSerializer):
         view_name='api-inventory:region-detail',
         read_only=False,
     )
-    # Object relation definition:
 
     class Meta:
 

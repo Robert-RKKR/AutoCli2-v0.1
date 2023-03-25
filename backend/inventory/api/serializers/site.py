@@ -55,6 +55,7 @@ class SiteSerializer(BaseSerializer):
         view_name='api-inventory:site-detail',
         read_only=False
     )
+
     # Object relation definition:
     region = RegionSimpleSerializer(
         many=False,
@@ -76,6 +77,7 @@ class SiteSimpleSerializer(BaseSerializer):
         view_name='api-inventory:site-detail',
         read_only=False,
     )
+    
     # Object relation definition:
     region = PrimaryKeyRelatedField(
         queryset=Region.objects.all(),

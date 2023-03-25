@@ -22,6 +22,8 @@ fields = [
     'name',
     'slug',
     'description',
+    # Object related relations values:
+    # 'administrator',
     # Object related values:
     'is_global',
     'username',
@@ -50,6 +52,14 @@ class CredentialSerializer(BaseSerializer):
         read_only=False
     )
 
+    # Object relation definition:
+    # administrator = PlatformSimpleSerializer(
+    #     queryset=Site.objects.all(),
+    #     required=False,
+    #     allow_null=True,
+    #     help_text=Host.site.field.help_text,
+    # )
+
     class Meta:
 
         model = Credential
@@ -65,7 +75,14 @@ class CredentialSimpleSerializer(BaseSerializer):
         view_name='api-inventory:credential-detail',
         read_only=False,
     )
+
     # Object relation definition:
+    # administrator = PrimaryKeyRelatedField(
+    #     queryset=Site.objects.all(),
+    #     required=False,
+    #     allow_null=True,
+    #     help_text=Host.site.field.help_text,
+    # )
 
     class Meta:
 

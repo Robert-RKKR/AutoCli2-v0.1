@@ -14,9 +14,25 @@ from inventory.models.credentials import Credential
 # AutoCli2 - inventory filter import:
 from inventory.filters.credentials import CredentialFilter
 
+# AutoCli2 - base model mixin import:
+from autocli2.base.api.base_model_mixin import BaseCreateModelMixin
+
+
+# Credential custom view set class:
+class CredentialViewSet(BaseRwModelViewSet):
+
+    # Overwrite create method to add many serializer functionality:
+    def create(self, *args, **kwargs):
+        # Collect request:
+        request = args[0]
+        # Add administrator value to request data:
+        request.data['administrator'] = request.user.pk
+        # Continue execution of create function:
+        return BaseCreateModelMixin.create(self, *args, **kwargs)
+
 
 # ViewSet model classes:
-class CredentialView(BaseRwModelViewSet):
+class CredentialView(CredentialViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """
@@ -33,7 +49,7 @@ class CredentialView(BaseRwModelViewSet):
     search_fields = '__all__'
 
 
-class CredentialSimpleView(BaseRwModelViewSet):
+class CredentialSimpleView(CredentialViewSet):
     """
     A simple ViewSet for viewing and editing object/s.
     """

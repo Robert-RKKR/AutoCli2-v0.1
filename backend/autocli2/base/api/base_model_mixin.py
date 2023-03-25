@@ -90,6 +90,7 @@ class BaseCreateModelMixin(CreateModelMixin):
     """
 
     def create(self, request, *args, **kwargs):
+        print('===(request.data)====> ', request.data)
         # Collect serializer:
         serializer = self.get_serializer(data=request.data)
         # Validate serializer:

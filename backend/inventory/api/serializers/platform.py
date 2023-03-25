@@ -70,7 +70,6 @@ class PlatformSimpleSerializer(BaseSerializer):
         view_name='api-inventory:platform-detail',
         read_only=False
     )
-    # Object relation definition:
 
     class Meta:
 

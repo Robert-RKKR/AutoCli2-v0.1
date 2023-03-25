@@ -63,6 +63,7 @@ class HostSerializer(BaseSerializer):
         view_name='api-inventory:host-detail',
         read_only=False
     )
+    
     # Object relation definition:
     site = SiteSimpleSerializer(
         many=False,
@@ -93,6 +94,7 @@ class HostSimpleSerializer(BaseSerializer):
         read_only=False,
         help_text='URL to provided object.',
     )
+
     # Object relation definition:
     site = PrimaryKeyRelatedField(
         queryset=Site.objects.all(),
