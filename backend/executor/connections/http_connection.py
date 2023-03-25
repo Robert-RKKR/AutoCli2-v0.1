@@ -17,16 +17,11 @@ from inventory.models.host import Host
 # AutoCli2 - management model import:
 from management.settings import collect_global_settings
 
+# AutoCli2 - constance import:
+from autocli2.base.constants.execution_type import HttpExecutionTypeChoices
+
 # Disable ssl warnings:
 urllib3.disable_warnings()
-
-# HTTP constance:
-HTTP_EXECUTION_METHOD = [
-    'GET',
-    'POST',
-    'PUT',
-    'DELETE'
-]
 
 
 # HTTP connection class:
@@ -156,7 +151,11 @@ class Connection:
         """
 
         # Check if provided HTTP method is valid:
-        if method in HTTP_EXECUTION_METHOD:
+        if method in HttpExecutionTypeChoices:
+            # Collect method:
+            for choice in HttpExecutionTypeChoices.choices:
+                if choice[0] == method:
+                    method = choice[1]
             # Execute HTTP(S) request:
             return self._connection_center(method, url, parameters)
         else:

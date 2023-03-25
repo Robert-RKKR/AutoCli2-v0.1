@@ -9,7 +9,7 @@ from inventory.models.host import Host
 
 # Test functions:
 @pytest.mark.django_db
-def test_created_objects(create_test_objects):
+def test_http_connection(create_test_objects):
     # Collect test objects:
     test_host_2 = Host.objects.get(pk=2)
     # Create test HTTP connection:

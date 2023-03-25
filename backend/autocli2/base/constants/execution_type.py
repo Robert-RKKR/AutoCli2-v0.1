@@ -12,7 +12,7 @@ class ShhExecutionTypeChoices(IntegerChoices):
 class HttpExecutionTypeChoices(IntegerChoices):
 
     # Choices values:
-    GET = 1, 'Get HTTP(S) method'
-    POST = 2, 'Post HTTP(S) method'
-    PUT = 3, 'Put HTTP(S) method'
-    DELETE = 4, 'Delete HTTP(S) method'
+    GET = 1, 'GET'
+    POST = 2, 'POST'
+    PUT = 3, 'PUT'
+    DELETE = 4, 'DELETE'

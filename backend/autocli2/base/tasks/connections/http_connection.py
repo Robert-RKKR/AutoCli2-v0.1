@@ -46,7 +46,7 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
         # Iterate thru all provided templates:
         for template in connection_templates:
             # Collect template data:
-            template_http_method = template.get_http_method_display()
+            template_http_method = template.http_method
             template_http_url = template.http_url
             template_http_params = template.http_params
             # Combine collected param data:

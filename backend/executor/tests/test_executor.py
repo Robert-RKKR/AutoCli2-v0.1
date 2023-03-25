@@ -19,7 +19,7 @@ from executor.tasks.execute_executor import execute_executor_task
 
 # Test functions:
 @pytest.mark.django_db
-def test_created_objects(create_test_objects):
+def test_executor(create_test_objects):
     # Collect test objects:
     test_template = ConnectionTemplate.objects.get(pk=1)
     test_credentials = Credential.objects.get(pk=1)

@@ -27,7 +27,7 @@ class ExecutorApiTest(BaseApiTest):
 
 class TestExecutorApi(ExecutorApiTest):
 
-    def test_api_update(self):
+    def test_inventory_api(self):
         # Collect responses:
         responses = []
         # Run API tests:
