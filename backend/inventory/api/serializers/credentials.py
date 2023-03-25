@@ -1,11 +1,18 @@
 # Rest framework - serializer import:
 from rest_framework.serializers import HyperlinkedIdentityField
+from rest_framework.serializers import PrimaryKeyRelatedField
 
 # AutoCli2 - base serializer import:
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
+
+# AutoCli2 - management model import:
+from management.models.administrator import Administrator
+
+# AutoCli2 - management serializers import:
+from management.api.serializers.administrator import AdministratorSimpleSerializer
 
 # Fields and read only fields:
 fields = [
@@ -23,7 +30,7 @@ fields = [
     'slug',
     'description',
     # Object related relations values:
-    # 'administrator',
+    'administrator',
     # Object related values:
     'is_global',
     'username',
@@ -53,12 +60,10 @@ class CredentialSerializer(BaseSerializer):
     )
 
     # Object relation definition:
-    # administrator = PlatformSimpleSerializer(
-    #     queryset=Site.objects.all(),
-    #     required=False,
-    #     allow_null=True,
-    #     help_text=Host.site.field.help_text,
-    # )
+    administrator = AdministratorSimpleSerializer(
+        many=False,
+        read_only=True,
+    )
 
     class Meta:
 
@@ -77,12 +82,12 @@ class CredentialSimpleSerializer(BaseSerializer):
     )
 
     # Object relation definition:
-    # administrator = PrimaryKeyRelatedField(
-    #     queryset=Site.objects.all(),
-    #     required=False,
-    #     allow_null=True,
-    #     help_text=Host.site.field.help_text,
-    # )
+    administrator = PrimaryKeyRelatedField(
+        queryset=Administrator.objects.all(),
+        required=False,
+        allow_null=True,
+        help_text=Credential.administrator.field.help_text,
+    )
 
     class Meta:
 

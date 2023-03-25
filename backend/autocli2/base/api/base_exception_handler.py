@@ -8,18 +8,21 @@ def custom_exception_handler(exc, context):
     Custom exception handler to return JSON responses.
     """
     
-    # Collect exception:
-    response = exception_handler(exc, context)
+    # Prepare error response to return:
     error_response = {
         'page_results': False,
         'page_error': {
             'code': 'server_error',
             'message': 'Internal server error.',
-            'error': response.data
-        }
-    }
-    # Prepare response:
-    if response is not None:
-        response.data = error_response
-    # Return error response:
-    return Response(response.data, status=response.status_code)
+            'error': False}}
+    # Collect exception:
+    response = exception_handler(exc, context)
+    if response:
+        try: # Try to collect response data:
+            error_response['page_error']['error'] = response.data
+        except: # If not available return response:
+            error_response['page_error']['error'] = str(response)
+         # Return error response:
+        return Response(error_response, status=response.status_code)
+    else: # If response if not available, raise exception:
+        raise InterruptedError(exc)

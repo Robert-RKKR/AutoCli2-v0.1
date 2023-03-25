@@ -51,7 +51,8 @@ urlpatterns = [
     path('api-admin/redoc/', schema_view.with_ui('redoc', cache_timeout=0),
          name='api_redoc'),
 
-    # API inventory views registration:
+    # API views registration:
+    path('api-management/', include('management.api.urls')),
     path('api-inventory/', include('inventory.api.urls')),
 
     # API task views registration:
