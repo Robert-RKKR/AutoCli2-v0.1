@@ -5,12 +5,29 @@ from django.contrib import admin
 from autocli2.base.admins.based_admin import BaseAdmin
 
 # AutoCli2 - management model import:
-from management.models.administrator_settings import AdministratorSetting
 from management.models.global_settings import GlobalSetting
-# from management.models.administrator import Administrator
+from management.models.administrator import Administrator
 
 
 # All management admin classes:
+@admin.register(Administrator)
+class AdministratorAdmin(BaseAdmin):
+
+    list_display = (
+        'username', 'last_login', 'first_name', 'last_name'
+    )
+    search_fields = (
+        'pk',
+    )
+    fieldsets = (
+        ('Basic information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('username', 'last_login', 'first_name',
+                       'last_name', 'password')
+        }),
+    )
+
+
 @admin.register(GlobalSetting)
 class GlobalSettingAdmin(BaseAdmin):
 
@@ -33,21 +50,4 @@ class GlobalSettingAdmin(BaseAdmin):
             'classes': ('wide', 'extrapretty',),
             'fields': ('http_timeout', 'ssh_timeout'),
         })
-    )
-
-
-@admin.register(AdministratorSetting)
-class AdministratorSettingAdmin(BaseAdmin):
-
-    list_display = (
-        'pk', 'default_credentials',
-    )
-    search_fields = (
-        'pk',
-    )
-    fieldsets = (
-        ('Basic information', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('default_credentials', 'administrator')
-        }),
     )

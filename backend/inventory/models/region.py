@@ -3,13 +3,14 @@ from django.db import models
 
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
+from autocli2.base.models.tag import Tag
 
 # AutoCli2 - validator Import:
 from inventory.validators.inventory_validator import CodeValueValidator
 
 
 # Region model class:
-class Region(IdentificationModel):
+class Region(IdentificationModel, Tag):
 
     class Meta:
         

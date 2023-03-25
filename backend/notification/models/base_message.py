@@ -1,8 +1,8 @@
 # Django - models import:
 from django.db import models
 
-# Django - user model import:
-from django.contrib.auth.models import User
+# AutoCli2 - executor model import:
+from management.models.administrator import Administrator
 
 # AutoCli2 - constance import:
 from autocli2.base.constants.action_type import ActionTypeChoices
@@ -25,7 +25,7 @@ class BaseMessageModel(models.Model):
 
     # Administrator information:
     administrator = models.ForeignKey(
-        User,
+        Administrator,
         verbose_name='Administrator',
         help_text=f'Administrator responsible for provided change.',
         on_delete=models.PROTECT,

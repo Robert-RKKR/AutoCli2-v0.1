@@ -186,4 +186,4 @@ STATICFILES_FINDERS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Default user:
-# AUTH_USER_MODEL = 'management.Administrator'
+AUTH_USER_MODEL = 'management.Administrator'

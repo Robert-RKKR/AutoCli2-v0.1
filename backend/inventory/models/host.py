@@ -3,6 +3,7 @@ from django.db import models
 
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
+from autocli2.base.models.tag import Tag
 
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
@@ -14,7 +15,7 @@ from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
 
 
 # Host model class:
-class Host(IdentificationModel):
+class Host(IdentificationModel, Tag):
 
     class Meta:
         

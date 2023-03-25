@@ -3,6 +3,8 @@ from django.db import models
 
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
+from autocli2.base.models.tag import Tag
+
 # AutoCli2 - inventory model import:
 from inventory.models.region import Region
 
@@ -11,7 +13,7 @@ from inventory.validators.inventory_validator import CodeValueValidator
 
 
 # Site model class:
-class Site(IdentificationModel):
+class Site(IdentificationModel, Tag):
 
     class Meta:
         

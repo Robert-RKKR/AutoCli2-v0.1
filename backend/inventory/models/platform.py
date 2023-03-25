@@ -3,10 +3,11 @@ from django.db import models
 
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
+from autocli2.base.models.tag import Tag
 
 
 # Platform model class:
-class Platform(IdentificationModel):
+class Platform(IdentificationModel, Tag):
 
     class Meta:
         

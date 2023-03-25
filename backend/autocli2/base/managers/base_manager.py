@@ -1,4 +1,4 @@
-# Django - models import:
+# Django - model import:
 from django.db.models import Manager
 
 

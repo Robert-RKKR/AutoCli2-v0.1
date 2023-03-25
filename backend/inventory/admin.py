@@ -10,9 +10,38 @@ from inventory.models.platform import Platform
 from inventory.models.region import Region
 from inventory.models.site import Site
 from inventory.models.host import Host
+from inventory.models.tag import Tag
 
 
 # All inventory admin classes:
+@admin.register(Tag)
+class TagAdmin(BaseAdmin):
+
+    list_display = (
+        'name', 'is_active', 'created', 'updated'
+    )
+    list_display_links = (
+        'name',
+    )
+    list_filter = (
+        'is_active',
+    )
+    search_fields = (
+        'name', 'description', 'username'
+    )
+    fieldsets = (
+        ('Basic information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('is_active', 'created', 'updated', 'name', 'color',
+                       'description')
+        }),
+    )
+    readonly_fields = (
+        'created', 'updated',
+    )
+    empty_value_display = '--None--'
+
+
 @admin.register(Credential)
 class CredentialAdmin(BaseAdmin):
 
@@ -174,7 +203,7 @@ class HostAdmin(BaseAdmin):
         }),
         ('Detailed information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('site', 'platform', 'credential')
+            'fields': ('site', 'platform', 'credential', 'tag')
         }),
         ('Port settings', {
             'classes': ('wide', 'extrapretty',),

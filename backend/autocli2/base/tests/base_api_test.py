@@ -7,8 +7,8 @@ from rest_framework.test import APITestCase
 # Rest framework - token import:
 from rest_framework.authtoken.models import Token
 
-# Django - user model import:
-from django.contrib.auth.models import User
+# AutoCli2 - management model import:
+from management.models.administrator import Administrator
 
 
 # Base API test class:
@@ -17,7 +17,7 @@ class BaseApiTest(APITestCase):
     def setUp(self) -> None:
         
         # Create a user for testing:
-        self.user = User.objects.create_superuser(
+        self.user = Administrator.objects.create_superuser(
             'testuser', 'test@example.com', 'password')
         # Create an authentication token for the user
         self.token = Token.objects.create(user=self.user)
