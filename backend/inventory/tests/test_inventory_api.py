@@ -15,6 +15,7 @@ class InventoryApiTest(BaseApiTest):
         self.region = reverse('api-inventory:region-list')
         self.host = reverse('api-inventory:host-list')
         self.site = reverse('api-inventory:site-list')
+        self.tag = reverse('api-inventory:tag-list')
         # Collect test data:
         self.credential_data = {
             'name': 'Test credential',
@@ -32,6 +33,9 @@ class InventoryApiTest(BaseApiTest):
             'name': 'Test site',
             'code': 'ST',
             'region': 1,
+        }
+        self.tag_data = {
+            'name': 'Test tag',
         }
         self.host_data = {
             'name': 'Test host',
@@ -65,6 +69,9 @@ class TestInventoryApi(InventoryApiTest):
             {'name':'A new test region'}))
         responses.append(self.api_simple_test(
             self.site, self.site_data,
+            {'name':'A new test site'}))
+        responses.append(self.api_simple_test(
+            self.tag, self.tag_data,
             {'name':'A new test site'}))
         responses.append(self.api_simple_test(
             self.host, self.host_data,

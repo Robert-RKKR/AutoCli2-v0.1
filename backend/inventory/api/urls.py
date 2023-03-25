@@ -15,6 +15,7 @@ from inventory.api.view_sets.platform import PlatformView
 from inventory.api.view_sets.region import RegionView
 from inventory.api.view_sets.host import HostView
 from inventory.api.view_sets.site import SiteView
+from inventory.api.view_sets.tag import TagView
 
 # Register router:
 router = BaseDefaultRouter()
@@ -36,6 +37,7 @@ router.register(r'platform', PlatformView, basename='platform')
 router.register(r'region', RegionView, basename='region')
 router.register(r'host', HostView, basename='host')
 router.register(r'site', SiteView, basename='site')
+router.register(r'tag', TagView, basename='tag')
 
 # Add urlpatterns:
 urlpatterns = router.urls
