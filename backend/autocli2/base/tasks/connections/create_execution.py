@@ -5,7 +5,7 @@ from autocli2.base.tasks.base_task import BaseTask
 from executor.models.execution import Execution
 
 # AutoCli2 - constance import:
-from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices as Protocol
+from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
 
 
 # Test taks class:
@@ -40,12 +40,12 @@ class CreateExecutionBaseTask(BaseTask):
             'credential_representation':
                 representation['credential_representation']}
         # Collect data based on connection protocol type (HTTP/SSH)::
-        if data_collection_protocol == Protocol.SSH:
+        if data_collection_protocol == ExecutionProtocolChoices.SSH:
             execution_data['ssh_raw_data_status'] = con.raw_data_status
             execution_data['ssh_processed_data_status'] = con.processed_data_status
             execution_data['ssh_raw_data'] = con.raw_data
             execution_data['ssh_processed_data'] = con.processed_data
-        elif data_collection_protocol == Protocol.HTTP:
+        elif data_collection_protocol == ExecutionProtocolChoices.HTTP:
             execution_data['http_response_code'] = con.response_code
             execution_data['http_response'] = output
         try: # Try to create a new execution object:
@@ -58,7 +58,7 @@ class CreateExecutionBaseTask(BaseTask):
             return False
         else:
             # Update execution status value:
-            execution_object.execution_status = execution_object.is_response()
+            execution_object.execution_status = execution_object.is_response_valid()
             execution_object.save(update_fields=['execution_status'])
             # Return created execution object:
             return execution_object
@@ -75,10 +75,10 @@ class CreateExecutionBaseTask(BaseTask):
         else:
             credential_representation = None
         # Collect template representation:
-        if data_collection_protocol == Protocol.SSH:
+        if data_collection_protocol == ExecutionProtocolChoices.SSH:
             connection_template_representation = f'{template.name}: '\
                 f'{template.ssh_command}'
-        elif data_collection_protocol == Protocol.HTTP:
+        elif data_collection_protocol == ExecutionProtocolChoices.HTTP:
             connection_template_representation = f'{template.name}: '\
                 f'{template.http_url}'
         else:

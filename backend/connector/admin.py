@@ -33,8 +33,8 @@ class ConnectionTemplateAdmin(BaseAdmin):
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('is_active', 'created', 'updated', 'name', 'description',
-                       'execution_protocol', 'platforms')
+            'fields': ('is_active', 'created', 'updated', 'name',
+                       'description', 'execution_protocol', 'platforms')
         }),
         ('SSH information', {
             'classes': ('wide', 'extrapretty',),
@@ -42,11 +42,12 @@ class ConnectionTemplateAdmin(BaseAdmin):
         }),
         ('HTTP/S information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('http_method', 'http_url', 'http_body', 'http_params'),
+            'fields': ('http_method', 'http_url', 'http_body',
+                       'http_params', 'http_response_type'),
         }),
         ('Output validation', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('regex_expression', 'response_type'),
+            'fields': ('regex_expression',),
         })
     )
     readonly_fields = (

@@ -109,6 +109,14 @@ class ConnectionTemplate(IdentificationModel):
         null=True,
         blank=True,
     )
+    http_response_type = models.IntegerField(
+        verbose_name='HTTP(s) type of response',
+        help_text='Type of HTTP(S) response. If the host sends a response '\
+            'of a different type than specified, the response will be '\
+            'treated as invalid.',
+        choices=ResponseTypeChoices.choices,
+        default=1,
+    )
 
     # Output validation expressions:
     regex_expression = models.TextField(
@@ -118,10 +126,4 @@ class ConnectionTemplate(IdentificationModel):
         validators=[regex_validator],
         null=True,
         blank=True,
-    )
-    response_type = models.IntegerField(
-        verbose_name='Type of response',
-        help_text='Xxx.',
-        choices=ResponseTypeChoices.choices,
-        default=1,
     )

@@ -17,6 +17,9 @@ from inventory.models.host import Host
 # AutoCli2 - executor model import:
 from executor.models.executor import Executor
 
+# AutoCli2 - constance import:
+from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
+
 
 # Execution model class:
 class Execution(BaseModel):
@@ -133,21 +136,21 @@ class Execution(BaseModel):
         blank=True,
     )
 
-    def is_response(self) -> bool:
+    def is_response_valid(self) -> bool:
         """
         Check if recited response is True
         """
 
         if self.connection_template:
             # Check execution protocol:
-            if self.connection_template.execution_protocol == 1:
+            if self.connection_template.execution_protocol == ExecutionProtocolChoices.SSH:
                 pass
-            elif self.connection_template.execution_protocol == 2:
+            elif self.connection_template.execution_protocol == ExecutionProtocolChoices.HTTP:
                 # Check HTTP response:
                 if self.http_response:
                     # Collect connection template data:
                     regex_expression = self.connection_template.regex_expression
-                    response_type = self.connection_template.response_type
+                    http_response_type = self.connection_template.http_response_type
                     # Prepare response:
                     response = True
                     # Check regex:
@@ -164,22 +167,22 @@ class Execution(BaseModel):
                             else:
                                 response = False
                     # Check response type:
-                    if response_type:
-                        if response_type == 0: # 0 == Empty:
+                    if http_response_type:
+                        if http_response_type == 0: # 0 == Empty:
                             pass
-                        elif response_type == 1: # 1 == List:
+                        elif http_response_type == 1: # 1 == List:
                             # Check if HTTP response is list type:
                             if isinstance(self.http_response, list):
                                 response = True
                             else: # If not change response value to False:
                                 response = False
-                        elif response_type == 2: # 2 == Dict:
+                        elif http_response_type == 2: # 2 == Dict:
                             # Check if HTTP response is dict type:
                             if isinstance(self.http_response, dict):
                                 response = True
                             else: # If not change response value to False:
                                 response = False
-                        elif response_type == 3: # 3 == String:
+                        elif http_response_type == 3: # 3 == String:
                             # Check if HTTP response is str type:
                             if isinstance(self.http_response, str):
                                 response = True
