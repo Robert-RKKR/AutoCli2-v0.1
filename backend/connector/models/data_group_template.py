@@ -30,7 +30,6 @@ class DataGroupTemplate(BaseModel):
         null=True,
         blank=True,
     )
-
     connection_template  = models.ForeignKey(
         ConnectionTemplate,
         verbose_name='Connection template',
@@ -39,14 +38,13 @@ class DataGroupTemplate(BaseModel):
         null=True,
         blank=True,
     )
-
     platform = models.ManyToManyField(
         Platform,
         verbose_name='Software',
         help_text='One or more software(s) can be added to the connection '\
-        'template. To associate the template with the appropriate software(s). '\
-        'Template execution will only be available to hosts belonging to '\
-        'the specified software.',
+            'template. To associate the template with the appropriate '\
+            'software(s). Template execution will only be available to '\
+            'hosts belonging to the specified software.',
     )
 
     # Data group specific fields:
@@ -56,7 +54,6 @@ class DataGroupTemplate(BaseModel):
         null=True,
         blank=True,
     )
-
     keys_regex = models.CharField(
         verbose_name='Keys REGEX',
         help_text='Xxx.',

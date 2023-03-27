@@ -27,7 +27,6 @@ class DataTemplate(BaseModel):
         null=True,
         blank=True,
     )
-
     model_template = models.ForeignKey(
         ModelTemplate,
         verbose_name='Model template',

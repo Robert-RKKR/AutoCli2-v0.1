@@ -37,16 +37,16 @@ class ConnectionTemplate(IdentificationModel):
         Platform,
         verbose_name='Platform',
         help_text='One or more platform(s) can be added to the connection '\
-        'template. To associate the template with the appropriate platform(s). '\
-        'Template execution will only be available to hosts belonging to '\
-        'the specified platform.',
+            'template. To associate the template with the appropriate '\
+            'platform(s). Template execution will only be available to '\
+            'hosts belonging to the specified platform.',
     )
 
     # Execution type:
     execution_protocol = models.IntegerField(
         verbose_name='Execution protocol',
         help_text='The network protocol that will be used to execute '\
-        'connection template (SSH / HTTP(S)).',
+            'connection template (SSH / HTTP(S)).',
         choices=ExecutionProtocolChoices.choices,
         default=1,
     )
@@ -68,13 +68,13 @@ class ConnectionTemplate(IdentificationModel):
     ssh_template = models.TextField(
         verbose_name='Template',
         help_text='SSh template will be used to create CLI command(s), '\
-        'which will be executed in the remote host to change configuration.',
+            'which will be executed in the remote host to change configuration.',
         null=True,
         blank=True,
     )
     ssh_special_template = models.BooleanField(
         verbose_name='Special template',
-        help_text='Xxx.',
+        help_text='SSH special template.',
         default=False,
     )
     ssh_vrf_template = models.BooleanField(
@@ -122,7 +122,7 @@ class ConnectionTemplate(IdentificationModel):
     regex_expression = models.TextField(
         verbose_name='Regex expression',
         help_text='Regex expression used to validate the output '\
-        'after the execution of the template.',
+            'after the execution of the template.',
         validators=[regex_validator],
         null=True,
         blank=True,

@@ -34,46 +34,53 @@ class Execution(BaseModel):
     executor = models.ForeignKey(
         Executor,
         verbose_name='Executor',
-        help_text='Xxx.',
+        help_text='Related executor object that initiated the execution '\
+            '(Provides information about hosts, connection templates '\
+            'and execution type HTTP(S) / SSH).',
         on_delete=models.PROTECT,
     )
     host = models.ForeignKey(
         Host,
-        verbose_name='Hosts',
-        help_text='Xxx.',
+        verbose_name='Host',
+        help_text='Related host object on witch execution has been '\
+            'executed (Provides information such as host IP or domain '
+            'name, platform, and credentials used to connect to the host).',
         on_delete=models.PROTECT,
     )
     connection_template = models.ForeignKey(
         ConnectionTemplate,
-        verbose_name='Connection templates',
-        help_text='Xxx.',
+        verbose_name='Connection template',
+        help_text='Related connection template object based on witch '\
+            'execution has been executed (Provides information about SSH / '\
+            'HTTP(S) command or URL executed on host).',
         on_delete=models.PROTECT,
     )
     credential = models.ForeignKey(
         Credential,
         verbose_name='Credential',
-        help_text='Xxx.',
+        help_text='Related credential object used to authenticate '\
+            'connection to host.',
         on_delete=models.PROTECT,
     )
 
     # Relations objects representation:
     host_representation = models.CharField(
         verbose_name='Host representation',
-        help_text='Xxx.',
+        help_text='Related host object representation.',
         max_length=128,
         null=True,
         blank=True,
     )
     connection_template_representation = models.CharField(
         verbose_name='Connection template representation',
-        help_text='Xxx.',
+        help_text='Related connection template object representation.',
         max_length=128,
         null=True,
         blank=True,
     )
     credential_representation = models.CharField(
         verbose_name='Credential representation',
-        help_text='Xxx.',
+        help_text='Related credential object representation.',
         max_length=128,
         null=True,
         blank=True,
@@ -125,13 +132,13 @@ class Execution(BaseModel):
     # HTTP status and data:
     http_response_code = models.IntegerField(
         verbose_name='HTTP(S) response code',
-        help_text='Xxx.',
+        help_text='Response code received after HTTP(S) request was executed.',
         null=True,
         blank=True,
     )
     http_response = models.JSONField(
         verbose_name='HTTP(S) response',
-        help_text='Xxx.',
+        help_text='Response received after HTTP(S) request was executed.',
         null=True,
         blank=True,
     )

@@ -25,7 +25,7 @@ class ConvertedData(BaseModel):
     snapshot = models.ForeignKey(
         Snapshot,
         verbose_name='Snapshot',
-        help_text='Xxx.',
+        help_text='Related snapshot object.',
         on_delete=models.PROTECT,
         null=True,
         blank=True,
@@ -33,27 +33,31 @@ class ConvertedData(BaseModel):
     execution = models.ForeignKey(
         Execution,
         verbose_name='Execution',
-        help_text='Xxx.',
+        help_text='Related execution object from which '\
+            'collected data was taken.',
         on_delete=models.PROTECT,
     )
     data_template = models.ForeignKey(
         DataTemplate,
         verbose_name='Data template',
-        help_text='Xxx.',
+        help_text='Related data template object basen on '\
+            'which collected data was corelated.',
         on_delete=models.PROTECT,
     )
 
     # Collected data:
     value = models.CharField(
         verbose_name='Value',
-        help_text='Xxx.',
+        help_text='Value collected from related execution '\
+            'object based on Data Template object.',
         max_length=128,
         null=True,
         blank=True,
     )
     json_value = models.JSONField(
         verbose_name='JSON value',
-        help_text='Xxx.',
+        help_text='JSON value collected from related execution '\
+            'object based on Data Template object.',
         null=True,
         blank=True,
     )

@@ -30,20 +30,24 @@ class Executor(IdentificationModel, AdministratorModel):
     hosts = models.ManyToManyField(
         Host,
         verbose_name='Hosts',
-        help_text='Xxx.',
+        help_text='Related hosts objects on witch execution will be '\
+            'executed (Provides information such as host IP or domain '
+            'name, platform, and credentials used to connect to the host).',
         blank=True,
     )
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
         verbose_name='Connection templates',
-        help_text='Xxx.',
+        help_text='Related connection template object based on witch '\
+            'execution will be executed (Provides information about SSH / '\
+            'HTTP(S) command or URL executed on host).',
         blank=True,
     )
 
     # Executor type:
     executor_type = models.IntegerField(
         verbose_name='Executor type',
-        help_text='Xxx.',
+        help_text='Execution type (HTTP(S) or SSH).',
         choices=ExecutorTypeChoices.choices,
         default=1,
     )
@@ -51,13 +55,13 @@ class Executor(IdentificationModel, AdministratorModel):
     # Task fields:
     task = models.IntegerField(
         verbose_name='Task',
-        help_text='Xxx.',
+        help_text='Task that will be executed.',
         choices=TaskChoices.choices,
         default=0,
     )
     task_arguments = models.JSONField(
         verbose_name='Task arguments',
-        help_text='Xxx.',
+        help_text='Task arguments used to run task.',
         null=True,
         blank=True,
     )
