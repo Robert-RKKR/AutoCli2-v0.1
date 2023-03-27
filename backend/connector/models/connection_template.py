@@ -115,7 +115,7 @@ class ConnectionTemplate(IdentificationModel):
             'of a different type than specified, the response will be '\
             'treated as invalid.',
         choices=ResponseTypeChoices.choices,
-        default=1,
+        default=0,
     )
 
     # Output validation expressions:

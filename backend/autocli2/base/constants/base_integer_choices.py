@@ -5,7 +5,7 @@ from django.db.models import IntegerChoices
 # Choices class:
 class BaseIntegerChoices(IntegerChoices):
 
-    @property
+    @classmethod
     def value_from_int(cls, int_to_search):
         for choice in cls.choices:
             if choice[0] == int_to_search:
