@@ -2,7 +2,7 @@
 from notification.messenger import Messenger
 
 # AutoCli2 - constance import:
-from autocli2.base.constants.notification_type import NotificationTypeChoices as NotificationType
+from autocli2.base.constants.notification_type import NotificationTypeChoices
 
 
 # Notification class:
@@ -48,7 +48,7 @@ class Notification(Messenger):
 
         # Notification constants:
         self.IS_NOTIFICATION = True
-        self.NOTIFICATION_TYPE = NotificationType.USER
+        self.NOTIFICATION_TYPE = NotificationTypeChoices.USER
 
         # Verify if the channel name variable is a valid sting:
         if isinstance(channel_name, str):

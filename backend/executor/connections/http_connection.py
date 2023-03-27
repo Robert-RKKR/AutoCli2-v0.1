@@ -153,9 +153,7 @@ class Connection:
         # Check if provided HTTP method is valid:
         if method in HttpExecutionTypeChoices:
             # Collect method:
-            for choice in HttpExecutionTypeChoices.choices:
-                if choice[0] == method:
-                    method = choice[1]
+            method = HttpExecutionTypeChoices.value_from_int(method)
             # Execute HTTP(S) request:
             return self._connection_center(method, url, parameters)
         else:
