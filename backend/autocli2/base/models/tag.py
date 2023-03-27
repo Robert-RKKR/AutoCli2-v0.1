@@ -21,11 +21,8 @@ class Tag(BaseModel):
         abstract = True
 
     # Relations with other classes:
-    tag = models.ForeignKey(
+    tag = models.ManyToManyField(
         Tag,
         verbose_name='Tag',
         help_text='Related tag.',
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
     )
