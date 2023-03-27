@@ -1,8 +1,9 @@
-# Django - choices model import:
-from django.db.models import IntegerChoices
+# AutoCli2 - base integer model import:
+from autocli2.base.constants.base_integer_choices import BaseIntegerChoices
+
 
 # Choices class:
-class ExecutorTypeChoices(IntegerChoices):
+class ExecutorTypeChoices(BaseIntegerChoices):
 
     # Choices values:
     TASK = 1, 'Task'

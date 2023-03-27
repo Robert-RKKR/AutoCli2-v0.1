@@ -1,15 +1,16 @@
-# Django - choices model import:
-from django.db.models import IntegerChoices
+# AutoCli2 - base integer model import:
+from autocli2.base.constants.base_integer_choices import BaseIntegerChoices
 
-# Choices class:
-class ShhExecutionTypeChoices(IntegerChoices):
+
+# Choices classes:
+class ShhExecutionTypeChoices(BaseIntegerChoices):
 
     # Choices values:
     COMMAND = 1, 'SSH command'
     TEMPLATE = 2, 'SSH command template'
 
 
-class HttpExecutionTypeChoices(IntegerChoices):
+class HttpExecutionTypeChoices(BaseIntegerChoices):
 
     # Choices values:
     GET = 1, 'GET'

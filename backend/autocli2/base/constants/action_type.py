@@ -1,7 +1,9 @@
-from django.db.models import IntegerChoices
+# AutoCli2 - base integer model import:
+from autocli2.base.constants.base_integer_choices import BaseIntegerChoices
+
 
 # Choices class:
-class ActionTypeChoices(IntegerChoices):
+class ActionTypeChoices(BaseIntegerChoices):
 
     # Choices values:
     EMPTY = 0, 'Empty'
