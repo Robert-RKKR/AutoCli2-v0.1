@@ -232,8 +232,18 @@ class BaseApiTest(APITestCase):
         responses.append(self.api_simple_test_retrieve(
             url, pk, changes))
         
+        # Run create API test using POST method to check delete:
+        delete_pk = self.api_simple_test_create(
+            url, data)
+        if isinstance(pk, int):
+            # Run delete API test using DELETE method:
+            responses.append(self.api_simple_test_delete(
+                url, delete_pk))
+        else:
+            responses.append(False)
+        
         # Check responses:
-        if responses == [True, True, True, True]:
+        if responses == [True, True, True, True, True]:
             return True
         else:
             return False
