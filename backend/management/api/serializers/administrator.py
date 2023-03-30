@@ -23,7 +23,8 @@ fields = [
     'is_superuser',
     # Data time related values:
     'date_joined',
-    # Custom administrator values:
+    # Security administrator values:
+    'password',
     'api_token',
 ]
 read_only_fields = [

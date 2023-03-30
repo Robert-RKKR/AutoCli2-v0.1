@@ -3,6 +3,7 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 
 # AutoCli2 - base view set import:
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
+from autocli2.base.api.base_model_viewset import BaseRoModelViewSet
 
 # AutoCli2 - serializer import:
 from inventory.api.serializers.host import HostFullSerializer
@@ -16,7 +17,7 @@ from inventory.filters.host import HostFilter
 
 
 # ViewSet model classes:
-class HostFullView(BaseRwModelViewSet):
+class HostFullView(BaseRoModelViewSet):
     """
     A full ViewSet for viewing and editing object/s.
     """

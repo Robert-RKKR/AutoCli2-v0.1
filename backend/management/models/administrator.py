@@ -28,4 +28,6 @@ class Administrator(AbstractUser):
         verbose_name=_('Token'),
         help_text=_('Token that will be used during API request.'),
         max_length=128,
+        null=True,
+        blank=True,
     )

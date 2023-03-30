@@ -3,6 +3,7 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 
 # AutoCli2 - base view set import:
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
+from autocli2.base.api.base_model_viewset import BaseRoModelViewSet
 
 # AutoCli2 - serializer import:
 from inventory.api.serializers.credentials import CredentialFullSerializer
@@ -19,7 +20,7 @@ from autocli2.base.api.base_model_mixin import BaseCreateModelMixin
 
 
 # Credential custom view set class:
-class CredentialViewSet(BaseRwModelViewSet):
+class CredentialViewSet(BaseRoModelViewSet):
 
     # Overwrite create method to add many serializer functionality:
     def create(self, *args, **kwargs):

@@ -15,11 +15,11 @@ from rest_framework import status
 # Rest framework - exceptions import:
 from rest_framework.exceptions import APIException
 
-# AutoCli2 - log change import:
-from notification.log_change import log_change
-
 # AutoCli2 - constance import:
 from autocli2.base.constants.action_type import ActionTypeChoices
+
+# AutoCli2 - log change import:
+from notification.log_change import log_change
 
 # AutoCli2 - collect object information import:
 from notification.collect_object_data import collect_object_data
