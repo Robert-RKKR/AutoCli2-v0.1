@@ -3,7 +3,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 # AutoCli2 - management model import:
-from management.models.global_settings import GlobalSetting
+from management.models.global_setting import GlobalSetting
 
 # AutoCli2 - settings function import:
 from management.settings import update_global_settings_dictionary

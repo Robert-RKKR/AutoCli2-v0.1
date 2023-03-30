@@ -17,7 +17,7 @@ class Tag(IdentificationModel):
     class Meta:
         
         # Model name values:
-        verbose_name = -('Tag')
+        verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
 
     # Tag color:

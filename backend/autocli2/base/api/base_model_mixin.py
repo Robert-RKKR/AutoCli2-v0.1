@@ -58,6 +58,8 @@ class BaseDestroyModelMixin(DestroyModelMixin):
     def destroy(self, request, *args, **kwargs):
         # Collect instance object:
         instance = self.get_object()
+        # Create change:
+        change_log = log_change(instance, request.user, ActionTypeChoices.DELETE)
         # Check if instance is root object:
         if is_root_action(instance, 403):
             try: # Try to delete provided object:
@@ -75,11 +77,12 @@ class BaseDestroyModelMixin(DestroyModelMixin):
                         'type': 'ProtectedError',
                         'message': str(exception.args),
                         'related_objects': object_list}}
+                # Destroy change log:
+                if change_log:
+                    change_log.delete()
                 # Raise API error:
                 raise APIException(error_response, 409)
             else:
-                # Create change:
-                log_change(instance, request.user, ActionTypeChoices.DELETE)
                 # Return 204 HTTP response if object was deleted:
                 return Response(status=status.HTTP_204_NO_CONTENT)     
 

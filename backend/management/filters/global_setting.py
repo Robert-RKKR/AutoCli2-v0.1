@@ -3,7 +3,7 @@
 from autocli2.base.filters.base_filter import BaseFilter
 
 # AutoCli2 - management model import:
-from management.models.GlobalSetting import GlobalSetting
+from management.models.global_setting import GlobalSetting
 
 
 # Filters:

@@ -5,7 +5,7 @@ from rest_framework.serializers import HyperlinkedIdentityField
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - management model import:
-from management.models.GlobalSetting import GlobalSetting
+from management.models.global_setting import GlobalSetting
 
 # Fields and read only fields:
 fields = [

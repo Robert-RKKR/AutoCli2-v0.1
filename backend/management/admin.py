@@ -5,7 +5,7 @@ from django.contrib import admin
 from autocli2.base.admins.based_admin import BaseAdmin
 
 # AutoCli2 - management model import:
-from management.models.global_settings import GlobalSetting
+from management.models.global_setting import GlobalSetting
 from management.models.administrator import Administrator
 
 

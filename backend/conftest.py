@@ -2,7 +2,7 @@
 import pytest
 
 # AutoCli2 - management model import:
-from management.models.global_settings import GlobalSetting
+from management.models.global_setting import GlobalSetting
 
 # AutoCli2 - inventory models import:
 from inventory.models.credentials import Credential

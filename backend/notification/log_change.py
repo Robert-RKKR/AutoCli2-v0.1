@@ -57,7 +57,7 @@ def log_change(
         instance,
         administrator,
         change_log_action,
-    ):
+    ) -> ChangeLog:
     """
     Xxx.
     """
@@ -71,7 +71,7 @@ def log_change(
     # Collect base content type information:
     collected_names = collect_names(sender)
     try: # Try to create a new change log:
-        ChangeLog.objects.create(
+        change_log = ChangeLog.objects.create(
             administrator=administrator,
             action_type=change_log_action,
             app_name=collected_names[0],
@@ -81,3 +81,6 @@ def log_change(
             after=object_data)
     except Exception as error:
         application_logger.error(error)
+        return False
+    else:
+        return change_log

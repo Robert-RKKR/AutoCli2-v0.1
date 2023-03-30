@@ -2,7 +2,7 @@
 import json
 
 # Settings model import:
-from .models.global_settings import GlobalSetting
+from .models.global_setting import GlobalSetting
 
 # Django signals import:
 from django.core.serializers import serialize

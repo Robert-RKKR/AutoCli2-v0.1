@@ -6,13 +6,13 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from management.api.serializers.GlobalSetting import GlobalSettingSerializer
+from management.api.serializers.global_setting import GlobalSettingSerializer
 
 # AutoCli2 - management model import:
-from management.models.GlobalSetting import GlobalSetting
+from management.models.global_setting import GlobalSetting
 
 # AutoCli2 - inventory filter import:
-from management.filters.GlobalSetting import GlobalSettingFilter
+from management.filters.global_setting import GlobalSettingFilter
 
 
 # ViewSet model classes:

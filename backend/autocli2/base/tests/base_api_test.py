@@ -10,6 +10,9 @@ from rest_framework.authtoken.models import Token
 # AutoCli2 - management model import:
 from management.models.administrator import Administrator
 
+# Constance:
+RESPONSE_DATA = 'page_results'
+
 
 # Base API test class:
 class BaseApiTest(APITestCase):
@@ -47,41 +50,29 @@ class BaseApiTest(APITestCase):
         return status
     
     def _compare_data_with_response(
-            self, data: dict, response: dict, action: str, url):
+            self, data: dict, response: dict, action: str, url: str):
         """
         Compare data provided to create a new object via API with API response.
         """
 
-        try: # Try to convert response JSON output into dictionary:
-            response = json.loads(response.content)
-        except Exception as error:
-            return 'The response provided is not formatted as valid '\
-                f'JSON.\nError: {error}'
-        else:
-            # Prepare response page results data:
-            if response.get('page_results', False):
-                response = response['page_results']
-            # Collect only the first item if a list has been provided:
-            if isinstance(response, list):
-                response = response[0]
-            # Compare two dictionary's:
-            for key, value in list(data.items()):
-                if key in response:
-                    if response[key] != data[key]:
-                        # Print error message:
-                        print(f"===> {url} output key: '{key}' value: "\
-                            f"'{response[key]}' doesn't match provided "\
-                            f"data value '{value}' Action: {action}")
-                        # Return False value:
-                        return False
-                else:
+        # Compare two dictionary's:
+        for key, value in list(data.items()):
+            if key in response:
+                if response[key] != data[key]:
                     # Print error message:
-                    print(f"===> {url} output key: '{key}' doesn't belongs "\
-                        "to data dictionary")
+                    print(f"===> {action}:{url} output key: '{key}' "\
+                        f"value: '{response[key]}' doesn't match "\
+                        f"provided data value '{value}'")
                     # Return False value:
                     return False
-            # Return True value if not interrupted:
-            return True
+            else:
+                # Print error message:
+                print(f"===> {action}:{url} output key: '{key}' "
+                    "doesn't belongs to data dictionary")
+                # Return False value:
+                return False
+        # Return True value if not interrupted:
+        return True
     
     def api_simple_test_create(
             self, url: str, data: dict) -> bool:
@@ -99,11 +90,17 @@ class BaseApiTest(APITestCase):
                 f'instead 201.\nResponse: {response.content}')
             # Return False value:
             return False
-        # Return True value if not interrupted:
-        return True
+        # Collect response data:
+        response_data = response.json().get(RESPONSE_DATA, False)
+        if response_data:
+            # Return PK value if not interrupted:
+            return response_data.get('pk', False)
+        else:
+            # Return False if response data are not available:
+            return False
     
     def api_simple_test_list(
-            self, url: str, data: dict or bool = False) -> bool:
+            self, url: str, pk: int, data: dict or bool = False) -> bool:
         """
         Simple API test - list GET method:
         """
@@ -111,10 +108,25 @@ class BaseApiTest(APITestCase):
         # List test API objects:
         response = self.client.get(url, format='json')
         if data: # Check if data where provided:
-            # Compare response to provided data:
-            if not self._compare_data_with_response(
-                data, response, 'List', url):
-                # Return False value:
+            # Collect response data:
+            object_list = response.json().get(RESPONSE_DATA, False)
+            # Check if collected dat are valid:
+            if object_list:
+                # Iterate thru collected data:
+                collected_object = False
+                for received_object in object_list:
+                    # Collect proper object:
+                    if received_object.get('pk', False) == pk:
+                        collected_object = received_object
+                        break
+            if collected_object:
+                # Compare response to provided data:
+                if not self._compare_data_with_response(
+                    data, collected_object, 'List', url):
+                    # Return False value:
+                    return False
+            else:
+                # Return False object with provided PK doesn't exist:
                 return False
         else:
             # Collect return code:
@@ -129,13 +141,13 @@ class BaseApiTest(APITestCase):
         return True
     
     def api_simple_test_update(
-            self, url: str, changes: dict) -> bool:
+            self, url: str, pk: int, changes: dict) -> bool:
         """
         Simple API test - update PUT method:
         """
 
         # Update test API object:
-        response = self.client.put(f'{url}1/', changes, format='json')
+        response = self.client.put(f'{url}{pk}/', changes, format='json')
         # Collect return code:
         code = response.status_code 
         if code != 200: # Check return code:
@@ -148,17 +160,18 @@ class BaseApiTest(APITestCase):
         return True
     
     def api_simple_test_retrieve(
-            self, url: str, changes: dict or bool = False) -> bool:
+            self, url: str, pk: int, changes: dict or bool = False) -> bool:
         """
         Simple API test - retrieve GET method:
         """
 
         # Retrieve test API object:
-        response = self.client.get(f'{url}1/', format='json')
-        if changes: # Check if changes where provided:
+        response = self.client.get(f'{url}{pk}/', format='json')
+        response_data = response.json().get(RESPONSE_DATA, False)
+        if changes and response_data: # Check if changes where provided:
             # Compare response:
             if not self._compare_data_with_response(
-                changes, response, 'Retrieve', url):
+                changes, response_data, 'Retrieve', url):
                 # Return False value:
                 return False
         else:
@@ -170,6 +183,25 @@ class BaseApiTest(APITestCase):
                       f'instead 200.\nResponse: {response.content}')
                 # Return False value:
                 return False
+        # Return True value if not interrupted:
+        return True
+    
+    def api_simple_test_delete(
+            self, url: str, pk: int) -> bool:
+        """
+        Simple API test - delete GET method:
+        """
+
+        # Delete test API object:
+        response = self.client.delete(f'{url}{pk}/')
+        # Collect return code:
+        code = response.status_code 
+        if code != 204: # Check return code:
+            # Print message:
+            print(f'===> Retrieve API action ({url}), return code {code} '\
+                f'instead 204.\nResponse: {response.content}')
+            # Return False value:
+            return False
         # Return True value if not interrupted:
         return True
 
@@ -186,17 +218,19 @@ class BaseApiTest(APITestCase):
         responses = []
         
         # Run create API test using POST method:
-        responses.append(self.api_simple_test_create(
-            url, data))
+        pk = self.api_simple_test_create(
+            url, data)
+        if isinstance(pk, int):
+            responses.append(True)
         # Run list API test using GET method:
         responses.append(self.api_simple_test_list(
-            url, data))
+            url, pk, data))
         # Run update API test using PUT method:
         responses.append(self.api_simple_test_update(
-            url, changes))
+            url, pk, changes))
         # Run retrieve API test using GET method:
         responses.append(self.api_simple_test_retrieve(
-            url, changes))
+            url, pk, changes))
         
         # Check responses:
         if responses == [True, True, True, True]:
