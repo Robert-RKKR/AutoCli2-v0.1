@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # AutoCli2 - executor model import:
 from management.models.administrator import Administrator
 
@@ -14,8 +17,8 @@ class AdministratorModel(BaseModel):
     class Meta:
         
         # Model name values:
-        verbose_name = 'AdministratorModel'
-        verbose_name_plural = 'AdministratorModels'
+        verbose_name = _('AdministratorModel')
+        verbose_name_plural = _('AdministratorModels')
         
         # Abstract class value:
         abstract = True
@@ -23,8 +26,8 @@ class AdministratorModel(BaseModel):
     # Administrator information:
     administrator = models.ForeignKey(
         Administrator,
-        verbose_name='Administrator',
-        help_text=f'Administrator responsible for provided {Meta.verbose_name}.',
+        verbose_name=_('Administrator'),
+        help_text=_(f'Administrator responsible for provided {Meta.verbose_name}.'),
         on_delete=models.PROTECT,
         null=True,
         blank=True,

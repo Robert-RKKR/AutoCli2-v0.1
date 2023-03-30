@@ -1,3 +1,6 @@
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # Python regex import:
 import re
 
@@ -12,4 +15,4 @@ def regex_validator(value):
         re.compile(pattern)
     except Exception as error:
         raise ValidationError(
-            f'Regex validation error: {error}')
+            _(f'Regex validation error: {error}'))

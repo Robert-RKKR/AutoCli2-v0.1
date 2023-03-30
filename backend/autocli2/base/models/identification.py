@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # AutoCli2 - base models import:
 from autocli2.base.models.base_model import BaseModel
 
@@ -17,8 +20,8 @@ class IdentificationModel(BaseModel):
     class Meta:
         
         # Model name values:
-        verbose_name = 'IdentificationModel'
-        verbose_name_plural = 'IdentificationModels'
+        verbose_name = _('IdentificationModel')
+        verbose_name_plural = _('IdentificationModels')
 
         # Abstract class value:
         abstract = True
@@ -32,36 +35,36 @@ class IdentificationModel(BaseModel):
 
     # Identification values:
     name = models.CharField(
-        verbose_name='Name',
-        help_text=f'{Meta.verbose_name} name.',
+        verbose_name=_('Name'),
+        help_text=_(f'{Meta.verbose_name} name.'),
         max_length=64,
         unique=True,
         validators=[name_validator],
         error_messages={
-            'invalid': 'Enter the correct name value. It must contain 3 to 64 digits, letters or special characters -, _ or spaces.',
+            'invalid': _('Enter the correct name value. It must contain 3 to 64 digits, letters or special characters -, _ or spaces.'),
         },
     )
     slug = models.CharField(
-        verbose_name='Slug',
-        help_text=f'{Meta.verbose_name} name representation (Slug).',
+        verbose_name=_('Slug'),
+        help_text=_(f'{Meta.verbose_name} name representation (Slug).'),
         max_length=128,
         unique=True,
     )
     description = models.CharField(
-        verbose_name='Description',
-        help_text=f'{Meta.verbose_name} description.',
+        verbose_name=_('Description'),
+        help_text=_(f'{Meta.verbose_name} description.'),
         max_length=256,
-        default=f'{Meta.verbose_name} default description.',
+        default=_(f'{Meta.verbose_name} default description.'),
         validators=[description_validator],
         error_messages={
-            'invalid': 'Enter the correct description value. It must contain 8 to 256 digits, letters and special characters -, _, . or spaces.',
+            'invalid': _('Enter the correct description value. It must contain 8 to 256 digits, letters and special characters -, _, . or spaces.'),
         },
         null=True,
         blank=True,
     )
     ico = models.IntegerField(
-        verbose_name=f'{Meta.verbose_name} ico',
-        help_text=f'{Meta.verbose_name} graphical representation.',
+        verbose_name=_(f'{Meta.verbose_name} ico'),
+        help_text=_(f'{Meta.verbose_name} graphical representation.'),
         default=1,
     )
 

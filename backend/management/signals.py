@@ -18,6 +18,7 @@ def global_settings_edit(
     Signal Make sure that there are no other objects
     that have field 'is_current' set to True.
     """
+    
     # Check if a new settings object current value is True:
     if instance.is_current == True:
         # Update global settings dictionary:
@@ -48,6 +49,7 @@ def global_settings_delete(instance: GlobalSetting, **kwargs):
     Signal Make sure that there always is one object
     that have field 'is_current' set to True.
     """
+
     if instance.is_current == True:
         try: # Try to collect default global settings object:
            collect_settings = GlobalSetting.objects.get(name='Default')

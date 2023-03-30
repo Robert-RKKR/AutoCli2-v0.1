@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # AutoCli2 - base model import:
 from .base_message import BaseMessageModel
 
@@ -15,32 +18,32 @@ class Notification(BaseMessageModel):
     class Meta:
         
         # Model name values:
-        verbose_name = 'Notification'
-        verbose_name_plural = 'Notifications'
+        verbose_name = _('Notification')
+        verbose_name_plural = _('Notifications')
 
         # Default ordering:
         ordering = ['-pk']
 
     # Notification severity:
     severity = models.IntegerField(
-        verbose_name='Severity level',
-        help_text='The level of severity of the performed action.',
+        verbose_name=_('Severity level'),
+        help_text=_('The level of severity of the performed action.'),
         choices=SeverityChoices.choices,
         default=0,
     )
 
     # Type of notification:
     notification_type = models.IntegerField(
-        verbose_name='Notification type',
-        help_text='Type of notification (User / backlog).',
+        verbose_name=_('Notification type'),
+        help_text=_('Type of notification (User / backlog).'),
         choices=NotificationTypeChoices.choices,
         default=1,
     )
 
     # Task ID information:
     task_id = models.CharField(
-        verbose_name='Task ID',
-        help_text='ID of the associated task.',
+        verbose_name=_('Task ID'),
+        help_text=_('ID of the associated task.'),
         max_length=64,
         null=True,
         blank=True,
@@ -48,18 +51,16 @@ class Notification(BaseMessageModel):
 
     # Notification main data:
     application = models.CharField(
-        verbose_name='Application',
-        help_text='Name of the application which triggered the notification.',
+        verbose_name=_('Application'),
+        help_text=_('Name of the application which triggered the notification.'),
         max_length=64
     )
     message = models.CharField(
-        verbose_name='Message',
-        help_text='Notification message.',
+        verbose_name=_('Message'),
+        help_text=_('Notification message.'),
         max_length=1024,
         error_messages={
-            'null': 'Notification message field is mandatory.',
-            'blank': 'Notification message field is mandatory.',
-            'invalid': 'Enter a valid Notification message. It must contain 1 to 1024 digits.',
+            'invalid': _('Enter a valid Notification message. It must contain 1 to 1024 digits.'),
         },
     )
 

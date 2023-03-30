@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.tag import Tag
@@ -20,63 +23,63 @@ class Host(IdentificationModel, Tag):
     class Meta:
         
         # Model name values:
-        verbose_name = 'Host'
-        verbose_name_plural = 'Hosts'
+        verbose_name = _('Host')
+        verbose_name_plural = _('Hosts')
 
     # Relations with other classes:
     site = models.ForeignKey(
         Site,
-        verbose_name='Site',
-        help_text='Site associated with current host.',
+        verbose_name=_('Site'),
+        help_text=_('Site associated with current host.'),
         on_delete=models.PROTECT,
         null=True,
         blank=True,
     )
     platform = models.ForeignKey(
         Platform,
-        verbose_name='Platform',
-        help_text='Platform associated with current host.',
+        verbose_name=_('Platform'),
+        help_text=_('Platform associated with current host.'),
         on_delete=models.PROTECT,
         default=1,
     )
     credential = models.ForeignKey(
         Credential,
-        verbose_name='Credentials',
-        help_text='Credentials associated with current host.',
+        verbose_name=_('Credentials'),
+        help_text=_('Credentials associated with current host.'),
         on_delete=models.PROTECT,
         default=1,
     )
 
     # Base host information:
     hostname = models.CharField(
-        verbose_name='Hostname',
-        help_text='Valid IP address or domain name used to establish '\
-            'the SSH / HTTP(S) connections.',
+        verbose_name=_('Hostname'),
+        help_text=_('Valid IP address or domain name used to establish '\
+            'the SSH / HTTP(S) connections.'),
         max_length=128,
         unique=True,
     )
     data_collection_protocol = models.IntegerField(
-        verbose_name='Data collection protocol',
-        help_text='The network protocol that will be used to execute '\
-            'connection template (SSH / HTTP(S)).',
+        verbose_name=_('Data collection protocol'),
+        help_text=_('The network protocol that will be used to execute '\
+            'connection template (SSH / HTTP(S)).'),
         choices=ExecutionProtocolChoices.choices,
         default=1,
     )
     ssh_port = models.IntegerField(
-        verbose_name='SSH port',
-        help_text='The TCP port that will be used during the SSH sessions.',
+        verbose_name=_('SSH port'),
+        help_text=_('The TCP port that will be used during the SSH sessions.'),
         default=22
     )
     http_port = models.IntegerField(
-        verbose_name='HTTP/S port',
-        help_text='The TCP port that will be used during the HTTP(S) sessions.',
+        verbose_name=_('HTTP/S port'),
+        help_text=_('The TCP port that will be used during the HTTP(S) sessions.'),
         default=443
     )
 
     # Default settings:
     certificate_check = models.BooleanField(
-        verbose_name='Certificate check',
-        help_text='If enabled, attempts to validate host certificate. '\
-            'If disabled, ignores certificate validation process.',
+        verbose_name=_('Certificate check'),
+        help_text=_('If enabled, attempts to validate host certificate. '\
+            'If disabled, ignores certificate validation process.'),
         default=True,
     )

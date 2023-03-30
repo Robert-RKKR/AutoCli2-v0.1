@@ -1,6 +1,9 @@
 # Python - library import:
 import threading
 
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # AutoCli2 - base task import:
 from autocli2.base.tasks.connections.http_connection import HttpConnectionBaseTask
 from autocli2.base.tasks.connections.ssh_connection import SshConnectionBaseTask
@@ -56,15 +59,15 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         if positive_result > 0:
             # Creative user notification for one or more positive results:
             self.notification.info(
-                f'The data collection process running on the {len(hosts)} '\
+                _(f'The data collection process running on the {len(hosts)} '\
                 'device/s was successful. Data has been collected '\
-                f'from {positive_result} device/s.', executor,
+                f'from {positive_result} device/s.'), executor,
                 execution_time=end_time)
         else:
             # Creative user notification in the absence of positive results:
             self.notification.warning(
-                f'The data collection process running on the {len(hosts)} '\
-                'device/s was unsuccessful. No data was collected.', executor,
+                _(f'The data collection process running on the {len(hosts)} '\
+                'device/s was unsuccessful. No data was collected.'), executor,
                 execution_time=end_time)
         # Return result:
         return result
@@ -131,17 +134,17 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         if collected_templates > 0:
             # Creative user notification for one or more positive results:
             self.notification.info(
-                f'The template collection process running on the {host.name} '\
+                _(f'The template collection process running on the {host.name} '\
                 f'device was successful. {collected_templates} template/s '\
-                f'were collected from {templates} available.', host,
+                f'were collected from {templates} available.'), host,
                 execution_time=end_time)
             # Return positive results:
             return True
         else:
             # Creative user notification in the absence of positive results:
             self.notification.warning(
-                f'The template collection process running on the {host.name} '\
-                'device was unsuccessful. No data was collected.', host,
+                _(f'The template collection process running on the {host.name} '\
+                'device was unsuccessful. No data was collected.'), host,
                 execution_time=end_time)
             # Return false results:
             return False

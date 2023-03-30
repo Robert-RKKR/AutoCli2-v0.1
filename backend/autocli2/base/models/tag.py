@@ -1,6 +1,9 @@
 # Django - models import:
 from django.db import models
 
+# Django - translation model import:
+from django.utils.translation import gettext_lazy as _
+
 # AutoCli2 - base models import:
 from autocli2.base.models.base_model import BaseModel
 
@@ -14,8 +17,8 @@ class Tag(BaseModel):
     class Meta:
         
         # Model name values:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+        verbose_name = _('Tag')
+        verbose_name_plural = _('Tags')
 
         # Abstract class value:
         abstract = True
@@ -23,6 +26,6 @@ class Tag(BaseModel):
     # Relations with other classes:
     tag = models.ManyToManyField(
         Tag,
-        verbose_name='Tag',
-        help_text='Related tag.',
+        verbose_name=_('Tag'),
+        help_text=_('Related tag.'),
     )
