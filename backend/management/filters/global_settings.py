@@ -1,5 +1,4 @@
 # AutoCli2 - base filter import:
-# AutoCli2 - base filter import:
 from autocli2.base.filters.base_filter import BaseFilter
 
 # AutoCli2 - management model import:
@@ -12,7 +11,7 @@ class GlobalSettingsFilter(BaseFilter):
     class Meta:
 
         model = GlobalSettings
-        fields = fields = {
+        fields = {
             'is_active': ['exact'],
             'is_root': ['exact'],
             'created': ['exact', 'icontains', 'lt', 'gt'],

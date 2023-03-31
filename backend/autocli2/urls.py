@@ -52,6 +52,7 @@ urlpatterns = [
          name='api_redoc'),
 
     # API views registration:
+    path('api-notification/', include('notification.api.urls')),
     path('api-management/', include('management.api.urls')),
     path('api-inventory/', include('inventory.api.urls')),
 
