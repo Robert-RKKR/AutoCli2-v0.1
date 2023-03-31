@@ -3,16 +3,16 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 # AutoCli2 - management model import:
-from management.models.global_setting import GlobalSetting
+from management.models.global_settings import GlobalSettings
 
 # AutoCli2 - settings function import:
 from management.settings import update_global_settings_dictionary
 
 # Signals functions:
-@receiver(post_save, sender=GlobalSetting)
+@receiver(post_save, sender=GlobalSettings)
 def global_settings_edit(
-    sender: GlobalSetting,
-    instance: GlobalSetting,
+    sender: GlobalSettings,
+    instance: GlobalSettings,
     created, **kwargs):
     """
     Signal Make sure that there are no other objects
@@ -43,8 +43,8 @@ def global_settings_edit(
             instance.is_current = True
             instance.save(update_fields=['is_current'])
 
-@receiver(pre_delete, sender=GlobalSetting)
-def global_settings_delete(instance: GlobalSetting, **kwargs):
+@receiver(pre_delete, sender=GlobalSettings)
+def global_settings_delete(instance: GlobalSettings, **kwargs):
     """
     Signal Make sure that there always is one object
     that have field 'is_current' set to True.
@@ -52,10 +52,10 @@ def global_settings_delete(instance: GlobalSetting, **kwargs):
 
     if instance.is_current == True:
         try: # Try to collect default global settings object:
-           collect_settings = GlobalSetting.objects.get(name='Default')
+           collect_settings = GlobalSettings.objects.get(name='Default')
         except:
             # Create default global settings object:
-            collect_settings = GlobalSetting.objects.create(
+            collect_settings = GlobalSettings.objects.create(
                 name='Default', is_current=True)
         else:
             collect_settings.is_current = False

@@ -16,29 +16,32 @@ from inventory.models.site import Site
 from inventory.filters.site import SiteFilter
 
 
-# ViewSet model classes:
-class SiteFullView(BaseRoModelViewSet):
+class SiteView(BaseRwModelViewSet):
     """
-    A full ViewSet for viewing and editing object/s.
+    A ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Basic API view parameters:
     queryset = Site.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = SiteFullSerializer
-    single_serializer_class = SiteSerializer
+    serializer_class = SiteSerializer
     # Django rest framework filters:
     filterset_class = SiteFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class SiteView(BaseRwModelViewSet):
+# ViewSet model classes:
+class SiteFullView(BaseRoModelViewSet):
     """
-    A ViewSet for viewing and editing object/s.
+    A full ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Execute API view from Swagger schema:
     exclude_from_schema = True
     swagger_schema = None
@@ -46,7 +49,8 @@ class SiteView(BaseRwModelViewSet):
     queryset = Site.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = SiteSerializer
+    serializer_class = SiteFullSerializer
+    single_serializer_class = SiteSerializer
     # Django rest framework filters:
     filterset_class = SiteFilter
     ordering_fields = '__all__'

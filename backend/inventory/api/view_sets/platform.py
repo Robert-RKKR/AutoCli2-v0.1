@@ -20,6 +20,8 @@ class PlatformView(BaseRwModelViewSet):
     A ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Basic API view parameters:
     queryset = Platform.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator

@@ -6,17 +6,17 @@ from autocli2.base.api.base_pagination import BaseSmallPaginator
 from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
 
 # AutoCli2 - serializer import:
-from management.api.serializers.global_setting import GlobalSettingSerializer
+from management.api.serializers.global_settings import GlobalSettingsSerializer
 
 # AutoCli2 - management model import:
-from management.models.global_setting import GlobalSetting
+from management.models.global_settings import GlobalSettings
 
 # AutoCli2 - inventory filter import:
-from management.filters.global_setting import GlobalSettingFilter
+from management.filters.global_settings import GlobalSettingsFilter
 
 
 # ViewSet model classes:
-class GlobalSettingView(BaseRwModelViewSet):
+class GlobalSettingsView(BaseRwModelViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """
@@ -24,11 +24,11 @@ class GlobalSettingView(BaseRwModelViewSet):
     # Log changes:
     log_changes = True
     # Basic API view parameters:
-    queryset = GlobalSetting.objects.all().order_by('pk')
+    queryset = GlobalSettings.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = GlobalSettingSerializer
+    serializer_class = GlobalSettingsSerializer
     # Django rest framework filters:
-    filterset_class = GlobalSettingFilter
+    filterset_class = GlobalSettingsFilter
     ordering_fields = '__all__'
     search_fields = '__all__'

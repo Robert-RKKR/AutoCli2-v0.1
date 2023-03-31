@@ -20,6 +20,8 @@ class RegionView(BaseRwModelViewSet):
     A ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Basic API view parameters:
     queryset = Region.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator

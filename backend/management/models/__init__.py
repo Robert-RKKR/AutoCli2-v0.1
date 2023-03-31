@@ -1,3 +1,2 @@
 # Application import:
-from .global_setting import GlobalSetting
-from .administrator import Administrator
+from .global_settings import GlobalSettings

@@ -12,12 +12,12 @@ from autocli2.base.constants.severity import SeverityChoices
 
 
 # Global setting model class:
-class GlobalSetting(IdentificationModel):
+class GlobalSettings(IdentificationModel):
 
     class Meta:
         
         # Model name values:
-        verbose_name = _('Global setting')
+        verbose_name = _('Global settings')
         verbose_name_plural = _('Global settings')
 
     # Current global settings:

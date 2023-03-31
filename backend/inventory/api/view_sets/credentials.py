@@ -19,42 +19,39 @@ from inventory.filters.credentials import CredentialFilter
 from autocli2.base.api.base_model_mixin import BaseCreateModelMixin
 
 
-# Credential custom view set class:
-class CredentialViewSet(BaseRoModelViewSet):
-
-    # Overwrite create method to add many serializer functionality:
-    def create(self, *args, **kwargs):
-        # Collect request:
-        request = args[0]
-        # Add administrator value to request data:
-        request.data['administrator'] = request.user.pk
-        # Continue execution of create function:
-        return BaseCreateModelMixin.create(self, *args, **kwargs)
-
-
-# ViewSet model classes:
-class CredentialFullView(CredentialViewSet):
+class CredentialView(BaseRwModelViewSet):
     """
-    A full ViewSet for viewing and editing object/s.
+    A ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Basic API view parameters:
     queryset = Credential.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = CredentialFullSerializer
-    single_serializer_class = CredentialSerializer
+    serializer_class = CredentialSerializer
     # Django rest framework filters:
     filterset_class = CredentialFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
+    # Overwrite create method to add many serializer functionality:
+    def create(self, request, *args, **kwargs):
+        # Add administrator value to request data:
+        request.data['administrator'] = request.user.pk
+        # Continue execution of create function:
+        return BaseCreateModelMixin.create(self, request, *args, **kwargs)
 
-class CredentialView(CredentialViewSet):
+
+# ViewSet model classes:
+class CredentialFullView(BaseRoModelViewSet):
     """
-    A ViewSet for viewing and editing object/s.
+    A full ViewSet for viewing and editing object/s.
     """
 
+    # Log changes:
+    log_changes = True
     # Execute API view from Swagger schema:
     exclude_from_schema = True
     swagger_schema = None
@@ -62,7 +59,8 @@ class CredentialView(CredentialViewSet):
     queryset = Credential.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = CredentialSerializer
+    serializer_class = CredentialFullSerializer
+    single_serializer_class = CredentialSerializer
     # Django rest framework filters:
     filterset_class = CredentialFilter
     ordering_fields = '__all__'

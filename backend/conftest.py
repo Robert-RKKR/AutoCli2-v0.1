@@ -2,7 +2,7 @@
 import pytest
 
 # AutoCli2 - management model import:
-from management.models.global_setting import GlobalSetting
+from management.models.global_settings import GlobalSettings
 
 # AutoCli2 - inventory models import:
 from inventory.models.credentials import Credential
@@ -27,9 +27,9 @@ test_url = 'restconf/data/Cisco-IOS-XE-environment-oper:environment-sensors'
 @pytest.fixture()
 def create_global_settings(db):
     # Create test-1 global settings:
-    test_1 = GlobalSetting.objects.create(name='Test-1')
+    test_1 = GlobalSettings.objects.create(name='Test-1')
     # Create test-2 global settings:
-    test_2 = GlobalSetting.objects.create(name='Test-2')
+    test_2 = GlobalSettings.objects.create(name='Test-2')
 
 @pytest.fixture()
 def create_test_objects(db):

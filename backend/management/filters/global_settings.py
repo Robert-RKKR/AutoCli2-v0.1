@@ -3,15 +3,15 @@
 from autocli2.base.filters.base_filter import BaseFilter
 
 # AutoCli2 - management model import:
-from management.models.global_setting import GlobalSetting
+from management.models.global_settings import GlobalSettings
 
 
 # Filters:
-class GlobalSettingFilter(BaseFilter):
+class GlobalSettingsFilter(BaseFilter):
 
     class Meta:
 
-        model = GlobalSetting
+        model = GlobalSettings
         fields = fields = {
             'is_active': ['exact'],
             'is_root': ['exact'],

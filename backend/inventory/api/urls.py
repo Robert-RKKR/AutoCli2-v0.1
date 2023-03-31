@@ -27,9 +27,9 @@ app_name = 'api-inventory'
 router.APIRootView = InventoryRootView
 
 # Simple view route registration:
-router.register(r'full-credential', CredentialFullView, basename='full_credential')
-router.register(r'full-host', HostFullView, basename='full_host')
-router.register(r'full-site', SiteFullView, basename='full_site')
+# router.register(r'full-credential', CredentialFullView, basename='full_credential')
+# router.register(r'full-host', HostFullView, basename='full_host')
+# router.register(r'full-site', SiteFullView, basename='full_site')
 
 # Standard view route registration:
 router.register(r'credential', CredentialView, basename='credential')

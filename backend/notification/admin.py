@@ -60,7 +60,7 @@ class NotificationAdmin(BaseAdmin):
 class ChangLogAdmin(BaseAdmin):
 
     list_display = (
-        'pk', 'administrator', 'timestamp', 'action_type',
+        'pk', 'administrator', 'timestamp', 'action_type', 'model_name',
         'object_representation',
     )
     list_display_links = (

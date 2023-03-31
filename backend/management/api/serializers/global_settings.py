@@ -5,7 +5,7 @@ from rest_framework.serializers import HyperlinkedIdentityField
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - management model import:
-from management.models.global_setting import GlobalSetting
+from management.models.global_settings import GlobalSettings
 
 # Fields and read only fields:
 fields = [
@@ -39,7 +39,7 @@ read_only_fields = [
 
 
 # Main serializer class:
-class GlobalSettingSerializer(BaseSerializer):
+class GlobalSettingsSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -49,6 +49,6 @@ class GlobalSettingSerializer(BaseSerializer):
 
     class Meta:
 
-        model = GlobalSetting
+        model = GlobalSettings
         fields = fields
         read_only_fields = read_only_fields

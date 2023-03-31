@@ -4,6 +4,12 @@ import json
 # Django - serializers import:
 from django.core.serializers import serialize
 
+# Django - user model import:
+from django.contrib.auth.models import User
+
+# AutoCli2 - base models import:
+from autocli2.base.models.base_model import BaseModel
+
 # AutoCli2 - notification model import:
 from notification.models.change_log import ChangeLog
 
@@ -54,13 +60,19 @@ def collect_object_representation(instance):
 
 
 def log_change(
-        instance,
-        administrator,
+        instance: BaseModel,
+        administrator: User,
         change_log_action,
     ) -> ChangeLog:
     """
     Xxx.
     """
+
+    # Check collected data:
+    if not isinstance(administrator, User):
+        administrator = None
+    if not isinstance(instance, BaseModel) and not isinstance(instance, User):
+        raise TypeError('Provided instance is not a valid AutoLci 2 model.')
 
     # Collect sender class:
     sender = instance.__class__

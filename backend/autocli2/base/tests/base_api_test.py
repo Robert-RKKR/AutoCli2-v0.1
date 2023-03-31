@@ -1,14 +1,14 @@
 # Python - Json import:
 import json
 
+# Django - user model import:
+from django.contrib.auth.models import User
+
 # Rest framework - test case import:
 from rest_framework.test import APITestCase
 
 # Rest framework - token import:
 from rest_framework.authtoken.models import Token
-
-# AutoCli2 - management model import:
-from management.models.administrator import Administrator
 
 # Constance:
 RESPONSE_DATA = 'page_results'
@@ -20,7 +20,7 @@ class BaseApiTest(APITestCase):
     def setUp(self) -> None:
         
         # Create a user for testing:
-        self.user = Administrator.objects.create_superuser(
+        self.user = User.objects.create_superuser(
             'testuser', 'test@example.com', 'password')
         # Create an authentication token for the user
         self.token = Token.objects.create(user=self.user)

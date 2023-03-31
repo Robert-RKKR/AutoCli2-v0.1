@@ -16,10 +16,9 @@ from inventory.models.host import Host
 from inventory.filters.host import HostFilter
 
 
-# ViewSet model classes:
-class HostFullView(BaseRoModelViewSet):
+class HostView(BaseRwModelViewSet):
     """
-    A full ViewSet for viewing and editing object/s.
+    A ViewSet for viewing and editing object/s.
     """
 
     # Log changes:
@@ -29,16 +28,16 @@ class HostFullView(BaseRoModelViewSet):
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = HostFullSerializer
-    single_serializer_class = HostSerializer
     # Django rest framework filters:
     filterset_class = HostFilter
     ordering_fields = '__all__'
     search_fields = '__all__'
 
 
-class HostView(BaseRwModelViewSet):
+# ViewSet model classes:
+class HostFullView(BaseRoModelViewSet):
     """
-    A ViewSet for viewing and editing object/s.
+    A full ViewSet for viewing and editing object/s.
     """
 
     # Log changes:
@@ -50,7 +49,8 @@ class HostView(BaseRwModelViewSet):
     queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostSerializer
+    serializer_class = HostFullSerializer
+    single_serializer_class = HostSerializer
     # Django rest framework filters:
     filterset_class = HostFilter
     ordering_fields = '__all__'

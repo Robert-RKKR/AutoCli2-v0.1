@@ -10,8 +10,8 @@ def my_callback(sender, **kwargs):
     from inventory.models.credentials import Credential
     from inventory.models.platform import Platform
 
-    # AutoCli2 - executor model import:
-    from management.models.administrator import Administrator
+    # Django - user model import:
+    from django.contrib.auth.models import User
 
     # Create base credential object if not exist:
     Credential.objects.get_or_create(
@@ -30,7 +30,7 @@ def my_callback(sender, **kwargs):
     )
 
     # Create base administrator objects if not exists:
-    Administrator.objects.get_or_create(
+    User.objects.get_or_create(
         username = 'admin',
         email = 'admin@autocli2.com',
         is_staff = True,

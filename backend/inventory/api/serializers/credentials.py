@@ -1,3 +1,6 @@
+# Django - user model import:
+from django.contrib.auth.models import User
+
 # Rest framework - serializer import:
 from rest_framework.serializers import HyperlinkedIdentityField
 from rest_framework.serializers import PrimaryKeyRelatedField
@@ -7,9 +10,6 @@ from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
-
-# AutoCli2 - management model import:
-from management.models.administrator import Administrator
 
 # AutoCli2 - management serializers import:
 from management.api.serializers.administrator import AdministratorSerializer
@@ -83,7 +83,7 @@ class CredentialSerializer(BaseSerializer):
 
     # Object relation definition:
     administrator = PrimaryKeyRelatedField(
-        queryset=Administrator.objects.all(),
+        queryset=User.objects.all(),
         required=False,
         allow_null=True,
         help_text=Credential.administrator.field.help_text,

@@ -2,7 +2,7 @@
 import json
 
 # Settings model import:
-from .models.global_setting import GlobalSetting
+from .models.global_settings import GlobalSettings
 
 # Django signals import:
 from django.core.serializers import serialize
@@ -28,9 +28,9 @@ def collect_global_settings(key: str):
         return global_settings.get(key, False)
     else:
         try: # Try to collect global settings if they exist:
-            collect_settings = GlobalSetting.objects.get(is_current=True)
+            collect_settings = GlobalSettings.objects.get(is_current=True)
         except:
-            collect_settings = GlobalSetting.objects.create()
+            collect_settings = GlobalSettings.objects.create()
         finally:
             # Update global settings dictionary:
             update_global_settings_dictionary(collect_settings)

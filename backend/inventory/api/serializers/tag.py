@@ -7,36 +7,6 @@ from autocli2.base.api.base_serializer import BaseSerializer
 # AutoCli2 - inventory model import:
 from inventory.models.tag import Tag
 
-# Fields and read only fields:
-fields = [
-    # Base values:
-    'pk',
-    'url',
-    # Status related values:
-    'is_active',
-    'is_root',
-    # Data time related values:
-    'created',
-    'updated',
-    # Identification related values:
-    'name',
-    'slug',
-    'description',
-    # Object related values:
-    'color',
-]
-read_only_fields = [
-    # Base values:
-    'pk',
-    'url',
-    # Status related values:
-    'is_root',
-    'created',
-    'updated',
-    # Identification related values:
-    'slug',
-]
-
 
 # Main serializer class:
 class TagSerializer(BaseSerializer):
@@ -50,5 +20,31 @@ class TagSerializer(BaseSerializer):
     class Meta:
 
         model = Tag
-        fields = fields
-        read_only_fields = read_only_fields
+        fields = [
+            # Base values:
+            'pk',
+            'url',
+            # Status related values:
+            'is_active',
+            'is_root',
+            # Data time related values:
+            'created',
+            'updated',
+            # Identification related values:
+            'name',
+            'slug',
+            'description',
+            # Object related values:
+            'color',
+        ]
+        read_only_fields = [
+            # Base values:
+            'pk',
+            'url',
+            # Status related values:
+            'is_root',
+            'created',
+            'updated',
+            # Identification related values:
+            'slug',
+        ]
