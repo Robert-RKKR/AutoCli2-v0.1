@@ -50,8 +50,6 @@ class CredentialFullView(BaseRoModelViewSet):
     A full ViewSet for viewing and editing object/s.
     """
 
-    # Log changes:
-    log_changes = True
     # Execute API view from Swagger schema:
     exclude_from_schema = True
     swagger_schema = None
@@ -60,7 +58,6 @@ class CredentialFullView(BaseRoModelViewSet):
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = CredentialFullSerializer
-    single_serializer_class = CredentialSerializer
     # Django rest framework filters:
     filterset_class = CredentialFilter
     ordering_fields = '__all__'

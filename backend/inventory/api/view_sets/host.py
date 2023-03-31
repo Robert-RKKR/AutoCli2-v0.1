@@ -27,7 +27,7 @@ class HostView(BaseRwModelViewSet):
     queryset = Host.objects.all().order_by('pk')
     pagination_class = BaseSmallPaginator
     # Serializer classes:
-    serializer_class = HostFullSerializer
+    serializer_class = HostSerializer
     # Django rest framework filters:
     filterset_class = HostFilter
     ordering_fields = '__all__'
@@ -40,8 +40,6 @@ class HostFullView(BaseRoModelViewSet):
     A full ViewSet for viewing and editing object/s.
     """
 
-    # Log changes:
-    log_changes = True
     # Execute API view from Swagger schema:
     exclude_from_schema = True
     swagger_schema = None
@@ -50,7 +48,6 @@ class HostFullView(BaseRoModelViewSet):
     pagination_class = BaseSmallPaginator
     # Serializer classes:
     serializer_class = HostFullSerializer
-    single_serializer_class = HostSerializer
     # Django rest framework filters:
     filterset_class = HostFilter
     ordering_fields = '__all__'

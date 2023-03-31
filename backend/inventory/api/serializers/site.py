@@ -47,30 +47,8 @@ read_only_fields = [
 ]
 
 
-# Full serializer class:
-class SiteSerializer(BaseSerializer):
-
-    # Object URL definition:
-    url = HyperlinkedIdentityField(
-        view_name='api-inventory:site-detail',
-        read_only=False
-    )
-
-    # Object relation definition:
-    region = RegionSerializer(
-        many=False,
-        read_only=True,
-    )
-
-    class Meta:
-
-        model = Site
-        fields = fields
-        read_only_fields = read_only_fields
-
-
 # Main serializer class:
-class SiteFullSerializer(BaseSerializer):
+class SiteSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -84,6 +62,28 @@ class SiteFullSerializer(BaseSerializer):
         required=False,
         allow_null=True,
         help_text=Site.region.field.help_text,
+    )
+
+    class Meta:
+
+        model = Site
+        fields = fields
+        read_only_fields = read_only_fields
+
+
+# Full serializer class:
+class SiteFullSerializer(BaseSerializer):
+
+    # Object URL definition:
+    url = HyperlinkedIdentityField(
+        view_name='api-inventory:site-detail',
+        read_only=False
+    )
+
+    # Object relation definition:
+    region = RegionSerializer(
+        many=False,
+        read_only=True,
     )
 
     class Meta:

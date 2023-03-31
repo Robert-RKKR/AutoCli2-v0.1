@@ -55,38 +55,8 @@ read_only_fields = [
 ]
 
 
-# Full serializer class:
-class HostSerializer(BaseSerializer):
-
-    # Object URL definition:
-    url = HyperlinkedIdentityField(
-        view_name='api-inventory:host-detail',
-        read_only=False
-    )
-    
-    # Object relation definition:
-    site = SiteSerializer(
-        many=False,
-        read_only=True,
-    )
-    platform = PlatformSerializer(
-        many=False,
-        read_only=True,
-    )
-    credential = CredentialSerializer(
-        many=False,
-        read_only=True,
-    )
-
-    class Meta:
-
-        model = Host
-        fields = fields
-        read_only_fields = read_only_fields
-
-
 # Main serializer class:
-class HostFullSerializer(BaseSerializer):
+class HostSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -113,6 +83,36 @@ class HostFullSerializer(BaseSerializer):
         required=False,
         allow_null=True,
         help_text=Host.credential.field.help_text,
+    )
+
+    class Meta:
+
+        model = Host
+        fields = fields
+        read_only_fields = read_only_fields
+
+
+# Full serializer class:
+class HostFullSerializer(BaseSerializer):
+
+    # Object URL definition:
+    url = HyperlinkedIdentityField(
+        view_name='api-inventory:host-detail',
+        read_only=False
+    )
+    
+    # Object relation definition:
+    site = SiteSerializer(
+        many=False,
+        read_only=True,
+    )
+    platform = PlatformSerializer(
+        many=False,
+        read_only=True,
+    )
+    credential = CredentialSerializer(
+        many=False,
+        read_only=True,
     )
 
     class Meta:

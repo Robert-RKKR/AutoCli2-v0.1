@@ -50,30 +50,8 @@ read_only_fields = [
 ]
 
 
-# Full serializer class:
-class CredentialSerializer(BaseSerializer):
-
-    # Object URL definition:
-    url = HyperlinkedIdentityField(
-        view_name='api-inventory:credential-detail',
-        read_only=False
-    )
-
-    # Object relation definition:
-    administrator = AdministratorSerializer(
-        many=False,
-        read_only=True,
-    )
-
-    class Meta:
-
-        model = Credential
-        fields = fields
-        read_only_fields = read_only_fields
-
-
 # Main serializer class:
-class CredentialFullSerializer(BaseSerializer):
+class CredentialSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -87,6 +65,28 @@ class CredentialFullSerializer(BaseSerializer):
         required=False,
         allow_null=True,
         help_text=Credential.administrator.field.help_text,
+    )
+
+    class Meta:
+
+        model = Credential
+        fields = fields
+        read_only_fields = read_only_fields
+
+
+# Full serializer class:
+class CredentialFullSerializer(BaseSerializer):
+
+    # Object URL definition:
+    url = HyperlinkedIdentityField(
+        view_name='api-inventory:credential-detail',
+        read_only=False
+    )
+
+    # Object relation definition:
+    administrator = AdministratorSerializer(
+        many=False,
+        read_only=True,
     )
 
     class Meta:
