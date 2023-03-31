@@ -22,7 +22,7 @@ def update_global_settings_dictionary(instance):
 # Collect global settings function:
 def collect_global_settings(key: str):
     """ Collect global settings. """
-
+    
     if global_settings:
         # Collect data from global settings dictionary:
         return global_settings.get(key, False)
@@ -32,6 +32,7 @@ def collect_global_settings(key: str):
         except:
             collect_settings = GlobalSettings.objects.create()
         finally:
+            print('===(collect_settings)===> ', collect_settings)
             # Update global settings dictionary:
             update_global_settings_dictionary(collect_settings)
             # Collect data from global settings dictionary:
