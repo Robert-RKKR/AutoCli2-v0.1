@@ -51,7 +51,7 @@ read_only_fields = [
 
 
 # Full serializer class:
-class CredentialFullSerializer(BaseSerializer):
+class CredentialSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -73,7 +73,7 @@ class CredentialFullSerializer(BaseSerializer):
 
 
 # Main serializer class:
-class CredentialSerializer(BaseSerializer):
+class CredentialFullSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(

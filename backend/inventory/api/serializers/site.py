@@ -48,7 +48,7 @@ read_only_fields = [
 
 
 # Full serializer class:
-class SiteFullSerializer(BaseSerializer):
+class SiteSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -70,7 +70,7 @@ class SiteFullSerializer(BaseSerializer):
 
 
 # Main serializer class:
-class SiteSerializer(BaseSerializer):
+class SiteFullSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
