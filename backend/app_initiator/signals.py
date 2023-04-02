@@ -2,6 +2,9 @@
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 
+# Rest framework - token import:
+from rest_framework.authtoken.models import Token
+
 # Signal function:
 @receiver(post_migrate)
 def my_callback(sender, **kwargs):
@@ -28,13 +31,18 @@ def my_callback(sender, **kwargs):
         name = 'Discover',
         description = 'Discover host platform.'
     )
-
-    # Create base administrator objects if not exists:
-    User.objects.get_or_create(
-        username = 'admin',
-        email = 'admin@autocli2.com',
-        is_staff = True,
-        is_active = True,
-        is_superuser = True,
-        password = 'pbkdf2_sha256$390000$JCynP2LLbnqlZIUz0edcSp$r0Ke5G42LaunhJfGbT5Uk1CAt42RA12qeYSUHaDepH0='
-    )
+    
+    try: # Try to create base administrator objects if not exists:
+        user = User.objects.get_or_create(
+            username = 'admin',
+            email = 'admin@autocli2.com',
+            is_staff = True,
+            is_active = True,
+            is_superuser = True,
+            password = 'pbkdf2_sha256$390000$JCynP2LLbnqlZIUz0edcSp$r0Ke5G42LaunhJfGbT5Uk1CAt42RA12qeYSUHaDepH0='
+        )
+        # Create an authentication token for the user
+        token = Token.objects.create(user=user)
+        print('\n\n\n======> ', token)
+    except:
+        pass
