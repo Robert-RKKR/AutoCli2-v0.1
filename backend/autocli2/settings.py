@@ -5,6 +5,10 @@ import os
 # Jazzmin - settings import:
 from .jazzmin import GLOBAL_JAZZMIN_SETTINGS
 
+# Celery - import:
+from kombu import Exchange
+from kombu import Queue
+
 # Basis application data.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -75,12 +79,25 @@ WSGI_APPLICATION = 'autocli2.wsgi.application'
 ASGI_APPLICATION = 'autocli2.asgi.application'
 
 # Celery configuration:
+# BROKER_URL = 'amqp://guest:guest@rabbitmq-server:5672//'
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_IGNORE_RESULT = True
+
+# Celery task queues and routes:
+CELERY_QUEUES = (
+    Queue('default', Exchange('default'), routing_key='default'),
+    Queue('executor', Exchange('executor'), routing_key='executor'),
+    Queue('notification', Exchange('notification'), routing_key='notification'),
+)
+CELERY_ROUTES = {
+    'my_taskA': {'queue': 'executor', 'routing_key': 'executor'},
+    'my_taskB': {'queue': 'notification', 'routing_key': 'notification'},
+}
 
 # Channels configuration:
 CHANNEL_LAYERS = {
@@ -176,6 +193,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+USE_L10N = True
 
 # Static files:
 STATIC_URL = '/static/'

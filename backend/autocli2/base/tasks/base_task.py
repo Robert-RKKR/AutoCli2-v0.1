@@ -12,6 +12,9 @@ from notification.logger import Logger
 # Base task class
 class BaseTask(Task):
 
+    # Abstract task:
+    abstract = True
+
     # Basic celery attributes:
     ignore_result = False
     validation_class = ''

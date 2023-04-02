@@ -2,7 +2,7 @@
 import threading
 
 # Django - translation model import:
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 # AutoCli2 - base task import:
 from autocli2.base.tasks.connections.http_connection import HttpConnectionBaseTask

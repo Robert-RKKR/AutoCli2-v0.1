@@ -28,4 +28,5 @@ class Tag(BaseModel):
         Tag,
         verbose_name=_('Tag'),
         help_text=_('Related tag.'),
+        blank=True,
     )

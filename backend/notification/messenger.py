@@ -36,19 +36,20 @@ def verification(message, correlated_object, action_type):
             message = message[:1024]
             # raise ValueError('The provided notification message variable is to long (Allowed max 1024 signs).')
     elif message is not None:
+        print('=====> ', type(message))
         raise TypeError('The provided notification message variable must be string. '\
-        f'Provided: "{message}"')
+            f'Provided: "{message}"')
 
     # Verify if provided object is valid:
     if not isinstance(correlated_object, BaseModel) and correlated_object is not None:
         if correlated_object is not None:
             raise TypeError('Provided object id not a valid Django object. '\
-            f' Provided: "{correlated_object}"')
+                f' Provided: "{correlated_object}"')
 
     # Verify if the action type variable is a valid sting:     
     if not isinstance(action_type, int) and action_type is not None:
         raise TypeError('The provided action type variable must be integer. '\
-        f' Provided: "{action_type}"')
+            f' Provided: "{action_type}"')
 
 
 # Messenger class:
@@ -68,7 +69,7 @@ class Messenger:
                 self.__application = application
             else:
                 raise ValueError('The provided application variable is to long '\
-                '(Allowed max 64 signs).')
+                    '(Allowed max 64 signs).')
         else:
             raise TypeError('The provided application variable must be string.')
 
@@ -79,7 +80,7 @@ class Messenger:
             self.__task_id = None
         else:
             raise TypeError('The provided task ID variable must be string. '\
-            f'Provided: "{task_id}"')
+                f'Provided: "{task_id}"')
 
         # Object information's:
         self.correlated_object = None
