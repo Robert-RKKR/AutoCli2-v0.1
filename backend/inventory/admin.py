@@ -95,22 +95,30 @@ class PlatformAdmin(BaseAdmin):
             'fields': ('is_active', 'created', 'updated', 'name',
                        'description')
         }),
-        ('Default values', {
+        ('Supported protocols', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('api_default_header', 'api_default_params')
+            'fields': ('is_http_supported', 'is_ssh_supported')
         }),
-        ('Data information', {
+        ('HTTP(S) default values', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('api_data_path',)
+            'fields': ('http_default_header', 'http_default_params')
         }),
-        ('Pagination information', {
+        ('HTTP(S) data information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('api_pagination', 'api_next_page_code_path',
-                       'api_next_page_link_path', 'api_pagination_param_key')
+            'fields': ('http_data_path',)
         }),
-        ('Token information', {
+        ('HTTP(S) pagination information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('api_token_heder_key', 'api_token_heder_value')
+            'fields': ('http_pagination', 'http_next_page_code_path',
+                       'http_next_page_link_path', 'http_pagination_param_key')
+        }),
+        ('HTTP(S) token information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('http_token_heder_key', 'http_token_heder_value')
+        }),
+        ('SSH information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('ssh_invalid_responses', 'ssh_device_type')
         })
     )
     readonly_fields = (

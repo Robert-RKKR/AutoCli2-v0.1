@@ -34,16 +34,22 @@ class PlatformSerializer(BaseSerializer):
             'name',
             'slug',
             'description',
-            # Object related values:
-            'api_token_heder_key',
-            'api_token_heder_value',
-            'api_pagination',
-            'api_next_page_code_path',
-            'api_next_page_link_path',
-            'api_pagination_param_key',
-            'api_data_path',
-            'api_default_header',
-            'api_default_params',
+            # Supported protocols values:
+            'is_http_supported',
+            'is_ssh_supported',
+            # HTTP(S) related values:
+            'http_token_heder_key',
+            'http_token_heder_value',
+            'http_pagination',
+            'http_next_page_code_path',
+            'http_next_page_link_path',
+            'http_pagination_param_key',
+            'http_data_path',
+            'http_default_header',
+            'http_default_params',
+            # SSH related values:
+            'ssh_invalid_responses',
+            'ssh_device_type'
         ]
         read_only_fields = [
             # Base values:

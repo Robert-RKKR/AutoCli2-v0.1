@@ -18,7 +18,7 @@ from connector.models.connection_template import ConnectionTemplate
 from executor.models.executor import Executor
 
 # Model data:
-api_default_header = {
+html_default_header = {
     'Accept': 'application/yang-data+json',
     'Content-Type': 'application/yang-data+json'}
 test_url = 'restconf/data/Cisco-IOS-XE-environment-oper:environment-sensors'
@@ -44,8 +44,8 @@ def create_test_objects(db):
         region=test_region)
     # Create test platform:
     test_platform = Platform.objects.create(
-        name='Test platform',
-        api_default_header=api_default_header)
+        name='Test platform 1',
+        http_default_header=html_default_header)
     # Create test credential:
     test_credential = Credential.objects.create(
         name='Test credential',
