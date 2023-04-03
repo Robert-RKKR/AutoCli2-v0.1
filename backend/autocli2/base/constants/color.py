@@ -1,12 +1,12 @@
 # Django - choices model import:
-from django.db.models import TextChoices
+from autocli2.base.constants.base.base_choices import BaseTextChoices
 
 # Django - translation model import:
 from django.utils.translation import gettext_lazy as _
 
 
 # Choices class:
-class ColorChoices(TextChoices):
+class ColorChoices(BaseTextChoices):
 
     # Choices values:
     DARK_RED = 'aa1409', _('Dark red')

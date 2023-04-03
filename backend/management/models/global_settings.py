@@ -68,3 +68,9 @@ class GlobalSettings(IdentificationModel):
             'closing the connection.'),
         default=10,
     )
+    ssh_repeat = models.IntegerField(
+        verbose_name=_('SSH repeat connection'),
+        help_text=_('The SSH repeat connection refers to the number of repeats '\
+            'that the application will make in case the previous one fails.'),
+        default=2,
+    )

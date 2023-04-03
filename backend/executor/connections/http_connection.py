@@ -26,11 +26,11 @@ urllib3.disable_warnings()
 
 # HTTP connection class:
 class Connection:
-    
-    # Logger class initiation:
-    logger = Logger('HTTP(S) connection')
 
-    def __init__(self, host: Host, header: dict = {}) -> None:
+    def __init__(self,
+        host: Host,
+        header: dict = {},
+        task_id: str = None) -> None:
         """
         The HTTP(S) connection class uses requests library,
         to connect with Https server for API connections.
@@ -41,6 +41,8 @@ class Connection:
             The host used to establish the HTTP(S) connection.
         heder: dictionary
             Header that will be added to HTTP(S) request.
+        task_id: str
+            Celery task ID.
 
         Methods:
         --------
@@ -57,6 +59,9 @@ class Connection:
         # Verify if the header variable is a valid sting:
         if not isinstance(header, dict) and not header is None:
             raise TypeError('The provided header variable must be dictionary.')
+    
+        # Logger class initiation:
+        self.logger = Logger('HTTP(S) connection', task_id)
 
         # Collect data from host object:
         self.__host = host
@@ -70,15 +75,15 @@ class Connection:
         self.password = host.credential.password
 
         # Collect data from host platform object:
-        self.api_token_heder_key = host.platform.api_token_heder_key
-        self.api_token_heder_value = host.platform.api_token_heder_value
-        self.api_pagination = host.platform.api_pagination
-        self.api_next_page_code_path = host.platform.api_next_page_code_path
-        self.api_next_page_link_path = host.platform.api_next_page_link_path
-        self.api_pagination_param_key = host.platform.api_pagination_param_key
-        self.api_data_path = host.platform.api_data_path
-        self.api_default_header = host.platform.api_default_header
-        self.api_default_params = host.platform.api_default_params
+        self.http_token_heder_key = host.platform.http_token_heder_key
+        self.http_token_heder_value = host.platform.http_token_heder_value
+        self.http_pagination = host.platform.http_pagination
+        self.http_next_page_code_path = host.platform.http_next_page_code_path
+        self.http_next_page_link_path = host.platform.http_next_page_link_path
+        self.http_pagination_param_key = host.platform.http_pagination_param_key
+        self.http_data_path = host.platform.http_data_path
+        self.http_default_header = host.platform.http_default_header
+        self.http_default_params = host.platform.http_default_params
 
         # header declaration:
         self.header = header
@@ -92,32 +97,73 @@ class Connection:
 
         # Response status declaration:
         self.response_status = False
-        self.xml_status = None
-        self.json_status = None
+        self.xml_response_status = None
+        self.json_response_status = None
 
         # Execution timer declaration:
         self.execution_time = None
 
         # Timeout declaration:
-        self.timeout = collect_global_settings('http_timeout')
+        self.connection_timeout = collect_global_settings('http_timeout')
 
-        # Create http session:
+    def __enter__(self) -> 'Connection':
+        """
+        Use Connection class with python 'with' command:
+        'with Connection(host) as con:
+            resoults = con.get('/api/v2/hosts')'
+        
+        Return:
+        --------
+            Connection class object.
+        """
+        
+        try: # Try to start HTTP(S) connection:
+            response = self.start_connection()
+            if not response:
+                return False
+        except:
+                return False
+        else:
+            # In case of success,
+            # return Connection class object:
+            return self
+
+    def __exit__(self,
+        exc_type,
+        exc_value,
+        exc_traceback) -> None:
+
+        # End HTTP(S) connection:
+        self.session.close()
+
+    def start_connection(self) -> 'Connection':
+        """
+        Start a new HTTP(S) session.
+
+        Return:
+        --------
+        Connection class object.
+        """
+
+        # Create http session declaration:
         self.session = requests.Session()
         
         # Execute test connection:
         if self.test_connection():
             self.connection_status = True
+            return self
+        else:
+            return False
 
     @property
     def host(self):
         return self.__host
-    
-    def __repr__(self):
+
+    def __repr__(self) -> str:
         """
-        Connection class representation is IP address /
-        hostname of HTTP(S) server.
+        Connection class representation.
         """
-        return self.hostname
+        return f'<Class HTTP(S) connection ({self.hostname}:{self.http_port})>'
     
     def test_connection(self) -> bool:
         """
@@ -235,12 +281,12 @@ class Connection:
         """
 
         # Prepare token value:
-        if self.api_token_heder_value:
-            token_value = f'{self.api_token_heder_value} {self.token}'
+        if self.http_token_heder_value:
+            token_value = f'{self.http_token_heder_value} {self.token}'
         else:
             token_value = self.token
         # Add token heder to HTTP(S) heder:
-        self.header[self.api_token_heder_key] = token_value
+        self.header[self.http_token_heder_key] = token_value
 
     def _connection(self, request_method, request_url, body):
         """
@@ -249,12 +295,11 @@ class Connection:
         """
 
         # Log the beginning of a new connection to the HTTP(S) server:
-        Connection.logger.info('The initiation of a new HTTP(S) '\
+        self.logger.info('The initiation of a new HTTP(S) '\
             f'request to "{request_url}" has been started.', self.host)
         # Start clock count:
         start_time = time.perf_counter()
-        # Connect to the network device with password and username
-        # or by using token:
+        # Connect to the host with password and username or by using token:
         if self.token:
             # Add token to HTTP(S) heder:
             self._add_token_to_heder()
@@ -274,28 +319,28 @@ class Connection:
                 data=body)
         # Confect session with request data:
         prepare_request = self.session.prepare_request(request)
-        try: # Try to establish a connection to a network device:
+        try: # Try to establish a connection to a host:
             response = self.session.send(
                 prepare_request,
                 verify=self.certificate,
-                timeout=self.timeout)
+                timeout=self.connection_timeout)
         except requests.exceptions.SSLError as error:
-            Connection.logger.error(str(error), self.host)
+            self.logger.error(str(error), self.host)
             # Change connection status to False:
             self.response_status = False
             return self.response_status
         except requests.exceptions.Timeout as error:
-            Connection.logger.error(str(error), self.host) 
+            self.logger.error(str(error), self.host) 
             # Change connection status to False:
             self.response_status = False
             return self.response_status
         except requests.exceptions.InvalidURL as error:
-            Connection.logger.error(str(error), self.host)        
+            self.logger.error(str(error), self.host)        
             # Change connection status to False:
             self.response_status = False
             return self.response_status
         except requests.exceptions.ConnectionError as error:
-            Connection.logger.error(str(error), self.host)        
+            self.logger.error(str(error), self.host)        
             # Change connection status to False:
             self.response_status = False
             return self.response_status
@@ -305,7 +350,7 @@ class Connection:
             self.execution_time = round(finish_time - start_time, 5)
             # Check response status:
             if response.status_code < 200: # All response from 0 to 199.
-                Connection.logger.warning(
+                self.logger.warning(
                     f'HTTP(S) request sent to "{request_url}" URL, receives '\
                     'an informative HTTP(S) response. The response code is: '\
                     f'{response.status_code}.', self.host,
@@ -315,7 +360,7 @@ class Connection:
                 # Change connection status to True:
                 self.response_status = True
             elif response.status_code < 300: # All response from 200 to 299.
-                Connection.logger.info(
+                self.logger.info(
                     f'HTTP(S) request sent to "{request_url}" URL, receives '\
                     'a successful HTTP(S) response. The response code is: '\
                     f'{response.status_code}.', self.host,
@@ -325,7 +370,7 @@ class Connection:
                 # Change connection status to True:
                 self.response_status = True
             elif response.status_code < 400: # All response from 300 to 399.
-                Connection.logger.warning(
+                self.logger.warning(
                     f'HTTP(S) request sent to "{request_url}" URL, return '\
                     'error response. The response code is: '\
                     f'{response.status_code}.', self.host,
@@ -335,7 +380,7 @@ class Connection:
                 # Change connection status to False:
                 self.response_status = False
             elif response.status_code < 500: # All response from 400 to 499.
-                Connection.logger.error(
+                self.logger.error(
                     f'HTTP(S) request sent to "{request_url}" URL, return '\
                     'error response. The response code is: '\
                     f'{response.status_code}.', self.host,
@@ -345,7 +390,7 @@ class Connection:
                 # Change connection status to False:
                 self.response_status = False
             elif response.status_code < 600: # All response from 500 to 599.
-                Connection.logger.error(
+                self.logger.error(
                     f'HTTP(S) request sent to "{request_url}" URL, return '\
                     'error response. The response code is: '\
                     f'{response.status_code}.', self.host,
@@ -360,25 +405,25 @@ class Connection:
             if self.response_status and response_text:
                 try: # Try to convert JSON response to python dictionary:
                     self.converted_response = json.loads(response_text)
-                    self.json_status = True
+                    self.json_response_status = True
                 except:
                     self.converted_response = False
-                    self.json_status = False
+                    self.json_response_status = False
                     try: # Try to convert XML response to python dictionary:
                         self.converted_response = xmltodict.parse(response_text)
-                        self.xml_status = True
+                        self.xml_response_status = True
                     except:
-                        self.xml_status = False
-                if self.xml_status is False and self.json_status is False:
+                        self.xml_response_status = False
+                if self.xml_response_status is False and self.json_response_status is False:
                     # Log when python dictionary convert process fail:
-                    Connection.logger.warning(
+                    self.logger.warning(
                         'Python JSON/XML -> dictionary convert process fail, '\
                         f'in relation to "{request_url}" URL request.',
                         self.host)
                 # Return response:
                 return self.converted_response
             else:
-                Connection.logger.debug(
+                self.logger.debug(
                     f'HTTP(S) response received for "{request_url}" URL '\
                     'request was empty', self.host)
                 return False
