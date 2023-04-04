@@ -221,7 +221,7 @@ class Connection:
         discovered_platform_type = self._ssh_connect(autodetect=True)
         # Convert collected platform type name:
         discovered_platform_type = str(discovered_platform_type).strip()
-        # Check response of autodiscovery process:
+        # Check response of autodiscover process:
         if discovered_platform_type:
             # Collect platform type object/s:
             platform_type_objects = Platform.objects.filter(
@@ -256,7 +256,7 @@ class Connection:
             self.host.save(update_fields=['platform'])
             # Change discover status to True:
             self.is_platform_type_discover = True
-            # Update platfrom type:
+            # Update platform type:
             self.ssh_platform_type = platform_type_object.ssh_platform_type
             # Return collected platform type name:
             return discovered_platform_type
@@ -280,7 +280,7 @@ class Connection:
         Parameters:
         -----------------
         autodetect: bool
-            If True will try to dedect Host platform type.
+            If True will try to detect Host platform type.
         
         Return:
         --------
@@ -291,21 +291,17 @@ class Connection:
             # Log exception on last attempt:
             if connection_attempt == self.repeat_connection:
                 # Log authentication exception:
-                self.logger.error(f'Application was unable to establish SSH connection '\
-                    f'to device: {self.device_name} (Last attempt). '\
-                    f'Last error:\n{exception}.',
-                    task_id=self.task_id,
-                    object=self.device_object)
+                self.logger.error(f'Application was unable to establish SSH '\
+                    f'connection to device: {self.host_repr} (Last attempt). '\
+                    f'Last error:\n{exception}.', self)
                 # Change connection status to False.
                 self.connection_status = False
                 # Return False:
                 return self.connection_status
             else: # Log authentication exception:
-                self.logger.error(f'Exception occurred during SSH connection to device:'\
-                    f' {self.host_repr} '\
-                    f'(Attempt: {connection_attempt}).\n{exception}',
-                    task_id=self.task_id,
-                    object=self.device_object)
+                self.logger.error(f'Exception occurred during SSH connection '\
+                    f'to device: {self.host_repr} (Attempt: {connection_attempt}'\
+                    f').\n{exception}', self)
                 # Change connection status to False.
                 self.connection_status = False
 
@@ -330,8 +326,7 @@ class Connection:
                             'port': self.ssh_port,
                             'username': self.username,
                             'password': self.password})
-                    else:
-                        # Connect to device, using SSH protocol:
+                    else: # Connect to device, using SSH protocol:
                         self.connection = ConnectHandler(**{
                             'device_type': self.ssh_platform_type,
                             'host': self.hostname,
