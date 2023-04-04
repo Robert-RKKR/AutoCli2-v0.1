@@ -324,23 +324,28 @@ class Connection:
                 prepare_request,
                 verify=self.certificate,
                 timeout=self.connection_timeout)
-        except requests.exceptions.SSLError as error:
-            self.logger.error(str(error), self.host)
+        except requests.exceptions.SSLError as exception:
+            self.logger.error(str(exception), self.host)
             # Change connection status to False:
             self.response_status = False
             return self.response_status
-        except requests.exceptions.Timeout as error:
-            self.logger.error(str(error), self.host) 
+        except requests.exceptions.Timeout as exception:
+            self.logger.error(str(exception), self.host) 
             # Change connection status to False:
             self.response_status = False
             return self.response_status
-        except requests.exceptions.InvalidURL as error:
-            self.logger.error(str(error), self.host)        
+        except requests.exceptions.InvalidURL as exception:
+            self.logger.error(str(exception), self.host)        
             # Change connection status to False:
             self.response_status = False
             return self.response_status
-        except requests.exceptions.ConnectionError as error:
-            self.logger.error(str(error), self.host)        
+        except requests.exceptions.ConnectionError as exception:
+            self.logger.error(str(exception), self.host)        
+            # Change connection status to False:
+            self.response_status = False
+            return self.response_status
+        except Exception as exception:
+            self.logger.error(str(exception), self.host)        
             # Change connection status to False:
             self.response_status = False
             return self.response_status

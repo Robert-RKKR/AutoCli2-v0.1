@@ -28,6 +28,11 @@ def my_callback(sender, **kwargs):
     # Create base platform objects if not exists:
     Platform.objects.get_or_create(
         is_root = True,
+        name = 'Unsupported',
+        description = 'Unsupported host platform.'
+    )
+    Platform.objects.get_or_create(
+        is_root = True,
         name = 'Discover',
         description = 'Discover host platform.'
     )
@@ -41,8 +46,8 @@ def my_callback(sender, **kwargs):
             is_superuser = True,
             password = 'pbkdf2_sha256$390000$JCynP2LLbnqlZIUz0edcSp$r0Ke5G42LaunhJfGbT5Uk1CAt42RA12qeYSUHaDepH0='
         )
-        # Create an authentication token for the user
-        token = Token.objects.create(user=user)
-        print('\n\n\n======> ', token)
     except:
         pass
+    else:
+        # Create an authentication token for the user
+        token = Token.objects.create(user=user)

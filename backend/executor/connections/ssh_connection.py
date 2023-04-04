@@ -56,6 +56,7 @@ class Connection:
         self.__host = host
         self.hostname = host.hostname
         self.ssh_port = host.ssh_port
+        self.platform_name = host.platform.name
         self.host_repr = f'{host.name}:{host.hostname}'
 
         # Collect data from host platform object:
@@ -63,13 +64,13 @@ class Connection:
         self.ssh_platform_type = host.platform.ssh_platform_type
 
         # Platform type support declaration:
-        if self.ssh_platform_type == 'unsupported':
+        if self.platform_name == 'Unsupported':
             self.is_platform_type_supported = False
         else:
             self.is_platform_type_supported = True
 
         # Platform type support declaration:
-        if self.ssh_platform_type == 'discovery':
+        if self.platform_name == 'Discover':
             self.is_platform_type_discover = False
         else:
             self.is_platform_type_discover = True
@@ -83,6 +84,7 @@ class Connection:
 
         # Connection status declaration:
         self.connection_status = False
+        self.connection = False
 
         # Response declaration:
         self.converted_response = None
@@ -158,18 +160,22 @@ class Connection:
         """
 
         # Check connection status:
-        if not self.connection_status:
-            # Check whether the hots needs to autodetect the platform type:
-            if self.is_platform_type_discover is False:
+        if self.connection_status:
+            # Return Connection class object:
+            return self
+        else: # Check whether the hots needs to detect platform type:
+            if self.is_platform_type_discover:
+                # Connect to host:
+                self._ssh_connect()
+            else: # If host platform type must be detect:
                 self.logger.debug(f'Host {self.host_repr} platform '\
                     'type must be discovered.', self.host)
-                # Update platform type based on information collected via SSH protocol:
-                update_platform_type = self.update_platform_type()
+                # Update platform type based on information
+                # collected via SSH protocol:
+                platform_type = self.update_platform_type()
                 # Connect to host, if platform type was collected:
-                if update_platform_type:
+                if platform_type: # ???????????????????????????????????????????????????????????????? str like proper output?
                     self._ssh_connect()
-            else: # Connect to host:
-                self._ssh_connect()
             # Start connection timer if connection is successfully established:
             if self.connection_status:
                 # Start connection timer:
@@ -178,8 +184,6 @@ class Connection:
                 return self
             else: # Return False if the connection is not established:
                 return False
-        else: # Return Connection class object:
-            return self
     
     def end_connection(self) -> None:
         """ 
@@ -202,65 +206,177 @@ class Connection:
 
     def update_platform_type(self) -> str:
         """
-        Obtain network platform type information using SSH protocol.
-        And update Host platform type field.
+        Obtain network platform type using SSH protocol.
+        And then update Host platform field.
+        
         Return:
         --------
         Collected platform type name.
         """
 
-        # Log beginning of host platform type discovery process:
-        self.logger.debug(f'Started acquiring information about the platform type '\
-            f'of host: {self.host_repr}.', self.host)
+        # Log start of platform type discovery process:
+        self.logger.debug(f'Started acquiring information about the type '\
+            f'of platform for host: {self.host_repr}.', self.host)
         # Connect to host to check platform type, using SSH protocol:
-        discovered_platform_type_name = self._ssh_connect(autodetect=True)
-
-        if discovered_platform_type_name:
-            try: # Collecting platform type object:
-                discovered_platform_type_name = str(discovered_platform_type_name).strip()
-                # Collect platforms that contain provided platform type:
-                platform_type_object = Platform.objects.filter(
-                    ssh_platform_type=discovered_platform_type_name,
-                    is_ssh_supported=True) 
-            except:
+        discovered_platform_type = self._ssh_connect(autodetect=True)
+        # Convert collected platform type name:
+        discovered_platform_type = str(discovered_platform_type).strip()
+        # Check response of autodiscovery process:
+        if discovered_platform_type:
+            # Collect platform type object/s:
+            platform_type_objects = Platform.objects.filter(
+                ssh_platform_type=discovered_platform_type,
+                is_ssh_supported=True)
+            # Check if object/s were found:
+            if platform_type_objects.exists():
+                # Collect first matching platform:
+                platform_type_object = platform_type_objects[0] #??????????????????????????????????
+                # Change platform support status to True:
+                self.is_platform_type_supported = True
+                # Log successful platform type collection:
+                self.logger.info('Host platform type has been discoverd. '\
+                    f'Host: {self.host_repr} is running on '\
+                    f'{platform_type_object.name} software.',
+                    self.host)
+            else:
                 # Log unsupported platform type:
-                self.logger.warning(f'platform type {discovered_platform_type_name} '\
+                self.logger.warning(f'Platform type {discovered_platform_type} '\
                     f'of host: {self.host_repr}, is not supported.',
                     self.host)
-                # Change supported value to unsupported:
-                self.supported_device = False
-                try: # Try to collect unsupported platform type:
-                    platform_type_object = Host.objects.get(name='Unsupported')
-                except:
-                    self.logger.critical('Could not collect Unsupported platform type.',
-                        self.host)
-                # Return False:
-                return False
-            else:
-                # Log successful platform type collection:
-                self.logger.info(f'Host: {self.host_repr} '\
-                    f'is running {platform_type_object.name} software.',
-                    self.host)
-                # Change supported value to supported:
-                self.supported_device = True
-                # Change current platform type to new one:
-                self.device_object.platform_type = platform_type_object
-                self.platform_type = platform_type_object
-
-                try: # Try to update platform type object:
-                    self.device_object.save(update_fields=['platform_type']) 
-                except: # Return exception if there is a problem during
-                    # the update of the platform type object:
-                    self.logger.critical(f'Exception occurs, durning platform type update '\
-                        f'process (device: {self.host_repr}).',
-                        self.host)
-                else:
-                    self.logger.info(f'platform type of host: {self.host_repr} has been updated.',
-                        self.host)
-                # Return collected platform type name:
-                return discovered_platform_type_name
+                # Change platform support status to False:
+                self.is_platform_type_supported = False
+                try: # Try to collect Unsupported platform object:
+                    platform_type_object = Platform.objects.get(
+                        name='Unsupported')
+                except: # if Unsupported platform object doesn't exist:
+                    platform_type_object = Platform.objects.get(
+                        name='Unsupported')
+            # Update host platform:
+            self.host.platform = platform_type_object
+            self.host.save(update_fields=['platform'])
+            # Change discover status to True:
+            self.is_platform_type_discover = True
+            # Update platfrom type:
+            self.ssh_platform_type = platform_type_object.ssh_platform_type
+            # Return collected platform type name:
+            return discovered_platform_type
         else: # Log that platform type has not been discovered:
             self.logger.warning(f'Host: {self.host_repr} platform type, '\
                 'has not been discovered.', self.host)
             # If connection attempt was unsuccessful, return False value:
             return False
+
+    def _sleep(self) -> None:
+        """
+        Sleep defined amount of time.
+        """
+
+        time.sleep(self.repeat_connection_time)
+
+    def _ssh_connect(self, autodetect: bool = False) -> str:
+        """ 
+        Connect to host using SSH protocol.
+        
+        Parameters:
+        -----------------
+        autodetect: bool
+            If True will try to dedect Host platform type.
+        
+        Return:
+        --------
+        The type of host platform.
+        """
+
+        def log_connection_exception(connection_attempt, exception):
+            # Log exception on last attempt:
+            if connection_attempt == self.repeat_connection:
+                # Log authentication exception:
+                self.logger.error(f'Application was unable to establish SSH connection '\
+                    f'to device: {self.device_name} (Last attempt). '\
+                    f'Last error:\n{exception}.',
+                    task_id=self.task_id,
+                    object=self.device_object)
+                # Change connection status to False.
+                self.connection_status = False
+                # Return False:
+                return self.connection_status
+            else: # Log authentication exception:
+                self.logger.error(f'Exception occurred during SSH connection to device:'\
+                    f' {self.host_repr} '\
+                    f'(Attempt: {connection_attempt}).\n{exception}',
+                    task_id=self.task_id,
+                    object=self.device_object)
+                # Change connection status to False.
+                self.connection_status = False
+
+        # Check if host platform is supported:
+        if self.is_platform_type_supported or autodetect:
+            # Performs a specified number of SSH connection attempts:
+            for connection_attempt in range(1, self.repeat_connection + 1):
+                # Sleep before second and rest of conception attempts:
+                if connection_attempt > 1:
+                    self._sleep()
+                # Log stat of a new SSH connection attempt:
+                self.logger.info(f'SSH connection to host: {self.host_repr}, '\
+                    f'has been started (Attempt: {connection_attempt}/'\
+                    f'{self.repeat_connection}).', self)
+                try: # Try connect to host, using SSH protocol:
+                    # Check if the platform type must be detected:
+                    if autodetect:
+                        # Connect to host to check platform type:
+                        self.connection = SSHDetect(**{
+                            'device_type': 'autodetect',
+                            'host': self.hostname,
+                            'port': self.ssh_port,
+                            'username': self.username,
+                            'password': self.password})
+                    else:
+                        # Connect to device, using SSH protocol:
+                        self.connection = ConnectHandler(**{
+                            'device_type': self.ssh_platform_type,
+                            'host': self.hostname,
+                            'port': self.ssh_port,
+                            'username': self.username,
+                            'password': self.password})
+                # Handel SSH connection exceptions:
+                except AuthenticationException as exception:
+                    # Log connection exception:
+                    log_connection_exception(connection_attempt, exception)
+                except NetMikoTimeoutException as exception:
+                    # Log connection exception:
+                    log_connection_exception(connection_attempt, exception)
+                except ssh_exception.SSHException as exception:
+                    # Log connection exception:
+                    log_connection_exception(connection_attempt, exception)
+                except OSError as exception:
+                    # Log connection exception:
+                    log_connection_exception(connection_attempt, exception)
+                except TypeError as exception:
+                    # Log connection exception:
+                    log_connection_exception(connection_attempt, exception)
+                except ValueError as exception:
+                    # Log connection exception:
+                    log_connection_exception(connection_attempt, exception)
+                else:
+                    # Change connection status to True.
+                    self.connection_status = True
+                    # Log the start of a new connection:
+                    self.logger.info(f'SSH connection to device: {self.host_repr}, '\
+                        f'has been established (Attempt: {connection_attempt}/'\
+                        f'{self.repeat_connection}).', self)
+                    # if autodetect is True, collect device type name:
+                    if autodetect:    
+                        # Collect information about device type:
+                        platform_type = self.connection.autodetect()
+                        self.connection_status = False
+                        self.connection = False
+                        return platform_type
+                    else: # Return connection:
+                        return self.connection_status
+            # Return connection status:
+            return self.connection_status
+        else:
+            self.logger.warning(f'Host: {self.host_repr} platform type, '\
+                'is not supported.', self)
+            # Change connection status:
+            self.connection_status = False

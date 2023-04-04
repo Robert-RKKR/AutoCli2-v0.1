@@ -9,7 +9,7 @@ from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.tag import Tag
 
 # AutoCli2 - constance import:
-from autocli2.base.constants.device_type import DeviceTypeChoices
+from autocli2.base.constants.platform_type import PlatformTypeChoices
 
 
 # Platform model class:
@@ -20,9 +20,6 @@ class Platform(IdentificationModel, Tag):
         # Model name values:
         verbose_name = _('Platform')
         verbose_name_plural = _('Platforms')
-
-        # Model unique together values:
-        unique_together = ['is_ssh_supported', 'ssh_device_type']
 
     # HTTP / SSH - support:
     is_http_supported = models.BooleanField(
@@ -135,10 +132,10 @@ class Platform(IdentificationModel, Tag):
     )
 
     # SSH - Netmiko settings:
-    ssh_device_type = models.CharField(
-        verbose_name=_('Netmiko device type'),
-        help_text=_('Netmiko device type (SSH only).'),
+    ssh_platform_type = models.CharField(
+        verbose_name=_('Netmiko platform type'),
+        help_text=_('Netmiko platform type (SSH only).'),
         max_length=32,
-        choices=DeviceTypeChoices.choices,
-        default=DeviceTypeChoices.DISCOVERY,
+        choices=PlatformTypeChoices.choices,
+        default=PlatformTypeChoices.GENERIC,
     )
