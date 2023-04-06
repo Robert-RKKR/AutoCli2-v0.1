@@ -151,10 +151,7 @@ class Execution(BaseModel):
         Check if recived response is True
         """
 
-        # WHOT IF connection_template doesnt exitst?
-        # Check constances?
-
-        if self.connection_template:
+        if isinstance(self.connection_template, ConnectionTemplate):
             # Check execution protocol:
             if self.connection_template.execution_protocol == ExecutionProtocolChoices.SSH:
                 pass
@@ -183,19 +180,19 @@ class Execution(BaseModel):
                     if http_response_type:
                         if http_response_type == 0: # 0 == Empty:
                             pass
-                        elif http_response_type == 1: # 1 == List:
+                        elif http_response_type == ResponseTypeChoices.LIST:
                             # Check if HTTP response is list type:
                             if isinstance(self.http_response, list):
                                 response = True
                             else: # If not change response value to False:
                                 response = False
-                        elif http_response_type == 2: # 2 == Dict:
+                        elif http_response_type == ResponseTypeChoices.DICT:
                             # Check if HTTP response is dict type:
                             if isinstance(self.http_response, dict):
                                 response = True
                             else: # If not change response value to False:
                                 response = False
-                        elif http_response_type == 3: # 3 == String:
+                        elif http_response_type == ResponseTypeChoices.STRING:
                             # Check if HTTP response is str type:
                             if isinstance(self.http_response, str):
                                 response = True
@@ -209,3 +206,5 @@ class Execution(BaseModel):
                     return False
             else: # If wrong value was provided return False:
                 return False
+        else: # If corelated Connection Template doesn't exist return False:
+            return False
