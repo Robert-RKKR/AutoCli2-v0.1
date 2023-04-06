@@ -2,9 +2,6 @@
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 
-# Rest framework - token import:
-from rest_framework.authtoken.models import Token
-
 # Signal function:
 @receiver(post_migrate)
 def my_callback(sender, **kwargs):
@@ -48,6 +45,3 @@ def my_callback(sender, **kwargs):
         )
     except:
         pass
-    else:
-        # Create an authentication token for the user
-        token = Token.objects.create(user=user)

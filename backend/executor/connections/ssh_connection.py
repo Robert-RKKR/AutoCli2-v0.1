@@ -207,7 +207,7 @@ class Connection:
                 self.logger.info(f'SSH session with host {self.host_repr} '\
                     'ended.', self.host)
             finally:
-                # Chenge connection status:
+                # Change connection status:
                 self.connection_status = False
                 # Erase connection:
                 self.connection = False
@@ -432,7 +432,7 @@ class Connection:
         
         # Log start of command execution: 
         self.logger.info(f'The process of execution a new configuration '\
-            f'command "{command}" has been started on device: '\
+            f'command "{commands}" has been started on device: '\
             f'{self.host_repr}.', self.host)
         try: # Try to execute provided CLI command:
             command_response = self.connection.send_config_set(commands)
@@ -578,7 +578,7 @@ class Connection:
                         platform_type = self.connection.autodetect()
                         # Break connection:
                         self.end_connection()
-                        # Retunr platform type:
+                        # Return platform type:
                         return platform_type
                     else: # Return connection status:
                         return self.connection_status
