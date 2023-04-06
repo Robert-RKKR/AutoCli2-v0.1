@@ -119,18 +119,6 @@ class Platform(IdentificationModel, Tag):
         blank=True,
     )
 
-    # SSH - invalid responses:
-    ssh_invalid_responses = models.JSONField(
-        verbose_name=_('SSH invalid responses'),
-        help_text=_('List of strings that contain invalid host responses. '\
-            'For example, the Cisco IOS system returns output such as '\
-            '"invalid input detected" in the case of an unsupported command, '\
-            'or "cdp is not enabled" in the case of an disabled function, in '\
-            'this example CDP.'),
-        null=True,
-        blank=True,
-    )
-
     # SSH - Netmiko settings:
     ssh_platform_type = models.CharField(
         verbose_name=_('Netmiko platform type'),

@@ -4,23 +4,6 @@ from autocli2.base.constants.base.base_choices import BaseTextChoices
 # Django - translation model import:
 from django.utils.translation import gettext_lazy as _
 
-# Standsrt constance:
-INVALID_RESPONSES = [
-    r'% Invalid input detected',
-    r'syntax error, expecting',
-    r'Error: Unrecognized command',
-    r'%Error',
-    r'command not found',
-    r'Syntax Error: unexpected argument',
-    r'% Unrecognized command found at',
-    r'invalid input detected',
-    r'cdp is not enabled',
-    r'incomplete command',
-    r'no spanning tree instance exists',
-    r'lldp is not enabled',
-    r'snmp agent not enabled',
-]
-
 
 # Choices class:
 class PlatformTypeChoices(BaseTextChoices):

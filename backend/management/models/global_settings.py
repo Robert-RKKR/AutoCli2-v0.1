@@ -10,6 +10,23 @@ from autocli2.base.models.identification import IdentificationModel
 # AutoCli2 - constance import:
 from autocli2.base.constants.severity import SeverityChoices
 
+# Standsrt constance:
+INVALID_SSH_RESPONSES = [
+    '% Invalid input detected',
+    'syntax error, expecting',
+    'Error: Unrecognized command',
+    '%Error',
+    'command not found',
+    'Syntax Error: unexpected argument',
+    '% Unrecognized command found at',
+    'invalid input detected',
+    'cdp is not enabled',
+    'incomplete command',
+    'no spanning tree instance exists',
+    'lldp is not enabled',
+    'snmp agent not enabled',
+]
+
 
 # Global setting model class:
 class GlobalSettings(IdentificationModel):
@@ -54,6 +71,8 @@ class GlobalSettings(IdentificationModel):
         max_length=128,
         default='!Cisco@12345',
     )
+
+    # HTTP(S)
     http_timeout = models.IntegerField(
         verbose_name=_('HTTP session timeout'),
         help_text=_('The HTTP(S) timeout refers to the time that an AutoCli '\
@@ -61,6 +80,8 @@ class GlobalSettings(IdentificationModel):
             'before closing the connection.'),
         default=10,
     )
+
+    # SSH
     ssh_timeout = models.IntegerField(
         verbose_name=_('SSH session timeout'),
         help_text=_('The SSH timeout refers to the time that an AutoCli '\
@@ -73,4 +94,13 @@ class GlobalSettings(IdentificationModel):
         help_text=_('The SSH repeat connection refers to the number of repeats '\
             'that the application will make in case the previous one fails.'),
         default=2,
+    )
+    ssh_invalid_responses = models.JSONField(
+        verbose_name=_('SSH invalid responses'),
+        help_text=_('List of strings that contain invalid host responses. '\
+            'For example, the Cisco IOS system returns output such as '\
+            '"invalid input detected" in the case of an unsupported command, '\
+            'or "cdp is not enabled" in the case of an disabled function, in '\
+            'this example CDP.'),
+        default=INVALID_SSH_RESPONSES,
     )

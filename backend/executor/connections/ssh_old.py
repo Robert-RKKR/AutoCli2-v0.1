@@ -101,7 +101,7 @@ class Connection:
                 self.device_token = device.token
                 self.device_name = device.name
                 self.device_object = device
-                self.device_repr = f'{self.device_name}:{self.device_hostname}'
+                self.host_repr = f'{self.device_name}:{self.device_hostname}'
 
                 # Collect user data:
                 if self.device_credential is None:
@@ -186,7 +186,7 @@ class Connection:
             
             # Check if device need autodetect device type:
             if self.supported_device is None:
-                logger.info(f'Device type of the device: {self.device_repr}, must be discovered.',
+                logger.info(f'Device type of the device: {self.host_repr}, must be discovered.',
                     code_id='45366876978216757567883248573975',
                     object=self.device_object)
                 # Update device type based on information collected via SSH protocol:
@@ -207,7 +207,7 @@ class Connection:
                 return False
         
         else: # Log that connection is already establish:
-            logger.warning(f'Connection to device: {self.device_repr} '\
+            logger.warning(f'Connection to device: {self.host_repr} '\
                 'is already established.',
                 code_id='58397698345748759427958743978654',
                 object=self.device_object)
@@ -261,7 +261,7 @@ class Connection:
 
         # Log beginning of network device type checking process:
         logger.info(f'Started acquiring information about the device type '\
-            f'of device: {self.device_repr}.',
+            f'of device: {self.host_repr}.',
             code_id='45987897427586734579937923758345',
             object=self.device_object)
 
@@ -291,7 +291,7 @@ class Connection:
                 return False
             else:
                 # Log successful device type collection:
-                logger.info(f'Device: {self.device_repr} '\
+                logger.info(f'Device: {self.host_repr} '\
                     f'is running {device_type_object.name} software.',
                     code_id='87394958738420432733295809238490',
                     object=self.device_object)
@@ -306,11 +306,11 @@ class Connection:
                 except: # Return exception if there is a problem during
                     # the update of the device type object:
                     logger.critical(f'Exception occurs, durning device type update '\
-                        f'process (device: {self.device_repr}).',
+                        f'process (device: {self.host_repr}).',
                         code_id='45778589346798743750765946045895',
                         object=self.device_object)
                 else:
-                    logger.info(f'Device type of device: {self.device_repr} has been updated.',
+                    logger.info(f'Device type of device: {self.host_repr} has been updated.',
                         code_id='45827095295629370482756732094358',
                         object=self.device_object)
 
@@ -320,7 +320,7 @@ class Connection:
         else:
             # Log that device type has not been discovered:
             logger.warning(f'Device type of device: '\
-                f'{self.device_repr}, has not been discovered.',
+                f'{self.host_repr}, has not been discovered.',
                 code_id='53984757569847568947569443904564',
                 object=self.device_object)
             # If connection attempt was unsuccessful,
@@ -436,7 +436,7 @@ class Connection:
         # inform that the command/s cannot be sent:
         else:
             logger.error(f'Command/s could not be executed because SSH '\
-                f'connection with device: {self.device_repr} is not active.',
+                f'connection with device: {self.host_repr} is not active.',
                 code_id='43565892742368562758284832947343',
                 object=self.device_object)
 
@@ -537,7 +537,7 @@ class Connection:
         
         # Log start of command execution: 
         logger.info(f'The process of execution a new enabled command "{command}" has '\
-            f'been started on device: {self.device_repr}.',
+            f'been started on device: {self.host_repr}.',
             code_id='48376895768937458999702748593454',
             object=self.device_object)
 
@@ -549,7 +549,7 @@ class Connection:
             # Log information about the error of the sent command:
             logger.error(f'An error occurred during sending a CLI '\
                 f'enabled command "{command}" to the device: '\
-                f'{self.device_repr}\n{error}',
+                f'{self.host_repr}\n{error}',
                 code_id='48376895768937458999702748573456',
                 object=self.device_object)
             # Return False:
@@ -558,7 +558,7 @@ class Connection:
             # Log information about the error of the sent command:
             logger.error(f'An error occurred during sending a CLI '\
                 f'enabled command "{command}" to the device: '\
-                f'{self.device_repr}\n{error}',
+                f'{self.host_repr}\n{error}',
                 code_id='48376895768937458999702748526427',
                 object=self.device_object)
             # Return False:
@@ -567,7 +567,7 @@ class Connection:
             # Log information about the error of the sent command:
             logger.error(f'An error occurred during sending a CLI '\
                 f'enabled command "{command}" to the device: '\
-                f'{self.device_repr}\n{error}',
+                f'{self.host_repr}\n{error}',
                 code_id='48376895768937458999702748557246',
                 object=self.device_object)
             # Return False:
@@ -576,7 +576,7 @@ class Connection:
         else:
             # Log end of command execution:
             logger.info(f'Enabled command "{command}" has been sent to '\
-                f'{self.device_repr}.',
+                f'{self.host_repr}.',
                 code_id='45937576967845796874673497346456',
                 object=self.device_object)
 
@@ -587,7 +587,7 @@ class Connection:
                 if command_output is None or invalid in command_output.lower():
                     # Log invalid command output:
                     logger.info(f'Enabled command "{command}" send to '\
-                        f'{self.device_repr} '\
+                        f'{self.host_repr} '\
                         'return no data or return invalid response.',
                         code_id='34753968794278589347307485934645',
                         object=self.device_object)
@@ -603,7 +603,7 @@ class Connection:
         
         # Log start of command execution: 
         logger.info(f'The process of execution a new configuration command "{command}" has '\
-            f'been started on device: {self.device_repr}.',
+            f'been started on device: {self.host_repr}.',
             code_id='34567895768937458999702748593454',
             object=self.device_object)
 
@@ -614,7 +614,7 @@ class Connection:
             # Log information about the error of the sent command:
             logger.error(f'An error occurred during sending a CLI '\
                 f'configuration command "{command}" to the device: '\
-                f'{self.device_repr}\n{error}',
+                f'{self.host_repr}\n{error}',
                 code_id='26745895768937458999702748573456',
                 object=self.device_object)
             # Return False:
@@ -623,7 +623,7 @@ class Connection:
             # Log information about the error of the sent command:
             logger.error(f'An error occurred during sending a CLI '\
                 f'configuration command "{command}" to the device: '\
-                f'{self.device_repr}\n{error}',
+                f'{self.host_repr}\n{error}',
                 code_id='26745895768937458999702748526427',
                 object=self.device_object)
             # Return False:
@@ -632,7 +632,7 @@ class Connection:
             # Log information about the error of the sent command:
             logger.error(f'An error occurred during sending a CLI '\
                 f'configuration command "{command}" to the device: '\
-                f'{self.device_repr}\n{error}',
+                f'{self.host_repr}\n{error}',
                 code_id='26745895768937458999702748557246',
                 object=self.device_object)
             # Return False:
@@ -641,7 +641,7 @@ class Connection:
         else:
             # Log end of command execution:
             logger.info(f'Configuration command "{command}" has been sent to '\
-                f'{self.device_repr}.',
+                f'{self.host_repr}.',
                 code_id='26745968794278589347307485934645',
                 object=self.device_object)
             
@@ -776,7 +776,7 @@ class Connection:
                 return self.connection_status
             else: # Log authentication exception:
                 logger.error(f'Error occurred during SSH connection to device:'\
-                    f' {self.device_repr} '\
+                    f' {self.host_repr} '\
                     f'(Attempt: {connection_attempt}).\n{error}',
                     code_id='48753984592309457596283904835934',
                     task_id=self.task_id,
@@ -788,7 +788,7 @@ class Connection:
         if self.supported_device is False:
 
             if not autodetect:
-                logger.error(f'Device: {self.device_repr}, is not supported.',
+                logger.error(f'Device: {self.host_repr}, is not supported.',
                     code_id='34893858374598734897479485769456',
                     task_id=self.task_id,
                     object=self.device_object)
@@ -805,7 +805,7 @@ class Connection:
                     self._sleep()
 
                 # Log stat of a new SSH connection attempt:
-                logger.info(f'SSH connection to device: {self.device_repr}, '\
+                logger.info(f'SSH connection to device: {self.host_repr}, '\
                     f'has been started (Attempt: {connection_attempt}).',
                     code_id='48734859373923718475395598735746',
                     task_id=self.task_id,
@@ -854,7 +854,7 @@ class Connection:
                     # Change connection status to True.
                     self.connection_status = True
                     # Log the start of a new connection:
-                    logger.info(f'SSH connection to device: {self.device_repr}, '\
+                    logger.info(f'SSH connection to device: {self.host_repr}, '\
                         f'has been established (Attempt: {connection_attempt}).',
                         code_id='48734859373923718475395598735746',
                         task_id=self.task_id,
@@ -879,7 +879,7 @@ class Connection:
 
         # Log start of the command process:
         logger.info(f'SFM process on command "{command}" collected from device: '\
-            f'{self.device_repr}, has been started.',
+            f'{self.host_repr}, has been started.',
             code_id='49537874598379083278974524899254',
             object=self.device_object)
 
@@ -916,7 +916,7 @@ class Connection:
             except textfsm.TextFSMTemplateError as error:
                 # Log error during Text FSM process:
                 logger.error(f'Error occurred during SFM operation on device: '\
-                    f'{self.device_repr}\n{error}',
+                    f'{self.host_repr}\n{error}',
                     code_id='43527880467579473896025095748654',
                     object=self.device_object)
                 # Return False value:
@@ -925,7 +925,7 @@ class Connection:
             except textfsm.TextFSMError as error:
                 # Log error during Text FSM process:
                 logger.error(f'Error occurred during SFM operation on device: '\
-                    f'{self.device_repr}\n{error}',
+                    f'{self.host_repr}\n{error}',
                     code_id='54628976579063784736097753945645',
                     object=self.device_object)
                 # Return False value:
@@ -933,7 +933,7 @@ class Connection:
                 return_data['error'] = str(error)
             else:
                 logger.info(f'SFM process on command "{command}" collected from '\
-                    f'device: {self.device_repr}, has been accomplish.',
+                    f'device: {self.host_repr}, has been accomplish.',
                     code_id='54897698547687354069975809474056',
                     object=self.device_object)
                 # Return FSM process output:

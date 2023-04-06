@@ -1,6 +1,9 @@
 # Python - library import:
 import time
 
+# Python - regex import:
+import re
+
 # Paramiko - exceptions import:
 from paramiko import ssh_exception
 
@@ -48,6 +51,9 @@ class Connection:
         # Verify if the host variable is a valid host object:
         if not isinstance(host, Host):
             raise TypeError('The provided host must be instance of Host class.')
+        # Verify if the task ID variable is a valid string:
+        if not isinstance(task_id, str):
+            raise TypeError('The provided task ID must be string.')
     
         # Logger class initiation:
         self.logger = Logger('SSH connection', task_id)
@@ -174,7 +180,7 @@ class Connection:
                 # collected via SSH protocol:
                 platform_type = self.update_platform_type()
                 # Connect to host, if platform type was collected:
-                if platform_type: # ???????????????????????????????????????????????????????????????? str like proper output?
+                if platform_type:
                     self._ssh_connect()
             # Start connection timer if connection is successfully established:
             if self.connection_status:
@@ -192,26 +198,41 @@ class Connection:
 
         # Check connection status:
         if self.connection_status:
-            # Try to close SSH connection:
-            try:
+            try: # Try to close SSH connection:
                 self.connection.disconnect()
             except: # Log that connection is already ended:
-                self.logger.warning('Connection is already ended.', self.host)
-            else:
-                # Log close of SSH connection:
-                self.logger.info('SSH session ended.', self.host)
+                self.logger.warning(f'Connection with host {self.host_repr} '\
+                    'is already ended.', self.host)
+            else: # Log close of SSH connection:
+                self.logger.info(f'SSH session with host {self.host_repr} '\
+                    'ended.', self.host)
             finally:
+                # Chenge connection status:
+                self.connection_status = False
+                # Erase connection:
+                self.connection = False
                 # End connection timer:
                 self._end_connection_timer()
 
-    def update_platform_type(self) -> str:
+    def test_connection(self) -> bool:
+        """
+        Open test SSH connection.
+        """
+
+        # Start a new SSH connection:
+        Connection_status = self._ssh_connect()
+        # Return connection status:
+        return Connection_status
+
+    def update_platform_type(self) -> bool:
         """
         Obtain network platform type using SSH protocol.
-        And then update Host platform field.
+        Update Host platform field based on collected data.
         
         Return:
         --------
-        Collected platform type name.
+        Boolean value: True if platform type was collected
+        or False if platform type was not collected.
         """
 
         # Log start of platform type discovery process:
@@ -219,10 +240,10 @@ class Connection:
             f'of platform for host: {self.host_repr}.', self.host)
         # Connect to host to check platform type, using SSH protocol:
         discovered_platform_type = self._ssh_connect(autodetect=True)
-        # Convert collected platform type name:
-        discovered_platform_type = str(discovered_platform_type).strip()
         # Check response of autodiscover process:
         if discovered_platform_type:
+            # Convert collected platform type name:
+            discovered_platform_type = str(discovered_platform_type).strip()
             # Collect platform type object/s:
             platform_type_objects = Platform.objects.filter(
                 ssh_platform_type=discovered_platform_type,
@@ -230,7 +251,7 @@ class Connection:
             # Check if object/s were found:
             if platform_type_objects.exists():
                 # Collect first matching platform:
-                platform_type_object = platform_type_objects[0] #??????????????????????????????????
+                platform_type_object = platform_type_objects[0] # ???
                 # Change platform support status to True:
                 self.is_platform_type_supported = True
                 # Log successful platform type collection:
@@ -258,22 +279,216 @@ class Connection:
             self.is_platform_type_discover = True
             # Update platform type:
             self.ssh_platform_type = platform_type_object.ssh_platform_type
-            # Return collected platform type name:
-            return discovered_platform_type
+            # Return collected platform status:
+            return True
         else: # Log that platform type has not been discovered:
             self.logger.warning(f'Host: {self.host_repr} platform type, '\
                 'has not been discovered.', self.host)
             # If connection attempt was unsuccessful, return False value:
             return False
 
-    def _sleep(self) -> None:
+    def send_enable(self, commands: list) -> dict:
         """
-        Sleep defined amount of time.
+        Retrieves a list containing network CLI command/s,
+        and sends them to a network device using SSH protocol.
+        ! Usable only with enable levels commend/s.
+        
+        Parameters:
+        -----------------
+        commands: List
+            Provided device object, to establish a SSH connection.
+
+        Return:
+        --------
+        Dictionary containing command/s output.
+        {
+            'command': 'command output',
+        }
         """
 
-        time.sleep(self.repeat_connection_time)
+        # Check if provided command variable is valid list:
+        if not isinstance(commands, list):
+            # Raise exception:
+            raise TypeError('The provided command/s variable must be a string.')
 
-    def _ssh_connect(self, autodetect: bool = False) -> str:
+        # Check connection status:
+        if self.connection_status:
+            # Start clock count:
+            start_time = self._start_execution_timer()
+            # Declare return data dictionary:
+            return_data = {}
+            # Execute enabled command:
+            for command in commands:
+                # Save command execution output to dictionary:
+                return_data[command] = self._enabled_command_execution(
+                    command)
+            # Finish clock count:
+            execution_time = self._end_execution_timer(start_time)
+            # Log time of command/s execution:
+            self.logger.info(f'Execution of "{commands}" enabled command/s '\
+                f'taken {execution_time} seconds.', self.host)
+            # Return data:
+            return return_data
+        # If connection is not active,
+        # inform that the command/s cannot be sent:
+        else:
+            self.logger.error(f'Command/s could not be executed because SSH '\
+                f'connection with host {self.host_repr}, is not active.',
+                self.host)
+
+    def send_config(self, commands: list) -> dict:
+        """
+        Retrieves a list containing network CLI command/s,
+        and sends them to a network device using SSH protocol.
+        ! Usable only with configuration terminal levels commends.
+        
+        Parameters:
+        -----------------
+        commands: List
+            Provided device object, to establish a SSH connection.
+
+        Return:
+        --------
+        String containing command/s output.
+        """
+
+        # Check if provided command variable is valid list:
+        if not isinstance(commands, list):
+            # Raise exception:
+            raise TypeError('The provided command/s variable must be a string.')
+
+        # Check connection status:
+        if self.connection_status:
+            # Start clock count:
+            start_time = self._start_execution_timer()
+            # Collect data from device:
+            return_data = self._config_command_execution(commands)
+            # Finish clock count & method execution time:
+            execution_time = self._end_execution_timer(start_time)
+            # Log time of command/s execution:
+            self.logger.info(f'Execution of "{commands}" configuration '\
+                f'command/s taken {execution_time} seconds.', self.host)
+            # Return data:
+            return return_data
+        # If connection is not active,
+        # inform that the command/s cannot be sent:
+        else:
+            self.logger.error(f'Command/s could not be executed because SSH '\
+                f'connection with host {self.host_repr}, is not active.',
+                self.host)
+
+    def _enabled_command_execution(self, command: str) -> str:
+        """
+        SSH execution of enabled command.
+        """
+        
+        # Check if provided command is valid:
+        if isinstance(command, str):
+            # Log start execution of SSH command: 
+            self.logger.info(f'The process of execution a new enabled '\
+                f'command "{command}" has been started on device: '\
+                f'{self.host_repr}.', self.host)
+            try: # Try to execute provided CLI command:
+                command_response = self.connection.send_command(
+                    command_string=command)
+            except UnboundLocalError as exception:
+                # Log information about the exception of the sent command:
+                self.logger.error(f'An exception occurred during sending '\
+                    f'a CLI enabled command "{command}" to the device: '\
+                    f'{self.host_repr}\n{exception}', self.host)
+                # Return False:
+                return False
+            except OSError as exception:
+                # Log information about the exception of the sent command:
+                self.logger.error(f'An exception occurred during sending '\
+                    f'a CLI enabled command "{command}" to the device: '\
+                    f'{self.host_repr}\n{exception}', self.host)
+                # Return False:
+                return False
+            except Exception as exception:
+                # Log information about the exception of the sent command:
+                self.logger.error(f'An exception occurred during sending '\
+                    f'a CLI enabled command "{command}" to the device: '\
+                    f'{self.host_repr}\n{exception}', self.host)
+                # Return False:
+                return False
+            else: # Log end of command execution:
+                self.logger.info(f'Enabled command "{command}" has been '\
+                    f'sent to {self.host_repr}.', self.host)
+                # Check if command output is valid:
+                is_response_valid = self._is_response_valid(command_response)
+                # If command response is valid return command response:
+                if is_response_valid:
+                    return command_response
+                else: # If command response is not valid return empty string:
+                    return ''
+        else: # Raise exception:
+            raise TypeError('Provided command is not valid.')
+
+    def _config_command_execution(self, commands: str) -> str:
+        """
+        SSH execution of configuration command/s.
+        """
+        
+        # Log start of command execution: 
+        self.logger.info(f'The process of execution a new configuration '\
+            f'command "{command}" has been started on device: '\
+            f'{self.host_repr}.', self.host)
+        try: # Try to execute provided CLI command:
+            command_response = self.connection.send_config_set(commands)
+        except UnboundLocalError as exception:
+            # Log information about the exception of the sent command:
+            self.logger.error(f'An exception occurred during sending '\
+                f'a CLI enabled command "{commands}" to the device: '\
+                f'{self.host_repr}\n{exception}', self.host)
+            # Return False:
+            return False
+        except OSError as exception:
+            # Log information about the exception of the sent command:
+            self.logger.error(f'An exception occurred during sending '\
+                f'a CLI enabled command "{commands}" to the device: '\
+                f'{self.host_repr}\n{exception}', self.host)
+            # Return False:
+            return False
+        except Exception as exception:
+            # Log information about the exception of the sent command:
+            self.logger.error(f'An exception occurred during sending '\
+                f'a CLI enabled command "{commands}" to the device: '\
+                f'{self.host_repr}\n{exception}', self.host)
+            # Return False:
+            return False
+        else:
+            # Log end of command execution:
+            self.logger.info(f'Configuration command "{commands}" has '\
+                f'been sent to {self.host_repr}.', self.host)
+            # Return data:
+            return command_response
+    
+    def _is_response_valid(self, command_response: str) -> bool:
+        """
+        Check if provided response is valid:
+        """
+
+        # Collect invalid responses:
+        invalid_response_list = collect_global_settings('ssh_invalid_responses')
+        # Check if invalid response list is valid:
+        if isinstance(invalid_response_list, list):
+            # iterate thru all provided expressions:
+            for expression in invalid_response_list:
+                try: # Try to collect expression:
+                    regex_pattern = rf'{expression}'
+                    re.compile(regex_pattern)
+                except Exception as exception:
+                    # Log compile regex exception:
+                    self.logger.error(f'Expression {expression} is not '\
+                        f'valid ({exception}).')
+                else: # Check regex match:
+                    if re.fullmatch(regex_pattern, str(command_response)):
+                        return False
+        # If not match fund return True response:
+        return True
+
+    def _ssh_connect(self, autodetect: bool = False) -> bool or str:
         """ 
         Connect to host using SSH protocol.
         
@@ -284,26 +499,9 @@ class Connection:
         
         Return:
         --------
-        The type of host platform.
+        If autodetect value is True will return host platform type,
+        or connection status if autodetect value is False.
         """
-
-        def log_connection_exception(connection_attempt, exception):
-            # Log exception on last attempt:
-            if connection_attempt == self.repeat_connection:
-                # Log authentication exception:
-                self.logger.error(f'Application was unable to establish SSH '\
-                    f'connection to device: {self.host_repr} (Last attempt). '\
-                    f'Last error:\n{exception}.', self)
-                # Change connection status to False.
-                self.connection_status = False
-                # Return False:
-                return self.connection_status
-            else: # Log authentication exception:
-                self.logger.error(f'Exception occurred during SSH connection '\
-                    f'to device: {self.host_repr} (Attempt: {connection_attempt}'\
-                    f').\n{exception}', self)
-                # Change connection status to False.
-                self.connection_status = False
 
         # Check if host platform is supported:
         if self.is_platform_type_supported or autodetect:
@@ -315,7 +513,7 @@ class Connection:
                 # Log stat of a new SSH connection attempt:
                 self.logger.info(f'SSH connection to host: {self.host_repr}, '\
                     f'has been started (Attempt: {connection_attempt}/'\
-                    f'{self.repeat_connection}).', self)
+                    f'{self.repeat_connection}).', self.host)
                 try: # Try connect to host, using SSH protocol:
                     # Check if the platform type must be detected:
                     if autodetect:
@@ -335,43 +533,130 @@ class Connection:
                             'password': self.password})
                 # Handel SSH connection exceptions:
                 except AuthenticationException as exception:
-                    # Log connection exception:
-                    log_connection_exception(connection_attempt, exception)
+                    # Log authentication exception:
+                    self.logger.error(f'Exception occurred during SSH '\
+                        f'connection to host: {self.host_repr} (Attempt: '\
+                        f'{connection_attempt}/{self.repeat_connection}).'\
+                        f'\n{exception}', self.host)
+                    # Change connection status to False.
+                    self.connection_status = False
                 except NetMikoTimeoutException as exception:
                     # Log connection exception:
-                    log_connection_exception(connection_attempt, exception)
+                    self.logger.error(f'Exception occurred during SSH '\
+                        f'connection to host: {self.host_repr} (Attempt: '\
+                        f'{connection_attempt}/{self.repeat_connection}).'\
+                        f'\n{exception}', self.host)
+                    # Change connection status to False.
+                    self.connection_status = False
                 except ssh_exception.SSHException as exception:
                     # Log connection exception:
-                    log_connection_exception(connection_attempt, exception)
-                except OSError as exception:
+                    self.logger.error(f'Exception occurred during SSH '\
+                        f'connection to host: {self.host_repr} (Attempt: '\
+                        f'{connection_attempt}/{self.repeat_connection}).'\
+                        f'\n{exception}', self.host)
+                    # Change connection status to False.
+                    self.connection_status = False
+                except Exception as exception:
                     # Log connection exception:
-                    log_connection_exception(connection_attempt, exception)
-                except TypeError as exception:
-                    # Log connection exception:
-                    log_connection_exception(connection_attempt, exception)
-                except ValueError as exception:
-                    # Log connection exception:
-                    log_connection_exception(connection_attempt, exception)
+                    self.logger.error(f'Exception occurred during SSH '\
+                        f'connection to host: {self.host_repr} (Attempt: '\
+                        f'{connection_attempt}/{self.repeat_connection}).'\
+                        f'\n{exception}', self.host)
+                    # Change connection status to False.
+                    self.connection_status = False
                 else:
                     # Change connection status to True.
                     self.connection_status = True
                     # Log the start of a new connection:
-                    self.logger.info(f'SSH connection to device: {self.host_repr}, '\
-                        f'has been established (Attempt: {connection_attempt}/'\
-                        f'{self.repeat_connection}).', self)
+                    self.logger.info(f'SSH connection to device: '\
+                        f'{self.host_repr}, has been established (Attempt: '\
+                        f'{connection_attempt}/{self.repeat_connection}).',
+                        self.host)
                     # if autodetect is True, collect device type name:
                     if autodetect:    
                         # Collect information about device type:
                         platform_type = self.connection.autodetect()
-                        self.connection_status = False
-                        self.connection = False
+                        # Break connection:
+                        self.end_connection()
+                        # Retunr platform type:
                         return platform_type
-                    else: # Return connection:
+                    else: # Return connection status:
                         return self.connection_status
             # Return connection status:
             return self.connection_status
         else:
-            self.logger.warning(f'Host: {self.host_repr} platform type, '\
-                'is not supported.', self)
+            self.logger.warning(f'Host {self.host_repr} platform type, '\
+                'is not supported.', self.host)
             # Change connection status:
             self.connection_status = False
+
+    def _sleep(self) -> None:
+        """
+        Sleep defined amount of time.
+        """
+
+        time.sleep(self.connection_timeout)
+
+    def _start_connection_timer(self) -> None:
+        """
+        Start connection time counting.
+        """
+
+        # Start clock count:
+        self.start_connection_time = time.perf_counter()
+
+    def _end_connection_timer(self) -> float:
+        """
+        End connection time counting, and log result.
+
+        Return:
+        --------
+        Method will return connection end time value.
+        """
+
+        # Check if connection timer is set up:
+        if self.connection_timer:
+            # Finish clock count & method execution time:
+            finish_time = time.perf_counter()
+            connection_timer = round(finish_time - self.start_connection_time, 5)
+            # Update global connection timer:
+            self.connection_timer = connection_timer
+            # Log time of SSH session:
+            self.logger.info(f'SSH session with host {self.host_repr} was '\
+                f'active for {self.connection_timer} seconds.', self.host)
+            # Reset connection timer:
+            self.connection_timer = False
+            # Return end connection time:
+            return connection_timer
+        else: # Raise error that connection timer is not set up:
+            raise BrokenPipeError('The End connection timer method was '/
+                'executed before the Start connection timer method or '/
+                'after the connection timer value was reset.')
+    
+    def _start_execution_timer(self) -> float:
+        """
+        Start command execution time.
+
+        Return:
+        --------
+        Method will return start time value.
+        """
+
+        # Start clock count:
+        return time.perf_counter()
+
+    def _end_execution_timer(self, start_time) -> float:
+        """
+        End command execution time counting.
+
+        Return:
+        --------
+        Method will return execution end time value.
+        """
+
+        # Finish clock count & method execution time:
+        finish_time = time.perf_counter()
+        execution_time = round(finish_time - start_time, 5)
+
+        # Return end execution time:
+        return execution_time

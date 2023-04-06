@@ -148,8 +148,11 @@ class Execution(BaseModel):
 
     def is_response_valid(self) -> bool:
         """
-        Check if recited response is True
+        Check if recived response is True
         """
+
+        # WHOT IF connection_template doesnt exitst?
+        # Check constances?
 
         if self.connection_template:
             # Check execution protocol:
