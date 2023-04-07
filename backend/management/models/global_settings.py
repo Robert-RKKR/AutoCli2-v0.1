@@ -10,23 +10,6 @@ from autocli2.base.models.identification import IdentificationModel
 # AutoCli2 - constance import:
 from autocli2.base.constants.severity import SeverityChoices
 
-# Standard constance:
-INVALID_SSH_RESPONSES = [
-    '% Invalid input detected',
-    'syntax error, expecting',
-    'Error: Unrecognized command',
-    '%Error',
-    'command not found',
-    'Syntax Error: unexpected argument',
-    '% Unrecognized command found at',
-    'invalid input detected',
-    'cdp is not enabled',
-    'incomplete command',
-    'no spanning tree instance exists',
-    'lldp is not enabled',
-    'snmp agent not enabled',
-]
-
 
 # Global setting model class:
 class GlobalSettings(IdentificationModel):
@@ -102,5 +85,19 @@ class GlobalSettings(IdentificationModel):
             '"invalid input detected" in the case of an unsupported command, '\
             'or "cdp is not enabled" in the case of an disabled function, in '\
             'this example CDP.'),
-        default=INVALID_SSH_RESPONSES,
+        default=[
+            '% Invalid input detected',
+            'syntax error, expecting',
+            'Error: Unrecognized command',
+            '%Error',
+            'command not found',
+            'Syntax Error: unexpected argument',
+            '% Unrecognized command found at',
+            'invalid input detected',
+            'cdp is not enabled',
+            'incomplete command',
+            'no spanning tree instance exists',
+            'lldp is not enabled',
+            'snmp agent not enabled',
+        ],
     )

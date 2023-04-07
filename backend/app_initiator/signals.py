@@ -13,6 +13,13 @@ def my_callback(sender, **kwargs):
     # Django - user model import:
     from django.contrib.auth.models import User
 
+    # AutoCli2 - management model import:
+    from management.models.global_settings import GlobalSettings
+
+    # Create default global settings object:
+    GlobalSettings.objects.get_or_create(
+        name='Default', is_current=True)
+
     # Create base credential object if not exist:
     Credential.objects.get_or_create(
         name = 'Default credentials',
