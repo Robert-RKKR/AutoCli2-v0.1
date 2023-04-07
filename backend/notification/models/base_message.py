@@ -72,6 +72,13 @@ class BaseMessageModel(models.Model):
         null=True,
         blank=True,
     )
+    object_url = models.CharField(
+        verbose_name=_('URL'),
+        help_text=_('URL to object.'),
+        max_length=1024,
+        null=True,
+        blank=True,
+    )
 
     # Execution time:
     execution_time = models.FloatField(

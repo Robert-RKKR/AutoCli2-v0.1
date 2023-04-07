@@ -114,21 +114,27 @@ class Messenger:
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = 0) -> NotificationModel:
+        execution_time: float = 0,
+        url: str = None) -> NotificationModel:
         """
         Create a new critical log / notification based on the following data:
 
-        Parameters:
-        -----------------
-        message: string
-            Notification message string value.
-        correlated_object: Django model class object
-            Correlated object.
-        action_type: integer
-            Type of action (1-Created, 2-Updated, 3-Deleted).
-            Default: 0-None.
-        execution_time: float
-            Time of script / task / connection execution.
+        Args:
+            message (str):
+                Notification message string value.
+            correlated_object (BaseModel, optional):
+                Correlated object. Defaults to None.
+            action_type (int, optional):
+                Type of action (1-Created, 2-Updated, 3-Deleted).
+                Defaults to 0-None.
+            execution_time (float, optional):
+                Time of script / task / connection execution.
+                Defaults to 0.
+            url (str, optional):
+                URL to object. Defaults to None.
+
+        Returns:
+            NotificationModel: Notification class object.
         """
 
         # Check that notification settings allow logging:
@@ -144,27 +150,34 @@ class Messenger:
             correlated_object,
             action_type,
             CRITICAL,
-            execution_time)
+            execution_time,
+            url)
 
     def error(self,
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = 0) -> NotificationModel:
+        execution_time: float = 0,
+        url: str = None) -> NotificationModel:
         """
         Create a new error log / notification based on the following data:
 
-        Parameters:
-        -----------------
-        message: string
-            Notification message string value.
-        correlated_object: Django model class object
-            Correlated object.
-        action_type: integer
-            Type of action (1-Created, 2-Updated, 3-Deleted).
-            Default: 0-None.
-        execution_time: float
-            Time of script / task / connection execution.
+        Args:
+            message (str):
+                Notification message string value.
+            correlated_object (BaseModel, optional):
+                Correlated object. Defaults to None.
+            action_type (int, optional):
+                Type of action (1-Created, 2-Updated, 3-Deleted).
+                Defaults to 0-None.
+            execution_time (float, optional):
+                Time of script / task / connection execution.
+                Defaults to 0.
+            url (str, optional):
+                URL to object. Defaults to None.
+
+        Returns:
+            NotificationModel: Notification class object.
         """
 
         # Check that notification settings allow logging:
@@ -180,27 +193,34 @@ class Messenger:
             correlated_object,
             action_type,
             ERROR,
-            execution_time)
+            execution_time,
+            url)
 
     def warning(self,
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = 0) -> NotificationModel:
+        execution_time: float = 0,
+        url: str = None) -> NotificationModel:
         """
         Create a new warning log / notification based on the following data:
 
-        Parameters:
-        -----------------
-        message: string
-            Notification message string value.
-        correlated_object: Django model class object
-            Correlated object.
-        action_type: integer
-            Type of action (1-Created, 2-Updated, 3-Deleted).
-            Default: 0-None.
-        execution_time: float
-            Time of script / task / connection execution.
+        Args:
+            message (str):
+                Notification message string value.
+            correlated_object (BaseModel, optional):
+                Correlated object. Defaults to None.
+            action_type (int, optional):
+                Type of action (1-Created, 2-Updated, 3-Deleted).
+                Defaults to 0-None.
+            execution_time (float, optional):
+                Time of script / task / connection execution.
+                Defaults to 0.
+            url (str, optional):
+                URL to object. Defaults to None.
+
+        Returns:
+            NotificationModel: Notification class object.
         """
 
         # Check that notification settings allow logging:
@@ -216,27 +236,34 @@ class Messenger:
             correlated_object,
             action_type,
             WARNING,
-            execution_time)
+            execution_time,
+            url)
 
     def info(self,
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = 0) -> NotificationModel:
+        execution_time: float = 0,
+        url: str = None) -> NotificationModel:
         """
         Create a new info log / notification based on the following data:
 
-        Parameters:
-        -----------------
-        message: string
-            Notification message string value.
-        correlated_object: Django model class object
-            Correlated object.
-        action_type: integer
-            Type of action (1-Created, 2-Updated, 3-Deleted).
-            Default: 0-None.
-        execution_time: float
-            Time of script / task / connection execution.
+        Args:
+            message (str):
+                Notification message string value.
+            correlated_object (BaseModel, optional):
+                Correlated object. Defaults to None.
+            action_type (int, optional):
+                Type of action (1-Created, 2-Updated, 3-Deleted).
+                Defaults to 0-None.
+            execution_time (float, optional):
+                Time of script / task / connection execution.
+                Defaults to 0.
+            url (str, optional):
+                URL to object. Defaults to None.
+
+        Returns:
+            NotificationModel: Notification class object.
         """
 
         # Check that notification settings allow logging:
@@ -252,27 +279,34 @@ class Messenger:
             correlated_object,
             action_type,
             INFO,
-            execution_time)
+            execution_time,
+            url)
                 
     def debug(self,
         message: str,
         correlated_object: BaseModel = None,
         action_type: int = 0,
-        execution_time: float = 0) -> NotificationModel:
+        execution_time: float = 0,
+        url: str = None) -> NotificationModel:
         """
         Create a new debug log / notification based on the following data:
 
-        Parameters:
-        -----------------
-        message: string
-            Notification message string value.
-        correlated_object: Django model class object
-            Correlated object.
-        action_type: integer
-            Type of action (1-Created, 2-Updated, 3-Deleted).
-            Default: 0-None.
-        execution_time: float
-            Time of script / task / connection execution.
+        Args:
+            message (str):
+                Notification message string value.
+            correlated_object (BaseModel, optional):
+                Correlated object. Defaults to None.
+            action_type (int, optional):
+                Type of action (1-Created, 2-Updated, 3-Deleted).
+                Defaults to 0-None.
+            execution_time (float, optional):
+                Time of script / task / connection execution.
+                Defaults to 0.
+            url (str, optional):
+                URL to object. Defaults to None.
+
+        Returns:
+            NotificationModel: Notification class object.
         """
 
         # Check that notification settings allow logging:
@@ -288,14 +322,16 @@ class Messenger:
             correlated_object,
             action_type,
             DEBUG,
-            execution_time)
+            execution_time,
+            url)
 
     def _create_message(self,
         message: str,
         correlated_object: BaseModel,
         action_type: int,
         severity_level: int,
-        execution_time: float) -> NotificationModel or None:
+        execution_time: float,
+        url: str) -> NotificationModel or None:
         """ Create a new message. """
 
         # Collect data:
@@ -320,6 +356,7 @@ class Messenger:
             'model_name': self.model_name,
             'object_id': self.object_id,
             'object_representation': self.object_representation,
+            'object_url': url,
             'action_type': self.action_type,
             'notification_type': self.notification_type,
             'severity': self.severity_level,

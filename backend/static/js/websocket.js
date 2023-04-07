@@ -1,7 +1,13 @@
 function addMessage(collected_object) {
     const newDiv = document.createElement("div");
+    
     const newContent = document.createTextNode(collected_object.message);
-    newDiv.appendChild(newContent);
+    const newA = document.createElement("a");
+    
+    newA.setAttribute("href", collected_object.object_url);
+    newA.appendChild(newContent);
+    newDiv.appendChild(newA);
+
     const currentDiv = document.getElementById("collect_output");
     currentDiv.appendChild(newDiv);
 }
@@ -13,6 +19,7 @@ function collect_notifications(task_type) {
     socket.onmessage = function(event) {
         var collect = event.data;
         var collect_json = JSON.parse(collect)
+        console.log(collect_json)
         addMessage(collect_json)
     }
 }

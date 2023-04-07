@@ -28,7 +28,7 @@ class BaseRwModelViewSet(
     BaseUpdateModelMixin,
     BaseDestroyModelMixin,
     BaseListModelMixin,
-    viewsets.GenericViewSet,):
+    viewsets.GenericViewSet):
     """
     Base ModelViewSet model.
     """
@@ -45,39 +45,6 @@ class BaseRwModelViewSet(
 
     # Log changes:
     log_changes = False
-
-    # # Collect serializer / simple serializer:
-    # def collect_serializer_class(self, many: bool):
-    #     # Collect class:
-    #     if many:
-    #         return self.serializer_class
-    #     else:
-    #         try:
-    #             # Try to collect single serializer class:
-    #             return self.single_serializer_class
-    #         except:
-    #             # use default serializer class:
-    #             return self.serializer_class
-
-    # # Overwrite create method to add many serializer functionality:
-    # def create(self, *args, **kwargs):
-    #     self.serializer_class = self.collect_serializer_class(False)
-    #     return BaseCreateModelMixin.create(self, *args, **kwargs)
-
-    # # Overwrite update method to add many serializer functionality:
-    # def update(self, *args, **kwargs):
-    #     self.serializer_class = self.collect_serializer_class(False)
-    #     return BaseUpdateModelMixin.update(self, *args, **kwargs)
-
-    # # Overwrite list method to add many serializer functionality:
-    # def list(self, *args, **kwargs):
-    #     self.serializer_class = self.collect_serializer_class(True)
-    #     return BaseListModelMixin.list(self, *args, **kwargs)
-
-    # # Overwrite retrieve method to add many serializer functionality:
-    # def retrieve(self, *args, **kwargs):
-    #     self.serializer_class = self.collect_serializer_class(True)
-    #     return BaseRetrieveModelMixin.retrieve(self, *args, **kwargs)
 
 
 # Read only Base ModelViewSet model:

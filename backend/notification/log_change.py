@@ -39,20 +39,16 @@ def collect_object_representation(instance):
     like natural key or name or pk / id.
     """
 
-    # Try to collect object representation:
-    try:
+    try: # Try to collect object representation:
         # Collect natural key like object representation:
         object_representation = instance.natural_key()
     except:
-        try:
-            # Collect name value like object representation:
+        try: # Try to collect name value like object representation:
             object_representation = instance.name
-        except:
-            try:
-                # Collect PK / ID value like object representation:
+        except: # If object doesn't have name value:
+            try: # Try to collect PK / ID value like object representation:
                 object_representation = instance.pk
-            except:
-                # Return non like object representation:
+            except: # Return non like object representation:
                 return None
     
     # Return object representation:
