@@ -10,7 +10,7 @@ from autocli2.base.models.identification import IdentificationModel
 # AutoCli2 - constance import:
 from autocli2.base.constants.severity import SeverityChoices
 
-# Standsrt constance:
+# Standard constance:
 INVALID_SSH_RESPONSES = [
     '% Invalid input detected',
     'syntax error, expecting',

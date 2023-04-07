@@ -48,8 +48,7 @@ class PlatformSerializer(BaseSerializer):
             'http_default_header',
             'http_default_params',
             # SSH related values:
-            'ssh_invalid_responses',
-            'ssh_device_type'
+            'ssh_platform_type'
         ]
         read_only_fields = [
             # Base values:

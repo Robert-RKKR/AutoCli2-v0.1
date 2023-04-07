@@ -37,7 +37,7 @@ class NotificationAdmin(BaseAdmin):
         ('Notification information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('app_name', 'model_name', 'object_representation',
-                       'object_id',),
+                       'object_id', 'object_url'),
         }),
         ('Message', {
             'classes': ('wide', 'extrapretty',),
@@ -51,7 +51,8 @@ class NotificationAdmin(BaseAdmin):
     readonly_fields = (
         'timestamp', 'notification_type', 'object_representation', 'severity',
         'notification_type', 'task_id', 'application', 'message', 'app_name',
-        'model_name', 'object_representation', 'object_id', 'administrator', 
+        'model_name', 'object_representation', 'object_id', 'administrator',
+        'object_url'
     )
     empty_value_display = '--None--'
 
@@ -77,7 +78,7 @@ class ChangLogAdmin(BaseAdmin):
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('administrator', 'app_name', 'model_name',
-                       'object_representation', 'object_id')
+                       'object_representation', 'object_id', 'object_url')
         }),
         ('Object Json representation', {
             'classes': ('wide', 'extrapretty',),
@@ -86,6 +87,6 @@ class ChangLogAdmin(BaseAdmin):
     )
     readonly_fields = (
         'administrator', 'timestamp', 'action_type', 'administrator', 'app_name',
-        'object_representation', 'after', 'object_id', 'model_name', 
+        'object_representation', 'after', 'object_id', 'model_name', 'object_url'
     )
     empty_value_display = '--None--'

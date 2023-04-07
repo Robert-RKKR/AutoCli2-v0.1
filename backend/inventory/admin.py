@@ -118,7 +118,7 @@ class PlatformAdmin(BaseAdmin):
         }),
         ('SSH information', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('ssh_invalid_responses', 'ssh_platform_type')
+            'fields': ('ssh_platform_type',)
         })
     )
     readonly_fields = (

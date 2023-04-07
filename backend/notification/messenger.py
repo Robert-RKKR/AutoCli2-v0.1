@@ -36,7 +36,6 @@ def verification(message, correlated_object, action_type):
             message = message[:1024]
             # raise ValueError('The provided notification message variable is to long (Allowed max 1024 signs).')
     elif message is not None:
-        print('=====> ', type(message))
         raise TypeError('The provided notification message variable must be string. '\
             f'Provided: "{message}"')
 

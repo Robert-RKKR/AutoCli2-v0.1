@@ -29,5 +29,9 @@ class GlobalSettingAdmin(BaseAdmin):
         ('Timeout settings', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('http_timeout', 'ssh_timeout'),
-        })
+        }),
+        ('SSH settings', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('ssh_invalid_responses',),
+        }),
     )
