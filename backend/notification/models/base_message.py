@@ -75,7 +75,7 @@ class BaseMessageModel(models.Model):
     object_url = models.CharField(
         verbose_name=_('URL'),
         help_text=_('URL to object.'),
-        max_length=1024,
+        max_length=256,
         null=True,
         blank=True,
     )

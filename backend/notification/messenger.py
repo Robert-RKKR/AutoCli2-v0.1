@@ -331,7 +331,9 @@ class Messenger:
         severity_level: int,
         execution_time: float,
         url: str) -> NotificationModel or None:
-        """ Create a new message. """
+        """
+        Create a new message.
+        """
 
         # Collect data:
         self.message = message
