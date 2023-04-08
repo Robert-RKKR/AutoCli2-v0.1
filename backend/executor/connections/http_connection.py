@@ -254,7 +254,7 @@ class Connection:
             request_url = f'https://{self.hostname}:{self.http_port}/{url}'
             return self._connection(request_method, request_url, body)
 
-    def _add_parameters_to_url(self, url, parameters):
+    def _add_parameters_to_url(self, url, parameters) -> str:
         """
         Add provided parameter into URL string.
         """
@@ -275,7 +275,7 @@ class Connection:
         # Return URL with parameters:
         return url
 
-    def _add_token_to_heder(self):
+    def _add_token_to_heder(self) -> None:
         """
         Method to add a token to the header.
         """
@@ -288,7 +288,7 @@ class Connection:
         # Add token heder to HTTP(S) heder:
         self.header[self.http_token_heder_key] = token_value
 
-    def _connection(self, request_method, request_url, body):
+    def _connection(self, request_method, request_url, body) -> dict or list:
         """
         The main function of the connection class, responsible for
         sending the HTTP(S) request.
@@ -431,4 +431,4 @@ class Connection:
                 self.logger.debug(
                     f'HTTP(S) response received for "{request_url}" URL '\
                     'request was empty', self.host)
-                return False
+                return ''

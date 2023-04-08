@@ -5,7 +5,6 @@ from notification.notification import Notification
 from executor.tasks.execute_executor import execute_executor_task
 from inventory.models.host import Host
 from executor.connections.ssh_connection import Connection
-from notification.models.notification import Notification as NotificationModel
 
 
 # Notification:
@@ -33,12 +32,15 @@ def notifications_test(request):
     #     'show cdp details',
     #     'show ip router'])
     output = connection.send_enable([
-        'show interfaces'])
+        'show ip int brief'])
+    # output = connection.send_config([
+    #     'interface GigabitEthernet2',
+    #     'ip address 192.168.34.1 255.255.255.0'
+    # ])
     
-    noti = NotificationModel.objects.get(pk=37)
     # task = execute_executor_task.delay(1)
     # task = execute_executor_task(1)
-    data['return_output'] = noti.object_url
+    data['return_output'] = output
    
     # GET method:
     return render(request, 'test.html', data)

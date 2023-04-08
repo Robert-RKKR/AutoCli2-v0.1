@@ -374,9 +374,7 @@ class Connection:
                 f'command/s taken {execution_time} seconds.', self.host)
             # Return data:
             return return_data
-        # If connection is not active,
-        # inform that the command/s cannot be sent:
-        else:
+        else: # If connection is not active, inform that the command cannot be sent:
             self.logger.error(f'Command/s could not be executed because SSH '\
                 f'connection with host {self.host_repr}, is not active.',
                 self.host)
