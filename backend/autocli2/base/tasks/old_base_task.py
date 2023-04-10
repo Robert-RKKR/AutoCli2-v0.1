@@ -1,8 +1,8 @@
+# Celery - task import:
+from celery import Task
+
 # Python - library import:
 import time
-
-# AutoCli2 - task import:
-from autocli2.celery import app
 
 # AutoCli2 - notification import:
 from notification.notification import Notification
@@ -10,22 +10,42 @@ from notification.logger import Logger
 
 
 # Base task class
-class BaseTask(app.Task):
+class BaseTask(Task):
 
     # Abstract task:
     abstract = True
 
-    def init_task(self) -> None:
+    # Basic celery attributes:
+    ignore_result = False
+    validation_class = ''
+    public = True
+    task_id = 'None'
+
+    # Task identity attributes:
+    description = ''
+    name = 'default'
+    queue = 'rkkr'
+
+    # Define logger / notification application name:
+    notification_name = 'BaseTask'
+    logger_name = 'BaseTask'
+    channel_name = 'notification'
+
+    def run(self, *args, **kwargs) -> bool:
         # Collect process ID:
         self.task_id = self.request.id
         # Logger initialization:
-        self.logger = Logger(self.name, self.task_id)
+        self.logger = Logger(self.logger_name, self.task_id)
         # Notification initialization:
         self.notification = Notification(
-            self.name,
+            self.notification_name,
             self.task_id,
-            self.name)
+            self.channel_name)
+        # Run task in delay:
+        return self._run(*args, **kwargs)
 
+    def _run(self, *args, **kwargs) -> bool:
+        return True
 
     def _start_timer(self) -> float:
         """

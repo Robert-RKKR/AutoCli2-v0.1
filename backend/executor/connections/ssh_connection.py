@@ -15,15 +15,18 @@ from netmiko.exceptions import NetMikoTimeoutException
 from netmiko.ssh_autodetect import SSHDetect
 from netmiko import ConnectHandler
 
-# AutoCli2 - Settings import:
-from management.settings import collect_global_settings
-
 # AutoCli2 - Logger import:
 from notification.logger import Logger
 
 # AutoCli2 - other model import:
 from inventory.models.platform import Platform
 from inventory.models.host import Host
+
+# AutoCli2 - connections model import:
+from connector.models.connection_template import ConnectionTemplate
+
+# AutoCli2 - Settings import:
+from management.settings import collect_global_settings
 
 
 # HTTP connection class:
@@ -283,14 +286,14 @@ class Connection:
             # If connection attempt was unsuccessful, return False value:
             return False
 
-    def send_enable(self, commands: list) -> dict:
+    def send_enable(self, commands: list[str]) -> dict:
         """
         Retrieves a list containing network CLI command/s,
         and sends them to a network host using SSH protocol.
         ! Usable only with enable levels commend/s.
 
         Args:
-            commands (list):
+            commands (list[str]):
                 Provides a list of CLI command strings that should
                 be sent to the host with enabled access level.
 
@@ -336,14 +339,14 @@ class Connection:
             # Return empty string response:
             return ''
 
-    def send_config(self, commands: list) -> dict:
+    def send_config(self, commands: list[str]) -> dict:
         """
         Retrieves a list containing network CLI command/s,
         and sends them to a network host using SSH protocol.
         ! Usable only with configuration terminal levels commends.
 
         Args:
-            commands (list):
+            commands (list[str]):
                 Provides a list of CLI command strings that should
                 be sent to the host with enabled access level.
 
@@ -465,7 +468,7 @@ class Connection:
                 f'been sent to {self.host_repr}.', self.host)
             # Return data:
             return command_response
-    
+
     def _is_response_valid(self, command_response: str) -> bool:
         """
         Check if provided response is valid:

@@ -6,7 +6,6 @@ from executor.models.execution import Execution
 
 # AutoCli2 - constance import:
 from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
-from autocli2.base.constants.response_type import ResponseTypeChoices
 
 
 # Test taks class:

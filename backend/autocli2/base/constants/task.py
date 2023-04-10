@@ -9,5 +9,5 @@ from django.utils.translation import gettext_lazy as _
 class TaskChoices(BaseIntegerChoices):
 
     # Choices values:
-    FIRST = 1, _('Collect host/s data')
-    SECOND = 2, _('Check host/s status')
+    FIRST = 1, _('Correlate collected data')
+    SECOND = 2, _('test_task')

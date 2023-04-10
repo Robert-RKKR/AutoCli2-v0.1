@@ -5,8 +5,8 @@ import threading
 from django.utils.translation import gettext as _
 
 # AutoCli2 - base task import:
-from autocli2.base.tasks.connections.http_connection import HttpConnectionBaseTask
-from autocli2.base.tasks.connections.ssh_connection import SshConnectionBaseTask
+from .http_connection import HttpConnectionBaseTask
+from .ssh_connection import SshConnectionBaseTask
 
 # AutoCli2 - connections model import:
 from connector.models.connection_template import ConnectionTemplate
@@ -22,7 +22,7 @@ from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices 
 
 
 # Test taks class:
-class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
+class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
     """
     Abstract connection task that includes the basic functionality of HTTP(S)
     and SSH connections, for other tasks.
@@ -63,8 +63,7 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
                 'device/s was successful. Data has been collected '\
                 f'from {positive_result} device/s.'), executor,
                 execution_time=end_time)
-        else:
-            # Creative user notification in the absence of positive results:
+        else: # Creative user notification in the absence of positive results:
             self.notification.warning(
                 _(f'The data collection process running on the {len(hosts)} '\
                 'device/s was unsuccessful. No data was collected.'), executor,
@@ -92,7 +91,6 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
             threads.append(thread)
             # Start current thread:
             thread.start()
-
         # Wait to end of all threads execution:
         for index, thread in enumerate(threads):
             thread.join()
@@ -128,7 +126,7 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         # End timer:
         end_time = self._end_timer(start_timer)
         # Collect template output data:
-        collected_templates = output[0]
+        collected_templates = output[0] #??????????????
         templates = output[1]
         # Check if template execution process was successful:
         if collected_templates > 0:
@@ -140,8 +138,7 @@ class ConnectionBaseTask(HttpConnectionBaseTask, SshConnectionBaseTask):
                 execution_time=end_time)
             # Return positive results:
             return True
-        else:
-            # Creative user notification in the absence of positive results:
+        else: # Creative user notification in the absence of positive results:
             self.notification.warning(
                 _(f'The template collection process running on the {host.name} '\
                 'device was unsuccessful. No data was collected.'), host,

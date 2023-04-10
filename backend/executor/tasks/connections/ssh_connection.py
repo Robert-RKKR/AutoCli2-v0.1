@@ -7,7 +7,7 @@ import csv
 import os
 
 # AutoCli2 - base task import:
-from autocli2.base.tasks.connections.create_execution import CreateExecutionBaseTask
+from .create_execution import CreateExecutionBaseTask
 
 # AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
@@ -31,4 +31,4 @@ class SshConnectionBaseTask(CreateExecutionBaseTask):
         executor: Executor) -> tuple:
         """ Xxx. """
 
-        raise NotImplementedError('SSH is not implemented yet')
+        print('SSH')

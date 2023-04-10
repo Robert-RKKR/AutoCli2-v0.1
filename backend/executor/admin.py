@@ -22,21 +22,16 @@ class ExecutorAdmin(BaseAdmin):
         'name',
     )
     list_filter = (
-        'is_active', 'connection_templates', 'executor_type'
+        'is_active', 'connection_templates',
     )
     search_fields = (
-        'hosts', 'connection_templates', 'credential',
-        'executor_type', 'task', 'description'
+        'hosts', 'connection_templates', 'credential', 'description'
     )
     fieldsets = (
         ('Basic information', {
             'classes': ('wide', 'extrapretty',),
             'fields': ('is_active', 'created', 'updated', 'name',
-                       'description', 'executor_type')
-        }),
-        ('Task type executor', {
-            'classes': ('wide', 'extrapretty',),
-            'fields': ('task', 'task_arguments')
+                       'description', 'interval')
         }),
         ('Host type executor', {
             'classes': ('wide', 'extrapretty',),

@@ -43,8 +43,8 @@ class ConvertedData(BaseModel):
     data_template = models.ForeignKey(
         DataTemplate,
         verbose_name=_('Data template'),
-        help_text=_('Related data template object basen on '\
-            'which collected data was corelated.'),
+        help_text=_('Related data template object based on '\
+            'which collected data was correlated.'),
         on_delete=models.PROTECT,
     )
 
