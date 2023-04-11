@@ -11,7 +11,7 @@ from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
 # Test taks class:
 class CreateExecutionBaseTask(BaseTask):
     """
-    Xxx.
+    Create execution object.
     """
 
     def _create_execution_object(self,
