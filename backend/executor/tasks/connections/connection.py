@@ -126,7 +126,7 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         # End timer:
         end_time = self._end_timer(start_timer)
         # Collect template output data:
-        collected_templates = output[0] #??????????????
+        collected_templates = output[0]
         templates = output[1]
         # Check if template execution process was successful:
         if collected_templates > 0:

@@ -19,7 +19,7 @@ from connector.validators.connection_template_validators import regex_validator
 # AutoCli2 - constance import:
 from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
 from autocli2.base.constants.execution_type import HttpExecutionTypeChoices
-from autocli2.base.constants.execution_type import ShhExecutionTypeChoices
+from autocli2.base.constants.execution_type import SshExecutionTypeChoices
 from autocli2.base.constants.response_type import ResponseTypeChoices
 
 
@@ -51,15 +51,15 @@ class ConnectionTemplate(IdentificationModel):
         help_text=_('The network protocol that will be used to execute '\
             'connection template (SSH / HTTP(S)).'),
         choices=ExecutionProtocolChoices.choices,
-        default=1,
+        default=ExecutionProtocolChoices.SSH,
     )
 
     # SSH execution type fields:
     ssh_type = models.IntegerField(
         verbose_name=_('SSH execution type'),
         help_text=_('Type of SSH connection template (Command / template).'),
-        choices=ShhExecutionTypeChoices.choices,
-        default=1,
+        choices=SshExecutionTypeChoices.choices,
+        default=SshExecutionTypeChoices.COMMAND,
     )
     ssh_command = models.CharField(
         verbose_name=_('CLI command'),
@@ -91,7 +91,7 @@ class ConnectionTemplate(IdentificationModel):
         verbose_name=_('HTTP(S) request method'),
         help_text=_('Type of HTTP request method (GET, POST, PUT, DELETE).'),
         choices=HttpExecutionTypeChoices.choices,
-        default=1,
+        default=HttpExecutionTypeChoices.GET,
     )
     http_url = models.CharField(
         verbose_name=_('HTTP(S) URL'),
@@ -118,7 +118,7 @@ class ConnectionTemplate(IdentificationModel):
             'of a different type than specified, the response will be '\
             'treated as invalid.'),
         choices=ResponseTypeChoices.choices,
-        default=0,
+        default=ResponseTypeChoices.EMPTY,
     )
 
     # Output validation expressions:

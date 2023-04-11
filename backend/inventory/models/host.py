@@ -8,13 +8,22 @@ from django.utils.translation import gettext_lazy as _
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.tag import Tag
 
+# AutoCli2 - connector import:
+from inventory.models.connection_template import ConnectionTemplate
+
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
 from inventory.models.platform import Platform
 from inventory.models.site import Site
 
+# AutoCli2 - inventory model import:
+from inventory.models.credentials import Credential
+
 # AutoCli2 - constance import:
 from autocli2.base.constants.execution_protocol import ExecutionProtocolChoices
+
+# AutoCli2 - host manager import:
+from inventory.managers.host import HostManager
 
 
 # Host model class:
@@ -25,6 +34,9 @@ class Host(IdentificationModel, Tag):
         # Model name values:
         verbose_name = _('Host')
         verbose_name_plural = _('Hosts')
+
+    # Model objects manager:
+    objects = HostManager()
 
     # Relations with other classes:
     site = models.ForeignKey(
@@ -83,3 +95,17 @@ class Host(IdentificationModel, Tag):
             'If disabled, ignores certificate validation process.'),
         default=True,
     )
+
+    def get_all_related_templates(self) -> ConnectionTemplate:
+        return ConnectionTemplate.objects.filter(
+            platforms=self.platform)
+
+    def get_ssh_related_templates(self) -> ConnectionTemplate:
+        return ConnectionTemplate.objects.filter(
+            platforms=self.platform,
+            execution_protocol=ExecutionProtocolChoices.SSH)
+
+    def get_http_related_templates(self) -> ConnectionTemplate:
+        return ConnectionTemplate.objects.filter(
+            platforms=self.platform,
+            execution_protocol=ExecutionProtocolChoices.HTTP)

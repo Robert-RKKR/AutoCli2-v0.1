@@ -26,6 +26,8 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
         executor: Executor) -> tuple:
         """
         Xxx.
+
+        [Int = Positive result, Int = Amount of connection templates]
         """
             
         # Collect default header / params values from host object:

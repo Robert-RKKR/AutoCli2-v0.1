@@ -29,6 +29,13 @@ class SshConnectionBaseTask(CreateExecutionBaseTask):
         host: Host,
         connection_templates: list[ConnectionTemplate],
         executor: Executor) -> tuple:
-        """ Xxx. """
+        """
+        Xxx.
+        [Int = Positive result, Int = Amount of connection templates]
+        """
 
-        print('SSH')
+        # Count template execution:
+        positive_result = 0
+
+        # Return connection status count:
+        return (positive_result, len(connection_templates))

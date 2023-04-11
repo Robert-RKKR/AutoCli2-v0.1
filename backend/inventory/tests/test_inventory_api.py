@@ -10,6 +10,7 @@ class InventoryApiTest(BaseApiTest):
 
     def setUp(self) -> None:
         # Collect test URLs:
+        self.virtual_host = reverse('api-inventory:virtual-host-list')
         self.credential = reverse('api-inventory:credential-list')
         self.platform = reverse('api-inventory:platform-list')
         self.region = reverse('api-inventory:region-list')
@@ -44,6 +45,11 @@ class InventoryApiTest(BaseApiTest):
             'platform': 1,
             'credential': 1,
         }
+        self.virtual_host_data = {
+            'name': 'Test virtual host',
+            'host': 1,
+            'virtual_host_name': 'test',
+        }
         # Inherit from base method:
         return super().setUp()
     
@@ -76,6 +82,9 @@ class TestInventoryApi(InventoryApiTest):
         responses.append(self.api_simple_test(
             self.host, self.host_data,
             {'name':'A new test host', 'hostname':'2.2.2.2'}))
+        responses.append(self.api_simple_test(
+            self.virtual_host, self.virtual_host_data,
+            {'name':'A new virtual host'}))
         # Check responses status
         self.assertEqual(True,
             self.check_status_code_list(True, responses))

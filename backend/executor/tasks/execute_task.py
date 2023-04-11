@@ -20,8 +20,6 @@ def execute_task(self, executor_id):
         # Collect executor data:
         hosts = executor.hosts.all()
         connection_templates = executor.connection_templates.all()
-        print('===(hosts)===> ', hosts)
-        print('===(connection_templates)===> ', connection_templates)
         # Execute template:
         output = self.singlethreading_connection(
             hosts, connection_templates, executor)

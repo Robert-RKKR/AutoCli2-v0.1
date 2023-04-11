@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 # Choices classes:
-class ShhExecutionTypeChoices(BaseIntegerChoices):
+class SshExecutionTypeChoices(BaseIntegerChoices):
 
     # Choices values:
     COMMAND = 1, _('SSH command')
