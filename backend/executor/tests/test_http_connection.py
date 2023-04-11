@@ -14,6 +14,7 @@ def test_http_connection(create_test_objects):
     test_host_2 = Host.objects.get(pk=2)
     # Create test HTTP connection:
     con = Connection(test_host_2)
+    con.start_connection()
     # Sent GET request to test host:
     response = con.get('BikePoint')
     # Collect connection data:

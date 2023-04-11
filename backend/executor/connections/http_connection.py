@@ -110,7 +110,7 @@ class Connection:
         """
         Use Connection class with python 'with' command:
         'with Connection(host) as con:
-            resoults = con.get('/api/v2/hosts')'
+            results = con.get('/api/v2/hosts')'
         
         Return:
         --------
@@ -173,7 +173,7 @@ class Connection:
         # Prepare test request:
         request_url = f'https://{self.hostname}:{self.http_port}'
         # Execute test connection:
-        response = self._connection('GET', request_url, None)
+        response = self._connection('GET', request_url, None, True)
         # If connection return status code from 1 to 299 return True:
         if self.response_status:
             return True
@@ -288,147 +288,152 @@ class Connection:
         # Add token heder to HTTP(S) heder:
         self.header[self.http_token_heder_key] = token_value
 
-    def _connection(self, request_method, request_url, body) -> dict or list:
+    def _connection(self,
+            request_method, request_url, body, test = False) -> dict or list:
         """
         The main function of the connection class, responsible for
         sending the HTTP(S) request.
         """
 
-        # Log the beginning of a new connection to the HTTP(S) server:
-        self.logger.info('The initiation of a new HTTP(S) '\
-            f'request to "{request_url}" has been started.', self.host)
-        # Start clock count:
-        start_time = time.perf_counter()
-        # Connect to the host with password and username or by using token:
-        if self.token:
-            # Add token to HTTP(S) heder:
-            self._add_token_to_heder()
-            # Send HTTP(S) API request with heder token authorization:
-            request = requests.Request(
-                request_method,
-                request_url,
-                headers=self.header,
-                data=body)
-        else:
-            # Send HTTP(S) API request with user and password authorization:
-            request = requests.Request(
-                request_method,
-                request_url,
-                headers=self.header,
-                auth=(self.username, self.password),
-                data=body)
-        # Confect session with request data:
-        prepare_request = self.session.prepare_request(request)
-        try: # Try to establish a connection to a host:
-            response = self.session.send(
-                prepare_request,
-                verify=self.certificate,
-                timeout=self.connection_timeout)
-        except requests.exceptions.SSLError as exception:
-            self.logger.error(str(exception), self.host)
-            # Change connection status to False:
-            self.response_status = False
-            return self.response_status
-        except requests.exceptions.Timeout as exception:
-            self.logger.error(str(exception), self.host) 
-            # Change connection status to False:
-            self.response_status = False
-            return self.response_status
-        except requests.exceptions.InvalidURL as exception:
-            self.logger.error(str(exception), self.host)        
-            # Change connection status to False:
-            self.response_status = False
-            return self.response_status
-        except requests.exceptions.ConnectionError as exception:
-            self.logger.error(str(exception), self.host)        
-            # Change connection status to False:
-            self.response_status = False
-            return self.response_status
-        except Exception as exception:
-            self.logger.error(str(exception), self.host)        
-            # Change connection status to False:
-            self.response_status = False
-            return self.response_status
-        else:
-            # Finish clock count & method execution time:
-            finish_time = time.perf_counter()
-            self.execution_time = round(finish_time - start_time, 5)
-            # Check response status:
-            if response.status_code < 200: # All response from 0 to 199.
-                self.logger.warning(
-                    f'HTTP(S) request sent to "{request_url}" URL, receives '\
-                    'an informative HTTP(S) response. The response code is: '\
-                    f'{response.status_code}.', self.host,
-                    execution_time=self.execution_time)
-                # Change response code:
-                self.response_code = response.status_code
-                # Change connection status to True:
-                self.response_status = True
-            elif response.status_code < 300: # All response from 200 to 299.
-                self.logger.info(
-                    f'HTTP(S) request sent to "{request_url}" URL, receives '\
-                    'a successful HTTP(S) response. The response code is: '\
-                    f'{response.status_code}.', self.host,
-                    execution_time=self.execution_time)
-                # Change response code:
-                self.response_code = response.status_code
-                # Change connection status to True:
-                self.response_status = True
-            elif response.status_code < 400: # All response from 300 to 399.
-                self.logger.warning(
-                    f'HTTP(S) request sent to "{request_url}" URL, return '\
-                    'error response. The response code is: '\
-                    f'{response.status_code}.', self.host,
-                    execution_time=self.execution_time)
-                # Change response code:
-                self.response_code = response.status_code
+        if self.connection_status or test:
+            # Log the beginning of a new connection to the HTTP(S) server:
+            self.logger.info('The initiation of a new HTTP(S) '\
+                f'request to "{request_url}" has been started.', self.host)
+            # Start clock count:
+            start_time = time.perf_counter()
+            # Connect to the host with password and username or by using token:
+            if self.token:
+                # Add token to HTTP(S) heder:
+                self._add_token_to_heder()
+                # Send HTTP(S) API request with heder token authorization:
+                request = requests.Request(
+                    request_method,
+                    request_url,
+                    headers=self.header,
+                    data=body)
+            else: # Send HTTP(S) API request with user and password authorization:
+                request = requests.Request(
+                    request_method,
+                    request_url,
+                    headers=self.header,
+                    auth=(self.username, self.password),
+                    data=body)
+            # Confect session with request data:
+            prepare_request = self.session.prepare_request(request)
+            try: # Try to establish a connection to a host:
+                response = self.session.send(
+                    prepare_request,
+                    verify=self.certificate,
+                    timeout=self.connection_timeout)
+            except requests.exceptions.SSLError as exception:
+                self.logger.error(str(exception), self.host)
                 # Change connection status to False:
                 self.response_status = False
-            elif response.status_code < 500: # All response from 400 to 499.
-                self.logger.error(
-                    f'HTTP(S) request sent to "{request_url}" URL, return '\
-                    'error response. The response code is: '\
-                    f'{response.status_code}.', self.host,
-                    execution_time=self.execution_time)
-                # Change response code:
-                self.response_code = response.status_code
+                return self.response_status
+            except requests.exceptions.Timeout as exception:
+                self.logger.error(str(exception), self.host) 
                 # Change connection status to False:
                 self.response_status = False
-            elif response.status_code < 600: # All response from 500 to 599.
-                self.logger.error(
-                    f'HTTP(S) request sent to "{request_url}" URL, return '\
-                    'error response. The response code is: '\
-                    f'{response.status_code}.', self.host,
-                    execution_time=self.execution_time)
-                # Change response code:
-                self.response_code = response.status_code
+                return self.response_status
+            except requests.exceptions.InvalidURL as exception:
+                self.logger.error(str(exception), self.host)        
                 # Change connection status to False:
                 self.response_status = False
-            
-            # Convert response to python dictionary:
-            response_text = response.text
-            if self.response_status and response_text:
-                try: # Try to convert JSON response to python dictionary:
-                    self.converted_response = json.loads(response_text)
-                    self.json_response_status = True
-                except:
-                    self.converted_response = False
-                    self.json_response_status = False
-                    try: # Try to convert XML response to python dictionary:
-                        self.converted_response = xmltodict.parse(response_text)
-                        self.xml_response_status = True
-                    except:
-                        self.xml_response_status = False
-                if self.xml_response_status is False and self.json_response_status is False:
-                    # Log when python dictionary convert process fail:
-                    self.logger.warning(
-                        'Python JSON/XML -> dictionary convert process fail, '\
-                        f'in relation to "{request_url}" URL request.',
-                        self.host)
-                # Return response:
-                return self.converted_response
+                return self.response_status
+            except requests.exceptions.ConnectionError as exception:
+                self.logger.error(str(exception), self.host)        
+                # Change connection status to False:
+                self.response_status = False
+                return self.response_status
+            except Exception as exception:
+                self.logger.error(str(exception), self.host)        
+                # Change connection status to False:
+                self.response_status = False
+                return self.response_status
             else:
-                self.logger.debug(
-                    f'HTTP(S) response received for "{request_url}" URL '\
-                    'request was empty', self.host)
-                return ''
+                # Finish clock count & method execution time:
+                finish_time = time.perf_counter()
+                self.execution_time = round(finish_time - start_time, 5)
+                # Check response status:
+                if response.status_code < 200: # All response from 0 to 199.
+                    self.logger.warning(
+                        f'HTTP(S) request sent to "{request_url}" URL, receives '\
+                        'an informative HTTP(S) response. The response code is: '\
+                        f'{response.status_code}.', self.host,
+                        execution_time=self.execution_time)
+                    # Change response code:
+                    self.response_code = response.status_code
+                    # Change connection status to True:
+                    self.response_status = True
+                elif response.status_code < 300: # All response from 200 to 299.
+                    self.logger.info(
+                        f'HTTP(S) request sent to "{request_url}" URL, receives '\
+                        'a successful HTTP(S) response. The response code is: '\
+                        f'{response.status_code}.', self.host,
+                        execution_time=self.execution_time)
+                    # Change response code:
+                    self.response_code = response.status_code
+                    # Change connection status to True:
+                    self.response_status = True
+                elif response.status_code < 400: # All response from 300 to 399.
+                    self.logger.warning(
+                        f'HTTP(S) request sent to "{request_url}" URL, return '\
+                        'error response. The response code is: '\
+                        f'{response.status_code}.', self.host,
+                        execution_time=self.execution_time)
+                    # Change response code:
+                    self.response_code = response.status_code
+                    # Change connection status to False:
+                    self.response_status = False
+                elif response.status_code < 500: # All response from 400 to 499.
+                    self.logger.error(
+                        f'HTTP(S) request sent to "{request_url}" URL, return '\
+                        'error response. The response code is: '\
+                        f'{response.status_code}.', self.host,
+                        execution_time=self.execution_time)
+                    # Change response code:
+                    self.response_code = response.status_code
+                    # Change connection status to False:
+                    self.response_status = False
+                elif response.status_code < 600: # All response from 500 to 599.
+                    self.logger.error(
+                        f'HTTP(S) request sent to "{request_url}" URL, return '\
+                        'error response. The response code is: '\
+                        f'{response.status_code}.', self.host,
+                        execution_time=self.execution_time)
+                    # Change response code:
+                    self.response_code = response.status_code
+                    # Change connection status to False:
+                    self.response_status = False
+                
+                # Convert response to python dictionary:
+                response_text = response.text
+                if self.response_status and response_text:
+                    try: # Try to convert JSON response to python dictionary:
+                        self.converted_response = json.loads(response_text)
+                        self.json_response_status = True
+                    except:
+                        self.converted_response = False
+                        self.json_response_status = False
+                        try: # Try to convert XML response to python dictionary:
+                            self.converted_response = xmltodict.parse(response_text)
+                            self.xml_response_status = True
+                        except:
+                            self.xml_response_status = False
+                    if self.xml_response_status is False and self.json_response_status is False:
+                        # Log when python dictionary convert process fail:
+                        self.logger.warning(
+                            'Python JSON/XML -> dictionary convert process fail, '\
+                            f'in relation to "{request_url}" URL request.',
+                            self.host)
+                    # Return response:
+                    return self.converted_response
+                else:
+                    self.logger.debug(
+                        f'HTTP(S) response received for "{request_url}" URL '\
+                        'request was empty', self.host)
+                    return ''
+        else: # If connection is not active, inform that the command cannot be sent:
+            self.logger.error(f'Command/s could not be executed because SSH '\
+                f'connection with {request_url} URL, is not active.',
+                self.host)
