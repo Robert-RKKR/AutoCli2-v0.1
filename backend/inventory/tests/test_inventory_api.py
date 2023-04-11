@@ -48,7 +48,7 @@ class InventoryApiTest(BaseApiTest):
         self.virtual_host_data = {
             'name': 'Test virtual host',
             'host': 1,
-            'virtual_host_name': 'test',
+            'virtual_host_name': 'Test',
         }
         # Inherit from base method:
         return super().setUp()
@@ -84,7 +84,7 @@ class TestInventoryApi(InventoryApiTest):
             {'name':'A new test host', 'hostname':'2.2.2.2'}))
         responses.append(self.api_simple_test(
             self.virtual_host, self.virtual_host_data,
-            {'name':'A new virtual host'}))
+            {'name':'A new virtual host', 'virtual_host_name': 'Test t'}))
         # Check responses status
         self.assertEqual(True,
             self.check_status_code_list(True, responses))

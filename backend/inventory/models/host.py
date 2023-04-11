@@ -8,9 +8,6 @@ from django.utils.translation import gettext_lazy as _
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.tag import Tag
 
-# AutoCli2 - connector import:
-from inventory.models.connection_template import ConnectionTemplate
-
 # AutoCli2 - inventory model import:
 from inventory.models.credentials import Credential
 from inventory.models.platform import Platform
@@ -96,16 +93,25 @@ class Host(IdentificationModel, Tag):
         default=True,
     )
 
-    def get_all_related_templates(self) -> ConnectionTemplate:
+    def get_all_related_templates(self):
+        # AutoCli2 - connector import:
+        from connector.models.connection_template import ConnectionTemplate
+        # Return Connection templates:
         return ConnectionTemplate.objects.filter(
             platforms=self.platform)
 
-    def get_ssh_related_templates(self) -> ConnectionTemplate:
+    def get_ssh_related_templates(self):
+        # AutoCli2 - connector import:
+        from connector.models.connection_template import ConnectionTemplate
+        # Return Connection templates:
         return ConnectionTemplate.objects.filter(
             platforms=self.platform,
             execution_protocol=ExecutionProtocolChoices.SSH)
 
-    def get_http_related_templates(self) -> ConnectionTemplate:
+    def get_http_related_templates(self):
+        # AutoCli2 - connector import:
+        from connector.models.connection_template import ConnectionTemplate
+        # Return Connection templates:
         return ConnectionTemplate.objects.filter(
             platforms=self.platform,
             execution_protocol=ExecutionProtocolChoices.HTTP)

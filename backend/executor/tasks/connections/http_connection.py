@@ -32,8 +32,8 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
             
         # Collect default header / params values from host object:
         if host.platform:
-            host_default_header = host.platform.api_default_header
-            host_default_params = host.platform.api_default_params
+            host_default_header = host.platform.http_default_header
+            host_default_params = host.platform.http_default_params
         else:
             host_default_header = {}
             host_default_params = {}

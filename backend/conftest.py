@@ -75,8 +75,7 @@ def create_test_objects(db):
     test_template.platforms.add(test_platform)
     # Create test executor:
     test_executor = Executor.objects.create(
-        name='Test executor',
-        executor_type=2)
+        name='Test executor')
     test_executor.hosts.add(test_host_1)
     test_executor.connection_templates.add(test_template)
 

@@ -6,7 +6,7 @@ from rest_framework.serializers import PrimaryKeyRelatedField
 from autocli2.base.api.base_serializer import BaseSerializer
 
 # AutoCli2 - inventory serializers import:
-from inventory.api.serializers.host import CredentialSerializer
+from inventory.api.serializers.host import HostSerializer
 
 # AutoCli2 - inventory model import:
 from inventory.models.virtual_host import VirtualHost
@@ -46,7 +46,7 @@ read_only_fields = [
 
 
 # Main serializer class:
-class HostSerializer(BaseSerializer):
+class VirtualHostSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(
@@ -60,7 +60,7 @@ class HostSerializer(BaseSerializer):
         queryset=Host.objects.all(),
         required=False,
         allow_null=True,
-        help_text=VirtualHost.site.field.help_text,
+        help_text=VirtualHost.host.field.help_text,
     )
 
     class Meta:
@@ -71,7 +71,7 @@ class HostSerializer(BaseSerializer):
 
 
 # Full serializer class:
-class HostFullSerializer(BaseSerializer):
+class VirtualHostFullSerializer(BaseSerializer):
 
     # Object URL definition:
     url = HyperlinkedIdentityField(

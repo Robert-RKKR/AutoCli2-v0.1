@@ -62,3 +62,21 @@ class BaseRoModelViewSet(
 
     # Django rest framework filters:
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
+
+# Read only plus edit Base ModelViewSet model:
+class BaseRoPlusModelViewSet(
+    viewsets.GenericViewSet,
+    BaseRetrieveModelMixin,
+    BaseUpdateModelMixin,
+    BaseListModelMixin):
+    """
+    Base Read only ModelViewSet model.
+    """
+
+    # Authentication and permissions:
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [DjangoModelPermissions]
+
+    # Django rest framework filters:
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

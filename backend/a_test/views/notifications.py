@@ -5,7 +5,7 @@ from notification.notification import Notification
 from inventory.models.host import Host
 from executor.connections.ssh_connection import Connection
 from autocli2.base.constants.task import TaskChoices
-from executor.tasks.execute_task import execute_task
+from executor.tasks.execute_executor import execute_executor_task
 
 # Notification:
 notification = Notification('Test')
@@ -24,7 +24,7 @@ def notifications_test(request):
     return_output = notification.info(
         '------------ New Test ------------')
     
-    output = execute_task(5)
+    output = execute_executor_task(5)
     
     # connection = Connection(host, '384dg8ht858rfhu4h83r83fw')
     # connection.start_connection()

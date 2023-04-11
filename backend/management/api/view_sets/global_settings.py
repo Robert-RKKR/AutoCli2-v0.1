@@ -3,7 +3,7 @@
 from autocli2.base.api.base_pagination import BaseSmallPaginator
 
 # AutoCli2 - base view set import:
-from autocli2.base.api.base_model_viewset import BaseRwModelViewSet
+from autocli2.base.api.base_model_viewset import BaseRoPlusModelViewSet
 
 # AutoCli2 - serializer import:
 from management.api.serializers.global_settings import GlobalSettingsSerializer
@@ -16,7 +16,7 @@ from management.filters.global_settings import GlobalSettingsFilter
 
 
 # ViewSet model classes:
-class GlobalSettingsView(BaseRwModelViewSet):
+class GlobalSettingsView(BaseRoPlusModelViewSet):
     """
     A ViewSet for viewing and editing object/s.
     """

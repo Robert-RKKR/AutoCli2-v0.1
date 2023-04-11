@@ -19,7 +19,7 @@ def test_http_connection(create_test_objects):
     # Collect connection data:
     connection_data = [
         isinstance(response, list),
-        con.json_status,
+        con.json_response_status,
         con.response_status]
     # Check result:
     assert connection_data == [True, True, True]
