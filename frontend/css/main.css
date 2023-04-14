@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Font icons';
+    font-style: normal;
+    src: url('../fonts/font_icons.woff2') format('woff');
+}
+
+.material-symbols-outlined {
+    font-family: 'Font icons', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+}
