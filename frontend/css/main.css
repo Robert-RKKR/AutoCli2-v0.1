@@ -4,7 +4,7 @@
     src: url('../fonts/font_icons.woff2') format('woff');
 }
 
-.material-symbols-outlined {
+.icon {
     font-family: 'Font icons', sans-serif;
     font-weight: normal;
     font-style: normal;
