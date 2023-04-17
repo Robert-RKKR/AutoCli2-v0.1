@@ -221,6 +221,54 @@ class Connection:
 
         # Execute HTTP(S) request:
         return self._connection_center('GET', url, parameters)
+    
+    def post(self, url: str, parameters: dict = {}):
+        """
+        POST request method for HTTP(S) connection.
+
+        Parameters:
+        -----------------
+        url: string
+            URL string that will be used when requesting the API.
+        parameters: dictionary
+            Dictionary containing additional parameters, formatted as specified:
+            {'Key': 'Value', ...}
+        """
+
+        # Execute HTTP(S) request:
+        return self._connection_center('POST', url, parameters)
+    
+    def put(self, url: str, parameters: dict = {}):
+        """
+        PUT request method for HTTP(S) connection.
+
+        Parameters:
+        -----------------
+        url: string
+            URL string that will be used when requesting the API.
+        parameters: dictionary
+            Dictionary containing additional parameters, formatted as specified:
+            {'Key': 'Value', ...}
+        """
+
+        # Execute HTTP(S) request:
+        return self._connection_center('PUT', url, parameters)
+    
+    def delete(self, url: str, parameters: dict = {}):
+        """
+        DELETE request method for HTTP(S) connection.
+
+        Parameters:
+        -----------------
+        url: string
+            URL string that will be used when requesting the API.
+        parameters: dictionary
+            Dictionary containing additional parameters, formatted as specified:
+            {'Key': 'Value', ...}
+        """
+
+        # Execute HTTP(S) request:
+        return self._connection_center('DELETE', url, parameters)
 
     def _connection_center(self, request_method, url, parameters, body=None):
         """
