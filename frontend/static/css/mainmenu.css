@@ -1,0 +1,28 @@
+#sidebar_menu .icon {
+    color: var(--color_font_second);
+}
+
+#sidebar_menu .icon {
+    font-size: 36px;
+    padding: 15px 22px;
+}
+
+#sidebar_menu {
+    flex-grow: 1;
+}
+
+.main_menu_link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.main_menu_link span {
+    padding: 0px 15px;
+    font-size: 1.2em;
+}
+
+.main_menu_link p {
+    padding: 0px 15px;
+    font-size: 1.2em;
+}
