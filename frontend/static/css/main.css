@@ -1,3 +1,50 @@
+/*   ----        MAIN VALUES         ----   */
+#page {
+
+    /* Main page colors */
+    --color_first: #226acf; 
+    --color_second: #ffffff;
+    --color_third: #dee0e1;
+
+    /* Main font colors */
+    --color_font_first: #4c4c4c;
+    --color_font_second: #dedede;
+    --color_font_third: #eff1f6;
+
+    /* Light colors */
+    --color_light_blue: #c3e0f7;
+    --color_light_green: #a8f0cc;
+    --color_light_yellow: #ffefce;
+    --color_light_violet: #d5a8f3;
+    --color_light_red: #f6c6d3;
+    --color_light_gray: #95a4c8;
+
+    /* Strong colors */
+    --color_strong_blue: #548be9;
+    --color_strong_green: #4db478;
+    --color_strong_yellow: #d29c30;
+    --color_strong_violet: #934bb7;
+    --color_strong_red: #f55e7a;
+    --color_strong_gray: #4e6f99;
+
+}
+
+#page.green {
+
+    /* Main page colors */
+    --color_first: #1d875b;
+    
+}
+
+#page.red {
+
+    /* Main page colors */
+    --color_first: #da4f4f;
+    
+}
+
+
+/*   ----        ICONS         ----   */
 @font-face {
     font-family: 'Font icons';
     font-style: normal;
@@ -16,4 +63,89 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
+}
+
+/*   ----       MAIN SETTINGS        ----   */
+button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p, q, i, li, td, th {
+    font-family: "Alegreya Sans SC", sans-serif;
+    color: var(--color_font_first);
+    font-size: 1em;
+}
+
+.submenu_hidden {
+    display: none;
+}
+
+.hidden {
+    display: none!important;
+    opacity: 0;
+}
+
+/*   -----   PAGE SCROLL   -----   */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(244, 246, 246);
+    margin: var(--main_padding) 11px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(184, 186, 186);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(121, 123, 123);
+}
+
+/*   ----           MAIN          ----   */
+#page {
+    display: flex;
+    flex-direction: column;
+}
+
+#topbar {
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    width: 100vw;
+    background: var(--color_first);
+    justify-content: space-between;
+    user-select: none;
+}
+
+#page_bottom {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 70px);
+}
+
+#sidebar {
+    width: 80px;
+    overflow: hidden;
+    background: #323232; 
+    /* background: #3c3c3c; */
+    display: flex;
+    flex-direction: column;
+    justify-content	: space-between;
+    user-select: none;
+}
+
+#page.bigsidebar #sidebar {
+    width: 280px;
+}
+
+#page_content {
+    width: calc(100vw - 80px);
+}
+
+#page.bigsidebar #page_content {
+    width: calc(100vw - 280px);
+}
+
+/*   ----           SIDEBAR          ----   */
+#sidebar p, h2, h3 {
+    color: var(--color_font_second);
 }
