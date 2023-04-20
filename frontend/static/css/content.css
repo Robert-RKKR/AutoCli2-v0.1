@@ -1,0 +1,5 @@
+#content {
+    height: calc(100vh - 700px);
+    background: var(--color_second);
+    overflow-y: auto;
+}
