@@ -1,0 +1,13 @@
+#sidebar_user_menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#sidebar_user_menu img {
+    width: 40px;
+}
+
+#sidebar_user_menu > div {
+    padding: 0px 15px;
+}
