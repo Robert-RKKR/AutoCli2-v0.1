@@ -2,9 +2,9 @@
 #page {
 
     /* Main page colors */
-    --color_first: #226acf; 
-    --color_second: #ffffff;
-    --color_third: #dee0e1;
+    --color_first: #1d875b; 
+    --color_second: #4c4c4c;
+    --color_third: #ffffff;
 
     /* Main font colors */
     --color_font_first: #4c4c4c;
@@ -32,7 +32,8 @@
 #page.green {
 
     /* Main page colors */
-    --color_first: #1d875b;
+    --color_first: #1d875b; 
+    --color_second: #323232;
     
 }
 
@@ -89,7 +90,7 @@ button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p,
 
 ::-webkit-scrollbar-track {
     background: rgb(244, 246, 246);
-    margin: var(--main_padding) 11px;
+    margin: 1px 11px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -109,10 +110,10 @@ button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p,
 #topbar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    background: var(--color_first);
     height: 70px;
     width: 100vw;
-    background: var(--color_first);
-    justify-content: space-between;
     user-select: none;
 }
 
@@ -123,13 +124,12 @@ button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p,
 }
 
 #sidebar {
-    width: 80px;
-    overflow: hidden;
-    background: #323232; 
-    /* background: #3c3c3c; */
     display: flex;
     flex-direction: column;
     justify-content	: space-between;
+    background: var(--color_second);
+    width: 80px;
+    overflow: hidden;
     user-select: none;
 }
 
@@ -148,4 +148,11 @@ button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p,
 /*   ----           SIDEBAR          ----   */
 #sidebar p, h2, h3 {
     color: var(--color_font_second);
+}
+
+#content {
+    height: calc(100vh - 700px);
+    background: var(--color_third);
+    overflow-y: auto;
+    padding: 20px;
 }

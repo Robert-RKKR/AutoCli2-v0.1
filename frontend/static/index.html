@@ -15,10 +15,10 @@
         <link rel="stylesheet" href="css/reset.css">
         
         <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/content.css">
         <link rel="stylesheet" href="css/mainmenu.css">
         <link rel="stylesheet" href="css/usermenu.css">
         <link rel="stylesheet" href="css/topbar.css">
+        <link rel="stylesheet" href="css/content.css">
 
     </head>
 
@@ -33,7 +33,7 @@
 
                     <img id="page_logo" src="ico/logo/rkkr_logo.svg" alt="Menu">
                     <h1 id="page_title">AutoCLI 2</h1>
-                    <span class="icon">settings_applications</span>
+                    <span class="icon">read_more</span>
 
                 </div>
 
@@ -194,7 +194,41 @@
 
                     <!-- Page content -->
                     <main id="content">
-                        <p>Content</p>
+                        
+                        <div class="box_container">
+
+                            <article class="box_item">
+                                <!-- <div class="box_item_head"></div> -->
+                                <div class="box_item_body">
+                                    <form class="object_form">
+                                        <div class="object_form_item">
+                                            <label for="fname">First name:</label>
+                                            <input type="text" id="fname" name="fname">
+                                        </div>
+                                        <div class="object_form_item">
+                                            <label for="lname">Last name:</label>
+                                            <input type="text" id="lname" name="lname">
+                                        </div>
+                                        <div class="object_form_item">
+                                            <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+                                            <label for="vehicle3"> I have a boat</label>
+                                        </div>
+                                        <div class="object_form_item">
+                                            <label for="country">Country: </label>
+                                            <select name="country" id="country">
+                                                <option>Select an option</option>
+                                                <option value="nepal">Nepal</option>
+                                                <option value="usa">USA</option>
+                                                <option value="australia">Australia</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- <div class="box_item_footer"></div> -->
+                            </article>
+
+                        </div>
+
                     </main>
     
                 </div>

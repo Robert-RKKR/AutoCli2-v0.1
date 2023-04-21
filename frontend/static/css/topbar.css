@@ -1,3 +1,14 @@
+/*   ----       TOPBAR        ----   */
+#topbar .icon, h2, h1 {
+    color: var(--color_font_third);
+}
+
+#topbar .icon {
+    cursor: pointer;
+    padding: 0px 2px;
+}
+
+/*   ----       TOPBAR - LOGO        ----   */
 #topbar_logo {
     height: 70px;
     background: var(--color_first);
@@ -7,24 +18,28 @@
     width: 280px;
 }
 
+#page_logo {
+    width: 50px;
+    padding: calc((70px - 36.563px) / 2) 15px;
+    fill: var(--color_second);
+}
+
+#page_title {
+    font-size: 1.8em;
+    padding: 0px 15px;
+}
+
+/*   ----       TOPBAR - PANEL        ----   */
 #topbar_pannel {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin: 0px 30px;
     width: calc(100vw - 280px);
 }
 
-
-#topbar .icon, h2 {
-    color: var(--color_font_third);
-}
-
-#topbar .icon {
-    cursor: pointer;
-    padding: 0px 2px;
-}
-
+/*   ----       TOPBAR - SEARCH        ----   */
 #site_search {
     border: none;
     padding: 6px 30px;
@@ -43,23 +58,6 @@
     color: var(--color_font_third);
 }
 
-/*   ----       TOPBAR - LOGO        ----   */
-#page_logo {
-    width: 50px;
-    padding: calc((70px - 36.563px) / 2) 15px;
-    fill: var(--color_second);
-}
-
-#page_title {
-    font-size: 1.8em;
-    padding: 0px 15px;
-    color: var(--color_second);
-}
-
-#topbar_logo .icon {
-    color: var(--color_second);
-}
-
 /*   ----       TOPBAR - MENU        ----   */
 #topbar_menu {
     display: flex;
@@ -68,7 +66,7 @@
 }
 
 #topbar_menu > div {
-    padding: 0px 10px;
+    padding-left: 30px;
 }
 
 /*   ----       TOPBAR - NOTIFICATIONS        ----   */
