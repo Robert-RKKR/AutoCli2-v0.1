@@ -1,0 +1,211 @@
+<div id="page" class="green bigsidebar">
+
+    <aside id="topbar">
+
+        <div id="topbar_logo">
+
+            <img id="page_logo" src="ico/logo/rkkr_logo.svg" alt="Menu">
+            <h1 id="page_title">AutoCLI 2</h1>
+            <span class="icon">read_more</span>
+
+        </div>
+
+        <div id="topbar_pannel">
+
+            <div id="topbar_search">
+                <input type="search" id="site_search" placeholder="Search on the site..." name="q">
+            </div>
+
+            <div id="topbar_title">
+                <h2>Add a new device</h2>
+            </div>
+
+            <div id="topbar_menu">
+
+                <div id="topbar_actions">
+                    <span class='icon'>add_box</span>
+                    <span class='icon'>backspace</span>
+                    <span class='icon'>edit_square</span>
+                    <span class='icon'>file_copy</span>
+                </div>
+
+                <div id="topbar_notifications">
+                    <span class='icon notifications_on'>mail</span>
+                    <span class='icon notifications_off hidden'>mark_email_unread</span>
+                
+                    <div id="notifications_list" class="hidden">
+
+                        <div id="notifications_list_header">
+                            <h3>Notifications</h3>
+                            <a href="#">Marks all as read</a>
+                        </div>
+
+                        <div id="notifications_list_body" class="">
+                            <a class="notification_item green">
+                                <div class="notification_icon">
+                                    <span class='icon'>info</span>
+                                </div>
+                                <span>Process of collecting information from all requested devices has been accomplish.</span>
+                            </a>
+                            <a class="notification_item violet">
+                                <div class="notification_icon">
+                                    <span class='icon'>error</span>
+                                </div>
+                                <span>Process of collecting information from all requested devices has been accomplish (Successfully collected data from 15 devices out of 16 requested devices in 45,55 seconds).</span>
+                            </a>
+                            <a class="notification_item yellow">
+                                <div class="notification_icon">
+                                    <span class='icon'>warning</span>
+                                </div>
+                                <span>Process of collecting information from all requested devices has been accomplish.</span>
+                            </a>
+                            <a class="notification_item blue">
+                                <div class="notification_icon">
+                                    <span class='icon'>circle_notifications</span>
+                                </div>
+                                <span>Process of collecting information from all requested devices has been accomplish (Successfully collected data from 15 devices out of 16 requested devices in 45,55 seconds).</span>
+                            </a>
+                            <a class="notification_item red">
+                                <div class="notification_icon">
+                                    <span class='icon'>report</span>
+                                </div>
+                                <span>Process of collecting information from all requested devices has been accomplish.</span>
+                            </a>
+                        </div>
+
+                        <div id="notifications_empty" class="hidden">
+                            <span class='icon'>unsubscribe</span>
+                        </div>
+
+                        <div id="notifications_list_footer">
+                            <a href="#">View All Notifications</a>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+                <div id="topbar_colormode">
+                    <span class='icon colormode_on'>toggle_on</span>
+                    <span class='icon colormode_off hidden'>toggle_off</span>
+                </div>
+                
+            </div>
+
+        </div>
+        
+    </aside>
+
+    <main id="page_bottom">
+
+        <header id="sidebar">
+
+            <nav id="sidebar_menu">
+
+                <ul>
+                    <li class="main_menu_item">
+                        <a href="#" class="main_menu_link">
+                            <span class="icon">home</span>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="main_menu_item">
+                        <a href="#" class="main_menu_link">
+                            <span class="icon">settings_applications</span>
+                            <p>Administration</p>
+                        </a>
+                    </li>
+                    <li class="main_menu_item">
+                        <a href="#" class="main_menu_link">
+                            <span class="icon">dataset</span>
+                            <p>Inventory</p>
+                        </a>
+                        <ul class="main_menu_submenu submenu_hidden">
+                            <li class="main_menu_subitem">
+                                <a href="#" class="main_menu_sublink">
+                                    <span class="icon">terminal</span>
+                                    <p>Hosts</p>
+                                </a>
+                            </li>
+                            <li class="main_menu_subitem">
+                                <a href="#" class="main_menu_sublink">
+                                    <span class="icon">terminal</span>
+                                    <p>Tags</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="main_menu_item">
+                        <a href="#" class="main_menu_link">
+                            <span class="icon">file_open</span>
+                            <p>Templates</p>
+                        </a>
+                    </li>
+                    <li class="main_menu_item">
+                        <a href="#" class="main_menu_link">
+                            <span class="icon">terminal</span>
+                            <p>Executions</p>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+            <div id="sidebar_user_menu">
+                    
+                <img src="ico/model/users/business-woman.svg" alt="Menu">
+                <div>
+                    <h3>Robert Kucharski</h3>
+                    <p>Administrator</p>
+                </div>
+            
+            </div>
+
+        </header>
+
+        <div id="page_content">
+
+            <!-- Page content -->
+            <main id="content">
+                
+                <div class="box_container">
+
+                    <article class="box_item">
+                        <!-- <div class="box_item_head"></div> -->
+                        <div class="box_item_body">
+                            <form class="object_form">
+                                <div class="object_form_item">
+                                    <label for="fname">First name:</label>
+                                    <input type="text" id="fname" name="fname">
+                                </div>
+                                <div class="object_form_item">
+                                    <label for="lname">Last name:</label>
+                                    <input type="text" id="lname" name="lname">
+                                </div>
+                                <div class="object_form_item">
+                                    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+                                    <label for="vehicle3"> I have a boat</label>
+                                </div>
+                                <div class="object_form_item">
+                                    <label for="country">Country: </label>
+                                    <select name="country" id="country">
+                                        <option>Select an option</option>
+                                        <option value="nepal">Nepal</option>
+                                        <option value="usa">USA</option>
+                                        <option value="australia">Australia</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- <div class="box_item_footer"></div> -->
+                    </article>
+
+                </div>
+
+            </main>
+
+        </div>
+
+    </main>
+
+</div>

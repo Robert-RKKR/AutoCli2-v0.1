@@ -45,6 +45,16 @@ class BaseRwModelViewSet(
 
     # Log changes:
     log_changes = False
+    
+    metadata = {
+        'my_custom_option': 'Some custom option',
+        'my_other_option': 'Another custom option',
+    }
+
+    def metadata(self, request):
+        metadata = super().metadata(request)
+        metadata['my_custom_option'] = 'Modified custom option'
+        return metadata
 
 
 # Read only Base ModelViewSet model:

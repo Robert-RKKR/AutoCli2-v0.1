@@ -3,7 +3,7 @@
 
 <template>
     <div>
-        <p>Home</p>
+        <p>Devices</p>
     </div>
 </template>
 

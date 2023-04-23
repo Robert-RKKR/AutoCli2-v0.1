@@ -1,35 +1,74 @@
-@import './base.css';
+#page {
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+    /* Main page colors */
+    --color_first: #1d875b; 
+    --color_second: #4c4c4c;
+    --color_third: #ffffff;
 
-  font-weight: normal;
+    /* Main font colors */
+    --color_font_first: #4c4c4c;
+    --color_font_second: #dedede;
+    --color_font_third: #fefeff;
+
+    /* Light colors */
+    --color_light_blue: #c3e0f7;
+    --color_light_green: #a8f0cc;
+    --color_light_yellow: #ffefce;
+    --color_light_violet: #d5a8f3;
+    --color_light_red: #f6c6d3;
+    --color_light_gray: #95a4c8;
+
+    /* Strong colors */
+    --color_strong_blue: #548be9;
+    --color_strong_green: #4db478;
+    --color_strong_yellow: #d29c30;
+    --color_strong_violet: #934bb7;
+    --color_strong_red: #f55e7a;
+    --color_strong_gray: #4e6f99;
+
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+#page.green {
+
+    /* Main page colors */
+    --color_first: #1d875b; 
+    --color_second: #323232;
+    
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+#page.red {
+
+    /* Main page colors */
+    --color_first: #da4f4f;
+    
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+@font-face {
+    font-family: 'Font icons';
+    font-style: normal;
+    src: url('../src/assets/font_icons.woff2') format('woff');
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.icon {
+    font-family: 'Font icons', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+}
+
+button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p, q, i, li, td, th {
+    font-family: "Alegreya Sans SC", sans-serif;
+    font-size: 1em;
+}
+
+.hidden {
+    display: none!important;
+    opacity: 0;
 }

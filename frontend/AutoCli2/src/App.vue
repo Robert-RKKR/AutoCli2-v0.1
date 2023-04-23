@@ -1,27 +1,29 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
-  const count = ref(0)
+  // import components:
+  import PageBottomComponent from './components/PageBottomComponent.vue'
+  import TopBarComponent from './components/TopBarComponent.vue'
 
-  var socket = new WebSocket("ws://127.0.0.1:8000/ws/notification/");
-
-  socket.onmessage = function(event) {
-    var collect = event.data;
-    var collect_json = JSON.parse(collect)
-    console.log(collect_json)
-  }
+  // import css:
+  import './assets/reset.css'
+  import './assets/main.css'
 </script>
 
 <template>
-  <main>
-    <h1>AutoCli2</h1>
-    <p>
-      Welcome on AutoCli2 page.
-    </p>
-    <p>{{ count }}</p>
-    <button @click="count--">-</button>
-    <button @click="count++">+</button>
-  </main>
+  <div id="page">
+
+    <TopBarComponent />
+
+    <PageBottomComponent />
+  
+  </div>
 </template>
 
-<style scoped>
+<style>
+  @import './assets/reset.css';
+  @import './assets/main.css';
+
+  #page {
+      display: flex;
+      flex-direction: column;
+  }
 </style>
