@@ -1,57 +1,49 @@
 <script setup lang="ts">
+    // VUE import:
+    import { ref } from 'vue'
+
+    // Notifications:
+    const notifications_status = ref(false)
+    var notifications_active = ref(false)
+    var notifications = ref([])
     var socket = new WebSocket("ws://127.0.0.1:8000/ws/notification/");
     socket.onmessage = function(event) {
         var collect = event.data;
-        const notification = JSON.parse(collect)
+        var collected_notification = JSON.parse(collect)
+        notifications.value.push(collected_notification)
+        console.log(collected_notification.severity)
+        notifications_active.value = true
+    }
+    const changeNotificationStatus = () => {
+        notifications_status.value = !notifications_status.value
     }
 </script>
 
 <template>
     <div id="topbar_notifications">
-        <span class='icon notifications_on'>mail</span>
-        <span class='icon notifications_off hidden'>mark_email_unread</span>
+        <span v-if="notifications_active" @click="changeNotificationStatus" class='icon'>mark_email_unread</span>
+        <span v-else @click="changeNotificationStatus" class='icon'>mail</span>
 
-        <div id="notifications_list" class="hidden">
+        <div v-if="notifications_status" id="notifications_list">
 
             <div id="notifications_list_header">
                 <h3>Notifications</h3>
                 <a href="#">Marks all as read</a>
             </div>
 
-            <div id="notifications_list_body">
-                <a class="notification_item green">
+            <div v-if="notifications.length > 0" id="notifications_list_body">
+                <a v-for="notification in notifications" class="notification_item blue">
                     <div class="notification_icon">
-                        <span class='icon'>info</span>
+                        <span v-if="notifications.severity === 1" class='icon red'>report</span>
+                        <span v-else-if="notifications.severity === 2" class='icon violet'>error</span>
+                        <span v-else-if="notifications.severity === 3" class='icon yellow'>warning</span>
+                        <span v-else-if="notifications.severity === 4" class='icon blue'>circle_notifications</span>
                     </div>
-                    <span>Process of collecting information from all requested devices has been accomplish.</span>
-                </a>
-                <a class="notification_item violet">
-                    <div class="notification_icon">
-                        <span class='icon'>error</span>
-                    </div>
-                    <span>Process of collecting information from all requested devices has been accomplish (Successfully collected data from 15 devices out of 16 requested devices in 45,55 seconds).</span>
-                </a>
-                <a class="notification_item yellow">
-                    <div class="notification_icon">
-                        <span class='icon'>warning</span>
-                    </div>
-                    <span>Process of collecting information from all requested devices has been accomplish.</span>
-                </a>
-                <a class="notification_item blue">
-                    <div class="notification_icon">
-                        <span class='icon'>circle_notifications</span>
-                    </div>
-                    <span>Process of collecting information from all requested devices has been accomplish (Successfully collected data from 15 devices out of 16 requested devices in 45,55 seconds).</span>
-                </a>
-                <a class="notification_item red">
-                    <div class="notification_icon">
-                        <span class='icon'>report</span>
-                    </div>
-                    <span>Process of collecting information from all requested devices has been accomplish.</span>
+                    <span>{{ notification.message }}</span>
                 </a>
             </div>
 
-            <div id="notifications_empty" class="hidden">
+            <div v-else id="notifications_empty">
                 <span class='icon'>unsubscribe</span>
             </div>
 
@@ -64,6 +56,10 @@
 </template>
 
 <style scoped>
+    .icon {
+        cursor: pointer;
+    }
+
     #notifications_list {
         position: absolute;
         user-select: none;
@@ -82,7 +78,7 @@
         flex-direction: row;
         justify-content: space-between;
         padding: 20px;
-        background: var(--color_third);
+        background: #e5e5e5;
     }
 
     #notifications_empty,
@@ -98,6 +94,11 @@
     #notifications_empty {
         flex-direction: row;
         justify-content: center;
+    }
+
+    #notifications_empty .icon {
+        font-size: 3em;
+        color: var(--color_light_red)!important;
     }
 
     .notification_item {
@@ -116,11 +117,6 @@
         padding: 15px;
         border-radius: 10em;
         margin-right: 20px;
-    }
-
-    #notifications_empty .icon {
-        font-size: 3em;
-        color: var(--color_light_red)
     }
 
     .notification_item.blue .notification_icon {
@@ -165,7 +161,7 @@
 
     #notifications_list_footer {
         padding: 20px;
-        background: var(--color_third);
+        background: #e5e5e5;
     }
     #topbar_notifications .icon {
         color: var(--color_font_third);

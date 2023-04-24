@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    // SideBarAction import:
 </script>
 
 <template>
@@ -79,9 +80,13 @@
         overflow: hidden;
         user-select: none;
     }
+    
+    #page.bigsidebar #sidebar {
+        width: 280px;
+    }
 
     /*   ----       MAIN MENU        ----   */
-    #sidebar_menu .icon {
+    #sidebar_menu .icon, a {
         color: var(--color_font_second);
     }
 

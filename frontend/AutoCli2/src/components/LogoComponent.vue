@@ -1,6 +1,11 @@
 <script setup lang="ts">
+    // VUE import:
+    import { ref } from 'vue'
+
     // import logo:
     import LogoSVG from '../assets/logo.svg'
+
+    const sideBarAction = ref(false)
 </script>
 
 <template>

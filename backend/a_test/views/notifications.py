@@ -22,17 +22,26 @@ def notifications_test(request):
 
 
     
-    return_output = notification.info(
-        '------------ New Test ------------')
-    
-    host = Host.objects.get_or_create(
-        name='Test HTTP host London underground',
-        hostname='api.tfl.gov.uk',
-        data_collection_protocol=2)[0]
-    con = Http(host)
-    con.start_connection()
-    response = con.get('BikePoint')
-    output = response
+    # return_output = notification.info(
+    #     '------------ New Test ------------')
+    # host = Host.objects.get_or_create(
+    #     name='Test HTTP host London underground',
+    #     hostname='api.tfl.gov.uk',
+    #     data_collection_protocol=2)[0]
+    # con = Http(host)
+    # con.start_connection()
+    # response = con.get('BikePoint')
+    # output = response
+
+
+    notification.critical('Test info notification critical')
+    notification.error('Test info notification error')
+    notification.warning('Test info notification warning')
+    notification.info('Test info notification info')
+    output = 'OK'
+
+
+
     
     # connection = Connection(host, '384dg8ht858rfhu4h83r83fw')
     # connection.start_connection()

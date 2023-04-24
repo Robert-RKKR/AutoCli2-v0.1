@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <div id="page">
+  <div id="page" class="bigsidebar">
 
     <TopBarComponent />
 
