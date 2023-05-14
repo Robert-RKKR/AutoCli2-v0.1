@@ -2,6 +2,9 @@
   // import components:
   import PageBottomComponent from './components/PageBottomComponent.vue'
   import TopBarComponent from './components/PageTopComponent.vue'
+  import LoginComponent from './components/LoginComponent.vue'
+  // API key import:
+  import { apiKey } from './settings';
 
   // import css:
   import './assets/reset.css'
@@ -9,12 +12,18 @@
 </script>
 
 <template>
-  <div id="page" class="bigsidebar">
+  <div v-if="apiKey" id="page" class="bigsidebar">
 
     <TopBarComponent />
 
     <PageBottomComponent />
   
+  </div>
+
+  <div v-else>
+    
+    <LoginComponent />
+
   </div>
 </template>
 

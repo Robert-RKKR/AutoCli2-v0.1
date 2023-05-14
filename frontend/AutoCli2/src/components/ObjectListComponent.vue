@@ -1,12 +1,14 @@
 <script setup lang="ts">
     // Axios import:
     import axios from 'axios'
+    // API key import:
+    import { apiKey } from '../settings';
 
     // Collect host data:
-    const apiKey = '28befc9a9922fa6644c7fd70d5ee5fcd51246823';
+    // const apiKey = '28befc9a9922fa6644c7fd70d5ee5fcd51246823';
     const config = {
         headers: {
-            'Authorization': `Token ${apiKey}`}}
+            'Authorization': `Token ${apiKey.value}`}}
     const response = await axios.get('http://127.0.0.1:8000/api-inventory/full-host/', config)
     const collectedData = response.data.page_results
 </script>
