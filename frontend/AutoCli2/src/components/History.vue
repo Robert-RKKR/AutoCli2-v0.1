@@ -72,25 +72,4 @@
       </div>
     </div>
   </main>
-</template>
-
-<style scoped>
-  .box {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
-  }
-  .box_item {
-    background-color: #eee;
-    padding: 10px;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  .box_item > span {
-    display: flex;
-    flex-direction: row;
-  }
-  .box_item > span p {
-    padding: 2px;
-  }
-</style> -->
+</template> -->

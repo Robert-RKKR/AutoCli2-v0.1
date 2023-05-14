@@ -1,7 +1,7 @@
 <script setup lang="ts">
   // import components:
   import PageBottomComponent from './components/PageBottomComponent.vue'
-  import TopBarComponent from './components/TopBarComponent.vue'
+  import TopBarComponent from './components/PageTopComponent.vue'
 
   // import css:
   import './assets/reset.css'

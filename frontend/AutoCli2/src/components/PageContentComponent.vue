@@ -13,6 +13,7 @@
 <style scoped>
     #page_content {
         width: calc(100vw - 80px);
+        overflow-y: auto;
     }
     
     #page.bigsidebar #page_content {

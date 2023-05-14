@@ -2,7 +2,7 @@
 
     /* Main page colors */
     --color_first: #1d875b; 
-    --color_second: #4c4c4c;
+    --color_second: #404040;
     --color_third: #ffffff;
 
     /* Main font colors */
@@ -41,6 +41,25 @@
     /* Main page colors */
     --color_first: #da4f4f;
     
+}
+
+/*   -----   PAGE SCROLL   -----   */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(244, 246, 246);
+    margin: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(184, 186, 186);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(121, 123, 123);
 }
 
 @font-face {
