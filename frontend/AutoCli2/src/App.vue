@@ -5,7 +5,7 @@
   import LoginComponent from './components/LoginComponent.vue'
   // API key import:
   import { apiKey } from './settings';
-
+  
   // import css:
   import './assets/reset.css'
   import './assets/main.css'

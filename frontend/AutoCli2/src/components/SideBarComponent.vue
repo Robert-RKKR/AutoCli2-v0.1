@@ -75,7 +75,7 @@
         display: flex;
         flex-direction: column;
         justify-content	: space-between;
-        background: #404040;
+        background: var(--color_second);
         width: 80px;
         overflow: hidden;
         user-select: none;

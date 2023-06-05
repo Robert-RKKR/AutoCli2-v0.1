@@ -2,7 +2,9 @@
 
     /* Main page colors */
     --color_first: #1d875b;
-    --color_third: #ffffff;
+    --color_second: #404040;
+    --color_third: #4e6f99;
+    --color_fifth: #eaeaea;
 
     /* Main font colors */
     --color_font_first: #4c4c4c;
@@ -24,6 +26,8 @@
     --color_strong_violet: #934bb7;
     --color_strong_red: #f55e7a;
     --color_strong_gray: #4e6f99;
+
+    --box_shadow: 0 0.46875rem 2.1875rem rgba(48,48,48,.02), 0 0.6375rem 1.40625rem rgba(48,48,48,.02), 0 0.25rem 0.33125rem rgba(48,48,48,.03), 0 0.125rem 0.1875rem rgba(48,48,48,.02);
 
 }
 
@@ -79,6 +83,7 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
+    cursor: pointer;
 }
 
 button, span, input, label, input, option, select, h1, h2, h3, h4, h5, h5, a, p, q, i, li, td, th {

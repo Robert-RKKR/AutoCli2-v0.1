@@ -1,0 +1,128 @@
+{
+    "GET": {
+        "pk": {
+            "type": "integer",
+            "required": false,
+            "read_only": true,
+            "label": "ID"
+        },
+        "is_active": {
+            "type": "boolean",
+            "required": false,
+            "read_only": false,
+            "label": "Active",
+            "help_text": "Is Base model active (Inactive Base model has limited functionality)."
+        },
+        "is_root": {
+            "type": "boolean",
+            "required": false,
+            "read_only": true,
+            "label": "Root",
+            "help_text": "Is Base model root (Root Base model cannot be deleted or modify)."
+        },
+        "created": {
+            "type": "datetime",
+            "required": false,
+            "read_only": true,
+            "label": "Created",
+            "help_text": "Base model create date."
+        },
+        "updated": {
+            "type": "datetime",
+            "required": false,
+            "read_only": true,
+            "label": "Updated",
+            "help_text": "Base model last update date."
+        },
+        "name": {
+            "type": "string",
+            "required": true,
+            "read_only": false,
+            "label": "Name",
+            "help_text": "IdentificationModel name.",
+            "max_length": 64
+        },
+        "description": {
+            "type": "string",
+            "required": false,
+            "read_only": false,
+            "label": "Description",
+            "help_text": "IdentificationModel description.",
+            "max_length": 256
+        },
+        "site": {
+            "type": "sub_object",
+            "required": false,
+            "read_only": false,
+            "sub_object": "name",
+            "label": "Site",
+            "help_text": "Site associated with current host."
+        },
+        "platform": {
+            "type": "sub_object",
+            "required": false,
+            "read_only": false,
+            "sub_object": "name",
+            "label": "Platform",
+            "help_text": "Platform associated with current host."
+        },
+        "credential": {
+            "type": "sub_object",
+            "required": false,
+            "read_only": false,
+            "sub_object": "name",
+            "label": "Credential",
+            "help_text": "Credentials associated with current host."
+        },
+        "hostname": {
+            "type": "string",
+            "required": true,
+            "read_only": false,
+            "label": "Hostname",
+            "help_text": "Valid IP address or domain name used to establish the SSH / HTTP(S) connections.",
+            "max_length": 128
+        },
+        "data_collection_protocol": {
+            "type": "choice",
+            "required": false,
+            "read_only": false,
+            "label": "Data collection protocol",
+            "help_text": "The network protocol that will be used to execute connection template (SSH / HTTP(S)).",
+            "choices": [
+                {
+                    "value": 1,
+                    "display_name": "SSH"
+                },
+                {
+                    "value": 2,
+                    "display_name": "HTTP(S)"
+                },
+                {
+                    "value": 3,
+                    "display_name": "Discovery"
+                }
+            ]
+        },
+        "ssh_port": {
+            "type": "integer",
+            "required": false,
+            "read_only": false,
+            "label": "SSH port",
+            "help_text": "The TCP port that will be used during the SSH sessions."
+        },
+        "http_port": {
+            "type": "integer",
+            "required": false,
+            "read_only": false,
+            "label": "HTTP/S port",
+            "help_text": "The TCP port that will be used during the HTTP(S) sessions."
+        },
+        "certificate_check": {
+            "type": "boolean",
+            "required": false,
+            "read_only": false,
+            "label": "Certificate check",
+            "help_text": "If enabled, attempts to validate host certificate. If disabled, ignores certificate validation process."
+        }
+    }
+}

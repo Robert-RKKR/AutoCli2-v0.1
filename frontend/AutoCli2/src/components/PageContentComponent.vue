@@ -14,6 +14,7 @@
     #page_content {
         width: calc(100vw - 80px);
         overflow-y: auto;
+        background: var(--color_fifth);
     }
     
     #page.bigsidebar #page_content {
@@ -21,6 +22,6 @@
     }
 
     #content {
-        padding: 30px;
+        padding: 20px;
     }
 </style>
