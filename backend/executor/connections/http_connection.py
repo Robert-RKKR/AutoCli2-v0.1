@@ -68,22 +68,24 @@ class Connection:
         self.hostname = host.hostname
         self.http_port = host.http_port
         self.certificate = host.certificate_check
+        self.credential = host.credential
+        self.platform = host.platform
 
         # Collect data from host credentials object:
-        self.token = host.credential.token
-        self.username = host.credential.username
-        self.password = host.credential.password
+        self.token = self.credential.token
+        self.username = self.credential.username
+        self.password = self.credential.password
 
         # Collect data from host platform object:
-        self.http_token_heder_key = host.platform.http_token_heder_key
-        self.http_token_heder_value = host.platform.http_token_heder_value
-        self.http_pagination = host.platform.http_pagination
-        self.http_next_page_code_path = host.platform.http_next_page_code_path
-        self.http_next_page_link_path = host.platform.http_next_page_link_path
-        self.http_pagination_param_key = host.platform.http_pagination_param_key
-        self.http_data_path = host.platform.http_data_path
-        self.http_default_header = host.platform.http_default_header
-        self.http_default_params = host.platform.http_default_params
+        self.http_token_heder_key = self.platform.http_token_heder_key
+        self.http_token_heder_value = self.platform.http_token_heder_value
+        self.http_pagination = self.platform.http_pagination
+        self.http_next_page_code_path = self.platform.http_next_page_code_path
+        self.http_next_page_link_path = self.platform.http_next_page_link_path
+        self.http_pagination_param_key = self.platform.http_pagination_param_key
+        self.http_data_path = self.platform.http_data_path
+        self.http_default_header = self.platform.http_default_header
+        self.http_default_params = self.platform.http_default_params
 
         # header declaration:
         self.header = header
