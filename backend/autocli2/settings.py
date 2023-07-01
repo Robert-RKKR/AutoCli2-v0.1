@@ -50,15 +50,11 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     # AutoCli2 applications:
-    'a_test.apps.ATestConfig', # Temporary.
     'notification.apps.NotificationConfig',
     'management.apps.ManagementConfig',
     'connector.apps.ConnectorConfig',
     'inventory.apps.InventoryConfig',
     'executor.apps.ExecutorConfig',
-
-    # AutoCli2 init application:
-    'app_initiator.apps.AppInitiatorConfig',
 ]
 
 # Main URL file:

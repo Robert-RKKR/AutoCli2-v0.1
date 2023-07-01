@@ -63,5 +63,5 @@ urlpatterns = [
     ################## Views ##################
 
     # Test view registration:
-    path('test/', include('a_test.urls')),
+    path('test/', include('executor.urls')),
 ]
