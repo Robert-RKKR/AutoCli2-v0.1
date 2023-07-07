@@ -4,6 +4,9 @@ from django.db import models
 # Django - translation model import:
 from django.utils.translation import gettext_lazy as _
 
+# Django - validation error import:
+from django.core.exceptions import ValidationError
+
 # AutoCli2 - base model import:
 from autocli2.base.models.identification import IdentificationModel
 from autocli2.base.models.tag import Tag
@@ -127,3 +130,15 @@ class Platform(IdentificationModel, Tag):
         choices=PlatformTypeChoices.choices,
         default=PlatformTypeChoices.GENERIC,
     )
+
+    def clean(self) -> None:
+        # Check if 
+        if self.http_next_page_code_path and self.http_next_page_link_path:
+            raise ValidationError(_(f'Only one value (HTTP(S) next page code '\
+                'path/HTTP(S) next page link path) can be specified.'))
+        if self.http_pagination:
+            if not self.http_next_page_code_path and not self.http_next_page_link_path:
+                raise ValidationError(_(f'At least value (HTTP(S) next page code '\
+                    'path/HTTP(S) next page link path) must be specified.'))
+        # Execute default clean method:
+        return super().clean()

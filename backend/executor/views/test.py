@@ -5,6 +5,7 @@ from notification.notification import Notification
 from inventory.models.platform import Platform
 from inventory.models.host import Host
 from executor.connections.http_connection import Connection
+from executor.tasks.execute_executor import execute_executor_task
 
 # Notification:
 notification = Notification('Test')
@@ -26,18 +27,15 @@ def test(request):
     # outputs.append(notification.warning('Test info notification warning'))
     # outputs.append(notification.info('Test info notification info'))
 
-    platform = Platform.objects.get(pk=1)
-    outputs.append(platform)
-    host = Host.objects.get(pk=1)
-    outputs.append(host)
+    # platform = Platform.objects.get(pk=1)
+    # outputs.append(platform)
+    # host = Host.objects.get(pk=1)
+    # outputs.append(host)
+    # param = {'limit': '1000', 'sortBy': 'createdAt', 'sortOrder': 'desc'}
+    # with Connection(host) as conn:
+    #     responde = conn.get('web/api/v2.1/private/bulk-tasks', param)
 
-    param = {'limit': '1000', 'sortBy': 'createdAt', 'sortOrder': 'desc'}
-    with Connection(host) as conn:
-        responde = conn.get('web/api/v2.1/private/bulk-tasks', param)
-
-    output = responde
-
-    data['return_output'] = len(output)
+    data['return_output'] = execute_executor_task(1)
    
     # GET method:
     return render(request, 'test.html', data)
