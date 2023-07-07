@@ -19,7 +19,7 @@ from kombu import Queue
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#8$u0eijwv%8v$fm!7z62ogxavmv-prab76=f2mg$63d&6kngj'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 NOTIFICATION_DEBUG = True
 LOGGER_DEBUG = True
 
