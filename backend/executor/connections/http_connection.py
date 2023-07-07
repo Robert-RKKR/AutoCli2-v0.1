@@ -87,9 +87,6 @@ class Connection:
         self.http_default_header = self.platform.http_default_header
         self.http_default_params = self.platform.http_default_params
 
-        # header declaration:
-        self.header = header
-
         # Connection status declaration:
         self.connection_status = False
 
@@ -344,9 +341,25 @@ class Connection:
         Returns URL string containing all provided request parameters.
         """
 
+        # Mark first parameter:
+        first_parameter = True
+        # Convert default parameters to url:
+        if self.http_default_params:
+            # Iterate thru all default parameters:
+            for request_parameter in self.http_default_params:
+                # Create string parameter:
+                parameter = f'{request_parameter}='\
+                    f'{self.http_default_params[request_parameter]}'
+                if first_parameter:
+                    # Create a new URL with first parameter:
+                    url = f'{request_url}?{parameter}'
+                    # Unmark first parameter:
+                    first_parameter = False
+                else:
+                    # Combain current URL with nex parameter:
+                    url = f'{url}&{parameter}'
+        # Convert provided parameters to url:
         if request_parameters:
-            # Mark first parameter:
-            first_parameter = True
             # Iterate thru all provided request parameters:
             for request_parameter in request_parameters:
                 # Create string parameter:
@@ -490,7 +503,7 @@ class Connection:
         else:
             token_value = self.token
         # Add token heder to HTTP(S) heder:
-        self.header[self.http_token_heder_key] = token_value
+        self.http_default_header[self.http_token_heder_key] = token_value
 
     def _base_connection(self,
             request_method: str,
@@ -521,13 +534,13 @@ class Connection:
                 request = requests.Request(
                     request_method,
                     request_url,
-                    headers=self.header,
+                    headers=self.http_default_header,
                     data=body)
             else: # Send HTTP(S) HTTP/S request with user and password authorization:
                 request = requests.Request(
                     request_method,
                     request_url,
-                    headers=self.header,
+                    headers=self.http_default_header,
                     auth=(self.username, self.password),
                     data=body)
             # Confect session with request data:
