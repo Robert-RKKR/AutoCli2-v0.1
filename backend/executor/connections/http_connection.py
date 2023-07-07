@@ -33,7 +33,7 @@ class Connection:
         task_id: str = None) -> None:
         """
         The HTTP(S) connection class uses requests library,
-        to connect with Https server for API connections.
+        to connect with Https server for HTTP/S connections.
 
         Class attributes:
         -----------------
@@ -112,7 +112,7 @@ class Connection:
         """
         Use Connection class with python 'with' command:
         'with Connection(host) as con:
-            results = con.get('/api/v2/hosts')'
+            results = con.get('/HTTP/S/v2/hosts')'
         
         Return:
         --------
@@ -149,9 +149,14 @@ class Connection:
 
         # Create http session declaration:
         self.session = requests.Session()
-        
+        # Log message:
+        self.logger.debug('A new HTTP/S connection has been established, '\
+            'the test request will be sent, to test connection', self.host,
+            execution_time=self.execution_time)
         # Execute test connection:
         if self.test_connection():
+            self.logger.debug('A test connection has been successfully made.',
+                self.host, execution_time=self.execution_time)
             self.connection_status = True
             return self
         else:
@@ -175,14 +180,18 @@ class Connection:
         # Prepare test request:
         request_url = f'https://{self.hostname}:{self.http_port}'
         # Execute test connection:
-        response = self._connection('GET', request_url, None, True)
+        response = self._base_connection('GET', request_url, None, True, True)
         # If connection return status code from 1 to 299 return True:
         if self.response_status:
             return True
         else: # If not return False:
             return False
     
-    def connection(self, method: str, url: str, parameters: dict = {}):
+    def connection(self,
+            method: str,
+            url: str,
+            parameters: dict = None,
+            paggination: bool = True):
         """
         Universal method that require the HTTP(S) method to be
         executed (GET, POST ...).
@@ -192,7 +201,7 @@ class Connection:
         method: string
             HTTP connection method (GET, POST, DELETE ...).
         url: string
-            URL string that will be used when requesting the API.
+            URL string that will be used when requesting the HTTP/S.
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
@@ -203,76 +212,92 @@ class Connection:
             # Collect method:
             method = HttpExecutionTypeChoices.value_from_int(method)
             # Execute HTTP(S) request:
-            return self._connection_center(method, url, parameters)
+            return self._connection(method, url, parameters)
         else:
             raise NotImplementedError(
                 f'Provided HTTP(S) method "{method}", is not supported')
 
-    def get(self, url: str, parameters: dict = {}):
+    def get(self,
+            url: str,
+            parameters: dict = None,
+            paggination: bool = True):
         """
         GET request method for HTTP(S) connection.
 
         Parameters:
         -----------------
         url: string
-            URL string that will be used when requesting the API.
+            URL string that will be used when requesting the HTTP/S.
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
         """
 
         # Execute HTTP(S) request:
-        return self._connection_center('GET', url, parameters)
+        return self._connection('GET', url, parameters, paggination)
     
-    def post(self, url: str, parameters: dict = {}):
+    def post(self,
+            url: str,
+            parameters: dict = None,
+            paggination: bool = True):
         """
         POST request method for HTTP(S) connection.
 
         Parameters:
         -----------------
         url: string
-            URL string that will be used when requesting the API.
+            URL string that will be used when requesting the HTTP/S.
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
         """
 
         # Execute HTTP(S) request:
-        return self._connection_center('POST', url, parameters)
+        return self._connection('POST', url, parameters, paggination)
     
-    def put(self, url: str, parameters: dict = {}):
+    def put(self,
+            url: str,
+            parameters: dict = None,
+            paggination: bool = True):
         """
         PUT request method for HTTP(S) connection.
 
         Parameters:
         -----------------
         url: string
-            URL string that will be used when requesting the API.
+            URL string that will be used when requesting the HTTP/S.
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
         """
 
         # Execute HTTP(S) request:
-        return self._connection_center('PUT', url, parameters)
+        return self._connection('PUT', url, parameters, paggination)
     
-    def delete(self, url: str, parameters: dict = {}):
+    def delete(self,
+            url: str,
+            parameters: dict = None,
+            paggination: bool = True):
         """
         DELETE request method for HTTP(S) connection.
 
         Parameters:
         -----------------
         url: string
-            URL string that will be used when requesting the API.
+            URL string that will be used when requesting the HTTP/S.
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
         """
 
         # Execute HTTP(S) request:
-        return self._connection_center('DELETE', url, parameters)
+        return self._connection('DELETE', url, parameters, paggination)
 
-    def _connection_center(self, request_method, url, parameters, body=None):
+    def _connection(self,
+            request_method: str,
+            request_url: str,
+            request_parameters: dict = None,
+            paggination: bool = True):
         """
         Main connection hub responsible for collecting parameters and pagination
         data to generate URL.
@@ -281,50 +306,179 @@ class Connection:
         # Check connection status:
         if self.connection_status:
             # Verify if the host url is a valid host object:
-            if not isinstance(url, str):
+            if not isinstance(request_url, str):
                 raise TypeError('The provided url variable must be string.')
             # Verify if the parameters variable is a dictionary:
-            if not isinstance(parameters, dict) and not parameters is None:
-                raise TypeError('The provided parameters variable '\
-                    'must be list of dictionary.')
+            if not isinstance(request_parameters, dict):
+                if request_parameters:
+                    raise TypeError('The provided parameters variable '\
+                        'must be list of dictionary.')
             else: # Verify parameters dictionary variable:
-                for key in parameters:
+                for key in request_parameters:
                     if not isinstance(key, str):
-                        raise TypeError('The provided key variable must be list '\
-                            f'of dictionary. Received {key}')
-                    if not isinstance(parameters[key], str):
-                        raise TypeError('The provided key value variable must '\
-                            f'be list of dictionary. Received {parameters[key]}')
-            # Collect parameters:
-            if parameters:
-                url = self._add_parameters_to_url(url, parameters)
-            # Paginate API request:
+                        raise TypeError('The provided key variable must be '\
+                            f'list of dictionary. Received {key}')
+                    if not isinstance(request_parameters[key], str):
+                        raise TypeError('The provided key value variable '\
+                            f'must be list of dictionary. '\
+                            f'Received {request_parameters[key]}')
+            # Check if connection request contains parameters:
+            if request_parameters:
+                # Create URL based of all provided request parameters:
+                url = self._add_parameters_to_request_url(
+                    request_parameters, request_url)
+            # Check if paggination is enabled:
+            if paggination:
+                # Collect all response pages:
+                response = self._paggination_connection(
+                    request_parameters, request_method, url)
+            else: # Standart HTTP/S connection:
+                response = self._base_connection(request_method, request_url)
+            # Return response:
+            return response
 
-            # TEMPORARY:
-            request_url = f'https://{self.hostname}:{self.http_port}/{url}'
-            return self._connection(request_method, request_url, body)
-
-    def _add_parameters_to_url(self, url, parameters) -> str:
+    def _add_parameters_to_request_url(self,
+            request_parameters: dict,
+            request_url: str) -> str:
         """
-        Add provided parameter into URL string.
+        Returns URL string containing all provided request parameters.
         """
 
-        # Declaim first parameter bool value:
-        first_parameter = True
-        # Iterate thru all parameters:
-        for parameter_key in parameters:
-            # Collect parameter data:
-            parameter_value = parameters[parameter_key]
-            # Add parameter to URL:
-            if first_parameter:
-                url = f'{url}?{parameter_key}={parameter_value}'
-                # Change first parameter value to False:
-                first_parameter = False
-            else:
-                url = f'{url}&{parameter_key}={parameter_value}'
-        # Return URL with parameters:
+        if request_parameters:
+            # Mark first parameter:
+            first_parameter = True
+            # Iterate thru all provided request parameters:
+            for request_parameter in request_parameters:
+                # Create string parameter:
+                parameter = f'{request_parameter}='\
+                    f'{request_parameters[request_parameter]}'
+                if first_parameter:
+                    # Create a new URL with first parameter:
+                    url = f'{request_url}?{parameter}'
+                    # Unmark first parameter:
+                    first_parameter = False
+                else:
+                    # Combain current URL with nex parameter:
+                    url = f'{url}&{parameter}'
+        # Send debug message:
+        self.logger.debug(f'A new URL has been created ({url}), based on the '\
+            f'provided parameters ({request_parameters}).', self.host,
+            execution_time=self.execution_time)
+        # Return URL:
         return url
+    
+    def _get_cursor(self, response):
+        """
+        Collect information about next page or next cursor.
+        """
 
+        if isinstance(response, dict):
+            # Use next page paggination method:
+            if self.http_next_page_link_path:
+                # Collect next page from request:
+                for path_step in self.http_next_page_link_path:
+                    response = response.get(path_step, False)
+                # Change paggination cusror value:
+                self.paggination_cursor = True
+            else: # use next cursor paggination method:
+                # Collect next page from request:
+                for path_step in self.http_next_page_code_path:
+                    response = response.get(path_step, False)
+                # Change paggination cusror value:
+                self.paggination_cursor = False
+            # Send debug message:
+            self.logger.debug(f'A new cursor / next page URL has been collected '\
+                f'({response}).', self.host, execution_time=self.execution_time)
+            # Return next cursor or False response:
+            return response
+        else:
+            return False
+    
+    def _get_data(self, response: dict, collected_responses: dict):
+        """
+        Collect data from recived HTTP/S response.
+        """
+
+        # Check if data path has been provided:
+        if self.http_data_path:
+            # Check response data type:
+            if isinstance(response, dict):
+                for path in self.http_data_path:
+                    response = response.get(path, False)
+            # Combain collected data:
+            if isinstance(response, dict):
+                if collected_responses:
+                    collected_responses.update(response)
+                else:
+                    collected_responses = response
+            elif isinstance(response, list):
+                if collected_responses:
+                    collected_responses = collected_responses + response
+                else:
+                    collected_responses = response
+            # Send debug message:
+            res = str(response)[:200]
+            self.logger.debug(f'Data has been collected ({res} ...)'\
+                f', based on provided data path ({self.http_data_path}).',
+                self.host, execution_time=self.execution_time)
+            # Return collected data:
+            return collected_responses
+    
+    def _paggination_connection(self,
+            request_parameters: dict,
+            request_method: str,
+            request_url: str) -> dict:
+        """
+        Collect all response pages based on recived next pages or cursors.
+        """
+        
+        # Collected responses declaration:
+        collected_responses = None
+        # First HTTP/S connection:
+        response = self._base_connection(request_method, request_url)
+        # Collect data from HTTP/S response:
+        collected_responses = self._get_data(response, collected_responses)
+        # Collect next cursor:
+        next_cursor = self._get_cursor(response)
+        # Check if recived response contains next cursor info:
+        if next_cursor:
+            # Start main loop:
+            while True:
+                # Check if next cursor is provided:
+                if next_cursor is None:
+                    # Collect next cursor:
+                    next_cursor = self._get_cursor(response)
+                    # If there is no next cursor, break loop:
+                    if not next_cursor:
+                        break
+                # Check paggination methode:
+                if self.http_next_page_link_path:
+                    # Next HTTP/S connection:
+                    response = self._base_connection(
+                        request_method, next_cursor, full_url=True)
+                    # Collect data from HTTP/S response:
+                    collected_responses = self._get_data(
+                        response, collected_responses)
+                    # Clean next cursor valable:
+                    next_cursor = None
+                else:
+                    # Add next cursor to URL:
+                    if request_parameters:
+                        url = f'{request_url}&{self.http_pagination_param_key}'\
+                            f'={next_cursor}'
+                    else:
+                        url = f'{request_url}?{self.http_pagination_param_key}'\
+                            f'={next_cursor}'
+                    # Next HTTP/S connection:
+                    response = self._base_connection(request_method, url)
+                    # Collect data from HTTP/S response:
+                    collected_responses = self._get_data(
+                        response, collected_responses)
+                    # Clean next cursor valable:
+                    next_cursor = None
+        # Return collected responses:
+        return collected_responses
+    
     def _add_token_to_heder(self) -> None:
         """
         Method to add a token to the header.
@@ -338,13 +492,21 @@ class Connection:
         # Add token heder to HTTP(S) heder:
         self.header[self.http_token_heder_key] = token_value
 
-    def _connection(self,
-            request_method, request_url, body, test = False) -> dict or list:
+    def _base_connection(self,
+            request_method: str,
+            request_url: str,
+            body = None,
+            full_url: str = False,
+            test = False) -> dict or list:
         """
         The main function of the connection class, responsible for
         sending the HTTP(S) request.
         """
 
+        # Create URP if full not provided:
+        if full_url is False:
+            request_url = f'https://{self.hostname}:{self.http_port}/{request_url}'
+        # Check connection status:
         if self.connection_status or test:
             # Log the beginning of a new connection to the HTTP(S) server:
             self.logger.info('The initiation of a new HTTP(S) '\
@@ -355,13 +517,13 @@ class Connection:
             if self.token:
                 # Add token to HTTP(S) heder:
                 self._add_token_to_heder()
-                # Send HTTP(S) API request with heder token authorization:
+                # Send HTTP(S) HTTP/S request with heder token authorization:
                 request = requests.Request(
                     request_method,
                     request_url,
                     headers=self.header,
                     data=body)
-            else: # Send HTTP(S) API request with user and password authorization:
+            else: # Send HTTP(S) HTTP/S request with user and password authorization:
                 request = requests.Request(
                     request_method,
                     request_url,
@@ -458,31 +620,35 @@ class Connection:
                 
                 # Convert response to python dictionary:
                 response_text = response.text
-                if self.response_status and response_text:
-                    try: # Try to convert JSON response to python dictionary:
-                        self.converted_response = json.loads(response_text)
-                        self.json_response_status = True
-                    except:
-                        self.converted_response = False
-                        self.json_response_status = False
-                        try: # Try to convert XML response to python dictionary:
-                            self.converted_response = xmltodict.parse(response_text)
-                            self.xml_response_status = True
+                if test is False:
+                    if self.response_status and response_text:
+                        try: # Try to convert JSON response to python dictionary:
+                            self.converted_response = json.loads(response_text)
+                            self.json_response_status = True
                         except:
-                            self.xml_response_status = False
-                    if self.xml_response_status is False and self.json_response_status is False:
-                        # Log when python dictionary convert process fail:
-                        self.logger.warning(
-                            'Python JSON/XML -> dictionary convert process fail, '\
-                            f'in relation to "{request_url}" URL request.',
-                            self.host)
-                    # Return response:
-                    return self.converted_response
-                else:
-                    self.logger.debug(
-                        f'HTTP(S) response received for "{request_url}" URL '\
-                        'request was empty', self.host)
-                    return ''
+                            self.json_response_status = False
+                            try: # Try to convert XML response to python dictionary:
+                                self.converted_response = xmltodict.parse(response_text)
+                                self.xml_response_status = True
+                            except:
+                                self.xml_response_status = False
+                                self.converted_response = False
+                        if self.converted_response is False:
+                            # Log when python dictionary convert process fail:
+                            self.logger.warning(
+                                'Python JSON/XML -> dictionary convert process fail, '\
+                                f'in relation to "{request_url}" URL request.',
+                                self.host)
+                            print(f'request_url {request_url}')
+                            print(f'response_text {response_text}')
+                            print(f'converted_response {self.converted_response}')
+                        # Return response:
+                        return self.converted_response
+                    else:
+                        self.logger.debug(
+                            f'HTTP(S) response received for "{request_url}" URL '\
+                            'request was empty', self.host)
+                        return ''
         else: # If connection is not active, inform that the command cannot be sent:
             self.logger.error(f'Command/s could not be executed because SSH '\
                 f'connection with {request_url} URL, is not active.',
