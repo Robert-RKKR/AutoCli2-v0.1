@@ -188,7 +188,7 @@ class Connection:
             method: str,
             url: str,
             parameters: dict = None,
-            paggination: bool = True):
+            pagination: bool = True):
         """
         Universal method that require the HTTP(S) method to be
         executed (GET, POST ...).
@@ -209,7 +209,7 @@ class Connection:
             # Collect method:
             method = HttpExecutionTypeChoices.value_from_int(method)
             # Execute HTTP(S) request:
-            return self._connection(method, url, parameters)
+            return self._connection(method, url, parameters, pagination)
         else:
             raise NotImplementedError(
                 f'Provided HTTP(S) method "{method}", is not supported')
@@ -217,7 +217,7 @@ class Connection:
     def get(self,
             url: str,
             parameters: dict = None,
-            paggination: bool = True):
+            pagination: bool = True):
         """
         GET request method for HTTP(S) connection.
 
@@ -231,12 +231,12 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('GET', url, parameters, paggination)
+        return self._connection('GET', url, parameters, pagination)
     
     def post(self,
             url: str,
             parameters: dict = None,
-            paggination: bool = True):
+            pagination: bool = True):
         """
         POST request method for HTTP(S) connection.
 
@@ -250,12 +250,12 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('POST', url, parameters, paggination)
+        return self._connection('POST', url, parameters, pagination)
     
     def put(self,
             url: str,
             parameters: dict = None,
-            paggination: bool = True):
+            pagination: bool = True):
         """
         PUT request method for HTTP(S) connection.
 
@@ -269,12 +269,12 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('PUT', url, parameters, paggination)
+        return self._connection('PUT', url, parameters, pagination)
     
     def delete(self,
             url: str,
             parameters: dict = None,
-            paggination: bool = True):
+            pagination: bool = True):
         """
         DELETE request method for HTTP(S) connection.
 
@@ -288,13 +288,13 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('DELETE', url, parameters, paggination)
+        return self._connection('DELETE', url, parameters, pagination)
 
     def _connection(self,
             request_method: str,
             request_url: str,
             request_parameters: dict = None,
-            paggination: bool = True):
+            pagination: bool = True):
         """
         Main connection hub responsible for collecting parameters and pagination
         data to generate URL.
@@ -324,12 +324,12 @@ class Connection:
                 # Create URL based of all provided request parameters:
                 url = self._add_parameters_to_request_url(
                     request_parameters, request_url)
-            # Check if paggination is enabled:
-            if paggination:
+            # Check if pagination is enabled:
+            if pagination:
                 # Collect all response pages:
-                response = self._paggination_connection(
+                response = self._pagination_connection(
                     request_parameters, request_method, url)
-            else: # Standart HTTP/S connection:
+            else: # Standard HTTP/S connection:
                 response = self._base_connection(request_method, request_url)
             # Return response:
             return response
@@ -353,10 +353,10 @@ class Connection:
                 if first_parameter:
                     # Create a new URL with first parameter:
                     url = f'{request_url}?{parameter}'
-                    # Unmark first parameter:
+                    # Un mark first parameter:
                     first_parameter = False
                 else:
-                    # Combain current URL with nex parameter:
+                    # Combine current URL with nex parameter:
                     url = f'{url}&{parameter}'
         # Convert provided parameters to url:
         if request_parameters:
@@ -368,10 +368,10 @@ class Connection:
                 if first_parameter:
                     # Create a new URL with first parameter:
                     url = f'{request_url}?{parameter}'
-                    # Unmark first parameter:
+                    # Un mark first parameter:
                     first_parameter = False
                 else:
-                    # Combain current URL with nex parameter:
+                    # Combine current URL with nex parameter:
                     url = f'{url}&{parameter}'
         # Send debug message:
         self.logger.debug(f'A new URL has been created ({url}), based on the '\
@@ -386,19 +386,19 @@ class Connection:
         """
 
         if isinstance(response, dict):
-            # Use next page paggination method:
+            # Use next page pagination method:
             if self.http_next_page_link_path:
                 # Collect next page from request:
                 for path_step in self.http_next_page_link_path:
                     response = response.get(path_step, False)
-                # Change paggination cusror value:
-                self.paggination_cursor = True
-            else: # use next cursor paggination method:
+                # Change pagination cursor value:
+                self.pagination_cursor = True
+            else: # use next cursor pagination method:
                 # Collect next page from request:
                 for path_step in self.http_next_page_code_path:
                     response = response.get(path_step, False)
-                # Change paggination cusror value:
-                self.paggination_cursor = False
+                # Change pagination cursor value:
+                self.pagination_cursor = False
             # Send debug message:
             self.logger.debug(f'A new cursor / next page URL has been collected '\
                 f'({response}).', self.host, execution_time=self.execution_time)
@@ -409,7 +409,7 @@ class Connection:
     
     def _get_data(self, response: dict, collected_responses: dict):
         """
-        Collect data from recived HTTP/S response.
+        Collect data from received HTTP/S response.
         """
 
         # Check if data path has been provided:
@@ -418,7 +418,7 @@ class Connection:
             if isinstance(response, dict):
                 for path in self.http_data_path:
                     response = response.get(path, False)
-            # Combain collected data:
+            # Combine collected data:
             if isinstance(response, dict):
                 if collected_responses:
                     collected_responses.update(response)
@@ -437,12 +437,12 @@ class Connection:
             # Return collected data:
             return collected_responses
     
-    def _paggination_connection(self,
+    def _pagination_connection(self,
             request_parameters: dict,
             request_method: str,
             request_url: str) -> dict:
         """
-        Collect all response pages based on recived next pages or cursors.
+        Collect all response pages based on received next pages or cursors.
         """
         
         # Collected responses declaration:
@@ -453,7 +453,7 @@ class Connection:
         collected_responses = self._get_data(response, collected_responses)
         # Collect next cursor:
         next_cursor = self._get_cursor(response)
-        # Check if recived response contains next cursor info:
+        # Check if received response contains next cursor info:
         if next_cursor:
             # Start main loop:
             while True:
@@ -464,7 +464,7 @@ class Connection:
                     # If there is no next cursor, break loop:
                     if not next_cursor:
                         break
-                # Check paggination methode:
+                # Check pagination methods:
                 if self.http_next_page_link_path:
                     # Next HTTP/S connection:
                     response = self._base_connection(
@@ -472,7 +472,7 @@ class Connection:
                     # Collect data from HTTP/S response:
                     collected_responses = self._get_data(
                         response, collected_responses)
-                    # Clean next cursor valable:
+                    # Clean next cursor valuable:
                     next_cursor = None
                 else:
                     # Add next cursor to URL:
@@ -487,7 +487,7 @@ class Connection:
                     # Collect data from HTTP/S response:
                     collected_responses = self._get_data(
                         response, collected_responses)
-                    # Clean next cursor valable:
+                    # Clean next cursor valuable:
                     next_cursor = None
         # Return collected responses:
         return collected_responses
