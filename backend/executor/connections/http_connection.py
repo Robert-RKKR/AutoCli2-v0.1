@@ -188,6 +188,7 @@ class Connection:
             method: str,
             url: str,
             parameters: dict = None,
+            body: dict = None,
             pagination: bool = True):
         """
         Universal method that require the HTTP(S) method to be
@@ -209,7 +210,7 @@ class Connection:
             # Collect method:
             method = HttpExecutionTypeChoices.value_from_int(method)
             # Execute HTTP(S) request:
-            return self._connection(method, url, parameters, pagination)
+            return self._connection(method, url, parameters, body, pagination)
         else:
             raise NotImplementedError(
                 f'Provided HTTP(S) method "{method}", is not supported')
@@ -231,12 +232,12 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('GET', url, parameters, pagination)
+        return self._connection('GET', url, parameters, pagination=pagination)
     
     def post(self,
             url: str,
             parameters: dict = None,
-            pagination: bool = True):
+            body: dict = None):
         """
         POST request method for HTTP(S) connection.
 
@@ -250,12 +251,12 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('POST', url, parameters, pagination)
+        return self._connection('POST', url, parameters, body)
     
     def put(self,
             url: str,
             parameters: dict = None,
-            pagination: bool = True):
+            body: dict = None):
         """
         PUT request method for HTTP(S) connection.
 
@@ -269,12 +270,12 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('PUT', url, parameters, pagination)
+        return self._connection('PUT', url, parameters, body)
     
     def delete(self,
             url: str,
             parameters: dict = None,
-            pagination: bool = True):
+            body: dict = None):
         """
         DELETE request method for HTTP(S) connection.
 
@@ -288,12 +289,13 @@ class Connection:
         """
 
         # Execute HTTP(S) request:
-        return self._connection('DELETE', url, parameters, pagination)
+        return self._connection('DELETE', url, parameters, body)
 
     def _connection(self,
             request_method: str,
             request_url: str,
             request_parameters: dict = None,
+            body: dict = None,
             pagination: bool = True):
         """
         Main connection hub responsible for collecting parameters and pagination
@@ -302,35 +304,42 @@ class Connection:
 
         # Check connection status:
         if self.connection_status:
-            # Verify if the host url is a valid host object:
-            if not isinstance(request_url, str):
-                raise TypeError('The provided url variable must be string.')
-            # Verify if the parameters variable is a dictionary:
-            if not isinstance(request_parameters, dict):
+            if body:
+                # Confert body:
+                if isinstance(body, dict) or isinstance(body, list):
+                    body = json.dumps(body)
+                # Start standard HTTP/S connection:
+                response = self._base_connection(request_method, request_url, body)
+            else:
+                # Verify if the host url is a valid host object:
+                if not isinstance(request_url, str):
+                    raise TypeError('The provided url variable must be string.')
+                # Verify if the parameters variable is a dictionary:
+                if not isinstance(request_parameters, dict):
+                    if request_parameters:
+                        raise TypeError('The provided parameters variable '\
+                            'must be a dictionary.')
+                else: # Verify parameters dictionary variable:
+                    for key in request_parameters:
+                        if not isinstance(key, str):
+                            raise TypeError('The provided key variable must be '\
+                                f'list of dictionary. Received {key}')
+                        if not isinstance(request_parameters[key], str):
+                            raise TypeError('The provided key value variable '\
+                                f'must be list of dictionary. '\
+                                f'Received {request_parameters[key]}')
+                # Check if connection request contains parameters:
                 if request_parameters:
-                    raise TypeError('The provided parameters variable '\
-                        'must be list of dictionary.')
-            else: # Verify parameters dictionary variable:
-                for key in request_parameters:
-                    if not isinstance(key, str):
-                        raise TypeError('The provided key variable must be '\
-                            f'list of dictionary. Received {key}')
-                    if not isinstance(request_parameters[key], str):
-                        raise TypeError('The provided key value variable '\
-                            f'must be list of dictionary. '\
-                            f'Received {request_parameters[key]}')
-            # Check if connection request contains parameters:
-            if request_parameters:
-                # Create URL based of all provided request parameters:
-                url = self._add_parameters_to_request_url(
-                    request_parameters, request_url)
-            # Check if pagination is enabled:
-            if pagination:
-                # Collect all response pages:
-                response = self._pagination_connection(
-                    request_parameters, request_method, url)
-            else: # Standard HTTP/S connection:
-                response = self._base_connection(request_method, request_url)
+                    # Create URL based of all provided request parameters:
+                    url = self._add_parameters_to_request_url(
+                        request_parameters, request_url)
+                # Check if pagination is enabled:
+                if pagination:
+                    # Collect all response pages:
+                    response = self._pagination_connection(
+                        request_parameters, request_method, url)
+                else: # Start standard HTTP/S connection:
+                    response = self._base_connection(request_method, request_url)
             # Return response:
             return response
 
@@ -508,7 +517,7 @@ class Connection:
     def _base_connection(self,
             request_method: str,
             request_url: str,
-            body = None,
+            body: dict = None,
             full_url: str = False,
             test = False) -> dict or list:
         """
@@ -523,7 +532,8 @@ class Connection:
         if self.connection_status or test:
             # Log the beginning of a new connection to the HTTP(S) server:
             self.logger.info('The initiation of a new HTTP(S) '\
-                f'request to "{request_url}" has been started.', self.host)
+                f'{request_method} request to "{request_url}" '\
+                'has been started.', self.host)
             # Start clock count:
             start_time = time.perf_counter()
             # Connect to the host with password and username or by using token:
@@ -582,29 +592,29 @@ class Connection:
                 # Check response status:
                 if response.status_code < 200: # All response from 0 to 199.
                     self.logger.warning(
-                        f'HTTP(S) request sent to "{request_url}" URL, receives '\
-                        'an informative HTTP(S) response. The response code is: '\
-                        f'{response.status_code}.', self.host,
-                        execution_time=self.execution_time)
+                        f'HTTP(S) {request_method} request sent to '\
+                        f'"{request_url}" URL, receives an informative HTTP(S) '\
+                        f'response. The response code is: {response.status_code}.',
+                        self.host, execution_time=self.execution_time)
                     # Change response code:
                     self.response_code = response.status_code
                     # Change connection status to True:
                     self.response_status = True
                 elif response.status_code < 300: # All response from 200 to 299.
                     self.logger.info(
-                        f'HTTP(S) request sent to "{request_url}" URL, receives '\
-                        'a successful HTTP(S) response. The response code is: '\
-                        f'{response.status_code}.', self.host,
-                        execution_time=self.execution_time)
+                        f'HTTP(S) {request_method} request sent to '\
+                        f'"{request_url}" URL, receives an successful HTTP(S) '\
+                        f'response. The response code is: {response.status_code}.',
+                        self.host, execution_time=self.execution_time)
                     # Change response code:
                     self.response_code = response.status_code
                     # Change connection status to True:
                     self.response_status = True
                 elif response.status_code < 400: # All response from 300 to 399.
                     self.logger.warning(
-                        f'HTTP(S) request sent to "{request_url}" URL, return '\
-                        'error response. The response code is: '\
-                        f'{response.status_code}.', self.host,
+                        f'HTTP(S) {request_method} request sent to '\
+                        f'"{request_url}" URL, return error response. The '\
+                        f'response code is: {response.status_code}.', self.host,
                         execution_time=self.execution_time)
                     # Change response code:
                     self.response_code = response.status_code
@@ -612,9 +622,9 @@ class Connection:
                     self.response_status = False
                 elif response.status_code < 500: # All response from 400 to 499.
                     self.logger.error(
-                        f'HTTP(S) request sent to "{request_url}" URL, return '\
-                        'error response. The response code is: '\
-                        f'{response.status_code}.', self.host,
+                        f'HTTP(S) {request_method} request sent to '\
+                        f'"{request_url}" URL, return error response. The '\
+                        f'response code is: {response.status_code}.', self.host,
                         execution_time=self.execution_time)
                     # Change response code:
                     self.response_code = response.status_code
@@ -622,9 +632,9 @@ class Connection:
                     self.response_status = False
                 elif response.status_code < 600: # All response from 500 to 599.
                     self.logger.error(
-                        f'HTTP(S) request sent to "{request_url}" URL, return '\
-                        'error response. The response code is: '\
-                        f'{response.status_code}.', self.host,
+                        f'HTTP(S) {request_method} request sent to '\
+                        f'"{request_url}" URL, return error response. The '\
+                        f'response code is: {response.status_code}.', self.host,
                         execution_time=self.execution_time)
                     # Change response code:
                     self.response_code = response.status_code
