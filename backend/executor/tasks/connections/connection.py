@@ -106,7 +106,6 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
 
         # Start timer:
         start_timer = self._start_timer()
-
         # Collect host data collection protocol:
         data_collection_protocol = host.data_collection_protocol
         # Start HTTP / SSH connection process:

@@ -42,6 +42,8 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
             con = Connection(host, host_default_header)
         else:
             con = Connection(host)
+        # Start connection:
+        con.start_connection()
 
         # Count template execution:
         positive_result = 0

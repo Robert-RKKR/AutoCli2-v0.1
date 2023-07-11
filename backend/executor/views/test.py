@@ -6,6 +6,8 @@ from inventory.models.platform import Platform
 from inventory.models.host import Host
 from executor.connections.http_connection import Connection
 from executor.tasks.glencore.so_network import sentinelone_network_task
+from executor.tasks.execute_executor import execute_executor_task
+
 
 # Notification:
 notification = Notification('Test')
@@ -35,7 +37,8 @@ def test(request):
     # with Connection(host) as conn:
     #     responde = conn.get('web/api/v2.1/private/bulk-tasks', param)
 
-    data['return_output'] = sentinelone_network_task()
+    # data['return_output'] = sentinelone_network_task()
+    data['return_output'] = execute_executor_task(1)
    
     # GET method:
     return render(request, 'test.html', data)
