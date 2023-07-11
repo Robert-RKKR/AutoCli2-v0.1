@@ -188,7 +188,7 @@ class Connection:
             method: str,
             url: str,
             parameters: dict = None,
-            body: dict = None,
+            body = None,
             pagination: bool = True):
         """
         Universal method that require the HTTP(S) method to be
@@ -203,6 +203,10 @@ class Connection:
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
+        body: string (json, xml) / dictionary / list
+            HTTP/S request body.
+        pagination: bool
+            If True response will be collected from all pages.
         """
 
         # Check if provided HTTP method is valid:
@@ -229,6 +233,8 @@ class Connection:
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
+        pagination: bool
+            If True response will be collected from all pages.
         """
 
         # Execute HTTP(S) request:
@@ -248,6 +254,8 @@ class Connection:
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
+        body: string (json, xml) / dictionary / list
+            HTTP/S request body.
         """
 
         # Execute HTTP(S) request:
@@ -267,6 +275,8 @@ class Connection:
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
+        body: string (json, xml) / dictionary / list
+            HTTP/S request body.
         """
 
         # Execute HTTP(S) request:
@@ -286,6 +296,8 @@ class Connection:
         parameters: dictionary
             Dictionary containing additional parameters, formatted as specified:
             {'Key': 'Value', ...}
+        body: string (json, xml) / dictionary / list
+            HTTP/S request body.
         """
 
         # Execute HTTP(S) request:
@@ -295,7 +307,7 @@ class Connection:
             request_method: str,
             request_url: str,
             request_parameters: dict = None,
-            body: dict = None,
+            body = None,
             pagination: bool = True):
         """
         Main connection hub responsible for collecting parameters and pagination
@@ -305,7 +317,7 @@ class Connection:
         # Check connection status:
         if self.connection_status:
             if body:
-                # Confert body:
+                # Covert body dict and list to json format:
                 if isinstance(body, dict) or isinstance(body, list):
                     body = json.dumps(body)
                 # Start standard HTTP/S connection:
@@ -331,13 +343,13 @@ class Connection:
                 # Check if connection request contains parameters:
                 if request_parameters:
                     # Create URL based of all provided request parameters:
-                    url = self._add_parameters_to_request_url(
+                    request_url = self._add_parameters_to_request_url(
                         request_parameters, request_url)
                 # Check if pagination is enabled:
                 if pagination:
                     # Collect all response pages:
                     response = self._pagination_connection(
-                        request_parameters, request_method, url)
+                        request_parameters, request_method, request_url)
                 else: # Start standard HTTP/S connection:
                     response = self._base_connection(request_method, request_url)
             # Return response:

@@ -29,12 +29,19 @@ def sentinelone_network_task(self):
     # Base script data:
     REGION_IDS = {
         'Europe': '1015682288865796819',
-        # 'Australia': '1015682200751858224'
+        'Australia': '1015682200751858224',
+        'Asia': '1015681673041305994',
+        'Kazzinc': '1015682376358978422',
+        'North America': '1015682468658832409',
+        'Oil & Gas': '1015682614771606717',
+        'South Africa': '1015682747806541153',
+        'South America': '1015682830568547844',
+        'China': '1021535043585184960',
+        'Astron Energy': '1021535401778746725'
     }
     # Collect or create sentinel one / netbox device:
     sentinelone = Host.objects.get(pk=1)
     netbox = Host.objects.get(pk=2)
-
     # Collect networks:
     for region in REGION_IDS:
         # Collect region ID:
@@ -83,21 +90,22 @@ def sentinelone_network_task(self):
             temp = collected_prefixes[best_prefix]['custom_fields']['zone']
             parts = temp.split("_")
             best_netwokr_role = " ".join(parts[1:]).capitalize()
-            output = output + f'IP: {ip} belongs to network {best_prefix} ({best_netwokr_role})\n'
+            output = f'output IP: {ip} belongs to network {best_prefix} '\
+                f'({best_netwokr_role})\n'
             # Update SentinelOne:
             network_id = collected_network['id']
             url = f'web/api/v2.1/ranger/gateways/{network_id}'
             body = {
                 "data": {
-                    "networkName": best_netwokr_role
-                }
-            }
+                    "networkName": best_netwokr_role}}
             with Connection(sentinelone) as con:
                 networks = con.put(url, body=body)
         except:
             try:
                 best_netwokr_role = collected_prefixes[best_prefix]['site']['display']
-                output_wrong = output_wrong + f'IP: {ip} belongs to network {best_prefix} ({best_netwokr_role})\n'
+                output_wrong = f'{output_wrong} IP: {ip} belongs to network '\
+                    f'{best_prefix} ({best_netwokr_role})\n'
             except:
                 best_netwokr_role = False
-                output_wrong = output_wrong + f'IP: {ip} belongs to network {best_prefix} ({best_netwokr_role})\n'
+                output_wrong = f'{output_wrong} IP: {ip} belongs to network '\
+                    f'{best_prefix} ({best_netwokr_role})\n'
