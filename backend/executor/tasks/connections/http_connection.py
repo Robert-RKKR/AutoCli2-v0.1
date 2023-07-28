@@ -1,5 +1,5 @@
 # AutoCli2 - base task import:
-from .create_execution import CreateExecutionBaseTask
+from .create_execution import ExecutionBaseTask
 
 # AutoCli2 - connections model import:
 from executor.connections.http_connection import Connection
@@ -15,12 +15,12 @@ from executor.models.executor import Executor
 
 
 # Test taks class:
-class HttpConnectionBaseTask(CreateExecutionBaseTask):
+class HttpConnectionBaseTask(ExecutionBaseTask):
     """
     Base HTTP(S) connection class.
     """
 
-    def _device_http_execution(self,
+    def _single_host_http_execution(self,
         host: Host,
         connection_templates: list[ConnectionTemplate],
         executor: Executor) -> tuple:
@@ -44,7 +44,6 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
             con = Connection(host)
         # Start connection:
         con.start_connection()
-
         # Count template execution:
         positive_result = 0
         # Iterate thru all provided templates:
@@ -53,15 +52,23 @@ class HttpConnectionBaseTask(CreateExecutionBaseTask):
             template_http_method = template.http_method
             template_http_url = template.http_url
             template_http_params = template.http_params
+            template_http_body = template.http_body
+            # Fill tamplet body with data:
+            template_http_body = self._fill_tamplet_data(
+                template_http_body, host)
+            print(f'\n{template_http_body}\n')
             # Combine collected param data:
-            http_params = self._combine_data(template_http_params, host_default_params)
+            http_params = self._combine_data(
+                template_http_params, host_default_params)
             # Execute template:
             output = con.connection(
-                template_http_method,
-                template_http_url,
-                http_params)
+                method=template_http_method,
+                url=template_http_url,
+                parameters=http_params,
+                body=template_http_body)
             # Create execution object:
-            self._create_execution_object(host, template, executor, con, output)
+            self._create_execution_object(
+                host, template, executor, con, output)
             # Check connection response status:
             if con.response_status:
                 positive_result += 1

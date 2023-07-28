@@ -43,10 +43,10 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         positive_result = 0
         # Collect outputs:
         result = {}
-        # Iterate thru all provided devices:
+        # Iterate thru all provided hosts:
         for host in hosts:
             # Execute all provided templates on current host:
-            output = self._device_execution(
+            output = self._single_host_execution(
                 host, connection_templates, executor)
             # Add output to result dictionary:
             result[host.name] = output
@@ -60,13 +60,13 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
             # Creative user notification for one or more positive results:
             self.notification.info(
                 _(f'The data collection process running on the {len(hosts)} '\
-                'device/s was successful. Data has been collected '\
-                f'from {positive_result} device/s.'), executor,
+                'host/s was successful. Data has been collected '\
+                f'from {positive_result} host/s.'), executor,
                 execution_time=end_time)
         else: # Creative user notification in the absence of positive results:
             self.notification.warning(
                 _(f'The data collection process running on the {len(hosts)} '\
-                'device/s was unsuccessful. No data was collected.'), executor,
+                'host/s was unsuccessful. No data was collected.'), executor,
                 execution_time=end_time)
         # Return result:
         return result
@@ -82,10 +82,10 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
 
         # Define threads list:
         threads = list()
-        # Iterate thru all provided devices:
+        # Iterate thru all provided hosts:
         for host in hosts:
             # Run thread:
-            thread = threading.Thread(target=self._device_execution,
+            thread = threading.Thread(target=self._single_host_execution,
                 args=(host, connection_templates, executor))
             # Add current thread to threads list:
             threads.append(thread)
@@ -95,12 +95,12 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         for index, thread in enumerate(threads):
             thread.join()
 
-    def _device_execution(self,
+    def _single_host_execution(self,
         host: Host,
         connection_templates: list[ConnectionTemplate],
         executor: Executor) -> bool:
         """ 
-        The device execution method is responsible for verifying the
+        The host execution method is responsible for verifying the
         protocol used to connect to the remote host.
         """
 
@@ -110,10 +110,10 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         data_collection_protocol = host.data_collection_protocol
         # Start HTTP / SSH connection process:
         if data_collection_protocol == Protocol.SSH:
-            output = self._device_ssh_execution(
+            output = self._single_host_ssh_execution(
                 host, connection_templates, executor)
         elif data_collection_protocol == Protocol.HTTP:
-            output = self._device_http_execution(
+            output = self._single_host_http_execution(
                 host, connection_templates, executor)
         else: # Log error:
             self.logger.error(
@@ -132,7 +132,7 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
             # Creative user notification for one or more positive results:
             self.notification.info(
                 _(f'The template collection process running on the {host.name} '\
-                f'device was successful. {collected_templates} template/s '\
+                f'host was successful. {collected_templates} template/s '\
                 f'were collected from {templates} available.'), host,
                 execution_time=end_time)
             # Return positive results:
@@ -140,7 +140,7 @@ class ConnectionTask(HttpConnectionBaseTask, SshConnectionBaseTask):
         else: # Creative user notification in the absence of positive results:
             self.notification.warning(
                 _(f'The template collection process running on the {host.name} '\
-                'device was unsuccessful. No data was collected.'), host,
+                'host was unsuccessful. No data was collected.'), host,
                 execution_time=end_time)
             # Return false results:
             return False

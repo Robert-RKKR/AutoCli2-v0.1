@@ -7,7 +7,7 @@ import csv
 import os
 
 # AutoCli2 - base task import:
-from .create_execution import CreateExecutionBaseTask
+from .create_execution import ExecutionBaseTask
 
 # AutoCli2 - connector model import:
 from connector.models.connection_template import ConnectionTemplate
@@ -20,12 +20,12 @@ from executor.models.executor import Executor
 
 
 # Test taks class:
-class SshConnectionBaseTask(CreateExecutionBaseTask):
+class SshConnectionBaseTask(ExecutionBaseTask):
     """
     Xxx.
     """
 
-    def _device_ssh_execution(self,
+    def _single_host_ssh_execution(self,
         host: Host,
         connection_templates: list[ConnectionTemplate],
         executor: Executor) -> tuple:
