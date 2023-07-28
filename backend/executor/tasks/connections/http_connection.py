@@ -56,7 +56,6 @@ class HttpConnectionBaseTask(ExecutionBaseTask):
             # Fill tamplet body with data:
             template_http_body = self._fill_tamplet_data(
                 template_http_body, host)
-            print(f'\n{template_http_body}\n')
             # Combine collected param data:
             http_params = self._combine_data(
                 template_http_params, host_default_params)

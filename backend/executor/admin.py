@@ -5,6 +5,7 @@ from django.contrib import admin
 from autocli2.base.admins.based_admin import BaseAdmin
 
 # AutoCli2 - executor model import:
+from executor.models.executor import ExecutorConnectionTemplate
 from executor.models.converted_data import ConvertedData
 from executor.models.execution import Execution
 from executor.models.executor import Executor
@@ -35,12 +36,25 @@ class ExecutorAdmin(BaseAdmin):
         }),
         ('Host type executor', {
             'classes': ('wide', 'extrapretty',),
-            'fields': ('hosts',
-                       'connection_templates')
+            'fields': ('hosts',)
         })
     )
     readonly_fields = (
         'created', 'updated',
+    )
+    empty_value_display = '--None--'
+
+
+# All messenger admin classes:
+@admin.register(ExecutorConnectionTemplate)
+class ExecutorConnectionTemplateAdmin(BaseAdmin):
+    
+    
+    fieldsets = (
+        ('Basic information', {
+            'classes': ('wide', 'extrapretty',),
+            'fields': ('order', 'executor', 'connection_template')
+        }),
     )
     empty_value_display = '--None--'
 

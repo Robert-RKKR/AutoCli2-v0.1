@@ -316,6 +316,9 @@ class Connection:
 
         # Check connection status:
         if self.connection_status:
+            # Verify if the host url is a valid host object:
+            if not isinstance(request_url, str):
+                raise TypeError('The provided url variable must be string.')
             if body:
                 # Covert body dict and list to json format:
                 if isinstance(body, dict) or isinstance(body, list):
@@ -323,9 +326,6 @@ class Connection:
                 # Start standard HTTP/S connection:
                 response = self._base_connection(request_method, request_url, body)
             else:
-                # Verify if the host url is a valid host object:
-                if not isinstance(request_url, str):
-                    raise TypeError('The provided url variable must be string.')
                 # Verify if the parameters variable is a dictionary:
                 if not isinstance(request_parameters, dict):
                     if request_parameters:
@@ -674,9 +674,6 @@ class Connection:
                                 'Python JSON/XML -> dictionary convert process fail, '\
                                 f'in relation to "{request_url}" URL request.',
                                 self.host)
-                            print(f'request_url {request_url}')
-                            print(f'response_text {response_text}')
-                            print(f'converted_response {self.converted_response}')
                         # Return response:
                         return self.converted_response
                     else:

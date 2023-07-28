@@ -10,7 +10,6 @@ from autocli2.base.models.identification import IdentificationModel
 # AutoCli2 - constance import:
 from autocli2.base.constants.severity import SeverityChoices
 
-
 # Global setting model class:
 class GlobalSettings(IdentificationModel):
 
@@ -55,7 +54,7 @@ class GlobalSettings(IdentificationModel):
         default='!Cisco@12345',
     )
 
-    # HTTP(S)
+    # HTTP(S) values:
     http_timeout = models.IntegerField(
         verbose_name=_('HTTP session timeout'),
         help_text=_('The HTTP(S) timeout refers to the time that an AutoCli '\
@@ -63,8 +62,26 @@ class GlobalSettings(IdentificationModel):
             'before closing the connection.'),
         default=10,
     )
+    
+    # Default responses:
+    def default_invalid_responses():
+        return [
+            '% Invalid input detected',
+            'syntax error, expecting',
+            'Error: Unrecognized command',
+            '%Error',
+            'command not found',
+            'Syntax Error: unexpected argument',
+            '% Unrecognized command found at',
+            'invalid input detected',
+            'cdp is not enabled',
+            'incomplete command',
+            'no spanning tree instance exists',
+            'lldp is not enabled',
+            'snmp agent not enabled',
+        ]
 
-    # SSH
+    # SSH values:
     ssh_timeout = models.IntegerField(
         verbose_name=_('SSH session timeout'),
         help_text=_('The SSH timeout refers to the time that an AutoCli '\
@@ -85,19 +102,5 @@ class GlobalSettings(IdentificationModel):
             '"invalid input detected" in the case of an unsupported command, '\
             'or "cdp is not enabled" in the case of an disabled function, in '\
             'this example CDP.'),
-        default=[
-            '% Invalid input detected',
-            'syntax error, expecting',
-            'Error: Unrecognized command',
-            '%Error',
-            'command not found',
-            'Syntax Error: unexpected argument',
-            '% Unrecognized command found at',
-            'invalid input detected',
-            'cdp is not enabled',
-            'incomplete command',
-            'no spanning tree instance exists',
-            'lldp is not enabled',
-            'snmp agent not enabled',
-        ],
+        default=default_invalid_responses(),
     )

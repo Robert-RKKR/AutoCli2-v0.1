@@ -6,6 +6,7 @@ from inventory.models.platform import Platform
 from inventory.models.host import Host
 from connector.models.connection_template import ConnectionTemplate
 from executor.connections.http_connection import Connection
+from executor.models.executor import Executor
 from executor.tasks.glencore.so_network import sentinelone_network_task
 from executor.tasks.execute_executor import execute_executor_task
 
@@ -41,7 +42,14 @@ def test(request):
 
 
     host = Host.objects.get(pk=1)
-    data['return_output'] = execute_executor_task(1)
-   
+    # data['return_output'] = execute_executor_task(1)
+
+    executor = Executor.objects.get(pk=1)
+    templates = executor.connection_templates.all()
+    collect = []
+    for template in templates:
+        collect.append(template.executor_set.all())
+    data['return_output'] = executor.executorconnectiontemplate_set.all()
+
     # GET method:
     return render(request, 'test.html', data)

@@ -23,6 +23,37 @@ from autocli2.base.constants.executor_type import ExecutorTypeChoices
 from autocli2.base.constants.task import TaskChoices
 
 
+# Support class:
+class ExecutorConnectionTemplate(models.Model):
+
+    class Meta:
+        verbose_name = _('Executor Connection Template')
+        verbose_name_plural = _('Executor Connection Templates')
+
+    executor = models.ForeignKey(
+        'Executor',
+        on_delete=models.PROTECT,
+    )
+    connection_template = models.ForeignKey(
+        ConnectionTemplate,
+        on_delete=models.PROTECT,
+    )
+    order = models.IntegerField(
+        default=0
+    )
+
+    # object representation:
+    def __repr__(self) -> str:
+        return f'{self.order}: {self.executor} - {self.connection_template}'
+
+    def __str__(self) -> str:
+        return  f'{self.order}: {self.executor} - {self.connection_template}'
+    
+    # Natural key representation:
+    def natural_key(self):
+        return f'{self.order}: {self.executor} - {self.connection_template}'
+
+
 # Executor model class:
 class Executor(IdentificationModel, AdministratorModel):
 
@@ -43,10 +74,11 @@ class Executor(IdentificationModel, AdministratorModel):
     )
     connection_templates = models.ManyToManyField(
         ConnectionTemplate,
+        through=ExecutorConnectionTemplate,
         verbose_name=_('Connection templates'),
-        help_text=_('Related connection template object based on witch '\
-            'execution will be executed (Provides information about SSH / '\
-            'HTTP(S) command or URL executed on host).'),
+        help_text=_('Related connection template object based on which '
+                    'execution will be executed (Provides information about SSH / '
+                    'HTTP(S) command or URL executed on host).'),
         blank=True,
     )
 
