@@ -21,6 +21,8 @@ class ExecutionBaseTask(BaseTask):
     Base execution class task.
     """
 
+    all_collected_data = {}
+
     def _create_execution_object(self,
         host, template, executor, con, output):
         """
@@ -98,14 +100,17 @@ class ExecutionBaseTask(BaseTask):
             'connection_template_representation': connection_template_representation,
             'host_representation': host_representation}
     
-    def _fill_tamplet_data(self, template_dict: dict, host):
+    def _collect_host_data(self, host):
         """ Xxx. """
 
         # Collect all models:
         credential = host.credential
         platform = host.platform
         site = host.site
-        region = site.region
+        if site:
+            region = site.region
+        else:
+            region = None
         all_models = {
             'host': host,
             'credential': credential,
@@ -113,7 +118,6 @@ class ExecutionBaseTask(BaseTask):
             'site': site,
             'region': region}
         # Collect all data from models:
-        models_data = {}
         for model_name in all_models:
             # Collect model:
             one_model = all_models[model_name]
@@ -121,8 +125,14 @@ class ExecutionBaseTask(BaseTask):
                 # Collect modeL data:
                 model_data = model_to_dict(one_model)
                 # Add model data to collected data:
-                models_data[model_name] = model_data
+                self.all_collected_data[model_name] = model_data
 
+
+    def _fill_tamplet_data(self, template_dict: dict, host):
+        """ Xxx. """
+
+        # Collect host data:
+        self._collect_host_data(host)
         # Convert HTML/S body to JSON:
         template_json = json.dumps(template_dict)
         try: # Trt to crate a Jinja2 template object:
@@ -136,11 +146,12 @@ class ExecutionBaseTask(BaseTask):
         else:
             try: # Try to render the template with the dictionary as context:
                 rendered_html = template.render(
-                    host=models_data.get('host', None),
-                    credential=models_data.get('credential', None),
-                    platform=models_data.get('platform', None),
-                    site=models_data.get('site', None),
-                    region=models_data.get('region', None))
+                    host=self.all_collected_data.get('host', None),
+                    credential=self.all_collected_data.get('credential', None),
+                    platform=self.all_collected_data.get('platform', None),
+                    site=self.all_collected_data.get('site', None),
+                    region=self.all_collected_data.get('region', None),
+                    collected=self.all_collected_data.get('collected', None))
             except Exception as error:
                 # Create debug message:
                 self.logger.debug(

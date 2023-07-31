@@ -65,6 +65,12 @@ class HttpConnectionBaseTask(ExecutionBaseTask):
                 url=template_http_url,
                 parameters=http_params,
                 body=template_http_body)
+            # Add output to collected data: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if self.all_collected_data.get('collected', None):
+                self.all_collected_data['collected'][template.pk] = output
+            else:
+                self.all_collected_data['collected'] = {
+                    template.pk: output}
             # Create execution object:
             self._create_execution_object(
                 host, template, executor, con, output)
@@ -73,3 +79,4 @@ class HttpConnectionBaseTask(ExecutionBaseTask):
                 positive_result += 1
         # Return connection status count:
         return (positive_result, len(connection_templates))
+        

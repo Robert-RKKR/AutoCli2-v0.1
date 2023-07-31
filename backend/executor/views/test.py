@@ -41,15 +41,9 @@ def test(request):
     # data['return_output'] = sentinelone_network_task()
 
 
-    host = Host.objects.get(pk=1)
-    # data['return_output'] = execute_executor_task(1)
 
-    executor = Executor.objects.get(pk=1)
-    templates = executor.connection_templates.all()
-    collect = []
-    for template in templates:
-        collect.append(template.executor_set.all())
-    data['return_output'] = executor.executorconnectiontemplate_set.all()
+    host = Host.objects.get(pk=1)
+    data['return_output'] = execute_executor_task(1)
 
     # GET method:
     return render(request, 'test.html', data)

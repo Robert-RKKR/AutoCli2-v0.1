@@ -39,19 +39,23 @@ class ExecutorConnectionTemplate(models.Model):
         on_delete=models.PROTECT,
     )
     order = models.IntegerField(
+        unique=True,
         default=0
     )
 
     # object representation:
     def __repr__(self) -> str:
-        return f'{self.order}: {self.executor} - {self.connection_template}'
+        return f'{self.pk}: {self.executor.name} <-> '\
+                f'{self.connection_template.name}'
 
     def __str__(self) -> str:
-        return  f'{self.order}: {self.executor} - {self.connection_template}'
+        return f'{self.pk}: {self.executor.name} <-> '\
+                f'{self.connection_template.name}'
     
     # Natural key representation:
     def natural_key(self):
-        return f'{self.order}: {self.executor} - {self.connection_template}'
+        return f'{self.pk}: {self.executor.name} <-> '\
+                f'{self.connection_template.name}'
 
 
 # Executor model class:
